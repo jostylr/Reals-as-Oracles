@@ -1,0 +1,163 @@
+\documentclass[12pt]{article}
+\usepackage{amsfonts,amsmath,amssymb,mathrsfs}
+
+\title{Defining Real Numbers as Oracles}
+\author{
+  James Taylor
+}
+%\date{September 1, 2003}
+
+\addtolength{\textwidth}{2.0cm}
+\addtolength{\hoffset}{-1.0cm}
+\addtolength{\textheight}{3.0cm}
+\addtolength{\voffset}{-1.5cm}
+
+
+\newcommand{\CCC}{\mathbb{C}} % complex numbers
+\newcommand{\RRR}{\mathbb{R}} % real numbers
+\newcommand{\NNN}{\mathbb{N}} % natural numbers
+\newcommand{\ZZZ}{\mathbb{Z}} % integers
+\newcommand{\EEE}{\mathbb{E}} % expectation
+\newcommand{\E}{e} % exponential e
+\newcommand{\I}{i} % imaginary i
+\newcommand{\1}{\mathbf{1}} % unit matrix
+\newcommand{\tr}{\mathrm{tr}} % trace
+\newcommand{\const}{\mathrm{const}} %
+\newcommand{\Laplace}{\Delta} % Laplace operator
+\newcommand{\ov}{\overline}
+\renewcommand{\Re}{\mathrm{Re}} % real part
+\renewcommand{\Im}{\mathrm{Im}} % imaginary part
+\newcommand{\Anti}{{\mathrm{Anti}\,}} % anti-symmetrization operator
+
+\newcommand{\Hilbert}{\mathscr{H}}
+\renewcommand{\sp}[2]{\langle #1 | #2 \rangle} % scalar product
+\newcommand{\scalar}[2]{\langle\!\langle #1 | #2 \rangle\!\rangle} % 
+\renewcommand{\div}{\,\mathrm{div}\,} % divergence operator
+
+\newcommand{\ve}{{\boldsymbol e}}
+\newcommand{\vk}{{\boldsymbol k}} % 3-vector k
+\newcommand{\vj}{{\boldsymbol j}}
+\newcommand{\vX}{\boldsymbol X}
+\newcommand{\vx}{{\boldsymbol x}} % 3-vector x
+\newcommand{\vy}{{\boldsymbol y}}
+\newcommand{\vz}{{\boldsymbol z}}
+\newcommand{\vp}{{\boldsymbol p}}
+\newcommand{\vq}{{\boldsymbol q}}
+\newcommand{\vQ}{{\boldsymbol Q}}
+\newcommand{\vA}{{\boldsymbol A}}
+\newcommand{\valpha}{{\boldsymbol \alpha}} 
+\newcommand{\vu}{{\boldsymbol u}}
+\newcommand{\vr}{{\boldsymbol r}}
+
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\F}{\mathcal{F}}
+\renewcommand{\b}{\mathfrak{b}}
+\newcommand{\f}{\mathfrak{f}}
+\renewcommand{\S}{\mathcal{S}}
+\newcommand{\NRd}{{}^N \RRR^d}
+\newcommand{\RNdn}{\RRR^{Nd}_{\neq}}
+
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newenvironment{proof}{\noindent \textit{Proof}.}{\hfill$\square$\bigskip}
+
+
+%\sloppy%\openup-.1\jot
+\begin{document}\maketitle
+\begin{abstract}
+We explore a new definition of real numbers, namely, a real number is an oracle that gives an affirmation if a the real number is in a given rational interval and gives a negative. We establish that this is a proper definition of real numbers, compare and contrast with other common definitions, and mention some immediate algorithmic uses of them. This definition moves the real number definition to be in line with how they are pragmatically used. 
+\end{abstract}
+
+
+
+
+
+\section{Introduction}
+
+
+The current definitions of real numbers has some unsatisfactory aspects. This
+has been explored by Norm Wildberger ....
+
+* Infinite Decimals. Arithmetic is very problematic. Infinite choice vs
+  algorithm. Unlimited carries basically stop us at some point. Related to
+  this are other representations of numbers, such as continued fractions. The
+  main issue is that these are all based on a particular representation which
+  sidesteps existence and what the thing is, but feels very comfortable from a
+  numerical point of view. 
+* Equivalence Classes of Cauchy Sequences. Arbitrarily long initial portions
+  of the sequences implies that, in a finite universe such as we have, all
+  Cauchy sequences classes will look the same up to any given n. Could modify
+  it by requiring the difference between terms to be less than a prescribed
+  term, say 1/n, for a given point in the sequence. But then one needs to
+  ensure that the arithmetic works out to keep that in place. But it does deal
+  with the initial idiocy. That's really bad. 
+* Dedekind Cuts. Infinite sets, the construction is not really in line with
+  how we produce or use real numbers. If one is okay with infinite sets and
+  few explicit examples, then it seems like it is a foundation. 
+* Nested Intervals. This works and is strongly related to Dedekind cuts, but
+  to see it is a given sequence of nested intervals has uniqueness issues. So
+  one needs a refinement, such as Cauchy sequences. Also, nothing to stop the
+  same objection in Cauchy sequences in which an initial amount of the
+  sequence is not specific at all. It is a little bit more controlled, but it
+  could take a trillion intervals to get anywhere near the number of interest. 
+
+
+We propose a new definition, one which is in line with how we actually use it.
+It comes with it a couple of immediate to use algorithms, but it is not an
+attempt to produce a string of better approximations. It is, rather, an
+attempt to give form to an approximation.
+
+If we recast the Dedekind cut into a statement about a mapping of rational
+numbers to the numbers -1, 0, 1, as we describe presently, then this
+similarity of our approach becomes even more apparent: 
+Indicator function of a partition of Q based on mythical r: 
+R(q) = -1 if q is less than r, R(q) = 0 if q is r, and R(q) = 1 if q is
+greater than r. 
+
+We can then get away from thinking of having to produce a set for the Dedekind
+cut and instead view it as something to compute when we want to know whether
+we are less than or greater than a given real number. This gets us closer to a
+useful description, but it still isn't quite what we are looking for. 
+
+Our idea is that a real number is an oracle that we ask whether the real
+number is in a given rational interval. We will proceed in defining this and
+some of its implications. 
+
+
+
+\section{Definition of an Oracle Rule}\label{sec:ora}
+
+The heuristic is that the Oracle of $r$ is a rule which, given two rational numbers, will return 1 if
+$r$ is in the closed interval defined by the two rational numbers and returns 0
+otherwise. 
+
+To facilitate slightly easier notation, we will define a rational interval $a:b$ as giving a rational number $q$ the property of being in the interval if $q$ is between $a$ and $b$, inclusive. We identify $b:a$ as the same property. The interval $a:b$ contains the interval $c:d$ if being in the interval $c:d$ implies being in the interval $a:b$. 
+
+A rule $R$ is an Oracle if it is defined on rational intervals, returns values of 1
+and 0, and satisfied being consistent, non-vacuous, and separating
+as explained below: 
+\begin{enumerate}
+    \item Consistency. If $R(a:b) = 1$, then $R(c,d) = 1$ if $c:d$ contains $a:b$. If $R(a:b)= 0$, then $R(c:d)=0$ if $c:d$ is contained in $a:b$.
+    \item Non-Vacuous. There exists a rational interval $a:b$ such that $R(a:b) = 1$.
+    \item Separating. If $R(a:b)=1$, then for every $c$ in $a:b$, either $R(c:c) = 1$ or $R(a:c) \neq R(c:d)$.
+\end{enumerate}
+
+Consistency says that "Yes" propagates upwards to larger intervals while "No" propagates downwards to smaller intervals. The Non-Vacuous requirement is required to previe
+
+
+
+
+
+\bigskip
+
+\noindent \textbf{Acknowledgements. } We gratefully acknowledge NJ Wildberger for criticisms of 
+
+\begin{thebibliography}{28.}
+d
+
+\end{thebibliography}
+%\tableofcontents
+\end{document}
+
