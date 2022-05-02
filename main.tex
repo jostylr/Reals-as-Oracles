@@ -13,51 +13,6 @@
 \addtolength{\voffset}{-1.5cm}
 
 
-\newcommand{\CCC}{\mathbb{C}} % complex numbers
-\newcommand{\RRR}{\mathbb{R}} % real numbers
-\newcommand{\NNN}{\mathbb{N}} % natural numbers
-\newcommand{\ZZZ}{\mathbb{Z}} % integers
-\newcommand{\EEE}{\mathbb{E}} % expectation
-\newcommand{\E}{e} % exponential e
-\newcommand{\I}{i} % imaginary i
-\newcommand{\1}{\mathbf{1}} % unit matrix
-\newcommand{\tr}{\mathrm{tr}} % trace
-\newcommand{\const}{\mathrm{const}} %
-\newcommand{\Laplace}{\Delta} % Laplace operator
-\newcommand{\ov}{\overline}
-\renewcommand{\Re}{\mathrm{Re}} % real part
-\renewcommand{\Im}{\mathrm{Im}} % imaginary part
-\newcommand{\Anti}{{\mathrm{Anti}\,}} % anti-symmetrization operator
-
-\newcommand{\Hilbert}{\mathscr{H}}
-\renewcommand{\sp}[2]{\langle #1 | #2 \rangle} % scalar product
-\newcommand{\scalar}[2]{\langle\!\langle #1 | #2 \rangle\!\rangle} % 
-\renewcommand{\div}{\,\mathrm{div}\,} % divergence operator
-
-\newcommand{\ve}{{\boldsymbol e}}
-\newcommand{\vk}{{\boldsymbol k}} % 3-vector k
-\newcommand{\vj}{{\boldsymbol j}}
-\newcommand{\vX}{\boldsymbol X}
-\newcommand{\vx}{{\boldsymbol x}} % 3-vector x
-\newcommand{\vy}{{\boldsymbol y}}
-\newcommand{\vz}{{\boldsymbol z}}
-\newcommand{\vp}{{\boldsymbol p}}
-\newcommand{\vq}{{\boldsymbol q}}
-\newcommand{\vQ}{{\boldsymbol Q}}
-\newcommand{\vA}{{\boldsymbol A}}
-\newcommand{\valpha}{{\boldsymbol \alpha}} 
-\newcommand{\vu}{{\boldsymbol u}}
-\newcommand{\vr}{{\boldsymbol r}}
-
-\newcommand{\B}{\mathcal{B}}
-\newcommand{\F}{\mathcal{F}}
-\renewcommand{\b}{\mathfrak{b}}
-\newcommand{\f}{\mathfrak{f}}
-\renewcommand{\S}{\mathcal{S}}
-\newcommand{\NRd}{{}^N \RRR^d}
-\newcommand{\RNdn}{\RRR^{Nd}_{\neq}}
-
-
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
 \newtheorem{corollary}{Corollary}
@@ -80,28 +35,30 @@ We explore a new definition of real numbers, namely, a real number is an oracle 
 The current definitions of real numbers has some unsatisfactory aspects. This
 has been explored by Norm Wildberger ....
 
-* Infinite Decimals. Arithmetic is very problematic. Infinite choice vs
+\begin{itemize}
+    \item Infinite Decimals. Arithmetic is very problematic. Infinite choice vs
   algorithm. Unlimited carries basically stop us at some point. Related to
   this are other representations of numbers, such as continued fractions. The
   main issue is that these are all based on a particular representation which
   sidesteps existence and what the thing is, but feels very comfortable from a
   numerical point of view. 
-* Equivalence Classes of Cauchy Sequences. Arbitrarily long initial portions
+  \item Equivalence Classes of Cauchy Sequences. Arbitrarily long initial portions
   of the sequences implies that, in a finite universe such as we have, all
   Cauchy sequences classes will look the same up to any given n. Could modify
   it by requiring the difference between terms to be less than a prescribed
   term, say 1/n, for a given point in the sequence. But then one needs to
   ensure that the arithmetic works out to keep that in place. But it does deal
   with the initial idiocy. That's really bad. 
-* Dedekind Cuts. Infinite sets, the construction is not really in line with
+  \item Dedekind Cuts. Infinite sets, the construction is not really in line with
   how we produce or use real numbers. If one is okay with infinite sets and
   few explicit examples, then it seems like it is a foundation. 
-* Nested Intervals. This works and is strongly related to Dedekind cuts, but
+  \item Nested Intervals. This works and is strongly related to Dedekind cuts, but
   to see it is a given sequence of nested intervals has uniqueness issues. So
   one needs a refinement, such as Cauchy sequences. Also, nothing to stop the
   same objection in Cauchy sequences in which an initial amount of the
   sequence is not specific at all. It is a little bit more controlled, but it
-  could take a trillion intervals to get anywhere near the number of interest. 
+  could take a trillion intervals to get anywhere near the number of interest.
+\end{itemize}
 
 
 We propose a new definition, one which is in line with how we actually use it.
@@ -133,7 +90,7 @@ The heuristic is that the Oracle of $r$ is a rule which, given two rational numb
 $r$ is in the closed interval defined by the two rational numbers and returns 0
 otherwise. 
 
-To facilitate slightly easier notation, we will define a rational interval $a:b$ as giving a rational number $q$ the property of being in the interval if $q$ is between $a$ and $b$, inclusive. We identify $b:a$ as the same property. The interval $a:b$ contains the interval $c:d$ if being in the interval $c:d$ implies being in the interval $a:b$. 
+To facilitate slightly easier notation, we will define a rational interval $a:b$ as giving a rational number $q$ the property of being in the interval if $q$ is between $a$ and $b$, inclusive. We identify $b:a$ as the same property. The interval $a:b$ contains the interval $c:d$ if being in the interval $c:d$ implies being in the interval $a:b$. We will write $a<b$ if we want to indicate that relation between the rationals; it is sometimes convenient to slip that into notation, but it is often not needed in which case we just use the $a:b$.
 
 A rule $R$ is an Oracle if it is defined on rational intervals, returns values of 1
 and 0, and satisfied being consistent, non-vacuous, and separating
@@ -144,7 +101,73 @@ as explained below:
     \item Separating. If $R(a:b)=1$, then for every $c$ in $a:b$, either $R(c:c) = 1$ or $R(a:c) \neq R(c:d)$.
 \end{enumerate}
 
-Consistency says that "Yes" propagates upwards to larger intervals while "No" propagates downwards to smaller intervals. The Non-Vacuous requirement is required to previe
+Consistency says that "Yes" propagates upwards to larger intervals while "No" propagates downwards to smaller intervals. The Non-Vacuous requirement is required to avoid the trivial $R(a:b) = 0$. 
+
+Separation is needed to ensure that we are talking about just one real number $r$. Without this, we could be talking about multiple real numbers. This could be useful in general, such as dealing with multiple solutions to an equation, but here we are specifically interested in these Oracles serving as real numbers. The possibility of $R(c:c) = 1$ occurs exactly when the real number $r$ is the rational number $c$.
+
+This definition does not avoid all of the downsides of the other definitions of real numbers, but it does reduce them to a context that reflects how real numbers get used in practice. 
+
+\subsection{Examples}
+
+It is always good to start with examples. 
+
+For the positive $n$th root of a positive rational number $q$, the Oracle rule would be $R(a<b) = 1$, if and only if $q$ is either contained in $a^n:b^n$ for $a>0$ or contained in $0:b^n$ for $a \leq 0$ and $b>0$. Because of the monotonicity of $x^n$ for positive $x$, consistency holds. The non-vacuous can be seen by the fact that $R(0:q)$ will hold. The separation property is handled by considered the case of $c^n < q$ vs $c^n > q$ vs $c^n = q$. All three cases lead to the correct outcome for that property. 
+
+Another common example is that of an approximation scheme with an error bound. The error bound is giving us an interval in which the "Yes" should be given by the Oracle. The rule is therefore $R(a:b) = 1$ if and only if there is an approximated interval contained in $a:b$. This automatically gives consistency. A single given approximating interval establishes the non-vacuous. The separating portion requires computing an approximating interval that does the distinguishment. We can do this by computing the minimum length of $a:c$ and $c:b$ and then finding an approximating interval that is smaller than any of those lengths and does not contain $c$. This, of course, requires $c$ not to be $r$. If it is, then $R(c:c) = 1$. The usability of this rule depends on being able to determine this for a given $c$. NEED TO REVISIT THIS. 
+
+\subsection{Equality}
+
+Two oracles are equal if they agree on all rational intervals. To prove inequality, it is therefore sufficient to find a disagreement. 
+
+What we want to know is whether given two different "real numbers", do we get different oracles for them. Since we are defining real numbers, this gets a little tricky, but we can imagine that what we mean by knowing the two numbers are different is that they are separated by a rational number. Let's assume $a < r < p < s < b$ where $r$ and $s$ are our two distinct real numbers and $p$ is a known rational that separates them, and $a$ and $b$ are two rationals we know sandwich the two reals. For example, if we we want to distinguish the square roots of 2 and 3 from one another, then $a = 1$, $p = 3/2$, and $b = 2$ would suffice. By the definition of what the oracles ought to be representing, we can assume $R(a:p) = 1$, $S(p:b) = 1$, and $R(p:p) = S(p:p) = 0$, and $R(a:b)=S(a:b) = 1$. We want to find an interval on which they disagree. 
+
+By the separation property, we must have $R(a:p) \neq R(p:b)$ and thus $R(p:b) \neq S(p:b)$. 
+
+If we were to have oracles that are on-demand creators of the answers, maintaining consistency, then we not be able to establish two oracles being equal, only unequal. 
+
+We define inequalities between oracles, $R < S$, as this being true if and only if there are rational intervals $a:b$ and $c:d$ such that they are disjoint and $a:b < c:d$ (all rational numbers in the left interval are less than those in the right) and $R(a:b) = 1 = S(c:d)$. Due to consistency, this will hold true on all sub-intervals. 
+
+\subsection{Rational Embedding}
+
+The rational oracles are exactly those who have a $R(c:c)=1$ for some rational $c$. That is the rational.
+
+Given a rational $q$, we define the Oracle of $q$ as the rule $R(a:b) = 1$ if and only if $q$ is contained in $a:b$. 
+
+The properties of an oracle are trivial to check in this case. 
+
+\section{Interval Arithmetic}
+
+\section{Oracle Arithmetic}
+
+\section{Complete Ordered Field}
+
+To what extent this is true depends on one's attitude about infinite sets and so forth, but to the extent that the other definitions are valid, we are just as valid. ....
+
+\section{Approximations}
+
+\section{Bisection Approximation}
+
+\section{Mediant Approximation}
+
+\subsection{Square Root 2}
+
+\subsection{Best Approximations}
+
+\subsection{Continued Fractions}
+
+\section{Newton's Method}
+
+A few words on developing Newton's Method with an eye to intervals. 
+
+\section{Relation to other definitions}
+
+Explicit correspondence between these as much as possible: 
+
+Infinite decimals, Dedekind cuts, cauchy sequences, nested intervals. 
+
+\section{IVT and FTA}
+
+Reformulating these in terms of this. 
 
 
 
