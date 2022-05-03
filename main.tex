@@ -22,7 +22,7 @@
 %\sloppy%\openup-.1\jot
 \begin{document}\maketitle
 \begin{abstract}
-We explore a new definition of real numbers, namely, a real number is an oracle that gives an affirmation if a the real number is in a given rational interval and gives a negative. We establish that this is a proper definition of real numbers, compare and contrast with other common definitions, and mention some immediate algorithmic uses of them. This definition moves the real number definition to be in line with how they are pragmatically used. 
+We explore a new definition of real numbers, namely, a real number is an oracle that gives an affirmation if the real number is in a given rational interval and gives a negative if not. We establish that this is a proper definition of real numbers, compare and contrast with other common definitions, and mention some immediate algorithmic uses of them. This definition moves the real number definition to be in line with how they are pragmatically used. 
 \end{abstract}
 
 
@@ -88,24 +88,37 @@ some of its implications.
 
 The heuristic is that the Oracle of $r$ is a rule which, given two rational numbers, will return 1 if
 $r$ is in the closed interval defined by the two rational numbers and returns 0
-otherwise. 
+otherwise. We sometimes refer to the 1 as a "Yes" and 0 as a "No".
 
 To facilitate slightly easier notation, we will define a rational interval $a:b$ as giving a rational number $q$ the property of being in the interval if $q$ is between $a$ and $b$, inclusive. We identify $b:a$ as the same property. The interval $a:b$ contains the interval $c:d$ if being in the interval $c:d$ implies being in the interval $a:b$. We will write $a<b$ if we want to indicate that relation between the rationals; it is sometimes convenient to slip that into notation, but it is often not needed in which case we just use the $a:b$.
 
+We also allow unbounded intervals. We write that as $a:\infty$ for all rationals greater than or equal to $a$ and write $a:-\infty$ for all rationals less than or equal to $a$. The special interval $-\infty:\infty$ consists of all rationals. 
+
 A rule $R$ is an Oracle if it is defined on rational intervals, returns values of 1
-and 0, and satisfied being consistent, non-vacuous, and separating
+and 0, and satisfies being consistent, non-vacuous, separating, rooted, and closed. 
 as explained below: 
 \begin{enumerate}
-    \item Consistency. If $R(a:b) = 1$, then $R(c,d) = 1$ if $c:d$ contains $a:b$. If $R(a:b)= 0$, then $R(c:d)=0$ if $c:d$ is contained in $a:b$.
-    \item Non-Vacuous. There exists a rational interval $a:b$ such that $R(a:b) = 1$.
-    \item Separating. If $R(a:b)=1$, then for every $c$ in $a:b$, either $R(c:c) = 1$ or $R(a:c) \neq R(c:d)$.
+    \item Consistency. If $R(a:b) = 1$, then $R(c:d) = 1$ if $c:d$ contains $a:b$. If $R(a:b)= 0$, then $R(c:d)=0$ if $c:d$ is contained in $a:b$.
+    \item Non-Vacuous. $R(-\infty:\infty) = 1$.
+    \item Separating. If $R(a:b)=1$, then for a given $c$ in $a:b$, either $R(c:c) = 1$ or $R(a:c) \neq R(c:b)$. 
+    \item Rooted. There is at most one $c$ such that $R(c:c) =1$.
+    \item Closed. If $c$ is contained in all "Yes" intervals, then $R(c:c) = 1$.
 \end{enumerate}
 
-Consistency says that "Yes" propagates upwards to larger intervals while "No" propagates downwards to smaller intervals. The Non-Vacuous requirement is required to avoid the trivial $R(a:b) = 0$. 
+Consistency says that "Yes" propagates upwards to larger intervals while "No" propagates downwards to smaller intervals. 
 
-Separation is needed to ensure that we are talking about just one real number $r$. Without this, we could be talking about multiple real numbers. This could be useful in general, such as dealing with multiple solutions to an equation, but here we are specifically interested in these Oracles serving as real numbers. The possibility of $R(c:c) = 1$ occurs exactly when the real number $r$ is the rational number $c$.
+The Non-Vacuous requirement is required to avoid the trivial $R(a:b) = 0$ for all $a:b$. 
+
+Separation is needed to ensure that the "Yes" propagates downwards and we can make a decision about which interval has $r$. This is crucial to the use of the Oracle in approximating what we take to be a single number $r$. The possibility of $R(c:c) = 1$ occurs exactly when the real number $r$ is the rational number $c$.
+
+Being Rooted ensures that there is just one single number under discussion. Without this, we could have the rule, for example, $R(a:b) = 1$ for all $a:b$. It is a necessary extension to Separating. 
+
+Finally, the Closed property is required to ensure that we have only one rule per rational number. Without this, we would face a similar problem to $0.\bar{9} = 1.\bar{0} = 1$ in the presentation of infinite decimals. Since our oracles are modeling having a given number present, it seems reasonable to include the rational number $c$ if it is present in all "Yes" intervals. 
+
+Separation enables us to mostly determine when an interval is a "No" by computing a suitably small interval that is "Yes". Via the bisection method explored later, given an oracle, we can theoretically compute intervals of arbitrarily small length. If the "Yes" interval is disjoint from a given interval, then the separation implies that interval is a "No". If the "Yes" interval is contained in the other interval, then consistency demands that the given interval is "Yes". The other remaining case is that the "Yes" interval intersects the given interval and does so for all intervals computed. If we can prove that all smaller intervals intersect, then we have that the endpoint of the given interval is a "Yes" by the closed property and therefore the given interval is a "Yes". This is a major point where we encounter the usual computational difficulties of real numbers. 
 
 This definition does not avoid all of the downsides of the other definitions of real numbers, but it does reduce them to a context that reflects how real numbers get used in practice. 
+
 
 \subsection{Examples}
 
@@ -114,6 +127,10 @@ It is always good to start with examples.
 For the positive $n$th root of a positive rational number $q$, the Oracle rule would be $R(a<b) = 1$, if and only if $q$ is either contained in $a^n:b^n$ for $a>0$ or contained in $0:b^n$ for $a \leq 0$ and $b>0$. Because of the monotonicity of $x^n$ for positive $x$, consistency holds. The non-vacuous can be seen by the fact that $R(0:q)$ will hold. The separation property is handled by considered the case of $c^n < q$ vs $c^n > q$ vs $c^n = q$. All three cases lead to the correct outcome for that property. 
 
 Another common example is that of an approximation scheme with an error bound. The error bound is giving us an interval in which the "Yes" should be given by the Oracle. The rule is therefore $R(a:b) = 1$ if and only if there is an approximated interval contained in $a:b$. This automatically gives consistency. A single given approximating interval establishes the non-vacuous. The separating portion requires computing an approximating interval that does the distinguishment. We can do this by computing the minimum length of $a:c$ and $c:b$ and then finding an approximating interval that is smaller than any of those lengths and does not contain $c$. This, of course, requires $c$ not to be $r$. If it is, then $R(c:c) = 1$. The usability of this rule depends on being able to determine this for a given $c$. NEED TO REVISIT THIS. 
+
+One tricky case is where we try to define an oracle such that $R(a<c) = 1$ for all $a < c$ with $c$ fixed, but have $R(c:c) = 0$. We could also have $R(c<b) =1$ similarly and not $R(c:c) =1$
+
+These cases do satisfy our three properties and they are distinct as they disagree. 
 
 \subsection{Equality}
 
@@ -135,17 +152,48 @@ Given a rational $q$, we define the Oracle of $q$ as the rule $R(a:b) = 1$ if an
 
 The properties of an oracle are trivial to check in this case. 
 
+
+
+\subsection{Least Upper Bound}
+
+We are given a non-empty set $E$ with an upper bound $M$, meaning that every element of $x \in E$ has the property $x < M$. This is a standard setup of interest and we will assume that this is meaningful to speak of.
+
+Define the Oracle of $\mathrm{sup} E$ to be the rule such that $R(a<b) = 1$ if $a \leq x$ for some $x \in E$ and $b \geq \alpha$ for some upper bound $\alpha$ of $E$. We add in a cheat clause that if there is a rational $q$ that is the least upper bound of the set, then we add in $R(q:q)$. This allows us to satisfy the rationally filled property. We claim that this is an oracle and that it has the property that, in the ordering given by the oracles, it is the least upper bound of $E$. 
+
+It is non-vacuous as $R(x:M) = 1$ where $x$ is the assumed member of $E$ that exists and $M$ is the given upper bound. Consistency follows ... It is separating ... 
+
+It is a least upper bound as any bound that would be below it, would have to be part of a "Yes" interval and thus we would have a separation and this would then be less then that (or equal). Similarly, it is above every element for the same reason. 
+
+
 \section{Interval Arithmetic}
 
 \section{Oracle Arithmetic}
+
+doing these computations is important:
+
+$a-a = 0$. Let $R$ be the Oracle of $a$. We want to show that $S= R-R$ is the Oracle of 0. Let $c:d$ be any $R$-Yes interval. Then $c:d-c:d = c:d+ -d:-c = c-d:d-c$ is the corresponding $S$-Yes interval. Clearly, this interval contains 0. As 0 is contained in each $S$-Yes interval, we have $S(0:0)=1$ and $S$ is the Oracle of 0. 
+
+$\tfrac{a}{a} = 1$, for $a \neq 0$. Let $R$ be the oracle of $a$. We want to show $S=R/R$ is the Oracle of 1. Let $c:d$ be any $R$-Yes interval that does not contain 0. By the closed property, this exists because $a \neq 0$. Then $\dfrac{c:d}{c:d} = c:d * \tfrac{1}{d}:\tfrac{1}{c}$. By the definition of the multiplication, we need to consider the four products of the endpoints which are: 1, $\tfrac{d}{c}$, $\tfrac{c}{d}$, 1. This translates into the $S$-Yes interval $\tfrac{d}{c}:\tfrac{c}{d}$ which clearly contains 1. As this applies to all $R$-Yes intervals that do not include 0, we can conclude that $S(1:1) =1$.
+
+
 
 \section{Complete Ordered Field}
 
 To what extent this is true depends on one's attitude about infinite sets and so forth, but to the extent that the other definitions are valid, we are just as valid. ....
 
-\section{Approximations}
+Let $\mathbb{R}$ be the set of all oracles. 
+
+From above, given two 
 
 \section{Bisection Approximation}
+
+Let $R$ be an Oracle of $r$. We will use $R$ to compute an approximation of $r$ to any desired level of accuracy.
+
+$R$ being non-vacuous gives us a starting interval, say $a:b$ with length $L$. Then take $c = \frac{a+b}{2}$. Since $R$ is separating, we can use it to determine whether $R(a:c) = 1$ or $R(c:b) = 1$ or $R(c:c) = 1$. If it is the latter, we are done and $r = c$. If it is one of the former, then we use that new interval to repeat the same process, but the length of the interval is now $\frac{L}{2}$. 
+
+If we do this $n$ times, then the length will be $\frac{L}{2^n}$ which allows us to compute $r$ to be within any level of given accuracy. 
+
+This is the bisection method, of course, and oracles provide exactly what we need to use it. 
 
 \section{Mediant Approximation}
 
@@ -170,6 +218,11 @@ Infinite decimals, Dedekind cuts, cauchy sequences, nested intervals.
 Reformulating these in terms of this. 
 
 
+\section{Concluding Thoughts}
+
+Our definition is designed to be a tool for using the number. Some of the other definitions are designed at giving the approximations as the number. This definition resists doing so because of the issue of uniqueness and not having to actually make all those choices. 
+
+An alternative definition could have been to have a function that given a rational epsilon, we get an interval. Again, this would be problematic for us having to define the interval amongst many choices. A unique oracle per real number is very useful. It also helps with defining the arithmetic. 
 
 
 
