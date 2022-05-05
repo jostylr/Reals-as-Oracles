@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-\usepackage{amsfonts,amsmath,amssymb,mathrsfs}
+\usepackage{amsfonts,amsmath,amssymb,mathrsfs,amsthm}
 
 \title{Defining Real Numbers as Oracles}
 \author{
@@ -16,8 +16,10 @@
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
 \newtheorem{corollary}{Corollary}
-\newenvironment{proof}{\noindent \textit{Proof}.}{\hfill$\square$\bigskip}
+\newtheorem{proposition}{Proposition}
 
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
 
 %\sloppy%\openup-.1\jot
 \begin{document}\maketitle
@@ -100,7 +102,7 @@ as explained below:
 \begin{enumerate}
     \item Consistency. If $R(a:b) = 1$, then $R(c:d) = 1$ if $c:d$ contains $a:b$. If $R(a:b)= 0$, then $R(c:d)=0$ if $c:d$ is contained in $a:b$.
     \item Non-Vacuous. $R(-\infty:\infty) = 1$.
-    \item Separating. If $R(a:b)=1$, then for a given $c$ in $a:b$, either $R(c:c) = 1$ or $R(a:c) \neq R(c:b)$. 
+    \item Separating. If $R(a:b)=1$, then for a given $c \neq a, b$ in $a:b$, either $R(c:c) = 1$ or $R(a:c) \neq R(c:b)$. 
     \item Rooted. There is at most one $c$ such that $R(c:c) =1$.
     \item Closed. If $c$ is contained in all "Yes" intervals, then $R(c:c) = 1$.
 \end{enumerate}
@@ -111,6 +113,11 @@ The Non-Vacuous requirement is required to avoid the trivial $R(a:b) = 0$ for al
 
 Separation is needed to ensure that the "Yes" propagates downwards and we can make a decision about which interval has $r$. This is crucial to the use of the Oracle in approximating what we take to be a single number $r$. The possibility of $R(c:c) = 1$ occurs exactly when the real number $r$ is the rational number $c$.
 
+\begin{remark}
+Separation could alternatively be phrased as insisting that if $a,b,c, R$ are as in that property with $R(a:b) = 1$, then at least one of $R(a:c)$ or $R(c:b)$ is 1 and if they are both 1, then $R(c:c) = 1$. 
+\end{remark}
+
+
 Being Rooted ensures that there is just one single number under discussion. Without this, we could have the rule, for example, $R(a:b) = 1$ for all $a:b$. It is a necessary extension to Separating. 
 
 Finally, the Closed property is required to ensure that we have only one rule per rational number. Without this, we would face a similar problem to $0.\bar{9} = 1.\bar{0} = 1$ in the presentation of infinite decimals. Since our oracles are modeling having a given number present, it seems reasonable to include the rational number $c$ if it is present in all "Yes" intervals. 
@@ -118,6 +125,41 @@ Finally, the Closed property is required to ensure that we have only one rule pe
 Separation enables us to mostly determine when an interval is a "No" by computing a suitably small interval that is "Yes". Via the bisection method explored later, given an oracle, we can theoretically compute intervals of arbitrarily small length. If the "Yes" interval is disjoint from a given interval, then the separation implies that interval is a "No". If the "Yes" interval is contained in the other interval, then consistency demands that the given interval is "Yes". The other remaining case is that the "Yes" interval intersects the given interval and does so for all intervals computed. If we can prove that all smaller intervals intersect, then we have that the endpoint of the given interval is a "Yes" by the closed property and therefore the given interval is a "Yes". This is a major point where we encounter the usual computational difficulties of real numbers. 
 
 This definition does not avoid all of the downsides of the other definitions of real numbers, but it does reduce them to a context that reflects how real numbers get used in practice. 
+
+\subsection{ Intersections and Unions}
+
+Let $a \leq b \leq c \leq d$. The intersection of $a:c$ and $b:d$ is $c:d$ while the union is $a:d$. One can either take those as statements from the usual set definitions or take these as the definitions of those terms. It is immediate from the Consistency property that Yes-intervals are closed under unions and that No-intervals are closed under intersection. We will prove that they closed under intersections and unions, respectively. 
+
+We start with establishing that the intersection of two $R$-Yes intervals is an $R$-Yes interval.
+
+\begin{proposition}
+Let $R$ be an oracle and $a \leq b \leq c \leq d$. If $R(a:c) = 1 = R(b:d)$, then $R(b:c) = 1$.
+\end{proposition}
+
+\begin{proof}
+  
+  This follows from the Separation and Consistency properties. From Consistency, we have $R(a:d) = 1$ since it contains an $R$-Yes interval (two in fact, but we just need one). Then apply separation to $a:c$ and $c:d$. If $R(c:c) = 1$, then $R(b:c) = 1$ since it contains $c:c$ and we are done. Otherwise, Separation tells us $R(a:c) \neq R(c:d)$. By assumption, we know $R(a:c) = 1$ so that implies $R(c:d) = 1$. We can then consider $R(b:d) = 1$ and consider the Separation based on $c$ $R(b:c) \neq R(c:d)$ since we are specifically in the case that $R(c:c) \neq 1$. Since we established $R(c:d) = 0$, we must have $R(b:c) = 1$ and we have established that Yes-intervals are closed under intersections. 
+\end{proof}
+
+For No-intervals, the opposite conclusion holds. Let's establish that the No-intervals are closed under union. 
+
+\begin{proposition}
+Let $R$ be an oracle and $a \leq b \leq c \leq d$.  If $R(a:c) = 0$ and $R(b:d) = 0$, then $R(a:d) = 0$. 
+\end{proposition}
+
+\begin{proof}
+    Let's assume that $R(a:d) = 1$ and find a contradiction. With that assumption, $R(a:b) = 1$ from Separation applied to $a:b$ and $b:d$ with the fact that $b:d$ was a No-interval. But this contradicts $R(a:c)= 0$ since it contains $a:b$ and therefore $a:c$ must be a Yes-interval.
+\end{proof}
+
+Also, two disjoint intervals cannot be both yes. 
+
+\begin{proposition}
+Let $R$ be an oracle and $a \leq b < c \leq d$. Then we must have at least either $R(a:b) = 0$ or $R(c:d) = 0$. 
+\end{proposition}
+
+\begin{proof}
+Assume, for contradiction, that $R(a:b) = R(c:d) = 1$. By Consistency, $R(a:d) = 1$. Then Separation applies. At least either $R(b:b) = 0$ or $R(c:c) = 0$. Let's assume $R(b:b) = 0$ without loss of generality. Then $R(a:b) \neq R(b:d)$. But $R(a:b) = 1$ by assumption. So $R(b:d) = 0$. But we assumed $R(c:d) = 1$ and that is contained in $b:d$ which implies, by Consistency, that $R(b:d) = 1$. Thus, we have arrived at the contradiction $0 = R(b:d) = 1$. 
+\end{proof}
 
 
 \subsection{Examples}
@@ -167,11 +209,88 @@ It is a least upper bound as any bound that would be below it, would have to be 
 
 \section{Interval Arithmetic}
 
+This section is not novel, but rather a review of applying arithmetic to intervals. We will need this in defining the arithmetic of oracles. This material can be seen, for example, in the videos by NJ Wildberger... These are of interest as this helps us propagate error intervals in scientific computations and our oracle approach reflects the usefulness of this thinking. 
+
+Let $a<b$ and $c<d$, all of them being rational numbers. Then we define:
+\begin{enumerate}
+    \item Addition. $a:b + c:d = (a+c):(b+d)$
+    \item Negation. $-(a:b) = -b:-a$
+    \item Subtraction. $a:b - c:d = a:b + (-c:d) = a-d:b-c$
+    \item Multiplication. If $0<a<b$ and $0<c<d$, then $a:b*c:d = ac:bd$. Otherwise, $a:b * c:d = \mathrm{min}(ac, ad, bc, bd): \mathrm{max}(ac,ad,bc,bd)$
+    \item Reciprocity. $1/(a:b) = 1/b:1/a$. If 0 is contained in $a:b$, then the reciprocal is undefined as it actually generates $-\infty:1/a$ and $1/b:\infty$. 
+    \item Division. $(a:b) / (c:d) = a:b * 1/d:1/c$. This is only defined if 0 is not contained in $c:d$.
+    \item Powers. Let $n$ be a natural number. $(a:b)^n = a^n:b^n$ for $0 < a < b$. If at least one of them is negative, then let $c = \mathrm{max} (|a|, |b|)$ and $d=\mathrm{min}(|a|, |b|)$. Then $(a:b)^n = c^n: c^{n-1}d$. 
+\end{enumerate}
+
+Subtraction, Division, and Powers, all follow from the usual combination of the previous defined operations. 
+
+As an example of the powers, consider $(-2:3)^4$. All of the products of the endpoints are: $16, -24, 36, -54, 81$. We therefore have the interval being $-54:81$ which is the product of $ab^3$ and $b^4$. 
+
+NEED TO ENSURE OPERATIONS ARE INTERVALS, see division ....  
+Also need to argue that this is given two rationals contained in, then their arithmetic gets into the right interval. 
+
+\subsection{Verifying the rules}
+
+The associative and commutative rules of arithmetic apply to intervals. The distributive rule somewhat applies. Each of these is a distinct computation, but very straightforward. We will do the distributive property separately. 
+
+\begin{enumerate}
+    \item Interval addition is closed, namely, the sum of two intervals is another interval by definition. 
+    \item Addition is Commutative. $a:b + c:d= a+c : b+d = c+a:b+d = c:d + a:b$. We used the commutativity of rational addition in the middle step. 
+    \item Addition is Associative. $(a:b + c:d) + e:f = (a+c:b+d)+e:f = ((a+c)+e:(b+d)+f) = (a+c+e:b+d+f$ where the last step is the associative property of rationals.  On the other hand, $a:b + (c:d+e:f) = a:b + (c+e:d+f) = a+(c+e):b+(d+f) = a+c+e:b+d+f$ again by associativity of addition of rationals. Since they are equal to the same quantity, we have the associative rule of addition applying to intervals and we can comfortably write $a:b + c:d + e:f$ without requiring parentheses. 
+    \item $0:0$ is the additive identity as $a:b+0:0 = a+0:b+0 = a:b$. 
+    \item There is no additive inverse since subtraction increases the length of the interval. The singleton intervals do have additive inverses. 
+    \item Interval multiplication is closed, namely, the product of two intervals is another interval by definition. 
+    \item Multiplication is Commutative. $a:b * c:d= ac : bd = ca:bd = c:d * a:b$. We used the commutativity of rational multiplication in the middle step. 
+    \item Multiplication is Associative. $(a:b * c:d) * e:f = (ac:bd)*e:f = ((ac)e:(bd)f) = (ace:bdf$ where the last step is the associative property of rational multiplication.  On the other hand, $a:b * (c:d*e:f) = a:b * (ce:df) = a(ce):b(df) = ace:bdf$ again by associativity of multiplication of rationals. Since they are equal to the same quantity, we have the associative rule of modification applying to intervals and we can comfortably write $a:b * c:d * e:f$ without requiring parentheses.     
+    \item $1:1$ is the multiplicative identity as $a:b*1:1 = a1:b1 = a:b$. 
+    \item There is no multiplicative inverse as multiplication has a non-zero length for non-singleton intervals. The non-zero singleton intervals do have multiplicative inverses. 
+\end{enumerate}
+
+The DISTRIBUTIVE Property. ...
+
+\subsection{Lengths}
+
+It is of some interest to compute out the lengths of these intervals that are generated by the arithmetic. We often want to have the lengths be as small as possible. 
+
+\begin{enumerate}
+    \item $a:b + c:d$ has length $(b+d) - (a+c) = (b-a) + (d-c)$, that is, it is the length of the two intervals separately. 
+    \item $a:b*c:d$ for positive endpoints is $bd-ac = bd -bc + bc -ac =  b(d-c) + c(b-a)$ though it is also equal to $bd - ad + ad - ac = d(b-a) + a(d-c)$. For mixed signs, we have the maximum of $|a(d-c)|$, $|b(d-c)|$, $|c(b-a)|$, $|d(b-a)|$, $|d(b-a)+a(d-c)| = |b(d-c) + c(b-a)|$.  CHECK
+    \item Negation does not change the interval length. 
+    \item Subtraction has length $b-c - (a-d) = (d-c) + (b-a)$, the same as addition.
+    \item Reciprocity. $1/a - 1/b = \tfrac{b-a}{ab}$. Note $a$ and $b$ must be the same sign to avoid having 0 in there, which was part of the definition. 
+    \item DIVISION
+    \item POWERS
+\end{enumerate}
+
+For a simple bounding estimate on the multiplicative length, we can take the maximum $M$ of $|a|, |b|, |c|, |d|$ and multiply that by the maximum length $L$ of $b-a$ and $d-c$ and then double that. So $2*M*L$.  CHECK 
+
+
 \section{Oracle Arithmetic}
+
+
+Checking $R+S=T$ is a rule. Specifically, any interval $a:b$ is a YES interval if and only if it contains, possibly is, a sum interval from $R$ and $S$' s YES interval. If a rational number $q$ is part of every such YES interval, then $R(q:q) = 1$. 
+
+Consistency is by definition. 
+
+Non-vacuous is clear as $\infty:\infty$ adds to itself. 
+
+Rooted. Assume there is $p<q$, both rational, such that $T(p:p)=1$ and $T(q:q) =1$. Let $L$ be $q-p$. Take an $R$-interval and an $S$-interval of length $L/3$. Then the sum interval is less than $L$ and therefore cannot contain both $p$ and $q$. Since at least one of them is not part of a YES interval, by definition, that one is not YES.  .... 
+
+Closed. This holds by definition. We are essentially cheating by closing it. 
+
+Separating. This is the hard one and where the real work is. Let $T(a:b) = 1$, which means that it contains an interval which is additive, say $c:d$. Let $q$ be given in $a:b$ as the dividing point. If $T(q:q) = 1$, then we are done. So we can assume that is not the case. We therefore have to establish that $T(a:q)=1$ or $T(q:b) = 1$. If $c:d$ does not contain $q$, then it is wholly contained in either $a:q$ or $q:b$ and thus one of them is YES. The other is no because .... Assume a sum interval is in $q:b$. Look at those intervals, they must be disjoint from the other ones? So then that contradicts R, S being rules. 
+
+If $q$ is contained in $c:d$, then there must exist a sum interval $e:f$ which $q$ is not a part of since we are assuming $T(q:q)=0$. Take the intersection of the underlying summand intervals and then add. That is an interval which will not contain $q$ but will be contained in one of them. So back to the previous one. 
+
+
 
 doing these computations is important:
 
+The Oracle of 0 is the additive identity
+
 $a-a = 0$. Let $R$ be the Oracle of $a$. We want to show that $S= R-R$ is the Oracle of 0. Let $c:d$ be any $R$-Yes interval. Then $c:d-c:d = c:d+ -d:-c = c-d:d-c$ is the corresponding $S$-Yes interval. Clearly, this interval contains 0. As 0 is contained in each $S$-Yes interval, we have $S(0:0)=1$ and $S$ is the Oracle of 0. 
+
+The Oracle of 1 is the multiplicative identity
 
 $\tfrac{a}{a} = 1$, for $a \neq 0$. Let $R$ be the oracle of $a$. We want to show $S=R/R$ is the Oracle of 1. Let $c:d$ be any $R$-Yes interval that does not contain 0. By the closed property, this exists because $a \neq 0$. Then $\dfrac{c:d}{c:d} = c:d * \tfrac{1}{d}:\tfrac{1}{c}$. By the definition of the multiplication, we need to consider the four products of the endpoints which are: 1, $\tfrac{d}{c}$, $\tfrac{c}{d}$, 1. This translates into the $S$-Yes interval $\tfrac{d}{c}:\tfrac{c}{d}$ which clearly contains 1. As this applies to all $R$-Yes intervals that do not include 0, we can conclude that $S(1:1) =1$.
 
