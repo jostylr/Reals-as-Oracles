@@ -1,5 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage{amsfonts,amsmath,amssymb,mathrsfs,amsthm}
+\usepackage{hyperref}
 
 \title{Defining Real Numbers as Oracles}
 \author{
@@ -21,6 +22,13 @@
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}
 
+
+%https://tex.stackexchange.com/questions/432778/reduce-spacing-around-colons-in-math-mode
+\DeclareMathSymbol{:}{\mathord}{operators}{"3A} 
+%\mathrel{:} if need colon spaced. 
+%want small less than for colon replacement
+\newcommand{\lt}{\mathord{<}}
+
 %\sloppy%\openup-.1\jot
 \begin{document}\maketitle
 \begin{abstract}
@@ -29,106 +37,85 @@ We explore a new definition of real numbers, namely, a real number is an oracle 
 
 
 
+\section{The Oracle of $r$}\label{sec:ora}
 
+The idea is that a real number is an oracle that reveals itself by answering, under repeated questioning, whether it is in a given rational interval. 
 
-\section{Introduction}
+The heuristic is that the Oracle of $r$ is a rule which, given two rational numbers, will return 1 (Yes) if $r$ is in the closed interval defined by the two rational numbers and returns 0 (No) otherwise. If the answer was a 1, then we say the interval is an $r$-Yes interval and similarly for 0 and No. If we are just speaking of one oracle, we may simplify say a Yes-interval or No-interval. 
 
+\subsection{Interval notation}
 
-The current definitions of real numbers has some unsatisfactory aspects. This
-has been explored by Norm Wildberger ....
+To facilitate slightly easier notation, we will define a rational interval $a:b$ as giving a rational number $q$ the property of being in the interval if $q$ is between $a$ and $b$, inclusive. We identify $b:a$ as the same property. The interval $a:b$ contains the interval $c:d$ if being in the interval $c:d$ implies being in the interval $a:b$. We will write $a\lt b$ if we want to indicate the ordering relation between the rationals; it is sometimes convenient to slip that into notation, but it is often not needed in which case we just use $a:b$. We will also write $a:b < c:d$ to indicate the situation in which $a$ and $b$ are less than $c$ and $d$ which implies that all rationals $q$ in $a:b$ are less than all rationals $r$ in $c:d$.
 
-\begin{itemize}
-    \item Infinite Decimals. Arithmetic is very problematic. Infinite choice vs
-  algorithm. Unlimited carries basically stop us at some point. Related to
-  this are other representations of numbers, such as continued fractions. The
-  main issue is that these are all based on a particular representation which
-  sidesteps existence and what the thing is, but feels very comfortable from a
-  numerical point of view. 
-  \item Equivalence Classes of Cauchy Sequences. Arbitrarily long initial portions
-  of the sequences implies that, in a finite universe such as we have, all
-  Cauchy sequences classes will look the same up to any given n. Could modify
-  it by requiring the difference between terms to be less than a prescribed
-  term, say 1/n, for a given point in the sequence. But then one needs to
-  ensure that the arithmetic works out to keep that in place. But it does deal
-  with the initial idiocy. That's really bad. 
-  \item Dedekind Cuts. Infinite sets, the construction is not really in line with
-  how we produce or use real numbers. If one is okay with infinite sets and
-  few explicit examples, then it seems like it is a foundation. 
-  \item Nested Intervals. This works and is strongly related to Dedekind cuts, but
-  to see it is a given sequence of nested intervals has uniqueness issues. So
-  one needs a refinement, such as Cauchy sequences. Also, nothing to stop the
-  same objection in Cauchy sequences in which an initial amount of the
-  sequence is not specific at all. It is a little bit more controlled, but it
-  could take a trillion intervals to get anywhere near the number of interest.
-\end{itemize}
+We also have the singleton intervals of $a:a$ consisting of just $a$. 
 
+A rational $q$ is strictly contained in $a\lt b$ if $a < q < b$. 
 
-We propose a new definition, one which is in line with how we actually use it.
-It comes with it a couple of immediate to use algorithms, but it is not an
-attempt to produce a string of better approximations. It is, rather, an
-attempt to give form to an approximation.
+\subsection{Defining the Oracle}
 
-If we recast the Dedekind cut into a statement about a mapping of rational
-numbers to the numbers -1, 0, 1, as we describe presently, then this
-similarity of our approach becomes even more apparent: 
-Indicator function of a partition of Q based on mythical r: 
-R(q) = -1 if q is less than r, R(q) = 0 if q is r, and R(q) = 1 if q is
-greater than r. 
-
-We can then get away from thinking of having to produce a set for the Dedekind
-cut and instead view it as something to compute when we want to know whether
-we are less than or greater than a given real number. This gets us closer to a
-useful description, but it still isn't quite what we are looking for. 
-
-Our idea is that a real number is an oracle that we ask whether the real
-number is in a given rational interval. We will proceed in defining this and
-some of its implications. 
-
-
-
-\section{Definition of an Oracle Rule}\label{sec:ora}
-
-The heuristic is that the Oracle of $r$ is a rule which, given two rational numbers, will return 1 if
-$r$ is in the closed interval defined by the two rational numbers and returns 0
-otherwise. We sometimes refer to the 1 as a "Yes" and 0 as a "No".
-
-To facilitate slightly easier notation, we will define a rational interval $a:b$ as giving a rational number $q$ the property of being in the interval if $q$ is between $a$ and $b$, inclusive. We identify $b:a$ as the same property. The interval $a:b$ contains the interval $c:d$ if being in the interval $c:d$ implies being in the interval $a:b$. We will write $a<b$ if we want to indicate that relation between the rationals; it is sometimes convenient to slip that into notation, but it is often not needed in which case we just use the $a:b$.
-
-We also allow unbounded intervals. We write that as $a:\infty$ for all rationals greater than or equal to $a$ and write $a:-\infty$ for all rationals less than or equal to $a$. The special interval $-\infty:\infty$ consists of all rationals. 
-
-A rule $R$ is an Oracle if it is defined on rational intervals, returns values of 1
-and 0, and satisfies being consistent, non-vacuous, separating, rooted, and closed. 
-as explained below: 
+The Oracle of $r$ is a rule $R$ defined on rational intervals that returns values of 1 and 0, and satisfies: 
 \begin{enumerate}
-    \item Consistency. If $R(a:b) = 1$, then $R(c:d) = 1$ if $c:d$ contains $a:b$. If $R(a:b)= 0$, then $R(c:d)=0$ if $c:d$ is contained in $a:b$.
-    \item Non-Vacuous. $R(-\infty:\infty) = 1$.
+    \item Consistency. If $c:d$ contains $a:b$ and $R(a:b) = 1$, then $R(c:d) = 1$.
+    \item Finite. $R(a:b) = 1$ for some rationals $a$, $b$.
     \item Separating. If $R(a:b)=1$, then for a given $c \neq a, b$ in $a:b$, either $R(c:c) = 1$ or $R(a:c) \neq R(c:b)$. 
     \item Rooted. There is at most one $c$ such that $R(c:c) =1$.
-    \item Closed. If $c$ is contained in all "Yes" intervals, then $R(c:c) = 1$.
+    \item Closed. If $c$ is contained in all $R$-Yes intervals, then $R(c:c) = 1$.
 \end{enumerate}
 
-Consistency says that "Yes" propagates upwards to larger intervals while "No" propagates downwards to smaller intervals. 
+Note that in the above $a$, $b$, $c$, and $d$ are all rationals; we do not apply this to irrationals since we are defining them here. We generally obey the convention that $r$ represents naming the oracle as a number and $R$ is the rule. There is not a distinction in fact of $r$ and $R$, but the notation helps make the connection to how we customarily think of real numbers versus the oracle version. 
 
-The Non-Vacuous requirement is required to avoid the trivial $R(a:b) = 0$ for all $a:b$. 
+The binary nature of the output of $R$ tells us that if $c:d$ contains $a:b$ and $R(c:d) = 0$, then $R(a:b) = 0$. For if $R(a:b)=1$, then consistency implies $R(c:d)=1$ which contradicts our starting assumption. We will refer to this as part of the Consistency property. 
 
-Separation is needed to ensure that the "Yes" propagates downwards and we can make a decision about which interval has $r$. This is crucial to the use of the Oracle in approximating what we take to be a single number $r$. The possibility of $R(c:c) = 1$ occurs exactly when the real number $r$ is the rational number $c$.
+For further elaboration on what each of these properties means:
 
-\begin{remark}
-Separation could alternatively be phrased as insisting that if $a,b,c, R$ are as in that property with $R(a:b) = 1$, then at least one of $R(a:c)$ or $R(c:b)$ is 1 and if they are both 1, then $R(c:c) = 1$. 
-\end{remark}
+\begin{enumerate}
+
+    \item Consistency says that Yes propagates upwards to larger intervals while No propagates downwards to smaller intervals. That is, the Oracle never contradicts itself. 
+    
+    In our examples, this is usually true by definition of the rule. 
+    
+    If $R(a:b)= 0$, then $R(c:d)=0$ if $c:d$ is contained in $a:b$.
+
+    \item The finite requirement says that there is definitely an interval on which the Oracle exists. It is required to avoid the trivial $R(a:b) = 0$ for all $a:b$ which would satisfy all the others, including the separating property due to it only applying with Yes-intervals. 
+    
+    The existing interval also gives us a place to start in our approximation schemes that we discuss later. 
+    
+    It is usually easy to verify in any practical example as any Yes-interval will do and we can usually find a very bad approximate interval that is easy to establish.  
+
+    \item Separation is needed to ensure that the Yes propagates downwards and we can, therefore, make progress on deciding which interval has $r$. This is crucial to the use of the Oracle in approximating what we take to be a single number $r$. The possibility of $R(c:c) = 1$ occurs exactly when the real number $r$ is the rational number $c$. 
+    
+    Proving that a given oracle is, in fact, a rational can be impossible, mirroring difficulties with other real number approaches. 
+
+    Separation could alternatively be phrased as insisting that if $R(a:b) = 1$, then at least one of $R(a:c)$ or $R(c:b)$ is 1 and if they are both 1, then $R(c:c) = 1$. We chose our formulation to emphasize that being able to separate the intervals is a key feature we desire to implement and that it fails only if the overlapping endpoint is the number of interest. 
+    
+    \item Being Rooted ensures that there is just one single number under discussion. Without this, we could have the rule, for example, $R(a:b) = 1$ for all $a:b$ intersecting a given interval $c:d$. 
+    
+    In the arithmetic operations, this is proven by assuming the existence of two such rational singletons being Yes-intervals and then exhibiting an interval of sufficiently small length that the two can be distinguished. 
+
+    \item The Closed property is required to ensure that we have only one rule per rational number. Without this, we would face a similar problem to $0.\bar{9} = 1.\bar{0} = 1$ in the presentation of infinite decimals. Since our oracles are modeling having a given number present, it seems reasonable to include the rational number $c$ if it is present in all Yes intervals. 
+    
+    In our constructions, we often need to add this in explicitly. It is a bit awkward.
+
+\end{enumerate}
 
 
-Being Rooted ensures that there is just one single number under discussion. Without this, we could have the rule, for example, $R(a:b) = 1$ for all $a:b$. It is a necessary extension to Separating. 
+This definition does not avoid the common downsides of the other definitions of real numbers, but it does reduce them to a context that reflects how real numbers get used in practice and illustrates those downsides as fundamental to the nature of real numbers.  
 
-Finally, the Closed property is required to ensure that we have only one rule per rational number. Without this, we would face a similar problem to $0.\bar{9} = 1.\bar{0} = 1$ in the presentation of infinite decimals. Since our oracles are modeling having a given number present, it seems reasonable to include the rational number $c$ if it is present in all "Yes" intervals. 
 
-Separation enables us to mostly determine when an interval is a "No" by computing a suitably small interval that is "Yes". Via the bisection method explored later, given an oracle, we can theoretically compute intervals of arbitrarily small length. If the "Yes" interval is disjoint from a given interval, then the separation implies that interval is a "No". If the "Yes" interval is contained in the other interval, then consistency demands that the given interval is "Yes". The other remaining case is that the "Yes" interval intersects the given interval and does so for all intervals computed. If we can prove that all smaller intervals intersect, then we have that the endpoint of the given interval is a "Yes" by the closed property and therefore the given interval is a "Yes". This is a major point where we encounter the usual computational difficulties of real numbers. 
+\section{Basic Properties of an Oracle}
 
-This definition does not avoid all of the downsides of the other definitions of real numbers, but it does reduce them to a context that reflects how real numbers get used in practice. 
+We establish some basic facts of oracles which we will find useful throughout. 
+
+We start with the extremely helpful properties involving intersections and unions. We then discuss the uniqueness of oracles, with the related notions of determining ordering and compatibility. In particular, we define what we mean by $r = s$, $r<s$, $r>s$, and $r?s$ for oracles $r$ and $s$. 
+
+
+The relation $r?s$ means that they have not been established to be equal, but they are compatible with that hypothesis. Typically, we will want to specify and interval of compatibility, which is the smallest known interval tested that they both reported Yes on. To denote that, we use $a:r?s:b$ 
 
 \subsection{ Intersections and Unions}
 
-Let $a \leq b \leq c \leq d$. The intersection of $a:c$ and $b:d$ is $c:d$ while the union is $a:d$. One can either take those as statements from the usual set definitions or take these as the definitions of those terms. It is immediate from the Consistency property that Yes-intervals are closed under unions and that No-intervals are closed under intersection. We will prove that they closed under intersections and unions, respectively. 
+Let $a \leq b \leq c \leq d$ with all of them being rationals. The intersection of $a:c$ and $b:d$ is $c:d$ while the union is $a:d$. The two intervals $a:b$ and $c:d$ are disjoint if $b < c$. 
+
+One can either take those as statements from the usual set definitions or take these as the definitions of those terms. It is immediate from the Consistency property that Yes-intervals are closed under unions and that No-intervals are closed under intersection. We will prove that they are closed under intersections and unions, respectively. 
 
 We start with establishing that the intersection of two $R$-Yes intervals is an $R$-Yes interval.
 
@@ -138,73 +125,179 @@ Let $R$ be an oracle and $a \leq b \leq c \leq d$. If $R(a:c) = 1 = R(b:d)$, the
 
 \begin{proof}
   
-  This follows from the Separation and Consistency properties. From Consistency, we have $R(a:d) = 1$ since it contains an $R$-Yes interval (two in fact, but we just need one). Then apply separation to $a:c$ and $c:d$. If $R(c:c) = 1$, then $R(b:c) = 1$ since it contains $c:c$ and we are done. Otherwise, Separation tells us $R(a:c) \neq R(c:d)$. By assumption, we know $R(a:c) = 1$ so that implies $R(c:d) = 1$. We can then consider $R(b:d) = 1$ and consider the Separation based on $c$ $R(b:c) \neq R(c:d)$ since we are specifically in the case that $R(c:c) \neq 1$. Since we established $R(c:d) = 0$, we must have $R(b:c) = 1$ and we have established that Yes-intervals are closed under intersections. 
+  This follows from the Separation and Consistency properties. From Consistency, we have $R(a:d) = 1$ since it contains an $R$-Yes interval (two in fact, but we just need one). Then apply separation to $a:c$ and $c:d$. If $R(c:c) = 1$, then $R(b:c) = 1$ since it contains $c:c$ and we are done. Otherwise, Separation tells us $R(a:c) \neq R(c:d)$. By assumption, we know $R(a:c) = 1$ so that implies $R(c:d) = 0$. 
+  
+  We can then consider what follows from $R(b:d) = 1$.  From Separation based on $c$, we have $R(b:c) \neq R(c:d)$ since we are specifically in the case that $R(c:c) \neq 1$. As we established $R(c:d) = 0$, we must have $R(b:c) = 1$.
+  
+  We have established that Yes-intervals are closed under intersection. 
 \end{proof}
 
-For No-intervals, the opposite conclusion holds. Let's establish that the No-intervals are closed under union. 
+Let us now establish that the No-intervals are closed under union. 
 
 \begin{proposition}
 Let $R$ be an oracle and $a \leq b \leq c \leq d$.  If $R(a:c) = 0$ and $R(b:d) = 0$, then $R(a:d) = 0$. 
 \end{proposition}
 
 \begin{proof}
-    Let's assume that $R(a:d) = 1$ and find a contradiction. With that assumption, $R(a:b) = 1$ from Separation applied to $a:b$ and $b:d$ with the fact that $b:d$ was a No-interval. But this contradicts $R(a:c)= 0$ since it contains $a:b$ and therefore $a:c$ must be a Yes-interval.
+    Let's assume that $R(a:d) = 1$ and find a contradiction. With that assumption, $R(a:b) = 1$ from Separation applied to $a:b$ and $b:d$ with the fact that $b:d$ was a No-interval. But this contradicts $R(a:c)= 0$ since it contains $a:b$ and therefore Consistency would demand $a:c$ must be a Yes-interval. We can conclude that $R(a:b) =0$.
 \end{proof}
 
-Also, two disjoint intervals cannot be both yes. 
+Also, two disjoint intervals cannot be both yes. Notice the distinction in the next proposition that $b$ and $c$ are separated by a strict inequality. 
 
-\begin{proposition}
-Let $R$ be an oracle and $a \leq b < c \leq d$. Then we must have at least either $R(a:b) = 0$ or $R(c:d) = 0$. 
+\begin{proposition} \label{pr:disjoint}
+Let $R$ be an oracle and $a:b < c:d$. Then we cannot have both $R(a:b) = 0$ or $R(c:d) = 0$. 
 \end{proposition}
 
 \begin{proof}
-Assume, for contradiction, that $R(a:b) = R(c:d) = 1$. By Consistency, $R(a:d) = 1$. Then Separation applies. At least either $R(b:b) = 0$ or $R(c:c) = 0$. Let's assume $R(b:b) = 0$ without loss of generality. Then $R(a:b) \neq R(b:d)$. But $R(a:b) = 1$ by assumption. So $R(b:d) = 0$. But we assumed $R(c:d) = 1$ and that is contained in $b:d$ which implies, by Consistency, that $R(b:d) = 1$. Thus, we have arrived at the contradiction $0 = R(b:d) = 1$. 
+By being Rooted, we must have at least one of $R(b:b) = 0$ or $R(c:c) = 0$ holding true, probably both. Let's assume $R(b:b) = 0$ without loss of generality.
+ 
+Either $R(a:b) = 0$ or $R(a:b)=1$. If it is the first case, then we have established what we want to claim. So let us assume we are in the second case. 
+ 
+Since $R(a:b) = 1$,  by Consistency, we have $R(a:d) = 1$. Then Separation applies for the intervals $a:b$ and $b:d$. Since $1 = R(a:b) \neq R(b:d)$, we must have $R(b:d) = 0$. As $c:d$ is contained in $b:d$ and No intervals propagate downwards by Consistency, we must have $R(c:d)=0$  as we were to establish in this case. 
 \end{proof}
 
+We can thus see that one method of demonstrating that $R(a:b)=0$ for some given interval $a:b$ is to produce an interval $c:d$ disjoint from $a:b$ such that $R(c:d)=1$. On the other hand, if all non-singleton $R$-Yes intervals intersect $a:b$, but are not contained in $a:b$, then either $a$ or $b$ is contained in all such intervals. Let's say $a$ is. Then $R(a:a)=1$ by the Closed property and thus $R(a:b)=1$ as well. This situation is where the usual computational difficulties arise and we often have to resort to the notion of compatibility as described in the next section. 
 
-\subsection{Examples}
+\subsection{Equality and Ordering}
 
-It is always good to start with examples. 
+Two oracles are equal if they agree on all (rational) intervals. To prove inequality, it is therefore sufficient to find a disagreement. The basic tool is to find two disjoint intervals that we can guarantee different results. 
 
-For the positive $n$th root of a positive rational number $q$, the Oracle rule would be $R(a<b) = 1$, if and only if $q$ is either contained in $a^n:b^n$ for $a>0$ or contained in $0:b^n$ for $a \leq 0$ and $b>0$. Because of the monotonicity of $x^n$ for positive $x$, consistency holds. The non-vacuous can be seen by the fact that $R(0:q)$ will hold. The separation property is handled by considered the case of $c^n < q$ vs $c^n > q$ vs $c^n = q$. All three cases lead to the correct outcome for that property. 
+If we have two different "real numbers", do we get different oracles for them? Since we are defining real numbers, this gets a little tricky, but we can imagine that what we mean by knowing the two numbers are different is that they are separated by a rational number. Let's assume $a < r < p < s < b$ where $r$ and $s$ are our two distinct real numbers and $p$ is a known rational that separates them, and $a$ and $b$ are two rationals we know sandwich the two reals. Then $a:p$ is a Yes-interval for the Oracle of $r$ while $p:s$ is a Yes-interval for the Oracle of $s$, and each of those intervals are No-intervals for the other oracle. 
 
-Another common example is that of an approximation scheme with an error bound. The error bound is giving us an interval in which the "Yes" should be given by the Oracle. The rule is therefore $R(a:b) = 1$ if and only if there is an approximated interval contained in $a:b$. This automatically gives consistency. A single given approximating interval establishes the non-vacuous. The separating portion requires computing an approximating interval that does the distinguishment. We can do this by computing the minimum length of $a:c$ and $c:b$ and then finding an approximating interval that is smaller than any of those lengths and does not contain $c$. This, of course, requires $c$ not to be $r$. If it is, then $R(c:c) = 1$. The usability of this rule depends on being able to determine this for a given $c$. NEED TO REVISIT THIS. 
+For example, if we we want to distinguish the square roots of 2 and 3 from one another (we will discuss square roots later, just assume the usual ordering properties for now), then $a = 1$, $p = \tfrac{3}{2}$, and $b = 2$ would suffice as $1 < \sqrt{2} < \tfrac{3}{2} < \sqrt{3} < 2$. Let $R$ be the Oracle of $\sqrt{2}$ and $S$ be the Oracle of $\sqrt{3}$, then we should have $R(1:\tfrac{3}{2}) = 1$, $R(\tfrac{3}{2}:2) = 0$,  $S(\tfrac{3}{2}:2) = 1$, $S(1, \tfrac{3}{2}) = 0$. Thus, these oracles are different. In particular, from this presentation, it would be reasonable to say $R < S$ and this i is in line with our definition below.
 
-One tricky case is where we try to define an oracle such that $R(a<c) = 1$ for all $a < c$ with $c$ fixed, but have $R(c:c) = 0$. We could also have $R(c<b) =1$ similarly and not $R(c:c) =1$
+If the oracles $R$ and $S$ cannot find an interval on which they disagree, but we also cannot prove that they agree on all intervals, then we can talk about compatibility and the resolution of that compatibility.
 
-These cases do satisfy our three properties and they are distinct as they disagree. 
+Let $R$ and $S$ be two oracles. We adopt the following definitions:
 
-\subsection{Equality}
+\begin{enumerate}
+    \item $R=S$. $R$ and $S$ are equal if and only if they agree on all intervals. 
+    \item $R < S$. $R$ is less than $S$ if and only if there exists $a:b < c:d$ such that $R(a:b) =1 = S(c:d)$ and $R(c:d) = 0 = S(a:b)$. 
+    \item $R < S$. $R$ is greater than $S$ if and only if $S < R$.
+    \item $a:R?S:b$. $R$ and $S$ are $a:b$ compatible if $R(a:b)=S(a:b)$.
+    \item $R ? S$. $R$ and $S$ are compatible if and only if $R(a:b) = S(a:b)$ for all known intervals $a:b$. 
+\end{enumerate}
 
-Two oracles are equal if they agree on all rational intervals. To prove inequality, it is therefore sufficient to find a disagreement. 
+The interval $a:b$ is the \textbf{resolution of the compatibility of $R$ and $S$} if it the shortest $R$-Yes and $S$-Yes interval; this is necessarily the intersection of all mutually Yes intervals for $R$ and $S$. If we cannot compute the actual resolution, we will say the \textbf{known resolution of their compatibility is $a:b$} to indicate our tentative knowledge of $a:b$ being the shortest interval that they agree on. All oracles are at least compatible on the interval $-\infty:\infty$.
 
-What we want to know is whether given two different "real numbers", do we get different oracles for them. Since we are defining real numbers, this gets a little tricky, but we can imagine that what we mean by knowing the two numbers are different is that they are separated by a rational number. Let's assume $a < r < p < s < b$ where $r$ and $s$ are our two distinct real numbers and $p$ is a known rational that separates them, and $a$ and $b$ are two rationals we know sandwich the two reals. For example, if we we want to distinguish the square roots of 2 and 3 from one another, then $a = 1$, $p = 3/2$, and $b = 2$ would suffice. By the definition of what the oracles ought to be representing, we can assume $R(a:p) = 1$, $S(p:b) = 1$, and $R(p:p) = S(p:p) = 0$, and $R(a:b)=S(a:b) = 1$. We want to find an interval on which they disagree. 
+Consistency implies that the inequalities are definitive and not contradicted. We can prove the transitive law quite easily. Let the following oracles satisfy $R < S < T$. Then we have intervals $a:b < c:d < e:f$ such that $a:b$ is $R$-Yes, $c:d$ is $S$-Yes, $e:f$ is $T$-Yes, $a:b$ and $e:f$ are $S$-No, and $c:d$ is $R$-No and $T$-No. Because the intervals are disjoint, we can deduce that $a:b$ is $T$-No and $e:f$ is $R$-No. The main fact here is that inequality of intervals is transitive. REWRITE THIS. 
 
-By the separation property, we must have $R(a:p) \neq R(p:b)$ and thus $R(p:b) \neq S(p:b)$. 
+If an $a:R?S:b$, then they also agree (Yes) on all intervals that contain $a:b$ as well as all intervals disjoint from $a:b$ (No). 
 
-If we were to have oracles that are on-demand creators of the answers, maintaining consistency, then we not be able to establish two oracles being equal, only unequal. 
-
-We define inequalities between oracles, $R < S$, as this being true if and only if there are rational intervals $a:b$ and $c:d$ such that they are disjoint and $a:b < c:d$ (all rational numbers in the left interval are less than those in the right) and $R(a:b) = 1 = S(c:d)$. Due to consistency, this will hold true on all sub-intervals. 
-
-\subsection{Rational Embedding}
-
-The rational oracles are exactly those who have a $R(c:c)=1$ for some rational $c$. That is the rational.
-
-Given a rational $q$, we define the Oracle of $q$ as the rule $R(a:b) = 1$ if and only if $q$ is contained in $a:b$. 
-
-The properties of an oracle are trivial to check in this case. 
+Thus, two oracles could be equal, unequal, or compatible. The latter is for rules that we cannot find an interval of disagreement, but we have not been able to establish equality. 
 
 
+\section{Examples}
+
+It is always good to start with examples. In particular, how do we obtain various oracles in common situations? 
+
+We shall start with how the rational numbers appear. We then define oracles for $n$-th roots, for numbers with approximation schemes, least upper bounds of sets, and then we investigate a couple of examples of indeterminate rules. For each of them, we will define the rule and then establish the properties by the definition. 
+
+\subsection{Rational Oracles}
+
+Given a rational $q$, we define the Oracle of $q$ as the rule $R(a:b) = 1$ if and only if $q$ is contained in $a:b$. This includes the interval $q:q$.  
+
+We can verify the properties of the rational Oracle of $q$ as follows: 
+
+\begin{enumerate}
+    \item Consistency. If $R(a:b)=1$, then $q$ is contained in $a:b$. If $c:d$ contains $a:b$, then $q$ is contained in $c:d$. Thus, $R(c:d)=1$.
+    \item Finite. $q$ is contained in $q:q$ so $R(q:q)=1$.
+    \item Separating. If $R(a:b) =1$, then $q$ is contained in $a:b$. Let $c$ be strictly in $a:b$. We have two possibilities. Either $c = q$, in which case $R(c:c)=R(q:q)=1$ or $q$ is strictly contained in $a:c$ or $c:b$. The interval that contains it will be a Yes interval while the one that does not is a No interval. Therefore $R(a:c) \neq R(c:b)$ as required in this case. 
+    \item Rooted. For $c \neq q$, $c:c$ does not contain $q$ and therefore $R(c:c)=0$.
+    \item Closed. Assume $c$ is contained in all $R$-Yes intervals. Then, in particular, $c$ is in $q:q$ and thus $c=q$ and $R(c:c)=1$. That feels a little to reliant on the inclusion of the singleton. To make this a little more robust, assume $c \neq q$, say, $c < q$. Then there exists $a$, $b$, and $d$ such that $a < c < d < q < b$. Since $q$ is in $b:d$ but not in $a:d$, we have $R(a:d)=0$ and $R(b:d)=1$. 
+\end{enumerate}
+
+We will see with the operations that these oracles are the natural representatives of the rational numbers, obeying the arithmetic that we would want them to obey.  
+
+We also claim that if we have an oracle with rule $R$ such that there is a rational $q$ with $R(q:q)=1$, then it is the Oracle of $q$, whose rule we shall call $Q$. If the oracle is different, then there is an interval $a:b$ on which they disagree. Since $R(q:q) =1$, all the  $Q$-Yes intervals are also $R$-Yes intervals. Therefore, we need to prove that for a given  $Q$-No interval $a:b$, we must also have it be an $R$-No interval. Because it is $Q$-No, it does not contain $q$. It is therefore disjoint from $q:q$. But by the disjoint property, Proposition \ref{pr:disjoint}, we have $R(a:b)=0$. Thus, the two oracles must agree on all intervals and we have uniqueness. 
+
+The property of being closed also prevents having an oracle which agrees with all the $Q$-Yes intervals except $q:q$. Closed forces $R(q:q)=1$ if all $R$-Yes intervals contain $q$.
+
+\subsection{Roots}
+
+For the positive $n$-th root of a positive rational number $q$, the Oracle rule would be for $R(a\lt b) = 1$, if and only if $q$ is either contained in $a^n:b^n$ for $a>0$ or contained in $0:b^n$ for $a \leq 0$ and $b>0$. If we have $a:a$, then $R(a:a) = 1$ if and only if $a^n = q$ and $a>0$.
+
+We can verify the properties of the Oracle of $\sqrt[n]{q}$ as follows: 
+
+\begin{enumerate}
+    \item Consistency. Because of the monotonicity of $x^n$ for positive $x$, consistency holds. Namely, assume $a\lt b$ is contained in $c \lt d$ and $R(a:b)=1$. If $c>0$, then $c^n \leq a^n \leq q \leq b^n \leq d^n$ and we see that this holds. If $c<0$ then we need to show $0 \leq q \leq d^n$. Since $0 \leq q \leq  b^n \leq d^n$, this holds. 
+    \item Finite. Let $M = \max(q, 1)$. Then $0 < q \leq M^n$ as either $q^n = M^n \geq 1$ or $0 < q < 1^n = 1$. Either way, $R(0:M) = 1$. 
+    \item Separation. Let $a\lt b$ be given such that $R(a:b)=1$. Let $a < c <b$ be given. We need to show that either $R(c:c) = 1$ or $R(a:c) \neq R(b:c)$. We proceed by cases:
+    \begin{enumerate}
+        \item If $c \leq 0$, then $a<0$ and $q$ is contained in $0:b^n$. Thus, $R(c:b) = 1$ and $R(a:c) = 0$. 
+        \item Assume $c>0$. If $c^n = q$, then $R(c:c)=1$ and we are done. If $c^n < q$, then $c^n < q< b^n$ and $R(c:b)=1$. Since $c^n$ would be the upper bound on the $a:c$ interval computations, we have $R(a:c)=0$. Alternatively, if $c^n > q$, then we have that $R(a:c)=1$ since $a$ or $0$ will be a sufficient lower bound in the cases. Meanwhile, $R(c:b) = 0$ since $q$ is not between $c^n$ and $b^n$. 
+    \end{enumerate}
+     \item Rooted. This relies on the equation $x^n = q$ having at most one positive solution. This follows from the fact that $0<a<b$ implies $0 < a^n < b^n$. See appendix if in doubt. 
+    \item Closed. Consider a rational number $r$. We want to show that either $r>0$ with $r^n = q$ in which case $R(r:r)=1$ or that if $r^n \neq q$ then there exists an interval $a:b$ such that $R(a:b)=1$ but $r$ is not in $a:b$. Let $M = \max(q, 1)$; we need this since if $q<1$, then $q^n < q < 1$ and we want to make sure we have a number greater than $q$ after being raised to the $n$-th power. 
+    
+    If $r < 0$, then the interval $0:M$ contains $q$ and does not include $r$ so that is a $R$-Yes interval. Let us therefore assume $r \geq 0$ and that $r^n \neq q$. In the case that $r^n > q$, there is an $s$ such that $s<r$ and $s^n > q$ (well-known fact, but see Appendix). Therefore, $R(0:s) = 1$ and $r$ is not in $0:s$. For the case of $r^n < q$, we have the existence of an $s$ such that $s > r$ and $s^n < q$. We thus have $R(s:M)=1$ and $r < s$ is not in the interval $s:M$. 
+    
+\end{enumerate}
+
+\subsection{Nested intervals}
+
+An example which is almost an outline version of an oracle rule is that of nested intervals whose lengths are going to 0. This can be literally a sequence of nested intervals or it can be a number with an error bound, such as a sequence of decimals with $\pm$ bounds. It is very common to have error bounds in applications and this is how to incorporate that into this framework. 
+
+We will formalize the nested interval concept as a rule $I$ that takes in a positive rational number and produces a rational interval whose length is less than that number. We will call this a \textbf{nesting function}. It should have the property that $I(p)$ is contained in $I(r)$ if $p<r$ in addition to the length of $I(p)$ being less than $p$. If it is possible to define $I(0)$ in such a way that this maintains the nesting property, then it should be defined. This happens if and only if there is a rational number $q$ contained in each of the intervals and that rational number is unique. 
+
+We can now define the Oracle of $I$ as $R(a:b) = 1$ if and only if $a:b$ contains $I(p)$ for some non-negative rational $p$.
+
+\begin{enumerate}
+    \item Consistency. Let $c:d$ contain $a:b$ and $R(a:b)=1$. Then there exists a $p$ such that $I(p)$ is contained in $a:b$. Therefore $c:d$ contains $I(p)$ and $R(c:d) = 1$
+    \item Finite. By assumption, $I(1)=a:b$ exists and is finite so $R(a:b)=1$.
+    \item Separating. Assume $R(a:b)=1$ and let $c$ be in $a:b$. If $c$ is in $I(p)$ for all $p$, then $I(0) = c:c$ is defined and $R(c:c)=1$. So let us assume there is a length $p$ such that $I(p)$ does not contain $c$. Because of nesting, $I(p)$ is contained in $a:b$ and, since it does not contain $c$, it must be either in $a:c$ or $b:c$, but not both. Thus, $R(a:c) \neq R(b:c)$.
+    \item Rooted. This is pretty relevant to the $I(0)$ definition, but we can argue it here. Given rational numbers $c < d$, we claim that there is at most one which is in all $I(p)$. Consider the distance $d-c$. Look at the interval $I( \tfrac{d-c}{2} )$. This interval has length strictly less than $d-c$ and therefore both $d$ and $c$ cannot be both in there. 
+    \item Closed. This is the property of having $I(0)$. Either that is defined and there is a rational $c$ with $R(c:c)=1$ or $I(0)$ is not definable in which case there is no rational that is contained in all the intervals. 
+\end{enumerate}
+
+As we said, nested intervals are closely related to the notion of oracles. It is the version which our latter approximation schemes produce and it is therefore more immediate in its use for getting an approximation. A given nesting function, however, is not a unique representative of a real number and the implication is that to get different representatives from this, one has to essentially take the steps done here. So converting to an Oracle is a first step to exploring other approximations, such as finding the best rational approximation via the mediant method described below. 
 
 \subsection{Least Upper Bound}
 
-We are given a non-empty set $E$ with an upper bound $M$, meaning that every element of $x \in E$ has the property $x < M$. This is a standard setup of interest and we will assume that this is meaningful to speak of.
+We are given a non-empty set $E$ with an upper bound $M$, meaning that if $x \in E$ then $x$ has the property $x < M$. We want to create the oracle for the least upper bound of $E$. Let $U$ be the collection of upper bounds of $E$, namely, $y$ in $U$ if $y > x$ for every $x$ in $E$. 
 
-Define the Oracle of $\mathrm{sup} E$ to be the rule such that $R(a<b) = 1$ if $a \leq x$ for some $x \in E$ and $b \geq \alpha$ for some upper bound $\alpha$ of $E$. We add in a cheat clause that if there is a rational $q$ that is the least upper bound of the set, then we add in $R(q:q)$. This allows us to satisfy the rationally filled property. We claim that this is an oracle and that it has the property that, in the ordering given by the oracles, it is the least upper bound of $E$. 
+We define the Oracle of $\mathrm{sup} E$ to be the rule such that $R(a\leq b) = 1$ if and only if $a \leq y$ for all $y$ in $U$ and $b \geq x$ for all $x$ in $E$. That is, $a$ is a lower bound for $U$ and $b$ is an upper bound for $E$.
 
-It is non-vacuous as $R(x:M) = 1$ where $x$ is the assumed member of $E$ that exists and $M$ is the given upper bound. Consistency follows ... It is separating ... 
+\begin{enumerate}
+    \item Consistency. Assume $R(a:b)=1$ and $c:d$ contains $a:b$. Then $c < a < y$ for all $y$ in $U$ and $d > b > x$ for all $x$ in $E$. Thus, $R(c:d) = 1$.
+    \item Finite. By assumption, there is an $x \in E$ and an upper bound $M$ in $U$. Thus, $R(x:M) = 1$. 
+    \item Separating. Let $R(a\lt b)=1$ and $a < c< b$. We need to show that either $R(c:c)=1$ or $R(a:c) \neq R(c:b)$. 
+    
+    If $c \geq x$ for all $x$ in $E$, then $R(a:c)=1$ by definition and the fact that $a$ being a lower bound for $U$ still holds. If $c \leq y$ for all $y$ in $U$, then $R(c:c)=1$ and we are done. If $c > y$ for some $y$ in $U$, then $R(c:b) = 0$ since $b > c$ and therefore neither of them can be less than $y$ for all $y$ in $U$. 
+    
+    The other case is that $c < x$ for some $x$ in $E$. Since $a < c$, we know that neither $a$ nor $c$ is greater than all $x$ in $E$. Thus, $R(a:c) = 0$. Since $c < x$ for some $x$ in $E$, it must be the case that since any upper bound $y$ has the property that $x < y$, we have $c < y$ for all $y$ in $U$. We therefore have $R(c:b)=1$.
+    
+    \item Rooted. For $R(c:c)=1$, we would need to have that $c \leq y$ for all $y$ in $U$ and $c \geq x$ for all $x$ in $E$. Assume we had another rational such that $R(d:d) = 1$. Then we also have $d \geq x$ and $d \leq y$ for all $y$ in $E$. Since both $c$ and $d$ are upper bounds in $E$, we have that each are in $U$. So $c \leq d$ and $d \leq c$. This implies that $c = d$. 
+    \item Closed. Assume $c$ is in all Yes intervals. Then given any upper bound $y$ in $U$ and element $x$ in $E$, we have $c$ is in $x:y$ since $R(x:y)=1$ by definition. We therefore have that $c \leq y$ and $c \geq x$. Since $x$ and $y$ were arbitrary elements of $E$ and $U$, $c$ satisfies the conditions such that $R(c:c)=1$.
+\end{enumerate}
 
-It is a least upper bound as any bound that would be below it, would have to be part of a "Yes" interval and thus we would have a separation and this would then be less then that (or equal). Similarly, it is above every element for the same reason. 
+
+\subsection{The Collatz number}
+
+At the present time, the \href{https://en.wikipedia.org/wiki/Collatz_conjecture}{Collatz conjecture} is not proven. We can define an Oracle of Collatz $R$ such that $R(-\tfrac{1}{n}:\tfrac{1}{n})$ is 1 if the Collatz sequence terminates at 1 for all $k \leq n$ and 0 otherwise. For all other intervals $a:b$, $R(a:b) = 1$ if $a:b$ contains such a Collatz Yes interval. If there is a $n$ which does not satisfy the Collatz conjecture, then, taking $n$ to be the first such $n$, we define $R(\tfrac{1}{n}:\tfrac{1}{n}) = 1$. If there is no such $n$, then $R(0:0) = 1$
+
+This is a rule which, as of 2020, is known to be $-2^-68:2^-68$ compatible with the Oracle of 0. But unless it gets proven or falsified, we cannot establish equality or inequality with respect to 0. 
+
+In the ultimate form of a known result for the conjecture, this will be an Oracle of 0 or an Oracle of $\tfrac{1}{N}$ where $N$ is the first number where the conjecture fails to hold. Until that happens, we cannot say that the Separating or Rooted properties hold. 
+
+An alternative approach to using this conjecture is to define an oracle that implies the $n$-th digit in decimal approximations is $1$ if the Collatz conjecture fails on it and $0$ otherwise.
+
+Let $C(n)$ be an indicator function which is 1 if $n$ does not satisfy the Collatz conjecture and 0 otherwise. Define the following function as follows: $f(1) = 0$. $f(n) = \sum_{i=0}^n C(i)*10^{-i} $.  We can then define a nesting function as follows: $I(m)=0:2$ for $m > 1$ and $I(p) = I(2 \times 10^{-n}) = I_n = f(n): f(n)+2 \times 10^{-n}$ for $10^{-(n+1} \leq p < 10^{-n}$. The length property should be clear. The nesting nature follows from the fact that, for $m > n$,  $0 \leq  f(m)-f(n) = \sum_{i=n+1}^m C(i)*10^{-i} \leq \sum_{i=n+1}^m 10^{-i} = 10^{-n+1}\sum_{i=0}^{m-n-1} 10^{-i} < \tfrac{1}{9} \times 10^{-n} < 10^{-n} $ where the last inequality comes from the finite geometric sum form of $\dfrac{1-x^{m-n}}{1-x}$ with $x=10^-1$ leading to estimate the numerator with 1 and the denominator being replaced with $\tfrac{10}{9}$. 
+
+As noted above, we can define an oracle based on the nesting function. This oracle works as far as we can compute. Note that, unless the conjecture was proven in the affirmative which would make this the Oracle of 0, we would still not be able to write down more for the rule which would need to be applied to each $n$. 
+
+
+\subsection{Coin tosses}
+
+We want to model an oracle that is probabilistic in nature and model how they might work. 
+
+The first version is to create a nesting function by a bisection method. We start with an initial interval, say $I(q) = I_1 = 0:1$ for all $p\geq 1$. Then, given $I_n = a:b$, we let $c = \tfrac{a+b}{2}$ and then use a random function that yields 1 with probability $p$ and 0 with probability $1-p$. If it is 1, then, for $2^{-(n+1)} \leq q  < 2^{-n}$, $I(q) = a:c$. Otherwise, $I(q) = c:b$. With this nesting function, we can have an oracle. This oracle, however, will only be defined fully after this infinite subdividing process completes. In particular, similar to the Collatz conjecture example, at any given level, we will have infinitely many rationals that are not yet distinguished.  
+
+A process closer to defining an oracle directly is the following; we will use $R$ for the rule. Let $I$ be a given starting interval and we set $C=I$ where $C$ stands for current. Let $a:b$ be given. If $a:b$ contains $C$ (or is $C$), then $R(a:b) = 1$. If $a:b$ and $C$ are disjoint, then $R(a:b) = 0$. If neither, then $a:b$ and $C$ intersect. Let $c:d$ then be that intersection. If the interval $c:d$ divides $C$ in half (they have a common endpoint), then we use a random process to determine if $c:d$ is a Yes interval or a No interval; the complement interval in $C$ is then the opposite. Then $a:b$ is a Yes or No interval based on $c:d$. We also redefine $C$ to be $c:d$ or its complement, depending on which one is Yes. It is possible for $c:d$ to divide $C$ into three intervals. We check $c:d$ first; if it is Yes, then the other two are No. If $c:d$ is No, then we do the random process to decide which of the two intervals making up the complement are Yes. Whichever one is Yes, becomes the new $C$ for future Rule consultations.  
+
+This oracle will satisfy consistency, being finite, and separating all by definition. Rooted will apply as well. As for closed, $R(c:c)=1$ can only happen if we ask about it and comes up with a 1 in which case we have finished our process. 
+
+This is an example of a rule which is guaranteed to give an answer for any question we ask even if the answer cannot be known in advance. In fact, the very nature of what is possible is based on what we ask. For example, if we never ask about  $c:c$, then it will not happen. But if we do ask, then it could come up as Yes. 
 
 
 \section{Interval Arithmetic}
@@ -228,6 +321,9 @@ As an example of the powers, consider $(-2:3)^4$. All of the products of the end
 
 NEED TO ENSURE OPERATIONS ARE INTERVALS, see division ....  
 Also need to argue that this is given two rationals contained in, then their arithmetic gets into the right interval. 
+
+Also need to argue that if we add / multiply two intervals contained in two other intervals, then the subintervals combined are in the superintervals combined. 
+
 
 \subsection{Verifying the rules}
 
@@ -304,7 +400,7 @@ Let $\mathbb{R}$ be the set of all oracles.
 
 From above, given two 
 
-\section{Bisection Approximation}
+\subsection{Bisection Approximation}
 
 Let $R$ be an Oracle of $r$. We will use $R$ to compute an approximation of $r$ to any desired level of accuracy.
 
@@ -314,15 +410,15 @@ If we do this $n$ times, then the length will be $\frac{L}{2^n}$ which allows us
 
 This is the bisection method, of course, and oracles provide exactly what we need to use it. 
 
-\section{Mediant Approximation}
+\subsection{Mediant Approximation}
 
-\subsection{Square Root 2}
+\subsubsection{Square Root 2}
 
-\subsection{Best Approximations}
+\subsubsection{Best Approximations}
 
-\subsection{Continued Fractions}
+\subsubsection{Continued Fractions}
 
-\section{Newton's Method}
+\subsection{Newton's Method}
 
 A few words on developing Newton's Method with an eye to intervals. 
 
@@ -331,10 +427,83 @@ A few words on developing Newton's Method with an eye to intervals.
 Explicit correspondence between these as much as possible: 
 
 Infinite decimals, Dedekind cuts, cauchy sequences, nested intervals. 
+Options: digit presentation of the number, an algorithm for computing the number,  or data on whether it contains it. 
 
-\section{IVT and FTA}
+The current definitions of real numbers has some unsatisfactory aspects. This
+has been explored by Norm Wildberger ....
 
-Reformulating these in terms of this. 
+\begin{itemize}
+    \item Infinite Decimals. Arithmetic is very problematic. Infinite choice vs
+  algorithm. Unlimited carries basically stop us at some point. Related to
+  this are other representations of numbers, such as continued fractions. The
+  main issue is that these are all based on a particular representation which
+  sidesteps existence and what the thing is, but feels very comfortable from a
+  numerical point of view. 
+  \item Equivalence Classes of Cauchy Sequences. Arbitrarily long initial portions
+  of the sequences implies that, in a finite universe such as we have, all
+  Cauchy sequences classes will look the same up to any given n. Could modify
+  it by requiring the difference between terms to be less than a prescribed
+  term, say 1/n, for a given point in the sequence. But then one needs to
+  ensure that the arithmetic works out to keep that in place. But it does deal
+  with the initial idiocy. That's really bad. 
+  \item Dedekind Cuts. Infinite sets, the construction is not really in line with
+  how we produce or use real numbers. If one is okay with infinite sets and
+  few explicit examples, then it seems like it is a foundation. 
+  \item Nested Intervals. This works and is strongly related to Dedekind cuts, but
+  to see it is a given sequence of nested intervals has uniqueness issues. So
+  one needs a refinement, such as Cauchy sequences. Also, nothing to stop the
+  same objection in Cauchy sequences in which an initial amount of the
+  sequence is not specific at all. It is a little bit more controlled, but it
+  could take a trillion intervals to get anywhere near the number of interest.
+\end{itemize}
+
+
+We propose a new definition, one which is in line with how we actually use it.
+It comes with it a couple of immediate to use algorithms, but it is not an
+attempt to produce a string of better approximations. It is, rather, an
+attempt to give form to an approximation.
+
+If we recast the Dedekind cut into a statement about a mapping of rational
+numbers to the numbers -1, 0, 1, as we describe presently, then this
+similarity of our approach becomes even more apparent: 
+Indicator function of a partition of Q based on mythical r: 
+R(q) = -1 if q is less than r, R(q) = 0 if q is r, and R(q) = 1 if q is
+greater than r. 
+
+We can then get away from thinking of having to produce a set for the Dedekind
+cut and instead view it as something to compute when we want to know whether
+we are less than or greater than a given real number. This gets us closer to a
+useful description, but it still isn't quite what we are looking for. 
+
+\subsection{Extended Reals}
+
+It turns out to be almost trivial to extend the Oracles to include extended version of the real numbers that includes $\pm \infty$. We need to include infinite intervals in our definition and drop our finite clause.
+
+For unbounded intervals, we could write that as $a:$ or $a:\infty$ for all rationals greater than or equal to $a$ and write $:a$ or $-\infty:a$ for all rationals less than or equal to $a$. The special interval $-\infty:\infty$ consists of all rationals. 
+
+If we changed the Finite property to the assertion that $R(-\infty:\infty)=1$, we could then define the Oracle of $-\infty$ as the rule $R(:a) = 1$ for all rational $a$ and 0 otherwise. The Oracle of $\infty$ is similarly defined as $R(a:)=1$  for all rational $a$ and 0 otherwise. 
+
+
+\section{Functions}
+
+One can, of course, ignore the specific definitions of this version of real numbers and proceed as in the usual story. But we sketch out how this notion of real number motivates and enhances the usual story. 
+
+We start with a discussion of polynomials and the Fundamental Theorem of Algebra. Then we proceed into discussing the Intermediate Value Theorem and the notion of continuity. We finish with a few thoughts on the differential and integral calculus. 
+
+\subsection{Polynomials and the Fundamental Theorem of Algebra}
+
+\subsection{Continuity and the Intermediate Value Theorem}
+
+Let $f$ be a function that takes in oracles and gives out oracles. What this means is that for a given Oracle of $r$, $f$ should give an Oracle for some $s$. Let $a:b$ be a $R$-yes interval. Then $f$ should map $a:b$ into a $S$-Yes interval, say $c:d$. That is to say, we can view $f(r)$ as generating a function $g_r : (a:b) \mapsto (c:d)$. Given any $S$-Yes interval, we should be able to find a $R$-Yes interval that gets mapped into it. 
+
+Continuity is therefore the reasonable requirement that the maps $g$ above do not depend on $r$. 
+
+
+\subsection{Limits and Transcendental Functions}
+
+\subsection{Differential and Integral Calculus}
+
+
 
 
 \section{Concluding Thoughts}
@@ -348,6 +517,42 @@ An alternative definition could have been to have a function that given a ration
 \bigskip
 
 \noindent \textbf{Acknowledgements. } We gratefully acknowledge NJ Wildberger for criticisms of 
+
+\appendix
+
+\section{Technical Lemmas}
+
+This is a place to collect some technical facts that are commonly known, but that we would like to have collected proofs of. In particular, these do not rely on the results of any real number analysis. 
+
+\begin{lemma}
+$x^n$ is monotonic for $x>0$. That is, if $0 < a < b$, then $a^n<b^n$.
+\end{lemma}
+
+\begin{proof}
+$b^n-a^n= (b-a)\sum_{k=1}^n b^k a^{n-k}$. Since both $a$ and $b$ are positive, the sum is positive. The sign is therefore determined by $b-a$. If $b>a$, then $b^n-a^n > 0$ as was to be shown. 
+\end{proof}
+
+\begin{lemma}
+Let $r \geq 0 $ and $q > 0$ be rational numbers such that $r^n < q$. Then there exists a rational number $s$ such that $r < s$ and $s^n < q$.
+\end{lemma}
+
+The basic idea is to find $N$ $s = r + \tfrac{1}{N}$ such that $s^n < q$. We use the completely rational binomial theorem.  
+
+\begin{proof}
+Define $a = q - r^n$. Define $N = \tfrac{3}{a} \max(1,n r^{n-1}, (r+1)^n$.  Take $s = r + \tfrac{1}{N}$. Then $s^n = (r+ \tfrac{1}{N})^n = r^n + \tfrac{n r^{n-1}}{N} + \sum_{k=2}^{n} \binom{n}{k} \tfrac{r^k}{N^{n-k}}$. We can factor out a $\tfrac{1}{N}$ in the sum and, since $N > 1$, we have $\tfrac{b}{N^i} < b$ for all $b$ and natural number $i$. Thus, $\sum_{k=2}^{n} \binom{n}{k} \tfrac{r^k}{N^{n-k}} < \tfrac{1}{N} \sum_{k=2}^{n} \binom{n}{k} r^k$  But that sum is part of the expansion of $(r+1)^n$ and is therefore bounded by it since those are all positive terms thanks to $r$ being positive. Thus, we have $s^n < r^n + n \tfrac{r^{n-1}}{N} + \tfrac{ (r+1)^n }{N}$.  By definition, we have $N > \tfrac{3}{a} n r^{n-1}$ implying $\tfrac{a}{3} > \tfrac{ r^{n-1}}{N}$. We also have $N > \tfrac{3}{a} (r+1)^n$ implying $\tfrac{a}{3} > \tfrac{(r+1)^n}{N}$. Therefore $s^n < r^n + \tfrac{2 a}{3} < q$. Since $r<s$, we have shown our result. 
+\end{proof}
+
+\begin{lemma}
+Let $r \geq 0 $ and $q > 0$ rational numbers such that $r^n > q$. Then there exists a rational number $s$ such that $r > s$ and $s^n > q$.
+\end{lemma}
+
+The trick here is to consider $(r-\tfrac{1}{N})^n$ instead. 
+
+\begin{proof}
+Define $a = r^n - q$. Define $N = \tfrac{3}{a} \max(1,n r^{n-1}, (r+1)^n$.  Take $s = r - \tfrac{1}{N}$. Then $s^n = (r- \tfrac{1}{N})^n = r^n - \tfrac{n r^{n-1}}{N} + \sum_{k=2}^{n} \binom{n}{k} \tfrac{ (-1)^(n-k) r^k}{N^{n-k}}$. We can factor out a $\tfrac{1}{N}$ in the sum and, since $N > 1$, we have $\tfrac{b}{N^i} < b$ for all $b$ and natural number $i$. Since we are looking to prove $s^n > q$, making the expression smaller is what we are set to do. If we replace any positive terms in the sum with negative terms, we will make it smaller. So $s^n > r^n - \tfrac{n r^{n-1}}{N} - \sum_{k=2}^{n} \binom{n}{k} \tfrac{r^k}{N^{n-k}}$. As before, $\sum_{k=2}^{n} \binom{n}{k} \tfrac{r^k}{N^{n-k}} < \tfrac{1}{N} \sum_{k=2}^{n} \binom{n}{k} r^k$  But that sum is part of the expansion of $(r+1)^n$ and is therefore bounded by it since those are all positive terms thanks to $r$ being positive. Thus, we have $s^n > r^n - n \tfrac{r^{n-1}}{N} - \tfrac{ (r+1)^n }{N}$.  By definition, we have $N > \tfrac{3}{a} n r^{n-1}$ implying $\tfrac{a}{3} > \tfrac{ r^{n-1}}{N}$. We also have $N > \tfrac{3}{a} (r+1)^n$ implying $\tfrac{a}{3} > \tfrac{(r+1)^n}{N}$. Therefore $s^n > r^n - \tfrac{2 a}{3} > q$. Since $r>s$, we have shown our result. 
+\end{proof}
+
+
 
 \begin{thebibliography}{28.}
 d
