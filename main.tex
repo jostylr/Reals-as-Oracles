@@ -145,7 +145,7 @@ Let $R$ be an oracle and $a \leq b \leq c \leq d$.  If $R(a:c) = 0$ and $R(b:d) 
 Also, two disjoint intervals cannot be both yes. Notice the distinction in the next proposition that $b$ and $c$ are separated by a strict inequality. 
 
 \begin{proposition} \label{pr:disjoint}
-Let $R$ be an oracle and $a:b < c:d$. Then we cannot have both $R(a:b) = 0$ or $R(c:d) = 0$. 
+Let $R$ be an oracle and $a:b < c:d$. Then we cannot have both $R(a:b) = 1$ and $R(c:d) = 1$. 
 \end{proposition}
 
 \begin{proof}
@@ -162,7 +162,7 @@ We can thus see that one method of demonstrating that $R(a:b)=0$ for some given 
 
 Two oracles are equal if they agree on all (rational) intervals. To prove inequality, it is therefore sufficient to find a disagreement. The basic tool is to find two disjoint intervals that we can guarantee different results. 
 
-If we have two different "real numbers", do we get different oracles for them? Since we are defining real numbers, this gets a little tricky, but we can imagine that what we mean by knowing the two numbers are different is that they are separated by a rational number. Let's assume $a < r < p < s < b$ where $r$ and $s$ are our two distinct real numbers and $p$ is a known rational that separates them, and $a$ and $b$ are two rationals we know sandwich the two reals. Then $a:p$ is a Yes-interval for the Oracle of $r$ while $p:s$ is a Yes-interval for the Oracle of $s$, and each of those intervals are No-intervals for the other oracle. 
+If we have two different ``real numbers'', do we get different oracles for them? Since we are defining real numbers, this gets a little tricky, but we can imagine that what we mean by knowing the two numbers are different is that they are separated by a rational number. Let's assume $a < r < p < s < b$ where $r$ and $s$ are our two distinct real numbers and $p$ is a known rational that separates them, and $a$ and $b$ are two rationals we know sandwich the two reals. Then $a:p$ is a Yes-interval for the Oracle of $r$ while $p:s$ is a Yes-interval for the Oracle of $s$, and each of those intervals are No-intervals for the other oracle. 
 
 For example, if we we want to distinguish the square roots of 2 and 3 from one another (we will discuss square roots later, just assume the usual ordering properties for now), then $a = 1$, $p = \tfrac{3}{2}$, and $b = 2$ would suffice as $1 < \sqrt{2} < \tfrac{3}{2} < \sqrt{3} < 2$. Let $R$ be the Oracle of $\sqrt{2}$ and $S$ be the Oracle of $\sqrt{3}$, then we should have $R(1:\tfrac{3}{2}) = 1$, $R(\tfrac{3}{2}:2) = 0$,  $S(\tfrac{3}{2}:2) = 1$, $S(1, \tfrac{3}{2}) = 0$. Thus, these oracles are different. In particular, from this presentation, it would be reasonable to say $R < S$ and this i is in line with our definition below.
 
@@ -185,6 +185,42 @@ Consistency implies that the inequalities are definitive and not contradicted. W
 If an $a:R?S:b$, then they also agree (Yes) on all intervals that contain $a:b$ as well as all intervals disjoint from $a:b$ (No). 
 
 Thus, two oracles could be equal, unequal, or compatible. The latter is for rules that we cannot find an interval of disagreement, but we have not been able to establish equality. 
+
+We want to formalize that two oracles whose Yes intervals always overlap are, in fact, the same oracle.
+
+\begin{proposition}\label{pr:overlap}
+Let $R$ and $S$ be two oracles such that whenever $R(a:b)=1$ and $S(c:d)=1$, we have that $a:b$ and $c:d$ must have non-zero intersection. Then $R =S$
+\end{proposition}
+
+\begin{proof}
+We want to show that given an interval $a:b$ such that $R(a:b)=1$, then $S(a:b)=1$. Let $c:d$ be such that $S(c:d)=1$. By the assumption, the two intervals must overlap. We have some cases. 
+
+First, if $c:d$ is contained in $a:b$, then $S(a:b)=1$ by consistency. 
+
+So next, let's assume that $c<d$ contains $a<b$. By separation, we must have $S(c:a) =1$ or $S(a:d) = 1$ or $S(a:a) =1$. If $S(c:a) = 1$, then we can argue that $S(a:a) =1$. Indeed, let $c < e < a$. Then separation tells us that $S(c:e) = 1$ or $S(e:a)  = 1$ or $S(e:e)=1$. Both the first and the third are not possible because that would require $c:e$ or $e:e$ to overlap $a:b$ which neither does. So $S(e:a) = 1$ for all $e$ between $c$ and $a$. This means that $a$ is contained in all $S$-Yes intervals and therefore $S(a:a)=1$. And so $S(a:b)=1$ by consistency. We also could then argue in this case that $S$ and $R$ are the rational Oracles of $a$. 
+
+So we can look at the case that $S(a:d) = 1$. By the same argument above, but applying it to a separation involving $b$, we either have $S(b:d)=1$ descending down to $S(b:b)=1$, or $S(b:b)=1$ directly from separation, or $S(a:b)=1$ which is what we were to show. 
+
+This argument can also apply to the Yes intervals of $S$ just as equally well. 
+\end{proof}
+
+\subsection{Bisection Approximation}
+
+Let $R$ be the Oracle of $r$. We will use $R$ to compute an approximation of $r$ to any desired level of accuracy. 
+
+$R$ being Finite gives us a starting interval, say $a:b$ with length $L$. Then take $c = \frac{a+b}{2}$. Since $R$ is separating, we can use it to determine whether $R(a:c) = 1$ or $R(c:b) = 1$ or $R(c:c) = 1$. If it is the latter, we are done and $r = c$. If it is one of the former, then we use that new interval to repeat the same process, but the length of the interval is now $\frac{L}{2}$. 
+
+If we do this $n$ times, then the length will be $\frac{L}{2^n}$ which allows us to compute $r$ to be within any level of given accuracy. 
+
+This is the bisection method, of course, and oracles provide exactly what we need to use it. 
+
+We have proven that: 
+
+\begin{proposition}\label{pr:short}
+For a given oracle and length, we can produce an interval shorter than that length. 
+\end{proposition}
+
+This is helpful in establishing the arithmetic properties. Later we will discuss the mediant approximation which is generally a pretty pleasant computational method to employ with a nice relationship to continued fractions. 
 
 
 \section{Examples}
@@ -299,28 +335,57 @@ This oracle will satisfy consistency, being finite, and separating all by defini
 
 This is an example of a rule which is guaranteed to give an answer for any question we ask even if the answer cannot be known in advance. In fact, the very nature of what is possible is based on what we ask. For example, if we never ask about  $c:c$, then it will not happen. But if we do ask, then it could come up as Yes. 
 
+In a certain sense, our rule here is not "complete". An infinite being looking at it would see the finiteness. But from our limited perspective, it works just as much as any "complete" rule. In contrast, the Collatz example is one which we might not get an answer to. It is "incomplete" on a practical level. 
 
 \section{Interval Arithmetic}
 
 This section is not novel, but rather a review of applying arithmetic to intervals. We will need this in defining the arithmetic of oracles. This material can be seen, for example, in the videos by NJ Wildberger... These are of interest as this helps us propagate error intervals in scientific computations and our oracle approach reflects the usefulness of this thinking. 
 
-Let $a<b$ and $c<d$, all of them being rational numbers. Then we define:
+The guiding idea of interval arithmetic is to do the arithmetic operations on each pair of elements and then have the minimal interval that contains that interval. We could try to define it that way and then prove the following. We will, instead, define these operations below and then establish that given any two elements in the operated intervals will fall in that resultant interval. 
+
+Let $a \lt b$ and $c \lt d$, all of them being rational numbers. Then we define:
 \begin{enumerate}
     \item Addition. $a:b + c:d = (a+c):(b+d)$
     \item Negation. $-(a:b) = -b:-a$
-    \item Subtraction. $a:b - c:d = a:b + (-c:d) = a-d:b-c$
-    \item Multiplication. If $0<a<b$ and $0<c<d$, then $a:b*c:d = ac:bd$. Otherwise, $a:b * c:d = \mathrm{min}(ac, ad, bc, bd): \mathrm{max}(ac,ad,bc,bd)$
-    \item Reciprocity. $1/(a:b) = 1/b:1/a$. If 0 is contained in $a:b$, then the reciprocal is undefined as it actually generates $-\infty:1/a$ and $1/b:\infty$. 
-    \item Division. $(a:b) / (c:d) = a:b * 1/d:1/c$. This is only defined if 0 is not contained in $c:d$.
-    \item Powers. Let $n$ be a natural number. $(a:b)^n = a^n:b^n$ for $0 < a < b$. If at least one of them is negative, then let $c = \mathrm{max} (|a|, |b|)$ and $d=\mathrm{min}(|a|, |b|)$. Then $(a:b)^n = c^n: c^{n-1}d$. 
+    \item Subtraction. $a:b - c:d = a:b + (-d:-c) = a-d:b-c$
+    \item Multiplication. $a:b * c:d = \min(ac, ad, bc, bd): \max(ac,ad,bc,bd)$. For $0<a<b$ and $0<c<d$, this is equivalent to $a:b*c:d = ac:bd$. 
+    \item Reciprocity. $1/(a:b) = 1/b:1/a$ as long as $a:b$ does not contain 0. If 0 is contained in $a:b$, then the reciprocal is undefined as it actually generates the split interval of $-\infty:1/a$ and $1/b:\infty$. 
+    \item Division. $(a:b) / (c:d) = a:b * 1/d:1/c$ where $c:d$ does not contain 0. Applying the multiplication rule, we find that we can view it as:
+    
+    $\min(a/c, a/d, b/c, b/d): \max(a/c,a/d,b/c,b/d)$. 
+    \item Natural Powers. Let $n$ be a natural number. $(a:b)^n = a^n:b^n$ if $a$ and $b$ have the same sign, 0 inclusive. If exactly one of them is negative, then let $c = \max (|a|, |b|)$ and $d=-\min(|a|, |b|)$. Then $(a:b)^n = c^n: c^{n-1}d $. 
+    \item Negative powers ($a:b$ not containing 0). $(a:b)^{-n}$ for natural $n$ is defined as $(1/b:1/a)^n$, and if they are the same sign has $a^{-n} : b^{-n}$ but if they have opposite signs, then using  $c = \max (|a|, |b|)$ and $d=-\min(|a|, |b|)$, we find that the interval becomes $d^{-n} : c d^{n-1}$. 
 \end{enumerate}
 
-Subtraction, Division, and Powers, all follow from the usual combination of the previous defined operations. 
+Let $a \leq p \leq b$ and $c\leq  q \leq  d$. Then from normal inequality arithmetic, we have: 
+
+NEED TO MAKE ALL $<$ into $\leq$
+
+REDO these. a little unclear what would be good to show, seems kind of not helpful right now. 
+
+\begin{enumerate}
+    \item Addition.   $a +c \leq  p + q \leq  b +d$
+    \item Negation.  $-b \leq -p \leq -a$
+    \item Subtraction.  $a - d \leq p-q \leq b -c$
+    \item Multiplication. We have multiple cases depending on the sign of the items. We can have wholly positive, wholly negative, or mixed intervals and that can then change the inequalities involved. 
+    \begin{itemize}
+        \item All the numbers are positive. Then we multiply the inequalities to get $ac < pq < bd$. We also have $ac < bc, cd  < bd$. So the interval is $ac:bd$ and that is what the max/min choice yields. 
+        \item All the numbers are negative. This is the same except the inequalities are reversed. 
+    \end{itemize}
+    Let $0 < a < p < b$
+    \item Reciprocity. Let $0 < a < p < b$, then $1/a > 1/p  > 1/b$. Similarly, $a < p < b< 0$ has $1/a > 1/p > 1/b$. What fails is if $a < p < 0 < b$, we would have $1/b > 0 1/a > 1/p $ and similarly if $p$ was positive, it would flip over $1/b$ but not $1/a$.
+    \item Division. This follows from Multiplication and Reciprocity. 
+    \item Natural Powers. We could go to basic principles and play around with inequalities of the elements of the products, breaking into cases and dealing with various sign flippings. Instead, we can consider what happens under iterative multiplication. For squaring, we have that we need to find the maximum and minimum of $a^2, ab, b^2$. If they are the same sign, then $a^2 < ab < b^2$. If they are different signs, then $ab < 0 < a^2, b^2$ and we need to compare the size of $-a$ and $b$.  In general, if they are of the same sign, $a^n \leq a^{n-1} b \leq \cdots \leq ab^{n-1} \leq b^n$. If they are of different signs, then let $c = \max( |a|, |b|)$ and $d=min(|a|, |b|)$. Then we have the same sign inequality setup above, but replacing $a$ and $b$ with $c$ and $d$. In particular,  $c^n \geq d c^{n-1} \geq d^{i}c^{n-i}$  for $i > 1$.  Since the signs are different, we have the products are negative when the power of $a$ is odd and positive for even powers of $a$. Thus, $c^n$ and $d c^{n-1}$ are the two endpoints. We have three cases: $c=b$ in which case $b^n$ will be the largest product and we have $b^n > 0 > ab^{n-1}$; $c=|a|$ and $n$ is even in which case $a^n > 0 > a^{n-1} b$ is the relevant endpoints; $c=|a|$ and $n$ is odd in which case $a^{n-1} b > 0 > a^n$ is the relevant setup.  
 
 As an example of the powers, consider $(-2:3)^4$. All of the products of the endpoints are: $16, -24, 36, -54, 81$. We therefore have the interval being $-54:81$ which is the product of $ab^3$ and $b^4$. 
 
-NEED TO ENSURE OPERATIONS ARE INTERVALS, see division ....  
-Also need to argue that this is given two rationals contained in, then their arithmetic gets into the right interval. 
+    
+     
+    \item Negative powers are defined by combining reciprocity with natural powers. 
+\end{enumerate}
+
+
+We also want to point out that if $a:b$ and $c:d$ are contained in $e:f$ and $g:h$, respectively, then $a:b + c:d $ is contained in $e:f + g:h$ and similarly for the various other operations, with the understanding of the appropriate restrictions on not containing 0 for the division and reciprocals. For multiplication, we would need to show that $\max(ac, ad, bc, bd) \leq \max(eg, eh, fg, fh)$ and similarly for the min. 
 
 Also need to argue that if we add / multiply two intervals contained in two other intervals, then the subintervals combined are in the superintervals combined. 
 
@@ -342,7 +407,17 @@ The associative and commutative rules of arithmetic apply to intervals. The dist
     \item There is no multiplicative inverse as multiplication has a non-zero length for non-singleton intervals. The non-zero singleton intervals do have multiplicative inverses. 
 \end{enumerate}
 
-The DISTRIBUTIVE Property. ...
+For the distributive property, we do not have equality of the intervals. But we do have that one contains the other, which will be sufficient for our purposes to have the distributive rule apply to oracles. 
+
+\begin{proposition}
+We have the subdistributive property: $I = a:b*(c:d + e:f)$ is contained in $J = a:b*c:d + a:b*e:f$. 
+\end{proposition}
+
+\begin{proof}
+We can compute the interval limits. The interval $I$ has boundaries $\max(a(c+e), a(d+f), b(c+e), b(d+f))$ and $\min(a(c+e), a(d+f), b(c+e), b(d+f))$ while the interval $J$ has boundaries $\max(ac, ad, bc, bd) + \max(ae, af, be, bf)$ and $\min(ac, ad, bc, bd) + \min(ae, af, be, bf)$. Since the boundaries of $I$ are contained in the possibilities of $J$, we do have $J$ containing $I$.
+\end{proof}
+
+As we can see, the arithmetic of intervals has some common properties with normal number arithmetic, but it is not the same.
 
 \subsection{Lengths}
 
@@ -350,19 +425,93 @@ It is of some interest to compute out the lengths of these intervals that are ge
 
 \begin{enumerate}
     \item $a:b + c:d$ has length $(b+d) - (a+c) = (b-a) + (d-c)$, that is, it is the length of the two intervals separately. 
-    \item $a:b*c:d$ for positive endpoints is $bd-ac = bd -bc + bc -ac =  b(d-c) + c(b-a)$ though it is also equal to $bd - ad + ad - ac = d(b-a) + a(d-c)$. For mixed signs, we have the maximum of $|a(d-c)|$, $|b(d-c)|$, $|c(b-a)|$, $|d(b-a)|$, $|d(b-a)+a(d-c)| = |b(d-c) + c(b-a)|$.  CHECK
+    \item $a:b*c:d$ for positive endpoints is $bd-ac = bd -bc + bc -ac =  b(d-c) + c(b-a)$ though it is also equal to $bd - ad + ad - ac = d(b-a) + a(d-c)$. For mixed signs, we have the maximum of $|a(d-c)|$, $|b(d-c)|$, $|c(b-a)|$, $|d(b-a)|$, $|d(b-a)+a(d-c)| = |b(d-c) + c(b-a)|$. 
+    
+    For a simple bounding estimate on the multiplicative length, we can take the maximum $M$ of $|a|, |b|, |c|, |d|$ and multiply that by the maximum length $L$ of $b-a$ and $d-c$ and then double that. So $2*M*L$. 
     \item Negation does not change the interval length. 
     \item Subtraction has length $b-c - (a-d) = (d-c) + (b-a)$, the same as addition.
-    \item Reciprocity. $1/a - 1/b = \tfrac{b-a}{ab}$. Note $a$ and $b$ must be the same sign to avoid having 0 in there, which was part of the definition. 
-    \item DIVISION
-    \item POWERS
+    \item Reciprocity. $1/a - 1/b = \tfrac{|b-a|}{ab}$. Note $a$ and $b$ must be the same sign to avoid having 0 in there, which was part of the definition.
+    \item For division, we can apply the simple bound to $M = \max(|a|, |b|, |1/c|, |1/d|)$ and $L= \max(|b-a|, |1/c - 1/d|)$ to get $2*M*L$ as an upper bound. 
+    \item For natural powers, we have that either the interval is $a^n:b^n$ (length $|a^n-b^n|$ or, if $c = \max(|a|, |b|)$ and $d=-\min(|a|,|b|)$, we would have $c^n : d c^{n-1}$ with length $c^n + d c^{n-1}= |a-b|c^{n-1}$. For the first one, the length can be summarized as $|a-b|n c^{n-1} $
 \end{enumerate}
 
-For a simple bounding estimate on the multiplicative length, we can take the maximum $M$ of $|a|, |b|, |c|, |d|$ and multiply that by the maximum length $L$ of $b-a$ and $d-c$ and then double that. So $2*M*L$.  CHECK 
 
 
 \section{Oracle Arithmetic}
 
+We can now define oracle arithmetic. The basic idea is that if an interval contains the result of combining the Yes intervals of the oracles being combined, then it is a Yes interval itself. 
+
+We will prove a general statement about creating an oracle out of other oracles based on the property that shrinking intervals of the inputs lead to shrinking interval of the output. We will then apply it to the various forms of arithmetic operators. 
+
+This shrinking is what allows us to go from the arithmetic of intervals, which does not have a mechanism to use this property, to an arithmetic of oracles, which can use it since we can shrink the intervals of interest for oracles. 
+
+\subsection{Narrowing of Intervals}
+
+An \textbf{interval operator} $f$ is a mapping that takes in a finite number of intervals and outputs an interval. An oracle operator $F$ is a mapping that takes in a finite number of oracles and produces another oracle.
+
+We will use $|I|$ to denote the length of the intervals. 
+
+The operator has the \textbf{narrowing} property if and only if $f(I_1, I_2, \ldots, I_n)= J$ has the property that $|J| \leq M \max_{i=1}^{n} (|I_i|) $ where $M$ can be chosen such that it would apply equally for any subintervals of the $I_i$. That is, once we have chosen starting intervals, we can narrow them down and the length of $J$ will get narrowed as well. 
+
+\begin{theorem}
+If $f$ is an interval operator with the narrowing property, then there is an associated oracle operator $F$. It is defined for $\beta = F(\alpha_1, \alpha_2, \ldots, \alpha_n)$ as the unique oracle such that the interval $J$ is an $\beta$-Yes interval if it contains an interval $I = f(I_1, I_2, \ldots, I_n)$ where $I_i$ is a $\alpha_i$-Yes interval for each $i$. Additionally, if a rational $q$ is contained in all such intervals, then it's singleton interval is a $\beta$-Yes interval. 
+\end{theorem}
+
+Essentially, we use the interval operator to translate Yes intervals into a Yes interval. Unfortunately, we cannot rely on singletons appearing directly from that process so we must add that in. It still is not entirely satisfactory as we generally must rely on an infinite set of computations to determine whether the singleton should be included. We can say, however, that there will be at most one such singleton. 
+
+\begin{proof}
+First, the rule $\beta$ is well-defined, up to computational limits. If we can produce an interval that 
+
+\begin{enumerate}
+    \item Consistency. If $c:d$ contains $a:b$ and $R(a:b) = 1$, then $R(c:d) = 1$.
+    \item Finite. $R(a:b) = 1$ for some rationals $a$, $b$.
+    \item Separating. If $R(a:b)=1$, then for a given $c \neq a, b$ in $a:b$, either $R(c:c) = 1$ or $R(a:c) \neq R(c:b)$. 
+    \item Rooted. There is at most one $c$ such that $R(c:c) =1$.
+    \item Closed. If $c$ is contained in all $R$-Yes intervals, then $R(c:c) = 1$.
+\end{enumerate}
+
+\end{proof}
+
+
+\subsection{Addition}
+
+Given the Oracle of $r$ and the Oracle of $s$, the sum is the Oracle $r+s$ defined by the rule $T(a:b) = 1$ if and only if there exists intervals $c:d$ and $e:f$ such that $a:b$ is contained in $c:d + e:f$ and both $R(c:d)=1$ and $S(e:f) = 1$. We must add in that if a rational number $q$ is part of every such YES interval, then $R(q:q) = 1$.
+
+Let us establish that this is an oracle. The key fact is that the bisection algorithm allows us to make the summand intervals as small as we like. 
+
+\begin{enumerate}
+    \item Consistency. By definition, the containment will travel up of the existing additive intervals.
+    \item Finite. By finiteness of $r$ and $s$, there exist an $R$-Yes rational interval $a:b$ and an $S$-Yes rational interval $c:d$. Their sum will be a rational interval and a $T$-Yes interval by definition.
+    \item Separating. Let $T(a:b)=1$ be given. We know there are summand intervals whose sums are contained in $a:b$. Taking $a < c< b$, we can repeatedly bisect the intervals of $R$ and $S$. We have three cases: 
+    \begin{enumerate}
+        \item Eventually, one sum interval is contained in either $a:c$ or $c:b$. Then we have our result. 
+        \item We can prove that $c$ is contained in all such intervals. Then $T(c:c) =1$ and we have separation. 
+        \item We cannot prove that $c$ is contained in all such intervals, but we also cannot produce an interval independent of $c$. This is similar to the Collatz conjecture example. All we can do is talk about being resolved to a certain interval. We should be able to exclude $a$ and $b$ as we descend as well as any other rational other than $c$. That is, we can separate from all points except possibly one. 
+    \end{enumerate}
+    then for a given $c \neq a, b$ in $a:b$, either $R(c:c) = 1$ or $R(a:c) \neq R(c:b)$. 
+    \item Rooted. Given any two rational numbers $p$ and $q$, we define the distance $D = |p-q|$. If we can produce an $R$-Yes interval $a:b$ and an $S$-Yes interval $c:d$ such that $a:b + c:d$'s length is smaller than $D$, then both $p$ and $q$ cannot be in the interval and addition is rooted. But this is what the bisection method provides. From finiteness, we have starting intervals for $r$ and $s$ and by repeated bisecting, we can get both interval lengths to be below $D/2$ and so their sum is less than $D$.
+    \item Closed. This is added by hand into the definition. It seems unavoidable given an example of $(e + 2) - e$ resulting in $2$ but not having any singleton in that interval. 
+\end{enumerate}
+
+
+
+
+\subsection{Multiplication}
+
+\begin{enumerate}
+    \item Consistency. If $c:d$ contains $a:b$ and $R(a:b) = 1$, then $R(c:d) = 1$.
+    \item Finite. $R(a:b) = 1$ for some rationals $a$, $b$.
+    \item Separating. If $R(a:b)=1$, then for a given $c \neq a, b$ in $a:b$, either $R(c:c) = 1$ or $R(a:c) \neq R(c:b)$. 
+    \item Rooted. There is at most one $c$ such that $R(c:c) =1$.
+    \item Closed. If $c$ is contained in all $R$-Yes intervals, then $R(c:c) = 1$.
+\end{enumerate}
+
+
+\subsection{Inverses}
+
+
+
+\subsection{Derived Operators}
 
 Checking $R+S=T$ is a rule. Specifically, any interval $a:b$ is a YES interval if and only if it contains, possibly is, a sum interval from $R$ and $S$' s YES interval. If a rational number $q$ is part of every such YES interval, then $R(q:q) = 1$. 
 
@@ -392,6 +541,9 @@ $\tfrac{a}{a} = 1$, for $a \neq 0$. Let $R$ be the oracle of $a$. We want to sho
 
 
 
+Distributive rule:  We have subsetted intervals, but consider the two things as separate oracles. each yes interval in the one has yes interval in the other that it intersects. Claim is that this makes the two the same oracle. 
+
+
 \section{Complete Ordered Field}
 
 To what extent this is true depends on one's attitude about infinite sets and so forth, but to the extent that the other definitions are valid, we are just as valid. ....
@@ -400,17 +552,9 @@ Let $\mathbb{R}$ be the set of all oracles.
 
 From above, given two 
 
-\subsection{Bisection Approximation}
 
-Let $R$ be an Oracle of $r$. We will use $R$ to compute an approximation of $r$ to any desired level of accuracy.
 
-$R$ being non-vacuous gives us a starting interval, say $a:b$ with length $L$. Then take $c = \frac{a+b}{2}$. Since $R$ is separating, we can use it to determine whether $R(a:c) = 1$ or $R(c:b) = 1$ or $R(c:c) = 1$. If it is the latter, we are done and $r = c$. If it is one of the former, then we use that new interval to repeat the same process, but the length of the interval is now $\frac{L}{2}$. 
-
-If we do this $n$ times, then the length will be $\frac{L}{2^n}$ which allows us to compute $r$ to be within any level of given accuracy. 
-
-This is the bisection method, of course, and oracles provide exactly what we need to use it. 
-
-\subsection{Mediant Approximation}
+\section{Mediant Approximation}
 
 \subsubsection{Square Root 2}
 
@@ -418,11 +562,79 @@ This is the bisection method, of course, and oracles provide exactly what we nee
 
 \subsubsection{Continued Fractions}
 
-\subsection{Newton's Method}
 
-A few words on developing Newton's Method with an eye to intervals. 
 
 \section{Relation to other definitions}
+
+It is useful to compare this approach with other common approaches and some nearby alternatives to this. 
+
+What are some good properties of a definition of real numbers? This is subjective, of course, but I was guided by the following: 
+
+\begin{itemize}
+    \item Uniqueness. Given a target real number, there should be only one version of that in the real number system and a feeling that it is generally possible to distinguish two different real numbers. 
+    \item Reactive. This is a key feature. Real numbers generally have an infinite flavor to them. It was important to me to not pretend we could present the infinite version of that, but rather to present a method of answering queries. 
+    \item Rational-friendly. Ideally, rationals would be easily spotted, treated reasonably, and arithmetic with them would be easy to do. 
+    \item Supportive. The definition should be in line with and, ideally, supportive of standard practice of numbers. In particular, how numbers are used in science, applied mathematics, and numerical analysis. 
+    \item Arithmeticizable. It should feel like the arithmetic laws are approachable and computable. That is, one can take an action to a certain level of precision and be confident in the result.
+\end{itemize}
+
+The Oracle approach fits the first four of these quite easily. The last two are pretty subjective and perhaps the best way forward on those is to contrast them with the other definitions. 
+
+Much of what follows was heavily inspired by NJ Wildberger's excellent videos....
+
+
+\subsection{Infinite Decimals}
+
+Let us run through our criteria. 
+
+\begin{itemize}
+    \item Uniqueness.
+    \item Reactive. 
+    \item Rational-friendly. 
+    \item Supportive. 
+    \item Arithmeticizable. 
+\end{itemize}
+
+\subsection{Nested Intervals}
+
+One can think of expanding the concept of infinite decimals as being a sequence of nested intervals where the length goes down by a tenth at each level. We could generalize this to be a more arbitrary sequence of nested and shrinking intervals. From the Oracle point of view, we could use the mediant method to define such a sequence of intervals. A sequence of such intervals would also give rise to an Oracle. These are closely related concepts. 
+
+Let us run through our criteria. 
+
+\begin{itemize}
+    \item Uniqueness. This clearly fails. We can have two entirely distinct nested interval sequences describing the same real number in addition to arbitrarily changing a given sequence (cut out half of them, double their lengths, ...)
+    \item Reactive. Not at all. The sequence of intervals is given. We could recast this as a function that, given an $n$, we generate the $n$-th nested interval based on what came before. But notice that even with a fixed real number target, such a method requires arbitrary choosing to be done as we unravel it.
+    \item Rational-friendly. The rationals are those whose nested intervals converge to a rational number. There does not seem a particularly clear property that establishes this. Depending on the definition, we could have a finite nested interval sequence that ends in the singleton $q:q$ if it is allowed. 
+    \item Supportive. On a practical level, we do like shrinking intervals. But it is not generally predefined intervals. Mostly, it is intervals that are generated when working and we would want to know that the given interval has a non-zero intersection with all the nested intervals. 
+    \item Arithmeticizable. Interval arithmetic works. If we tried to build in a constrained size, such as the $n$-th interval has to be no longer than $1/n$ in length, then the arithmetic would become difficult to manage.  
+\end{itemize}
+
+While we will discuss this more in the Cauchy sequence section, we could try to solve the uniqueness problem by considering the equivalence class of nested intervals, presumably, something like nested intervals all of whom have a common intersection. This would solve the uniqueness problem, but makes most of the rest of the properties more problematic. It also has the issue, similar to the Cauchy sequence, though less severe, that the nesting intervals can be quite huge for as much of a large finite sequence as one wants. 
+
+
+\subsection{Cauchy Sequences}
+
+Let us run through our criteria. 
+
+\begin{itemize}
+    \item Uniqueness.
+    \item Reactive. 
+    \item Rational-friendly. 
+    \item Supportive. 
+    \item Arithmeticizable. 
+\end{itemize}
+
+\subsection{Dedekind Cuts}
+
+Let us run through our criteria. 
+
+\begin{itemize}
+    \item Uniqueness.
+    \item Reactive. 
+    \item Rational-friendly. 
+    \item Supportive. 
+    \item Arithmeticizable. 
+\end{itemize}
 
 Explicit correspondence between these as much as possible: 
 
@@ -484,34 +696,11 @@ For unbounded intervals, we could write that as $a:$ or $a:\infty$ for all ratio
 If we changed the Finite property to the assertion that $R(-\infty:\infty)=1$, we could then define the Oracle of $-\infty$ as the rule $R(:a) = 1$ for all rational $a$ and 0 otherwise. The Oracle of $\infty$ is similarly defined as $R(a:)=1$  for all rational $a$ and 0 otherwise. 
 
 
-\section{Functions}
-
-One can, of course, ignore the specific definitions of this version of real numbers and proceed as in the usual story. But we sketch out how this notion of real number motivates and enhances the usual story. 
-
-We start with a discussion of polynomials and the Fundamental Theorem of Algebra. Then we proceed into discussing the Intermediate Value Theorem and the notion of continuity. We finish with a few thoughts on the differential and integral calculus. 
-
-\subsection{Polynomials and the Fundamental Theorem of Algebra}
-
-\subsection{Continuity and the Intermediate Value Theorem}
-
-Let $f$ be a function that takes in oracles and gives out oracles. What this means is that for a given Oracle of $r$, $f$ should give an Oracle for some $s$. Let $a:b$ be a $R$-yes interval. Then $f$ should map $a:b$ into a $S$-Yes interval, say $c:d$. That is to say, we can view $f(r)$ as generating a function $g_r : (a:b) \mapsto (c:d)$. Given any $S$-Yes interval, we should be able to find a $R$-Yes interval that gets mapped into it. 
-
-Continuity is therefore the reasonable requirement that the maps $g$ above do not depend on $r$. 
-
-
-\subsection{Limits and Transcendental Functions}
-
-\subsection{Differential and Integral Calculus}
-
-
-
-
 \section{Concluding Thoughts}
 
 Our definition is designed to be a tool for using the number. Some of the other definitions are designed at giving the approximations as the number. This definition resists doing so because of the issue of uniqueness and not having to actually make all those choices. 
 
 An alternative definition could have been to have a function that given a rational epsilon, we get an interval. Again, this would be problematic for us having to define the interval amongst many choices. A unique oracle per real number is very useful. It also helps with defining the arithmetic. 
-
 
 
 \bigskip
