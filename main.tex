@@ -1176,9 +1176,9 @@ There is a pattern of R,2L,2R,2L,2R,$\ldots$ which continues with alternating th
 
 For the square root of 11, we would find the pattern to be dictated by $[3;\overline{3,6}]$. So we would start with $[\tfrac{3}{1}, \tfrac{1}{0}]$ after choosing R 3 times from our starting 0 and $\infty$ representatives. So we then could do $[\tfrac{3}{1}, \tfrac{3*3 + 1}{3*1 + 0} = \tfrac{10}{3}]$. Then we use the 6 on the left:  $[\tfrac{3+6*10}{1+6*3} = \tfrac{63}{19}, \tfrac{10}{3}]$. Next we do 3 on the right:  $[\tfrac{63}{19}, \tfrac{3*63+10}{3*19+3} = \tfrac{199}{60}]$. The decimal value of $\tfrac{199}{60}$ is about $3.31667$ while the square root of 11 is about $3.31662$. If we know the pattern, this becomes quite easy to compute. 
 
-We should also add that one nice feature of the mediant approximation is that if the number being approximated is a rational number, then this procedure will produce it. This eventually follows from the next section's claim about the mediant process producing the closest rational up to that given denominator size; the details may be found in Appendix \ref{app:med} This is not true of other methods, such as the bisection method as its range of denominators is a product of the starting denominator and powers of 2. 
+We should also add that one nice feature of the mediant approximation is that if the number being approximated is a rational number, then this procedure will produce it. The details may be found in Appendix \ref{app:med}. This is not true of other methods, such as the bisection method as the range of denominators produced is a multiple of the starting denominator with powers of 2. 
 
-As an example, let's consider the square of $\frac{4}{9}$. The solution is obviously $\frac{2}{3}$. With our mediant method, the intervals becomes $\frac{0}{1}:\frac{1}{1}$, then $\frac{1}{2}:\frac{1}{1}$, $\frac{2}{3}:\frac{2}{3}$ and we are done. In contrast, the bisection method gives $0:1$, $\frac{1}{2}:1$, $\frac{1}{2}:\frac{3}{4}$, $\frac{5}{8}:\frac{3}{4}$, and so on down the powers of 2 approximations to $\frac{2}{3}$. 
+As an example, let's consider the square root of $\frac{4}{9}$. The solution is obviously $\frac{2}{3}$. With our mediant method, the intervals becomes $\frac{0}{1}:\frac{1}{1}$, then $\frac{1}{2}:\frac{1}{1}$, $\frac{2}{3}:\frac{2}{3}$ and we are done. In contrast, the bisection method gives $0:1$, $\frac{1}{2}:1$, $\frac{1}{2}:\frac{3}{4}$, $\frac{5}{8}:\frac{3}{4}$, and so on down the powers of 2 approximations to $\frac{2}{3}$. 
 
 \subsection{Continued Fractions and Best Approximations}
 
@@ -1193,28 +1193,28 @@ The pattern is that of continued fractions. For square roots, the continued frac
 \item 1R: $[\frac{149}{67}, \frac{129}{58}]$
 \item 1L: $[\frac{149}{67}, \frac{278}{125}]$
 \item 2R: $[\frac{705}{317}, \frac{278}{125}]$
-\item 1L: $[\frac{705, 317}, \frac{983}{442}]$
+\item 1L: $[\frac{705}{317}, \frac{983}{442}]$
 \item 2R: $[\frac{2671}{1201}, \frac{983}{442}]$
 \item 9L: $[\frac{2671}{1201}, \frac{2671*9+983}{1201*9+442} = \frac{25022}{11251}]$
 \item 88R: $[\frac{2671+88*25022}{1201+88*11251} = \frac{2204607}{991289}, \frac{25022}{11251}]$
 \end{enumerate}
 
-The last line already has exhausted a typical calculator precision for the cube root of 11. 
+The last mediant computed already has exhausted a typical calculator precision for the cube root of 11, being about $3.7\times 10^{-13}$. It is tempting with this method to think that we could add 1 to the numerator to the more precise endpoint and get a better interval. That is not the case. For example, the quantity $\frac{25022}{11251} - 11^{1/3} \approx 8.9\times 10^{-11}$ while $\frac{2204608}{991289} - 11^{1/3} \approx 1\times10^{-6}$. 
 
 If we have the continued fraction representation of a number, then we can produce as short of an interval as we please. If we have the oracle, but not the continued fraction, we can compute the continued fraction by doing the mediant process and keeping track of when we alternate from one side to the other. 
 
-The switching from replacing one side with the other corresponds to a switch on how good of an approximation is. The next three paragraphs are based on the excellent ``Continued Fractions without Tears'' \cite{richards}, exact statements being in quotes.  
+The switching from replacing one side with the other corresponds to a switch of how good of an approximation it is. The next three paragraphs are based on the excellent ``Continued Fractions without Tears'' \cite{richards}, exact statements being in quotes.  
 
 We have the following theorem: ``Take any irrational number $\alpha$, with $0 < \alpha < 1$. The slow continued fraction algorithm ( the Farey process, zeroed in on $\alpha$) gives a sequence of best left and right approximations to $\alpha$. Every best left/right approximation arises in this way.'' The slow process is taking the mediant at each step, using the oracle to decide which interval applies. The best approximation up to a given denominator $n$ is defined as the rational number $\frac{p}{q}$, $q  \leq n$, that satisfies $|\frac{p}{q} - x | < |\frac{r}{s} -x|$ for all rational numbers $\frac{r}{s}$ such $s \leq n$.
 
 
-
-
 The fast process is what we have described above. It corresponds to minimizing the ultra-distance which is $q|(\frac{p}{q})-\alpha|$. It scales the normal distance by the denominator and is an attempt to counterbalance the basic advantage of larger denominated rationals for being able to get close to $\alpha$.  ``We call $\frac{p}{q}$ an \textbf{ultra-close approximation} to a if, among all fractions $\frac{x}{y}$ with denominators $y < q$, $\frac{p}{q}$ has the least ultra-distance to $\alpha$.''
 
-We then have the following theorem: "Take any irrational number a, 0 < a < 1. The fast continued fraction algorithm gives precisely the set of all ultra-close approximations to a."  The slow algorithm is therefore creeping along as a best approximation while not improving the ultra-closeness. Once we hit an ultra-close approximation, we then start creeping along the other side until we get another ultra-close approximation. 
+The paper then establishes the following theorem: ``Take any irrational number $\alpha$, $0 < \alpha < 1$. The fast continued fraction algorithm gives precisely the set of all ultra-close approximations to $\alpha$.''  The slow algorithm is therefore creeping along as a best approximation while not improving the ultra-closeness. Once we hit an ultra-close approximation, we then start creeping along the other side until we get another ultra-close approximation. 
 
-The construction of numbers using these mediants is referred to as the Farey process. The tree of descendants from this process is called the Stern-Brocot Tree. Here is a nice reference for viewing \href{https://mattbaker.blog/2019/01/28/the-stern-brocot-tree-hurwitzs-theorem-and-the-markoff-uniqueness-conjecture/}{real numbers as paths in the Stern-Brocot tree}. The tree, restricted inclusively to the interval $0:1$, is a convenient way of constructing a list, without redundancies, of rationals between $0$ and $1$. A nice little exercise is to modify the process of Proposition \ref{pr:notlist} to use mediants and to apply that to the list of rationals generated by the tree to obtain an irrational oracle not on the tree.  See Appendix \ref{app:uncountable}.
+The construction of numbers using these mediants is referred to as the Farey process. The tree of descendants from this process is called the Stern-Brocot Tree. Matt Baker wrote a nice reference for viewing real numbers as paths in the Stern-Brocot tree.\footnote{{\href{https://mattbaker.blog/2019/01/28/the-stern-brocot-tree-hurwitzs-theorem-and-the-markoff-uniqueness-conjecture/}{https://mattbaker.blog/2019/01/28/the-stern-brocot-tree-hurwitzs-theorem-and-the-markoff} \\ \hspace*{10px}  \href{https://mattbaker.blog/2019/01/28/the-stern-brocot-tree-hurwitzs-theorem-and-the-markoff-uniqueness-conjecture/}{-uniqueness-conjecture/} }} The tree, restricted inclusively to the interval $0:1$, is a convenient way of constructing a list, without redundancies, of rationals between $0$ and $1$. 
+
+We can create an analogous process to that of Proposition \ref{pr:notlist} where instead of bisection, we use the mediant. If we start with a Farey pair, \footnote{$\frac{a}{b} < \frac{c}{d}$ are Farey pairs if $bc-ad=1$. The interval of a Farey pair is a Farey interval. The two intervals created by the mediant are Farey intervals. We can also reverse the mediant process to get the Farey partner. For any integer $n$, the interval $n:n+1$ is a Farey interval and is an excellent place to start the process.} then we can apply the above theorems. In particular, if we are given an interval $[\frac{a}{b}, \frac{c}{d}]$ for the oracle to evaluate, then if we do the mediant process starting with a Farey interval, then we can be assured of an answer once we encounter a mediant whose denominator is greater than that of $b$ and $d$. This, of course, only works if we can also determine the result on any give singleton. Note that we have no guarantee of when other methods will have decided on a given interval. 
 
 Note that the pattern of selecting the intervals also corresponds to selecting which descendant of the mediant we will be selecting. Given an interval, we compute the mediant without choice. But then after that computation, we get to select which pathway to go down. 
 
@@ -1223,15 +1223,15 @@ Note that the pattern of selecting the intervals also corresponds to selecting w
 
 While Newton's Method has nothing to do with mediants, it is interesting to compare and contrast the method above with the standard root finding of Newton's method. Essentially, mediants are much easier to compute with a goal of getting simple rational approximations while Newton's method requires a bit more computational complexity but it yields a rapid convergence. 
 
-As a quick review, Newton's method takes in a differentiable function $f$ and attempts to solve $f(x)= 0$ when given an initial guess of $x_0$. The method is based on the first order approximation $f(x) \approx f(a) + f'(a) (a-x) $ where we view $f(x) =0$ and solve for $x =0$, leading to $x = a - \tfrac{f(a)}{f'(a)}$. We can therefore define an iterative method of $x_{n+1} = x_n - \tfrac{f(x_n)}{f'(x_n)}$.
+As a quick review, Newton's method takes in a differentiable function $f$ and attempts to solve $f(x)= 0$ when given an initial guess of $x_0$. The method is based on the first order approximation $f(x) \approx f(a) + f'(a) (x-a) $ where we view $f(x) =0$ and solve for $x =0$, leading to $x = a - \tfrac{f(a)}{f'(a)}$. We can therefore define an iterative method of $x_{n+1} = x_n - \tfrac{f(x_n)}{f'(x_n)}$.
 
-When Taylor's theorem applies, we have $f(\alpha) = f(x_n) +f'(x_n)(\alpha - x_n) + \frac{1}{2} f''(u_n) (\alpha - x_n)^2$ where $u_n$ is between $x_n$ and $\alpha$. If we take $f(\alpha) = 0$ and rearrange terms, we have $\alpha - x_{n+1} = \frac{-f''(u_n)}{2 f'(x_n) } (\alpha - x_n)^2$.
+When Taylor's theorem applies, we have $f(\alpha) = f(x_n) +f'(x_n)(\alpha - x_n) + \frac{1}{2} f''(u_n) (\alpha - x_n)^2$ where $u_n$ is between $x_n$ and $\alpha$. If we take $f(\alpha) = 0$ and rearrange terms, we have $\alpha - x_{n+1} = \alpha - (x_n - \frac{f(x_n)}{f'(x_n)}) = \frac{-f''(u_n)}{2 f'(x_n) } (\alpha - x_n)^2$.
 
 Let's take an interval $I$ which represents where we expect to be close to the root $\alpha$. Let $M$ be the largest that $|f''|$ will be on $I$ and let $N$ be the smallest that $|f'|$ is on $I$. Then we have 
 \begin{flalign*}
 |\alpha - x_{n+1}| & \leq \frac{M}{2N} |\alpha - x_n|^2 & \\
   & \leq \frac{M}{2N} (\frac{M}{2N}(|\alpha-x_{n-1}|)^2)^2 & \\
-  & = (\frac{M}{2N3})^3 |\alpha-x_{n-1}|^4 & \\
+  & = (\frac{M}{2N})^3 |\alpha-x_{n-1}|^4 & \\
   & \leq (\frac{M}{2N})^7 |\alpha-x_{n-2}|^8 
 \end{flalign*}
 and so forth. The error gets quadratically smaller and smaller. 
@@ -1244,19 +1244,18 @@ Let's do it. Our iteration is $x_{n+1} = x_n - \frac{x_n^3 -11}{3 x_n^2}$
 \item $x_1 = 2 - \frac{8- 11}{12} = \frac{9}{4} \pm .047$
 \item $x_2 = \frac{9}{4} - \frac{ 729/64 - 11 }{243/16} = \frac{2162}{972}\approx 2.2243 \pm .00165$
 \item $x_3 = \frac{1894566349}{851880969} \approx 2.2239801 \pm 2.04\times 10^{-6}$
-\item $x_4 = \frac{20400964697239818757748038397}{9173177756288897151620391507} \approx 2.2239800905693 \pm 3.12 \times 10^{-12}$
+\item $x_4 = \frac{20400964697239818757748038397}{9173177756288897151620391507} \approx 2.22398009056931625 \pm 3.12 \times 10^{-12}$
 \end{enumerate}
 
-The last two computations  were done with WolframAlpha (see 
-\href{https://www.wolframalpha.com/input?key=&i2d=true&i=%5C%2840%29Divide%5B2162%2C972%5D%5C%2841%29+-+Divide%5B%5C%2840%29+Power%5B%5C%2840%29Divide%5B2162%2C972%5D%5C%2841%29%2C3%5D-+11%5C%2841%29%2C3*Power%5B%5C%2840%29Divide%5B2162%2C972%5D%5C%2841%29%2C2%5D%5D}{x3} and 
-\href{https://www.wolframalpha.com/input?key=&i2d=true&i=%5C%2840%29Divide%5B1894566349%2C851880969%5D%5C%2841%29+-++Divide%5B%5C%2840%29+Power%5B%5C%2840%29Divide%5B1894566349%2C851880969%5D%5C%2841%29%2C3%5D-11%5C%2841%29%2C%5C%2840%293+Power%5B%5C%2840%29Divide%5B1894566349%2C851880969%5D%5C%2841%29%2C2%5D%5C%2841%29%5D}{x4}).  WolframAlpha also reports the cube root of 11 as approximately 2.22398009056931552 
+
+The last two computations were done with WolframAlpha.  WolframAlpha also reports the cube root of 11 as approximately 2.22398009056931552. 
 
 As one can see, Newton's Method converges quickly, but the fractions are quite complex. With the mediant method, the fraction $25022/11251$ is a closer approximation than $x_3$ above while being far smaller in the digits. One should also keep in mind that the computations for the mediant method requires nothing more than multiplication and addition and the fractions are always in reduced form. It is also worth mentioning that this iteration did start with an interval in common with the mediant method. 
 
 
 \section{Function Oracles as Families of Narrowing Rational Rectangles}
 
-The oracles are equivalent to the standard real numbers and we could, therefore, just do the usual story of functions being maps from oracles (reals) to oracles. But that is discarding the idea and usefulness of oracles. In particular, what we want to highlight is the difference between rationals and irrationals which is that rationals can be given precisely while irrationals always rely on intervals of rationals. The idea is that we want to be able to deduce the rest of the function by what it does solely at the rationals. 
+The oracles are equivalent to the axiomatic real numbers and we could, therefore, just do the usual story of functions being maps from oracles (reals) to oracles. But that is discarding the idea and usefulness of oracles. In particular, what we want to highlight is the difference between rationals and irrationals which is that rationals can be given precisely while irrationals always rely on intervals of rationals. The idea is that we want to be able to deduce the rest of the function by what it does solely at the rationals. 
 
 The natural structure to look at providing a basis for functions is that of rational rectangles. One side will represent the valid inputs and the other side represents the possible outputs. The family of rectangles will have the property that we can narrow the range of the outputs with a possible narrowing of the input range. A basic requirement will be that if an oracle $\alpha$ is in the domain of the function with supposed value $\beta$ at that point, then given a $\alpha$-Yes interval $a:b$ and a $\beta$-Yes interval $c:d$, then there is a Yes rectangle contained in $a:b \times c:d$. 
 
@@ -1264,13 +1263,11 @@ We could imagine that the rectangle $a:b \times c:d$ just needs to be an $(\alph
 
 For rationals, we do allow singletons which enables them to be independent of the surrounding regions. For irrationals, we are requiring them to be in line with their neighbors. The model to have in mind is the difference between discrete probability (probability mass function) and a continuous probability (probability density function). Just as we can mix these in probability, we can have that here. The functions that get defined by this should be continuous on the irrationals, but can be discontinuous on the rationals. Thomae's function is an example of this, as discussed below. 
 
-We have not done the careful working out of the arithmetic of functions, including composition, but it should be similar to work with oracles. Also not pursued is exploring the practical implications of this definition. We content ourselves with a definition from which we prove that these are equivalent to functions continuous everywhere except possibly at the rational numbers. We also give a few examples of how common functions are modeled with function oracles. 
+We have not done the careful working out of the arithmetic of functions, including composition, but it should be similar to the work done with oracles. Also not pursued is exploring the practical implications of this definition. We content ourselves with a definition from which we prove that these are equivalent to functions continuous everywhere except possibly at the rational numbers. We also give a few examples of how common functions are modeled with function oracles. 
 
 \subsection{Definitions}
 
 A \textbf{rectangle} with sides $a \leq b$ and $c \leq d$ will give the property to an ordered pair $(u, v)$ of being in the rectangle if $a \leq u \leq b$ and $c \leq v \leq d$. It has $x$-side $a:b$ and $y$-side $c:d$. We denote the rectangle by $a:b \times c:d$. Note that we will only consider rational rectangles, that is, those such that $a, b, c, d$ are all rational numbers. 
-
-
 
 A rectangle $M = a \leq b \times c \leq d$ is contained in another rectangle $N = A \leq B \times C \leq D$ if $A \leq a \leq b \leq B$ and $C \leq c \leq d \leq D$. They are $x$-same if $a=A$ and $b=B$, $y$-same if $c=C$ and $d=D$. $M$ $x$-contains $N$ if $a \leq A \leq B \leq b$ and $M$ $y$-contains $N$ if $c \leq C \leq D \leq d$.
 
@@ -1288,7 +1285,7 @@ A \textbf{function oracle} $f$ is a rule that, given any rectangle $R$, either s
 \begin{enumerate}
     \item Elongating Consistency. If a rectangle $M$ $y$-contains rectangle $N$ with $N$ and $M$ being $x$-same, then $M$ is a $f$-Yes rectangle if $N$  is an $f$-Yes Rectangle. 
     \item Narrowing Consistency. If a rectangle $M$ $x$-contains rectangle $N$ with $N$ and $M$ being $y$-same, then $N$ is a $f$-Yes rectangle if $M$ is. 
-    \item Intersection. If two $f$-Yes rectangles intersect, then the intersection is also an $f$-yes rectangle. 
+    \item Intersection. If two $f$-Yes rectangles intersect, then the intersection is also an $f$-Yes rectangle. 
     \item Single-valued. Given two disjoint $x$-same rectangles $M$ and $N$, at most one of them can be a Yes-rectangle for $f$. 
     \item Separating. Given an $f$-Yes rectangle $M$, an oracle $\alpha$ contained in the $x$-side of $M$, and two $y$-values $r$ and $s$ contained in the $y$-side $M$, then there exists an $f$-Yes rectangle not containing at least one of those values and that contains $\alpha$ in the $x$-side.
 \end{enumerate} 
@@ -1298,7 +1295,7 @@ Here are a few consequences:
 \begin{enumerate}
     \item Narrowing Elongating Consistency (NEC). If a rectangle $M$ $y$-contains rectangle $N$ and $N$ $x$-contains $M$, then $M$ is a $f$-Yes rectangle if $N$  is an $f$-Yes Rectangle. This implies that if $M$ is $f$-No then $N$ is $f$-No. This property is a combination of the Elongating and Narrowing conditions. 
 
-    \item Given an interval $I$ in the $x$-side of the $f$-Yes rectangle $R$, there exists a $f$-Yes rectangle $S$ such that $I$ is the $x$-side of $S$. The example is the rectangle $I \times R_y$ which is $f$-Yes by Narrowing Consistency. 
+    \item Given an interval $I$ in the $x$-side of the $f$-Yes rectangle $R$, there exists a $f$-Yes rectangle $S$ such that $I$ is the $x$-side of $S$. One such rectangle is $I \times R_y$ which is $f$-Yes by Narrowing Consistency. 
 
     \item If $M$ and $N$ are both $f$-Yes rectangles and they $x$-intersect, then they intersect as rectangles. This follows from first narrowing them to be $x$-same and then using the single-valued property. Since they intersect as rectangles, the intersection property yields that the intersection is a Yes rectangle as well. 
 
@@ -1324,7 +1321,7 @@ To show existence, we need to establish the Oracle properties.
 \begin{enumerate}
     \item Consistency. Assume $c:d$ contains the $\beta$-Yes interval $a:b$. Then by the definition of $\beta$, there is a $f$-Yes rectangle $R$ with $y$-side $a:b$. The $x$-same rectangle with $y$-side $c:d$ contains $R$ and thus is $f$-Yes as well by the Elongation property. 
     \item Existence. By assumption, there exists a Yes-rectangle whose $x$-side is an $\alpha$-Yes interval. The $y$-side of that rectangle is therefore a $\beta$-Yes interval. 
-    \item Separating. Let $a \lt b$ be a $\beta$-Yes interval and $R$ be the associated $f$-Yes $\alpha$ rectangle. Let $c$ be a rational such that $a \lt c \lt b$. We need to show that either $c$ is contained in all $f$-Yes $\alpha$-rectangles or that there is a $f$-Yes $\alpha$-rectangle $S$ whose $y$-side is either $a \lt c$ or $c \lt b$. If $c$ is not contained in all $\beta$-Yes intervals, then there must be a rectangle $S$ that does not include $c$. By necessity, the $y$-side is either below $c$ or above $c$. If the $y$-side goes below $a$ or above $b$, we can use the intersection property to cut it to $a$ or $b$, respectively. We can also elongate, if needed to include $a$ or $b$.  That is, we can either expand or restrict to get a rectangle whose $y$-side is either $a:c$ or  $b:c$. The other one does not intersect the $y$-side of $S$ and, therefore, by the single-valued property, the other interval must be a No interval.  
+    \item Separating. Let $a \lt b$ be a $\beta$-Yes interval and $R$ be the associated $f$-Yes $\alpha$ rectangle. Let $c$ be a rational such that $a \lt c \lt b$. We need to show that either $c$ is contained in all $f$-Yes $\alpha$-rectangles or that there is a $f$-Yes $\alpha$-rectangle $S$ whose $y$-side is either $a \lt c$ or $c \lt b$. If $c$ is not contained in all $\beta$-Yes intervals, then there must be a a $f$-Yes $\alpha$-rectangle $S$ that does not include $c$. By necessity, the $y$-side is either below $c$ or above $c$. If the $y$-side goes below $a$ or above $b$, we can use the intersection property to cut it to $a$ or $b$, respectively. We can also elongate, if needed to include $a$ or $b$.  That is, we can either expand or restrict to get a rectangle whose $y$-side is either $a:c$ or  $b:c$. The other one does not intersect the $y$-side of $S$ and, therefore, by the single-valued property, the other interval must be a No interval.\footnote{Let's say $a:c$ was the Yes interval. If we had a a $f$-Yes $\alpha$-rectangle $T$ whose $y$-side was $b:c$, then the intersection with $S$ would have to be non-empty, but it cannot be since the $y$-side of $S$ is strictly contained in $a:c$.  }  
     \item Rooted. This is what the function Separating property is essentially demanding. In particular, given two rational numbers in a $f$-Yes $\alpha$-rectangle, then there exists another $f$-Yes $\alpha$-rectangle which does not contain at least one of them and thus that excluded rational is not in all $\beta$-intervals. 
     \item Closed. By assumption, we include such rational point intervals if needed.  
 \end{enumerate}
@@ -1358,7 +1355,7 @@ This leads to the classical function which is everywhere 0 except at 2 for which
 
 A very similarly defined Yes/No rule on rectangles can be obtained by replacing 2 with $\pi$. This does not work as we cannot have the $\pi$ singleton. Without the singleton, we fail to satisfy the separating property as there does not exist a $\pi$ $x$-containing Yes rectangle separating 1 and 0.  
 
-This is a very strong statement about the special features that rationals can have in this setup. More or less, we do not need continuity at the rationals, but we do at the irrationals. 
+This exemplifies that the rationals have more privileges than the irrationals, corresponding to the fact that we can specifically address any given rational number while we cannot do so with irrationals. The behavior of irrationals can only be specified in a general location and thus we must have continuity there for this to make actual sense. 
 
 The characteristic function of the rationals cannot be modeled by a function oracle, again by the lack of a way to separate the values of 0 and 1. 
 
@@ -1368,13 +1365,13 @@ Define the function oracle $T$ as giving a Yes result on neighborly rectangles $
 
 Thanks to the singletons, this does satisfy the Separating property. The other properties follow quickly. 
 
-It should also be easy to see that this is Thomae's function. At the rationals, we have the $1/q$ as common to all the rectangles while for the irrationals, $0$ is common for all of them. 
+It should also be easy to see that this is Thomae's function. At a rational $\frac{p}{q}$, we have $1/q$ as common to all the rectangles while for any irrational, $0$ is common for all of them. 
 
 \subsection{Monotonic Functions}
 
-For any monotonic rational function, $Q$, such as $x^3$, the rectangle approach works quite well. The minimal rectangle for a given interval $a \lt b$ would be $a:b \times Q(a):Q(b)$. The intersection of two such minimal rectangles, say with $x$-sides satisfying $A \lt a \lt B \lt b$ leads to $a \lt B  \times  Q(a):Q(B) $. We add in the appropriate rectangles containing these minimal rectangles for the NEC property. The disjoint and separating property can be handled using the monotonic properties. 
+For any monotonic rational function, $Q$, such as $x^3$, the rectangle approach works quite well. The minimal rectangle for a given interval $a \lt b$ would be $a:b \times Q(a):Q(b)$. The intersection of two such minimal rectangles, say with $x$-sides satisfying $A \lt a \lt B \lt b$ leads to $a \lt B  \times  Q(a):Q(B) $. We add in the appropriate rectangles containing these minimal rectangles for the consistency properties. The disjoint and separating property can be handled using the monotonic properties. 
 
-We also need to consider montonic functions whose values on rationals may not be rational. Examples include $\pi x$ and $\sqrt{x}$. For both of these, setting $x=2$ leads to non-rational oracles, specifically, $2 \pi$ and $\sqrt{2}$. We thus need to expand the minimal set of rectangles to be those whose $y$-side has that extra bit of oracle interval room. 
+We also need to consider monotonic functions whose values on rationals may not be rational. Examples include $\pi x$ and $\sqrt{x}$. For both of these, setting $x=2$ leads to non-rational oracles, specifically, $2 \pi$ and $\sqrt{2}$. We thus need to expand the minimal set of rectangles to be those whose $y$-side has that extra bit of oracle interval room. 
 
 Specifically, given a monotonically increasing function $F$ defined on the rationals whose outputs are possibly oracles, a rectangle is a Yes rectangle if it is of the form  $a \lt b \times F\_(a):F\string^ (b)$  where $F\_(a)$ is any rational that is the lower limit of a $F(a)$-Yes interval and $F\string^ (b)$ is the upper limit of a $F(b)$-Yes interval. We also require that all rationals in $a:b$ have defined values. 
 
@@ -1384,43 +1381,15 @@ This gives us all $x^r$ functions for rational $r$, quite explicitly. We can ext
 
 We can also do exponential functions of the form $\alpha^{x}$, by considering intervals for $\alpha$ and combining them with intervals of $x$. For example, if we are considering $e^{\pi}$, then one interval of interest would be taking $2.71:2.72$ and $3.14:3.15$ and forming the rectangle whose $x$-side is $3.14:3.15$ while the $y$-side is $2.71^{3.14}:2.72^{3.15}$. As we consider all such intervals containing $e$ and $\pi$, the $y$-sides will form the intervals of the oracle of $e^{\pi}$.
 
-The final function to consider in this section is that of logarithms. By considering the compounding interest formula, $(1+ \frac{x}{n})^n \to e^x$, we can invert this to obtain $n (x^{1/n} - 1) \to \ln(x)$. While this is a slow convergence, it does suffice for a definition. For a fixed $n$, the function is monotonically increasing, just as the logarithm is. For fixed $x$, the sequence of values is monotonically decreasing. Since they are all above the logarithm, we need a lower bound. One candidate is  $n (x^{1/n} - 1) - \frac{x}{n} $ which does suffice but is not great as for large $x$, it becomes quite a poor lower bound. It is below the natural logarithm of x for all $x > 0.41$. Since we can define the property $\ln(x^{-1}) = - \ln(x)$, we can focus on constructing the values of the logarithm for $x\geq 1$. We can therefore take bounding boxes using the lower bound and upper bound functions appropriately, with a distinct preference for the upper bound as an approximation.  
-
-\subsection{Continuous Combinations}
-
-Many functions are not, of course, monotonic. What we want is to compose the function oracles with uniformizable continuous rational functions and claim that these are again function oracles. 
-
-A uniformizable continuous rational function is a function such that for any given rational interval $a:b$ and $n$ we can find an $m$ such that $|f(q) - f(r)| < \frac{1}{n} $ whenever $|q-r| < \frac{1}{m}$ for any $a:q,r:b$. If we have a function oracle $g$, then we define a new function oracle, $h$, by applying the rule $f$ to each of the $y$-sides of the $g$-Yes rectangles and those are the $h$-Yes rectangles. 
-
-It is, unfortunately, not as easy as inserting the endpoints of the $y$-intervals into $g$. The function $g$ can scramble what is the largest and smallest values of the interval. For example, $x^2$ takes the interval $-1:1$ to $0:1$ with the minimum value coming from a value in the middle of the interval. We might also have an undefined interval such as using $1/x$ on the interval $-1:1$.
-
-Formally, we say that a rectangle $R$ is a $h$-Yes interval if there exists a $g$-Yes rectangle $Q$ with the same $x$-side and that the $y$-side of $Q$ is mapped into the $y$-side of $R$. We need to check the four properties are still held: 
-
-\begin{enumerate} 
-\item NEC. This is immediate because the containing rectangle will still contain the mapped $y$-side. 
-\item Intersection. Let $a:b$ be the common $x$-side of the intersection $h$-Yes rectangles. Then the $g$-Yes pre-image rectangles intersect on $a:b$ as well. Their common intersection's $y$-side gets mapped under $f$ and must be contained in both of the $h$-Yes rectangles. By NEC, we can elongate if necessary. 
-\item Single-valued. Consider two $h$-Yes rectangles and the rectangles that map into them, respectively. They have the same $x$-side and must therefore intersect due to the intersection property on $g$. The intersecting rectangle maps into both rectangles and they are therefore not disjoint.  
-\item Separating. This is where the (uniform) continuity comes into play.  Consider the two $y$-values $r$ and $s$ in the the $h$-Yes rectangle $R$ and let $\alpha$ be the oracle in question. We choose $n$ such that $|r-s| > 1/n$. Let $a:b$ be an $\alpha$-Yes interval contained in the $x$-side of $R$ whose length is less than $1/m$ where $m$ is the number guaranteed to exist on the interval of the $x$-side of $R$ by uniform continuity. Then it is impossible for $f$ to map $a:b$ into an interval containing both $r$ and $s$.
-\end{enumerate}
-
-With this established, polynomials can be represented by function oracles as well as classically continuous functions. Note that our input intervals are always closed. We can also apply functions to discontinuous functions as long as every $g$-Yes rectangle contains a $g$-Yes rectangle whose $y$-side does not contain the points of discontinuity. For example, we can have $1/x$ as a function oracle by taking the modified function oracle of $x$ where the modification is to remove all rectangles whose $x$-side contains 0. 
-
-As a questionable example, we can also apply this to the tangent function as it is continuous everywhere on its domain. When we consider the function rectangles, we simply need to ensure that the intervals do not include odd multiples of $\frac{\pi}{2}$. The questionable part of this is that we would need to have a reliably defined tangent function, but we put it here to illustrate that discontinuous functions at irrationals are not a problem if the function is not defined at that irrational. 
-
-
-\subsection{Taylor Polynomials}
-
-Functions that can be written as Taylor polynomials can be modeled as function oracles. The setup is to have a family of polynomials with $x$-based error bars where any pair of polynomials has a relationship of one being wholly contained within the error envelope of the other. In addition, one should be able to find at least one polynomial with an error as small as one wants specified for a given $x$. 
-
-We can then define the function oracle as the collection of rectangles defined by each polynomial's rectangles with error bars extending the rectangles appropriately. One should be able to readily establish the function oracle properties and argue that the function value is indeed what one gets from the usual Taylor polynomial setup. 
+The final function to consider in this section is that of logarithms. By considering the compounding interest formula, $(1+ \frac{x}{n})^n \to e^x$, we can invert this to obtain $n (x^{1/n} - 1) \to \ln(x)$. While this is a slow convergence, it does suffice for a definition. For a fixed $n$, the function is monotonically increasing, just as the logarithm is. For fixed $x$, the sequence of values is monotonically decreasing to $\ln(x)$. Since they are all above the logarithm, we need a lower bound. One candidate is  $n (x^{1/n} - 1) - \frac{x}{n} $ which does suffice but is not great as for large $x$, it becomes quite a poor lower bound.\footnote{An alternative bounding strategy can be found in Appendix \ref{app:e}.} It is below the natural logarithm of x for all $x > 0.41$. Since we can define the property $\ln(x^{-1}) = - \ln(x)$, we can focus on constructing the values of the logarithm for $x\geq 1$. We can therefore take bounding boxes using the lower bound and upper bound functions appropriately, with a distinct preference for the upper bound as an approximation.  
 
 \subsection{Almost Everywhere Continuous}
 
-Function oracles are almost everywhere continuous on the domain. In particular, the only places where they can be defined and discontinuous are at the rationals. This is what we set out to establish. 
+Function oracles are almost everywhere continuous on the domain. In particular, the only places where they can be defined and discontinuous are at the rationals. This is what we shall establish. 
 
 We start by arguing that the separating property implies that we can establish rectangles as small as we wish. 
 
-\begin{proposition}
+\begin{proposition}\label{pr:fshrink}
 Given a function oracle $f$, an oracle $\alpha$ in its domain, and an $\varepsilon > 0$, then we can find an $f$-Yes rectangle $x$-containing $\alpha$ such that its $y$-side has length less than $\varepsilon$
 \end{proposition}
 
@@ -1428,19 +1397,21 @@ Given a function oracle $f$, an oracle $\alpha$ in its domain, and an $\varepsil
     Let $f$, $\alpha$, and $\varepsilon$ be given. As $\alpha$ is in the domain, there exists an $f$-Yes rectangle $R_0$ which $x$-contains $\alpha$. Let $d_0$ be length of the $y$-side. If $d_0$ is less than $\varepsilon$, then we are done. If not, we can pick two values in the $y$-side, say dividing the interval into thirds. By the Separating property, there exists an $f$-Yes rectangle $R_1$ which excludes at least one of those values. This leads to a $y$-side length of less than $\frac{2}{3} d_0$. Repeat this until the $y$-side is less than $\varepsilon$. This will occur at the latest for $n$ times where $n$ satisfies $(\frac{2}{3})^n d_0 < \varepsilon$.  
 \end{proof}
 
-We now can argue for continuity at the irrationals. 
+We now can argue for continuity at the irrationals. Note that in the above argument it is quite possible to have a rectangle whose $x$-side is a singleton. This is how we get around the Thomae's-style function example. 
 
-We will call an oracle $\alpha$ in the domain of the function oracle \textbf{mass-free} if every singleton whose $x$-side is $\alpha$ can be removed and the function oracle continues to be a function oracle. A function oracle is mass-free if it is mass-free across its domain.  
+We will call an oracle $\alpha$ in the domain of the function oracle \textbf{mass-free} if we can find Yes rectangles containing $\alpha$ whose $x$ side's length is greater than 0 and whose $y$-side is as small as please. That is, if we are given $\varepsilon > 0$, then there exists a Yes rectangle $M$ such that $|M_x| > 0$, $\alpha \in M_x$, and $|M_y| < \varepsilon$.
+ 
+ A function oracle is mass-free if it is mass-free across its domain.  
 
 \begin{proposition}
 Let $\alpha$ be in the domain of the function oracle $\alpha$ and mass-free. Then $f$ is continuous in the classical sense at $\alpha$.
 \end{proposition}
 
 \begin{proof}
-    We need to establish that given an $\varepsilon > 0$, we can find a $\delta > 0$ such that $|f(x) - f(\alpha)| < \varepsilon$ whenever $0 < |x - \alpha| < \delta$. This almost immediately follows from the proposition as the rectangle provided by the previous proposition for the given $\varepsilon$ will provide the $\delta$ being the length of the $x$-side. The only possible exception is if we were to have a singleton instead of a full rectangle. But due to being able to remove the singletons, we can be assured that we have a full rectangle. 
+    We need to establish that given an $\varepsilon > 0$, we can find a $\delta > 0$ such that $|f(x) - f(\alpha)| < \varepsilon$ whenever $0 < |x - \alpha| < \delta$. This is essentially a restatement of the mass-free definition where $\delta$ is taken to be $|M_x|$, perhaps shrunken to be centered on $\alpha$. 
 \end{proof}
 
-We should note that all irrational $\alpha$ in the domain of $f$ are mass-free since there is no singleton for them. 
+We should note that all neighborly $\alpha$ (irrationals) in the domain of $f$ are mass-free since Proposition \ref{pr:fshrink} applies to give us our $M$ and we note that $M_x$ cannot be a singleton since it contains $\alpha$ which is neighborly and cannot be contained in a singleton.
 
 We have established:
 
@@ -1458,6 +1429,44 @@ Function oracles are Riemann-integrable.
 
 This follows as all almost-everywhere continuous functions are Riemann-integrable. 
 
+
+\subsection{Continuous Combinations}
+
+Many functions are not, of course, monotonic. What we want is to compose the function oracles with uniformizable continuous rational functions and claim that these are again function oracles. 
+
+A uniformizable continuous rational function is a function such that for any given rational interval $a:b$ in its domain and $n$ we can find an $m$ such that $|f(q) - f(r)| < \frac{1}{n} $ whenever $|q-r| < \frac{1}{m}$ for any $a:q,r:b$. If we have a function oracle $g$, then we define a new function oracle, $h$, by applying the rule $f$ to each of the $y$-sides of the $g$-Yes rectangles and those are the $h$-Yes rectangles. 
+
+It is, unfortunately, not as easy as inserting the endpoints of the $y$-intervals into $g$. The function $g$ can scramble what is the largest and smallest values of the interval. For example, $x^2$ takes the interval $-1:1$ to $0:1$ with the minimum value coming from a value in the middle of the interval. Note that if we used the interval arithmetic for $x^2$, then the interval is $-1:1$. We might also have an undefined interval such as using $1/x$ on the interval $-1:1$.
+
+Formally, we say that a rectangle $R$ is a $h$-Yes interval if there exists a $g$-Yes rectangle $Q$ with the same $x$-side and that the $y$-side of $Q$ is mapped into the $y$-side of $R$. We need to check the function oracle properties: 
+
+\begin{enumerate} 
+\item Elongating. This is immediate because the containing rectangle will still contain the mapped $y$-side. 
+\item Narrowing. This requires the existence of the narrowing property for $g$. 
+\item Intersection. Let $a:b$ be the common $x$-side of the intersection $h$-Yes rectangles. Then the $g$-Yes pre-image rectangles intersect on $a:b$ as well. Their common intersection's $y$-side gets mapped under $f$ and must be contained in both of the $h$-Yes rectangles. By NEC, we can elongate if necessary. 
+\item Single-valued. Consider two $h$-Yes rectangles and the rectangles that map into them, respectively. They have the same $x$-side and the $g$-Yes rectangles must therefore intersect due to the intersection property on $g$. The intersecting rectangle maps into both $h$-Yes rectangles and they are therefore not disjoint.  
+
+\item Separating. This is where the (uniformish) continuity comes into play. Let a $h$-Yes rectangle $S$ be given and let $T$ be a $g$-Yes rectangle that maps into $S$; this can be done by definition of $h$-Yes rectangles. Let $r$ and $s$ be two points in the $y$-side of $S$ and $\alpha$ an oracle in the $x$-side of these rectangles. We need to show that there exists an $h$-Yes rectangle whose $x$-side contains $\alpha$ but does not contain at least one of those points. We will do this by producing a rectangle whose $y$-side is smaller than the distance between those two points. 
+
+Let $L = |r-s|$. By the continuity of $f$, we can find $m$ such that when $|x-y| < \frac{1}{m}$, we have $|f(x) - f(y)| < L$. By Proposition \ref{pr:fshrink}, we can find a $g$-Yes rectangle $M$ whose $x$-side contains $\alpha$ and that the $y$-side of $M$ has length less than $\frac{1}{m}$. This means that when it is mapped under $f$, the length of $y$-side is less than $L$. This means that $M$ cannot contain both $r$ and $s$.
+
+Note that it is quite possible that the rectangle $M$ has a singleton as an $x$-side and the $y$-side is a single value. This is not a problem. 
+
+\end{enumerate}
+
+With this established, polynomials can be represented by function oracles as well as classically continuous functions. Note that our input intervals are always closed. We can also apply functions to discontinuous functions as long as every $g$-Yes rectangle contains a $g$-Yes rectangle whose $y$-side does not contain the points of discontinuity. For example, we can have $1/x$ as a function oracle by taking the modified function oracle of $x$ where the modification is to remove all rectangles whose $x$-side contains 0. 
+
+As a questionable example, we can also apply this to the tangent function as it is continuous everywhere on its domain. When we consider the function rectangles, we simply need to ensure that the intervals do not include odd multiples of $\frac{\pi}{2}$. The questionable part of this is that we would need to have a reliably defined tangent function, but we put it here to illustrate that discontinuous functions at irrationals are not a problem if the function is not defined at that irrational. 
+
+
+\subsection{Taylor Polynomials}
+
+Functions that can be written as Taylor polynomials can be modeled as function oracles. The setup is to have a family of polynomials with $x$-based error bars where any pair of polynomials has a relationship of one being wholly contained within the error envelope of the other. In addition, one should be able to find at least one polynomial with an error as small as one wants specified for a given $x$. 
+
+We can then define the function oracle as the collection of rectangles defined by each polynomial's rectangles with error bars extending the rectangles appropriately. One should be able to readily establish the function oracle properties and argue that the function value is indeed what one gets from the usual Taylor polynomial setup. 
+
+
+
 \subsection{Intermediate Value Theorem}
 
 The usual Intermediate Value Theorem states that if a function $f$ is continuous, then for any $y$ in $f(a):f(b)$, there exists a $c$ in $a:b$ such that $f(c) = y$. We have a slightly different statement.
@@ -1467,7 +1476,16 @@ Let $f$ be an oracle function. Given $a:b$ such that all oracles in $a:b$ are in
 \end{theorem}
 
 \begin{proof}
-Take the midpoint (mediant works too, but we do not get explicit controls on lengths) of $a:b$, say $m$. Look at $f(m)$. If it is $v$, then we are done. If not, then we need to choose $a:m$ or $b:m$ for the next interval; choose the one which leads to $v$ being in $f(a):f(m)$ or $f(b):f(m)$.\footnote{Essentially, we have the cases of $f(m):f(a):v:f(b)$ or $f(a):f(m):v:f(b)$, leading to $f(m):f(b)$, and the two other cases $f(a):v:f(b):f(m)$ or $f(a):v:f(m):f(b)$ leading to $f(a):f(m)$.} We iterate this, continuing to choose the midpoints, thereby cutting the interval in half at each step. We can translate this into a fonsi and hence an Oracle, say $c$. 
+Take the midpoint (mediant works too, but we do not get explicit controls on lengths) of $a:b$, say $m$. Look at $f(m)$. If it is $v$, then we are done. If not, then we have several cases: 
+\begin{enumerate}
+\item $f(m):f(a):v:f(b)$. Choose $b:m$ for the next interval.
+\item $f(a):f(m):v:f(b)$. Choose $b:m$ for the next interval. 
+\item $f(a):v:f(m):f(b)$. Choose $a:m$ for the next interval.
+\item $f(a):v:f(b):f(m)$. Choose $a:m$ for the next interval. 
+\end{enumerate}
+In all cases, we have chosen the interval so that $v$ is between the images of the endpoint. 
+
+We iterate this, continuing to choose the midpoints, thereby cutting the interval in half at each step. We can translate this into a fonsi and hence an Oracle, say $c$. 
 
 Now let us assume that $R$ is a neighborly $f$-Yes rectangle containing $c$. We need to show that $v$ is contained in its $y$-side. Let $p:c:q$ be the $x$-side of $R$. By construction of $c$, $p:q$ contains a $c$-Yes interval $r:s$ such that $f(r):v:f(s)$. Since $f$-Yes rectangles include all the images of the $x$-side, we have $f(r):f(s)$ is contained in the $y$-side of $R$ and thus it contains $v$ as well as was to be shown. 
 \end{proof}
@@ -1477,22 +1495,21 @@ If $f$ is mass-free on the interval $a:b$, then for each oracle $v$ in $f(a):f(b
 \end{corollary}
 
 \begin{proof}
-$c$ exists by the above theorem. Since $f$ is mass-free on $a:b$, we have that $f(c)$ is determined entirely by neighborly rectangles. $v$ is contained in all such rectangles and thus by the definition of $f(c)$, it must be $v$. 
+$c$ exists by the above theorem. Let's assume $d(f(c), v) = L > 0$. By being mass free, there exists a $f$-Yes rectangle $M$ such that $c$ is contained in $M_x$, $|M_x| > 0$ and $|M_y| < L$. But that means $v$ cannot be in $M_y$ which contradicts the previous theorem. 
 \end{proof}
     
 We should note that all neighborly oracles $c$ will automatically be mass-free. 
 
 
-
 \subsection{Derivatives}
 
-It is not clear how to have a useful perspective of derivatives with this approach. 
+It is not clear how to have a useful perspective of derivatives with this approach. It would be nice to say something in relation to defining functions relative to differential equations, perhaps some words about lower and upper bounds arising from different approximation techniques. 
 
 \subsection{Integrals}
 
 These functions seem to be very much in the spirit of integrable functions. We will pursue this angle from the point of view of Darboux integration, which is equivalent to Riemann integration. Darboux integration is taking a partition of the interval in question and then computing the upper and lower area sums of the function (height of each rectangle being the supremum, respectively, infimum). As the partitions get smaller, if the upper and lower sums converge, the limiting value is the integral value. Here we consider bounded functions on an interval. 
 
-It is tempting to assert that Darboux integrable functions are function oracles. Indeed, each partition is essentially giving the rectangle that the function oracles require. The ability to shrink the partitions and have it be integrable on arbitrary intervals strongly conforms to the spirit of function oracles. Unfortunately, as already noted, the integrable functions allows for discontinuity at irrationals which function oracles do not tolerate. 
+It is tempting to assert that Darboux integrable functions are function oracles. Indeed, each partition is essentially giving the rectangle that the function oracles require. The ability to shrink the partitions and have it be integrable on arbitrary intervals strongly conforms to the spirit of function oracles. Unfortunately, the integrable functions allows for discontinuity at irrationals which function oracles do not tolerate. 
 
 Since we established previously that function oracles are continuous at any irrational point that they are defined on, they they are Darboux / Riemann integrable on any interval for which they are bounded and defined on. 
 
@@ -1512,19 +1529,19 @@ What are some good properties of a definition of real numbers? This is subjectiv
     \item Uniqueness. Given a target real number, there should be only one version of that in the real number system and its form should be indicative of what the number is. 
     \item Reactive. This is a key feature. Real numbers generally have an infinite flavor to them. It was important to me to not pretend we could present the infinite version of that, but rather to present a method of answering queries. 
     \item Rational-friendly. Ideally, rationals would be easily spotted, treated reasonably, and arithmetic with them would be easy to do. 
-    \item Supportive. The definition should be in line with and, ideally, supportive of standard practice of numbers. In particular, how numbers are used in science, applied mathematics, and numerical analysis. 
+    \item Supportive. The definition should be in line with and, ideally, supportive of standard practice of numbers. In particular, it should conform to how numbers are used in science, applied mathematics, and numerical analysis. 
     \item Arithmeticizable. It should feel like the arithmetic laws are approachable and computable. That is, one can take an action to a certain level of precision and be confident in the result.
     \item Resolvability. We have concrete examples of real numbers whose fundamental nature is unknown. Does the approach give language or a setup that can respect that? 
 \end{itemize}
 
 The Oracle approach fits the first four of these quite easily. The last two are pretty subjective and perhaps the best way forward on those is to contrast them with the other definitions. 
 
-Much of what follows was heavily inspired by NJ Wildberger's excellent videos, such as \href{https://www.youtube.com/watch?v=3cI7sFr707s}{Real numbers as Cauchy sequences don't work!}
+Much of what follows was heavily inspired by NJ Wildberger's excellent videos, such as ``Real numbers as Cauchy sequences don't work!''\footnote{\url{https://www.youtube.com/watch?v=3cI7sFr707s}}
 
 
 \subsection{Infinite Decimals}
 
-This is a natural and old attempt at defining real numbers and is the approach of early mathematics education. It originated in 1585 with Stevin. 
+This is a natural and old attempt at defining real numbers and is the approach of early mathematics education. It originated in the 1500s with Simon Stevin. 
 
 The idea is to write the decimal expansion of irrational numbers as we do with rationals, but we can never adequately express the decimal form and can only produce up to a certain level. 
 
@@ -1547,22 +1564,22 @@ Infinite decimals are a natural attempt and it is a very common presentation of 
 
 \subsection{Nested Intervals}
 
-One can think of expanding the concept of infinite decimals as being a sequence of nested intervals where the length goes down by a tenth at each level. We could generalize this to be a more arbitrary sequence of nested and shrinking intervals. From the Oracle point of view, we could use the mediant method to define such a sequence of intervals. A sequence of such intervals would also give rise to an Oracle. These are closely related concepts. 
+One can think of expanding the concept of infinite decimals as being a sequence of nested intervals where the length goes down by a tenth at each level. We could generalize this to be a more arbitrary sequence of nested and shrinking intervals. From the Oracle point of view, we could use the mediant method to define such a sequence of intervals. A sequence of such intervals is a fonsi that gives rise to an Oracle. These are closely related concepts. 
 
 Let us run through our criteria. 
 
 \begin{itemize}
     \item Uniqueness. This clearly fails. We can have two entirely distinct nested interval sequences describing the same real number in addition to arbitrarily changing a given sequence (cut out half of them, double their lengths, ...)
-    \item Reactive. Not at all. The sequence of intervals is given. We could recast this as a function that, given an $n$, we generate the $n$-th nested interval based on what came before. But notice that even with a fixed real number target, such a method requires arbitrary choosing to be done as we unravel it.
+    \item Reactive. Not at all. The sequence of intervals is given. We could recast this as a function that, given an $n$, we generate the $n$-th nested interval based on what came before. We would probably want a function of length that gives us a shorter, nested interval from what came before. 
     \item Rational-friendly. The rationals are those whose nested intervals converge to a rational number. There does not seem a particularly clear property that establishes this. Depending on the definition, we could have a finite nested interval sequence that ends in the singleton $q:q$ if it is allowed. 
     \item Supportive. On a practical level, we do like shrinking intervals. But it is not generally predefined intervals. Mostly, it is intervals that are generated when working and we would want to know that the given interval has a non-zero intersection with all the nested intervals. 
     \item Arithmeticizable. Interval arithmetic works. If we tried to build in a constrained size, such as the $n$-th interval has to be no longer than $1/n$ in length, then the arithmetic would become difficult to manage. 
     \item Resolvability. The smallest intervals we can inspect in the sequence will tell us the resolution we have on a number and the difference. 
 \end{itemize}
 
-To address the uniqueness issue, one could pursue an equivalence class approach as one does with Cauchy sequences as discussed below with the same difficulties. But one could also take the nested intervals as inspiration and expand to have all the intervals that contain one of the nested intervals. This is a fonsi which is equivalent to the set of all Yes-intervals for an oracle. 
+To address the uniqueness issue, one could pursue an equivalence class approach as one does with Cauchy sequences as discussed below with the same difficulties. But one could also take the nested intervals as inspiration and expand to have all the intervals that contain one of the nested intervals. This is a maximal fonsi which is equivalent to the set of all Yes-intervals for an oracle. 
 
-It also has the issue, similar to the Cauchy sequence, though less severe, that the nesting intervals can be quite wide for as much of a large finite sequence as one wants. For example, we could have a nested interval sequence which has an initial trillion intervals that are all wider than the known universe. 
+It also has the issue, similar to the Cauchy sequence, though less severe, that the nesting intervals can be quite wide for a very large portion of the sequence.  For example, we could have a nested interval sequence which has an initial trillion intervals that are all wider than the known universe. 
 
 
 \subsection{Cauchy Sequences}
@@ -1575,14 +1592,14 @@ Let us run through our criteria.
 
 \begin{itemize}
     \item Uniqueness. This fails utterly here. We can say that a Cauchy sequence represents a real number. But there are infinitely many such sequences. So then we can consider an equivalence class of them, but this then becomes a very different kind of object. In addition, we have the problem that the initial part of the sequence can be anything. Given an equivalence class, we can expect that the finite portion of all Cauchy sequences will look the same. We could require that each term must be within the latter ones by a given precision based on the index, such as $|a_n - a_m| < \tfrac{1}{n}$ whenever $n < m$, but this makes the arithmetic portion of this more difficult in addition to actually computing such a sequence in practice may require more work for no practical gain. 
-    \item Reactive. Given a desired precision, we can ask the Cauchy sequence for the $n$ and then for an element of the sequence. So that is good, but we are pretending that we can have this infinite sequence in our hands. 
-    \item Rational-friendly. Rationals can have a constant sequence which is different. But one can also have a sequence for an irrational which is constant for a trillion to the trillion terms and then starts changing. The arithmetic between two constant sequences is easy, but the representative of the rational may or may not be constant in which case there is no difference with intervals.  
-    \item Supportive. This is used by analysts in many theoretical arguments. If we look at sequence of approximations in this light, it can also be seen. But the problem is that it is the tail that we need to know which is not something generally done in numerical practice. 
-    \item Arithmeticizable. This is the arithmetic of the individual sequence elements. This gets a little messy with the equivalence classes. If we try to weed out the initial garbage by specifying some specific sequence of $\varepsilon$'s to satisfy, then the arithmetic operations become more difficult to handle since we need to play around with getting that set. 
-    \item Resolvability. This is difficult. One can produce a Cauchy sequence for the unknown numbers up to a point, but a finite segment of the Cauchy sequence is not useful. So without the rest, it is not clear what it is saying or how to approach using it. A better view is that we are producing an interval in which all future sequence members need to be within. This leads us inevitably back to the orcales. 
+    \item Reactive. Given a desired precision, we can ask the Cauchy sequence for the $n$ and then for an element of the sequence. The given element is chosen by a mechanism not directly essential to the real number. 
+    \item Rational-friendly. Rationals can have a constant sequence which is different. But one can also have a sequence for an irrational which is constant for a trillion to the trillion terms and then starts changing. The arithmetic between two constant sequences is easy, but the representative of the rational may or may not be constant in which case there is no difference from the irrationals.   
+    \item Supportive. This is used by analysts in many theoretical arguments. For numerical work, we may be generating a sequence of approximate values that get closer and closer. But we need to pair the sequence value with a $\varepsilon$ to have it be actually useful. That is, to be useful, we need an interval lurking around. 
+    \item Arithmeticizable. This is the arithmetic of the individual sequence elements. This gets a little messy with the equivalence classes. If we try to weed out the initial garbage by specifying some specific sequence of $\varepsilon$'s to satisfy, then the arithmetic operations become more difficult to handle since we need to play around with ensuring that constraint.  
+    \item Resolvability. This is difficult. One can produce a Cauchy sequence for the unknown numbers up to a point, but a finite segment of the Cauchy sequence is not useful. So without the rest, it is not clear what it is saying or how to approach using it. A better view is that we are producing an interval in which all future sequence members need to be within. This leads us inevitably back to the oracles. 
 \end{itemize}
 
-Cauchy sequences are very appealing as a next step past the decimal expansions, which themselves can be viewed as a very nice Cauchy sequence where each step along $n$ leads to a $\frac{1}{10}$th shrinking of the future variability. But they feel to me to be much more like a partial description of a number, not the number itself.
+Cauchy sequences are very appealing as a next step past the decimal expansions, which themselves can be viewed as a very nice Cauchy sequence where each step along $n$ leads to a $\frac{1}{10}$th shrinking of the future variability. But they are a collection of somewhat arbitrary choices in the representation of a number. 
   
 \subsection{Dedekind Cuts}
 
@@ -1590,9 +1607,11 @@ The idea of a Dedekind cut is to divide the rational numbers into two pieces, on
 
 The approach of Dedekind cuts is a common construction of real numbers in beginning analysis courses. They have a very nice convincing example of the square root of 2 and the ordering, based on subsets, is quite nice. The arithmetic gets messy in detail, but conceptually it is not problematic. 
 
-To align it more with our approach of Oracles, we would recast the set aspect into having a rule which decides whether a given rational number is less than, equal to, or greater than, the target real number. It can be codified by giving a -1, 0, or 1,  respectively, something in line with how one might code these kind of inequality tests in a programming environment. 
+To align it more with our approach of Oracles, we would recast the set aspect into having a rule $T$ which decides whether a given rational number is less than, equal to, or greater than, the target real number. It can be codified by giving a -1, 0, or 1,  respectively, something in line with how one might code these kind of inequality tests in a programming environment. 
 
 To convert to intervals, we see that the less than side of a cut is the set of lower bounds of intervals that contain the real number while the greater than side is the upper bound. Given a lower and upper bound, we can proceed with the algorithms we discussed and use our rule to decide whether the new middle point is a lower bound, the number itself, or an upper bound. 
+
+We can also view the Separation Property as being very similar to the $T$ function. If we had a $T$ function, then we could use it to answer whether to accept the left interval ($T(c) = -1$), the right interval ($T(c)=1)$, or accept the singleton $(T(c) = 0$). We could also use the existence of an interval and the Separation property to construct the $T$ function.
 
 The arithmetic for our version is fairly straightforward. The new rule for the sum  $z = x+y$ is that a given rational $s$ is less than $z$ if $s$ can be written as $p+q$ for two rationals that are less than $x$ and $y$, respectively. It is greater, if we can find two rationals summing to it that are respectively greater. Equality is a little tricky unless we are actually adding two known rationals. Otherwise, we need to work to find a gap one way or the other. 
 
@@ -1600,18 +1619,20 @@ Let us run through our criteria.
 
 \begin{itemize}
     \item Uniqueness. For each cut, we have a unique representative. This is based on deciding to exclude the rational number if the Dedekind cut represents a rational number. In essence, taking the representatives of $0.\bar{9}$ and excluding $1$ as representing itself. 
-    \item Reactive. The standard presentation of the cut sets is not reactive. Technically, one would need to specify the set entirely. This works for the square root of 2, but not for something like $\pi$. But reformulated as above, one can ideally compute it out for any given rational. 
-    \item Rational-friendly. The standard presentation is awkward with rationals and does not highlight them. By accepting a tri-partite division, that changes and brings out the rationals. 
-    \item Supportive. Somewhat. Producing the Dedekind cut is not something typically needed or done, but figuring out whether one is below or above a given target is certainly useful and not a wasted effort. 
+    \item Reactive. The standard presentation of the cut sets is not reactive. Technically, one would need to specify the set entirely. This works for the square root of 2, but not for something like $\pi$. But reformulated as above, one can ideally compute it out for any given rational that we wish to ask about the relation to the real number. 
+    \item Rational-friendly. The standard presentation is awkward with rationals and does not highlight them. If we were take the viewpoint of the ternary function $T$ above, then rationals are exactly the $T$ functions where $0$ is in the range. 
+    \item Supportive. Somewhat. Producing the Dedekind cut is not something typically needed or done, but figuring out whether one is below or above a given target is certainly useful and not an entirely wasted effort. 
     \item Arithmeticizable. This gets a little messy for negatives and multiplication since directions get reversed. The actual computable action in our presentation is roughly equivalent to the Oracle arithmetic, but the standard presentation demands the whole set be produced which is not possible.
     \item Resolvability. It is obscured, particularly in the standard formulation. For our formulation, it basically suggests there is a gap between the less thans and the greater thans. This more or less suggests using the interval approach of our paper to get into this. 
 \end{itemize}
 
 The idea of Dedekind cuts, properly formulated, is a solid candidate for constructing the reals, but it feels slightly tangential from the main desire of what we want to know with a real number. It feels like the remains after someone tore apart the intervals of interest. 
 
+The $T$ function certainly comes very close to our rule $R$, but, as we shall discuss, we can generalize oracles easier than we could this approach. In particular, if we use the Two Point Separation property, then that generalizes almost instantly to any metric space. 
+
 \subsection{Minimal Cauchy Filters}
 
-I obtained this from a paper which does not seem to be published but can be found on the arxiv under the title \href{https://arxiv.org/abs/1503.04348v3}{The reals as rational Cauchy filters}. A filter is very similar to what we have used here. It is a collection of sets with pairwise intersections being a part of the collection and that any set that contains a set in the filter is also in the filter. A minimal filter is one which does not contain any other filter. A Cauchy filter is one which has arbitrarily small sets. The paper goes through constructing the real numbers as the collection of all minimal Cauchy rational filters. 
+I obtained this from a paper which does not seem to be published but can be found on the arxiv under the title ``The reals as rational Cauchy filters''.\footnote{\url{https://arxiv.org/abs/1503.04348v3}} A filter is very similar to what we have used here. It is a collection of sets with pairwise intersections being a part of the collection and that any set that contains a set in the filter is also in the filter. A minimal filter is one which does not contain any other filter. A Cauchy filter is one which has arbitrarily small sets. The paper goes through constructing the real numbers as the collection of all minimal Cauchy rational filters. 
 
 A useful case to focus on is that of a rational number in this viewpoint. The maximal filter of $q$ is the one consisting of all sets that contain $q$. The minimal Cauchy filter is generated by the base of $q_{\varepsilon}$ intervals, namely, the intervals centered at $q$ with a length of rational $\varepsilon>0$.
 
@@ -1622,7 +1643,7 @@ In any event, it should be clear how to map the two. Given an Oracle, the Yes in
 Let us run through our criteria. 
 
 \begin{itemize}
-    \item Uniqueness. The filter is unique with no need for equivalence classes. But for every interval containing the real number, we have infinitely many sets that are added to that interval to generate the various sets. This is analogous to the arbitrary changing of the head of a Cauchy sequence. In particular, it would be very difficult to take a random set from a filter and figure out anything useful to say about which real number we were talking about.
+    \item Uniqueness. The filter is unique with no need for equivalence classes. But for every interval containing the real number, we have infinitely many sets that are added to that interval to generate the various sets. This is analogous to the arbitrary changing of the head of a Cauchy sequence. In particular, it would be very difficult to take a random set from a filter and figure out anything useful to say about which real number we were talking about. The ``garbage'' portion is away from the real number in question, but it would be hard to determine from a randomly chosen member of the filter which real number was under consideration. 
     \item Reactive. We can recast this as a query setup, namely given a set, we can say Yes or No depending on if it is in the filter or not. Unfortunately, given the almost random nature of the sets, it can be difficult to even present the set to be asked about. 
     \item Rational-friendly. Rationals are singled out by being the filters with a non-free core, that is, all the sets in the filter have $q$ as an element. The arithmetic, however, is not particularly improved. In particular, singleton sets $q$ are not actually part of the filter as that would generate the filter of all sets containing $q$. This means that it is slightly unnatural to focus on the singleton arithmetic though one can always do that and then generate the $\varepsilon$ intervals from that which form the base. 
     \item Supportive. This has a bit of the core idea of wanting to say ``the number is in there'', but similar to the Cauchy sequences, it gets derailed by the large variety of useless set baggage that gets brought in with the filters. 
@@ -1644,7 +1665,7 @@ The survey paper is an enjoyable and enlightening read for those interested in o
 
 \subsection{Extended Reals}
 
-We can also extend the Oracles to include extended version of the real numbers that includes $\pm \infty$. We need to include infinite intervals in our definition and with an understood updating of our existence clause to include being 1 on an unbounded interval.
+We can also extend the Oracles to include an extended version of the real numbers that includes $\pm \infty$. We need to include infinite intervals in our definition and with an understood updating of our existence clause to include being 1 on an unbounded interval.
 
 For unbounded intervals, we could write that as $a:$ or $a:\infty$ for all rationals greater than or equal to $a$ and write $:a$ or $-\infty:a$ for all rationals less than or equal to $a$. The special interval $-\infty:\infty$ consists of all rationals and is a Yes interval for all oracles in this extended framework. 
 
@@ -1659,13 +1680,13 @@ What this allows us to do is to then include infinite limits. Indeed, the defini
 
 
 
-Our definition is designed to be a tool for using the number. Some of the other definitions are designed at giving the approximations as the number. This definition resists doing so because of the issue of uniqueness and not having to actually compute the infinite amount required by other definitions. 
+Our definition is designed to be a tool for using a real number. Some of the other definitions are designed at giving the approximations as the number. This definition resists doing so because of the issue of uniqueness and not having to actually compute the infinite amount required by other definitions. 
 
 An alternative definition could have been to have a function that given a rational $\varepsilon$, we get an interval. Again, this would be problematic for us having to define the interval amongst many choices. A unique oracle per real number is very useful. It also helps with defining the arithmetic. 
 
 One of the salient features that comes from this point of view is that rational numbers are the numbers we can see explicitly while irrational numbers are those that we can only get a sense of their presence from their rational neighbors. They are distinctly different kinds of numbers with very different properties. 
 
-In the appendix, we have a suggestion for a function definition that goes along with the oracle notions. It very much embraces this difference, emphasizing the separate roles of rational and irrational. The rational can take on any values independent of those around them while the irrational can only take on the values compatible with those around them. This is largely because we can directly use a rational number in a computation while the irrationals we cannot except in symbolic form. 
+We have given a suggestion for a function definition that goes along with the oracle notions. It very much embraces this difference, emphasizing the separate roles of rational and irrational. The rational can take on any values independent of those around them while the irrational can only take on the values compatible with those around them. This is largely because we can directly use a rational number in a computation while the irrationals we cannot except in symbolic form. 
 
 Whether these ideas have any practical import is not clear to me. To the extent that they do, it is presumably already being used in applied areas. This approach may simply provide a clean and useful language to describe what is being done. It may also inspire more useful versions of classical theorems, such as a more prescriptive Fundamental Theorem of Algebra. 
 
@@ -1674,21 +1695,23 @@ Whether these ideas have any practical import is not clear to me. To the extent 
 Let us apply our selective criteria to our Oracle definition. 
 
 \begin{itemize}
-    \item Uniqueness. For each real number, there is only one oracle that represents it. We have chosen a maximal representation of the number in terms of intervals that contain it. 
-    \item Reactive. The choice of presenting this as an oracle was specifically to have this flavor. An alternative perspective of having a set that contains all the intervals that ``contain'' the real number, feels less reactive and draws the attention to many intervals that we would not care about. The oracle approach highlights exactly the intervals we care about as those are the ones being asked about.
-    \item Rational-friendly. Rationals are exactly those oracles that contain a singleton. That is very distinguishable in theory. In practice, it can be hard to decide whether a rational is the limit or not. Arithmetic with rational oracles is no different than arithmetic with rationals. If we have the singletons, we can operate entirely on those singletons. Even if we are operating with an irrational and a rational, we can still use the singleton version to minimize the computations involved. Finally, for rational oracles, the mediant method, strongly supported by the oracle point of view, will stop at the rational that the oracle represents.
+    \item Uniqueness. For each real number, there is only one oracle that represents it. We have chosen a maximal representation of the number in terms of intervals that contain it. While it contains many intervals of enormous size that we would never be interested in, it also provides a mechanism for starting from any initial Yes interval and going down to an interval of a length we do care about, at least in theory. 
+    \item Reactive. The choice of presenting this as an oracle was specifically to have this flavor. An alternative perspective of having a set that contains all the intervals that ``contain'' the real number, feels less reactive and draws the attention to many intervals that we would not care about. The oracle approach highlights exactly the intervals we care about as those are the ones being asked about. 
+    
+    We also do not need to make arbitrary choices. In a Cauchy sequence, for example, each value is randomly chosen from an interval of what could have been chosen instead. For the oracles, no choice was made. The choice is made by the questioner. 
+    \item Rational-friendly. Rationals are exactly those oracles that contain a singleton. That is very distinguishable in theory. In practice, it can be hard to decide whether a rational is the oracle or not. Arithmetic with rational oracles is no different than arithmetic with rationals. If we have the singletons, we can operate entirely on those singletons. Even if we are operating with an irrational and a rational, we can still use the singleton version to minimize the computations involved. Finally, for rational oracles, the mediant method, strongly supported by the oracle point of view, will stop at the rational that the oracle represents.
     \item Arithmeticizable. We can easily do the interval arithmetic and we have bounds for forcing the narrowing of the intervals. Answering an oracle's question does require a bit of figuring out how to narrow the intervals and then try to produce an interval which is either contained in the one we care about or disjoint from it. That is, our arithmetic is a little indirect for answering the question, but it can arrive at it.
     \item Resolvability. The interval nature of an oracle is giving exactly how well we have resolved a number. 
 \end{itemize}
 
-If we think of real numbers as something that we can never hold in our hands, but can only tell bits about based on their shadows, it feels that the oracle approach has the most complete and direct shadow. Dedekind cuts can be thought of as taking the lower bounds of Yes intervals. It feels as if they are minimizing the information needed.  Nested sequence of intervals can be thought of the result of taking a particular pathway through an oracle line of questioning. Cauchy sequences can be very roughly thought of as taking centers from the Yes-intervals. Infinite decimals can be thought of in a similar way, but with a more more constrained pathway.  Other approaches with representing the numbers as sums can be seen in a  similar light. Filters can be thought of as dressing up the intervals with extra elements.
+If we think of real numbers as something that we can never hold in our hands, but can only tell bits about based on their shadows, it feels that the oracle approach has the most complete and direct shadow. Dedekind cuts can be thought of as taking the lower bounds of Yes intervals. It feels as if they are minimizing the information needed.  Nested sequence of intervals can be thought of the result of taking a particular pathway through an oracle line of questioning. Cauchy sequences can be very roughly thought of as taking centers from the Yes-intervals on along that pathways. Infinite decimals can be thought of in a similar way, but with a much more constrained pathway.  Other approaches with representing the numbers as sums can be seen in a  similar light. Filters can be thought of as dressing up the intervals with extra elements.
 
 
 \subsection{Oracles vs fonsi}
 
-The concept of a family of overlapping shrinking intervals seems to be more common in how we are presented a real number. For example, an absolutely convergent infinite series. A maximal fonsi, that is, one which includes all intervals that contain a member of the family, is equivalent to the set of Yes intervals for an oracle.  So why did we choose our oracle definition rather than the fonsi definition as our primary definition? 
+The concept of a family of overlapping notionally shrinking intervals seems to be more in line with how we are typically presented a real number in contrast to the oracle style. A maximal fonsi, that is, one which includes all intervals that contain a member of the family, is equivalent to the set of Yes intervals for an oracle.  So why did we choose our oracle definition rather than the fonsi definition as our primary definition? 
 
-The basic answer is that the oracle definition, particularly the separating property, is exactly what we need to construct further approximations. It feels more in line how we would actually explore a given real number as we explored with the bisection and mediant methods. The family of shrinking intervals feels as if we ought to already have this whole construct and that we should complete the maximality of it given something like an infinite series. All of this seems distracting from how real numbers are generally used. We cannot list out the explicit details of a real number. What we can do is to get in the neighborhood of a real number and use that neighborhood in deducing further information. I feel that focusing on exactly the information we want in our customary use of a number is very important. It is a very nice fact that we can get oracles from fonsi as that greatly aids the initial starting points for the real number inputs into a calculation, but that is just the beginning of our journeys. 
+The basic answer is that the oracle definition, particularly the separating property, is exactly what we need to construct further approximations. It feels more in line how we would actually explore a given real number as we explored with the bisection and mediant methods. The family of shrinking intervals feels as if we ought to already have this whole construct and that we should complete the maximality of it given something like an infinite series. All of this seems distracting from how real numbers are generally used. We cannot list out the explicit details of a real number. What we can do is to get in the neighborhood of a real number and use that neighborhood in deducing further information. I feel that focusing on exactly the information we want in our customary use of a number is very important. It is a very nice fact that we can get oracles from a fonsi as that greatly aids the initial starting points for the real number inputs into a calculation, but that is just the beginning of our journey. 
 
 Another reason to go with the oracles is that it suggests that we want some kind of rule or algorithm for determining whether an interval is a Yes interval. It does not demand all the intervals at once, but, rather, it demands that we be able to produce an answer when we are given an interval. This makes it more in line with what we can do as humans and highlights where the difficulties could be. There are oracles, as we have seen, for which we cannot give a definitive answer yet with our current knowledge. But the oracle approach gives us a tool, the resolvability, to make that limitation known. 
 
@@ -1700,56 +1723,52 @@ Oracles avoid much in the way of irrelevant claims and choices. The main difficu
 
 \subsection{Generalizations}
 
-Given a metric space, we can complete it by replacing intervals with closed balls. The interval separation property is unpleasant in this context as it involves splitting a space and one point will not be sufficient. Instead, we would suggest using a generalization of the two point separation property. 
+Given a metric space, we can complete it by replacing intervals with closed balls. The interval separation property is unpleasant in this context as it involves splitting a space and one point will not be sufficient. Instead, we will use a generalization of the two point separation property. 
 
-A closed ball is specified by a point $p$ (the center) and a radius $r$ and is rule $B$ such that $B(q) = 1$ if and only if the distance $d(p,q) \leq r$; we say that $q$ is contained in $B$. The radius could be either rationals or, now that we have them, real numbers. The function $d$ is the distance function, or metric, which is implied by this being a metric space; the distance must satisfy some properties such as positivity, symmetry, and the triangle inequality. Containment of balls is that any point in the contained ball is also in the containing ball. We do allow singletons which is the closed ball of radius $0$ with center $p$. It has the property that only $p$ is in it. Two closed balls $B$ and $C$ are disjoint if there does not exist any point $q$ that is contained in both $B$ and $C$.
+A closed ball is specified by a point $p$ (the center) and a radius $r$ and is a rule $B$ such that $B(q) = 1$ if and only if the distance $d(p,q) \leq r$; we say that $q$ is contained in $B$. The radius could be either rationals or, now that we have them, real numbers. The function $d$ is the distance function, or metric, whose existence is given by this being a metric space; the distance must satisfy some properties such as positivity, symmetry, and the triangle inequality. Containment of balls is that any point in the contained ball is also in the containing ball. We do allow singletons which is the closed ball of radius $0$ with center $p$. It has the property that only $p$ is in it. Two closed balls $B$ and $C$ are disjoint if there does not exist any point $q$ that is contained in both $B$ and $C$.
 
-\subsection{Oracles in a metric space}
+\subsubsection{Oracles in a metric space}
 
 We can now give our definition of an oracle for a metric space. The Oracle of $\alpha$ is a rule defined on closed balls that decides on whether they are a Yes ball or No ball and satisfies ($B$ and $C$ are closed balls in what follows, $p$ and $q$ are points in the original metric space ): 
 \begin{enumerate}
     \item Consistency. If $B$ contains $C$ and $C$ is a Yes-ball, then $B$ is a Yes ball.
     \item Existence. There exists $B$ such that $B$ is a Yes-ball.
-    \item Two Point Separating. Given a Yes-ball $B$ and two points in it, then there is a Yes-ball inside the $B$ which does not contain at least one of the given points. 
+    \item Two Point Separating. Given a Yes-ball $B$ and two points in it, then there is a Yes-ball inside $B$ which does not contain at least one of the given points. 
     \item Disjointness. If $B$ and $C$ are disjoint, then at most one of them can be a Yes-ball for $R$.
     \item Closed. If $q$ is contained in all Yes-balls, then the ball containing $q$ of radius 0 is a Yes-ball. 
 \end{enumerate}
 
-As before, this is equivalent to looking at a family of overlapping, notionally shrinking balls. And as before, the oracle is preferred to emphasize the algorithmic nature of it all. 
+Similar to before, this is equivalent to looking at a maximal family of overlapping, notionally shrinking balls. And, as before, the oracle is preferred to emphasize the algorithmic nature of it all. 
 
-One would need to establish that the singletons represent themselves in this new space, that the metric extends to these new creations, and that it is complete as a metric space. 
+One would need to establish that the singletons represent themselves in this new space, that the metric extends to these new creations, and that it is complete as a metric space. We sketch this below.
 
 The distance can be defined as follows. Let $x$ and $y$ be two oracles. Then $d(x,y)$ is defined as the real number oracle which is the infimum of the set of distances $d(B, C)$ where $B$ is a $x$-Yes ball and $C$ is a $y$-Yes ball. The distance between two balls in the original space say with centers $q$ and $s$ and radii $r$ and $t$, respectively, is defined as $r + d(q,s) + t$. This should encompass the distance defined as the supremum over all the distances of the points within the ball; the triangle inequality would ensure that.  
 
-One would need to check that this does define a distance. The triangle inequality should follow from largely from the original triangle inequality and some inequality work involving infimums. 
+One would need to check that this does define a distance. The triangle inequality should follow largely from the original triangle inequality and some inequality work involving infimums. 
 
-To establish the original space is still in there, we identify the singletons as their own representatives and note that the distance as defined above for oracles immediately gives us the distance between the singletons is unchanged from the original space. 
+To establish the original space is still in there, we identify the singletons as their own representatives and note that the distance as defined above for oracles immediately gives us that the distance between the singletons is unchanged from the original space. 
 
-The final step is to show that the new space is complete. This could follow largely on how we did Cauchy sequences. Define a Cauchy sequence as a sequence of points such that we have a sequence of shrinking, nested balls that contain the tail of the sequence. A Yes-ball is then any ball which contains one of these nesting balls. Consistency and existence are immediate from the definitions. Disjointness is easy to see since the nesting balls contain one another and thus there must be a common nested ball inside any ball which contains a nested ball. The Closed property, as we did before, is simply postulated as part of the definition of the balls. As for the two point separation property, given two points, looking for a small enough ball that cannot contain them both due to the distance between them. At that point, we should have a nested Yes ball that does not contain at least one of them. 
+The final step is to show that the new space is complete. This could follow largely on how we did Cauchy sequences. Define a Cauchy sequence as a sequence of points such that we have a sequence of nested balls that contain the tail of the sequence and the size can be taken as small as we like. A Yes-ball is then any ball which contains one of these nesting balls. Consistency and existence are immediate from the definitions. Disjointness is easy to see since the nesting balls contain one another and thus there must be a common nested ball inside any ball which contains a nested ball. The Closed property, as we did before, is simply postulated as part of the definition of the balls. As for the two point separation property, given two points, there exists a small enough ball that cannot contain them both due to the non-zero distance between them. At that point, we should have a nested Yes ball that does not contain at least one of them. 
 
-\subsection{Functions in the complete metric spaces}
+\subsubsection{Functions in the complete metric spaces}
 
 The Function oracles we defined can be extended to the realm of the completed metric spaces. There is very little we need to change here. Instead of the sides of the ``rectangle'' being an interval, we use a closed ball. When we are considering the intersection of these function rectangles, we take the intersection of the sides to be the largest closed ball contained in them. 
 
-We would expect to find again that such functions are continuous at all the new points and potentially discontinuous at the old points. 
+We expect to find again that such functions are continuous at all the new points and potentially discontinuous at the old points. 
 
 \section{Conclusion}
 
 We have given a new definition of real numbers in terms of oracles. We established that these are, indeed, the real numbers with all of the necessary properties proven. We gave some examples of arithmetic with them. We discussed some methods for obtaining good rational representations for such objects. We also explored a new definition of function based on oracles. We compared and contrasted with other definitions of real numbers. We then sketched out how to generalize these ideas to metric spaces. 
 
-The advantage of oracles is that it should be quite approachable to understanding the definition, the goal, and the use of these objects. The basic idea is just that we want to know which intervals contain the real number. Interval representations then become very natural as are the bisection and mediant methods for obtaining new intervals. These methods are very natural in this framework. 
+The advantage of oracles is that it should be quite approachable to understanding the definition, the goal, and the use of these objects. The basic idea is just that we want to know whether a given interval contains the real number. Interval representations then become very natural as are the bisection and mediant methods for obtaining new intervals. 
 
-It also pushes the idea of interval manipulation which is something that would be very useful in making numbers more understandable. Though I have no scientific evidence, my experiences in teaching over the past two decades is that a useful precision can help much in the confusion of students learning material. In the current state of education, it is highly problematical to talk about what the square root of 2 actually is. Students know what it should be used for and know a few of its first digits, but there is the mystical notion of it being an infinite string of digits. An interval approach, even if it is simply using the decimal intervals, can bring a more comfortable understanding. 
+Oracles also push the idea of interval manipulation which is something that would be very useful in making numbers more understandable. Though I have no scientific evidence, my experiences in teaching over the past two decades is that a useful precision can help much in the confusion of students learning material. In the current state of education, it is highly problematical to talk about what the square root of 2 actually is. Students know what it should be used for and know a few of its first digits, but there is the mystical notion of it being an infinite string of digits. An interval approach, even if it is simply using the decimal intervals, can bring a more comfortable understanding. 
 
 Oracles avoid the ambiguity of which representative to use for the Cauchy sequence definition. In contrast to Dedekind cuts, oracles have a wide, immediate practical purpose. Some of the other approaches such as nested intervals, ultrafilters, and Cauchy sequences, feel as if one has to choose between a definition that is too thin or one which has been maximized to such an extent that the core identity of the number has been entirely lost in the noise. I feel that oracles are at just that correct level of maximality to avoid non-uniqueness and yet not so large that one loses sight of the number. 
 
-The specific approach advocated here emphasizes a dynamic approach to the number. The person asking about the number ought to have a particular purpose that can then be met by the tools available. The other approaches often have a shadow of that in the definition, such as the $\varepsilon$ in a nested sequence, but the presentation pushes that aside. Our approach with the rule highlights the dynamism even while we acknowledge the equivalence to a more static view. 
+The specific approach advocated here emphasizes a dynamic approach to the number. The person asking about the number ought to have a particular purpose that can then be met by the tools available. The other approaches often have a shadow of that in the definition, such as the $\varepsilon$ in a nested sequence, but the presentation pushes that aside. This approach with the rule highlights the dynamism even while we acknowledge the equivalence to a more static view. 
 
-Finally, our approach highlights the core difficulty of a real number, namely, that it is an indirect way of knowing a number. We are seeking information about a real number, but we can never have it precisely in our hands as we do with rational numbers. We just know what neighborhood it is in. It is as if we are looking for a person and we know enough details to rule out billions of people, but we cannot narrow it down to just a single person. It is a merit of this approach that it brings this out as the central issue of dealing with real numbers as well as giving us tools to deal with it. It is hoped that the example of function oracles helps illuminate the fundamental difference between rationals and irrational numbers, with the more limiting nature of what we can do with the irrational numbers. 
-
-\bigskip
-
-\noindent \textbf{Acknowledgements. } This work was inspired by the excellent videos by Norm Wildberger on the inadequacies of the usual real number definitions. While this work may not entirely meet the criticisms that were a part of those videos, I do hope that it has addressed at least some of them. I also acknowledge my colleagues, including students, at Arts \& Ideas Sudbury School for their infectious curiosity and willingness to entertain these ideas.
+Finally, this approach highlights the core difficulty of a real number, namely, that it is an indirect way of knowing a number. We are seeking information about a real number, but we can never have it precisely in our hands as we do with rational numbers. We just know what neighborhood it is in. It is as if we are looking for a person and we know enough details to rule out billions of people, but we cannot narrow it down to just a single person. It is a merit of this approach that it brings this out as the central issue of dealing with real numbers as well as giving us tools to deal with it. It is hoped that the example of function oracles helps illuminate the fundamental difference between rationals and irrational numbers, with the more limiting nature of what we can do with the irrational numbers. 
 
 \appendix
 
@@ -1762,17 +1781,17 @@ $x^n$ is monotonic for $x>0$. That is, if $0 < a < b$, then $a^n<b^n$.
 \end{lemma}
 
 \begin{proof}
-$b^n-a^n= (b-a)\sum_{k=1}^n b^k a^{n-k}$. Since both $a$ and $b$ are positive, the sum is positive. The sign is therefore determined by $b-a$. If $b>a$, then $b^n-a^n > 0$ as was to be shown. 
+$b^n-a^n= (b-a)\sum_{k=0}^{n-1} b^k a^{n-1-k}$. Since both $a$ and $b$ are positive, the sum is positive. The sign is therefore determined by $b-a$. If $b>a$, then $b^n-a^n > 0$ as was to be shown. 
 \end{proof}
 
 \begin{lemma}\label{app:lesser}
 Let $r \geq 0 $ and $q > 0$ be rational numbers such that $r^n < q$. Then there exists a rational number $s$ such that $r < s$ and $s^n < q$.
 \end{lemma}
 
-The basic idea is to find $N$ $s = r + \tfrac{1}{N}$ such that $s^n < q$. We use the completely rational binomial theorem.  
+The basic idea is to find $N$ for $s = r + \tfrac{1}{N}$ such that $s^n < q$. We use the completely rational binomial theorem.  
 
 \begin{proof}
-Define $a = q - r^n$. Define $N = \tfrac{3}{a} \max(1,n r^{n-1}, (r+1)^n$.  Take $s = r + \tfrac{1}{N}$. Then $s^n = (r+ \tfrac{1}{N})^n = r^n + \tfrac{n r^{n-1}}{N} + \sum_{k=2}^{n} \binom{n}{k} \tfrac{r^k}{N^{n-k}}$. We can factor out a $\tfrac{1}{N}$ in the sum and, since $N > 1$, we have $\tfrac{b}{N^i} < b$ for all $b$ and natural number $i$. Thus, $\sum_{k=2}^{n} \binom{n}{k} \tfrac{r^k}{N^{n-k}} < \tfrac{1}{N} \sum_{k=2}^{n} \binom{n}{k} r^k$  But that sum is part of the expansion of $(r+1)^n$ and is therefore bounded by it since those are all positive terms thanks to $r$ being positive. Thus, we have $s^n < r^n + n \tfrac{r^{n-1}}{N} + \tfrac{ (r+1)^n }{N}$.  By definition, we have $N > \tfrac{3}{a} n r^{n-1}$ implying $\tfrac{a}{3} > \tfrac{ r^{n-1}}{N}$. We also have $N > \tfrac{3}{a} (r+1)^n$ implying $\tfrac{a}{3} > \tfrac{(r+1)^n}{N}$. Therefore $s^n < r^n + \tfrac{2 a}{3} < q$. Since $r<s$, we have shown our result. 
+Define $a = q - r^n$. Define $N =  \max(1,\tfrac{3}{a}n r^{n-1}, \tfrac{3}{a}(r+1)^n$.  Take $s = r + \tfrac{1}{N}$. Then $s^n = (r+ \tfrac{1}{N})^n = r^n + \tfrac{n r^{n-1}}{N} + \sum_{k=2}^{n} \binom{n}{k} \tfrac{r^k}{N^{n-k}}$. We can factor out a $\tfrac{1}{N}$ in the sum and, since $N > 1$, we have $\tfrac{b}{N^i} < b$ for all $b$ and natural number $i$. Thus, $\sum_{k=2}^{n} \binom{n}{k} \tfrac{r^k}{N^{n-k}} < \tfrac{1}{N} \sum_{k=2}^{n} \binom{n}{k} r^k$  But that sum is part of the expansion of $(r+1)^n$ and is therefore bounded by it since those are all positive terms thanks to $r$ being positive. Thus, we have $s^n < r^n + n \tfrac{r^{n-1}}{N} + \tfrac{ (r+1)^n }{N}$.  By definition, we have $N > \tfrac{3}{a} n r^{n-1}$ implying $\tfrac{a}{3} > \tfrac{ r^{n-1}}{N}$. We also have $N > \tfrac{3}{a} (r+1)^n$ implying $\tfrac{a}{3} > \tfrac{(r+1)^n}{N}$. Therefore $s^n < r^n + \tfrac{2 a}{3} < q$. Since $r<s$, we have shown our result. 
 \end{proof}
 
 \begin{lemma}\label{app:greater}
@@ -1782,7 +1801,7 @@ Let $r \geq 0 $ and $q > 0$ rational numbers such that $r^n > q$. Then there exi
 The trick here is to consider $(r-\tfrac{1}{N})^n$ instead. 
 
 \begin{proof}
-Define $a = r^n - q$. Define $N = \tfrac{3}{a} \max(1,n r^{n-1}, (r+1)^n$.  Take $s = r - \tfrac{1}{N}$. Then $s^n = (r- \tfrac{1}{N})^n = r^n - \tfrac{n r^{n-1}}{N} + \sum_{k=2}^{n} \binom{n}{k} \tfrac{ (-1)^(n-k) r^k}{N^{n-k}}$. We can factor out a $\tfrac{1}{N}$ in the sum and, since $N > 1$, we have $\tfrac{b}{N^i} < b$ for all $b$ and natural number $i$. Since we are looking to prove $s^n > q$, making the expression smaller is what we are set to do. If we replace any positive terms in the sum with negative terms, we will make it smaller. So $s^n > r^n - \tfrac{n r^{n-1}}{N} - \sum_{k=2}^{n} \binom{n}{k} \tfrac{r^k}{N^{n-k}}$. As before, $\sum_{k=2}^{n} \binom{n}{k} \tfrac{r^k}{N^{n-k}} < \tfrac{1}{N} \sum_{k=2}^{n} \binom{n}{k} r^k$  But that sum is part of the expansion of $(r+1)^n$ and is therefore bounded by it since those are all positive terms thanks to $r$ being positive. Thus, we have $s^n > r^n - n \tfrac{r^{n-1}}{N} - \tfrac{ (r+1)^n }{N}$.  By definition, we have $N > \tfrac{3}{a} n r^{n-1}$ implying $\tfrac{a}{3} > \tfrac{ r^{n-1}}{N}$. We also have $N > \tfrac{3}{a} (r+1)^n$ implying $\tfrac{a}{3} > \tfrac{(r+1)^n}{N}$. Therefore $s^n > r^n - \tfrac{2 a}{3} > q$. Since $r>s$, we have shown our result. 
+Define $a = r^n - q$. Define $N =  \max(1,\tfrac{3}{a}n r^{n-1}, \tfrac{3}{a}(r+1)^n$.  Take $s = r - \tfrac{1}{N}$. Then $s^n = (r- \tfrac{1}{N})^n = r^n - \tfrac{n r^{n-1}}{N} + \sum_{k=2}^{n} \binom{n}{k} \tfrac{ (-1)^{n-k} r^k}{N^{n-k}}$. We can factor out a $\tfrac{1}{N}$ in the sum and, since $N > 1$, we have $\tfrac{b}{N^i} < b$ for all $b$ and natural number $i$. Since we are looking to prove $s^n > q$, making the expression smaller is what we are set to do. If we replace any positive terms in the sum with negative terms, we will make it smaller. So $s^n > r^n - \tfrac{n r^{n-1}}{N} - \sum_{k=2}^{n} \binom{n}{k} \tfrac{r^k}{N^{n-k}}$. As before, $\sum_{k=2}^{n} \binom{n}{k} \tfrac{r^k}{N^{n-k}} < \tfrac{1}{N} \sum_{k=2}^{n} \binom{n}{k} r^k$  But that sum is part of the expansion of $(r+1)^n$ and is therefore bounded by it since those are all positive terms thanks to $r$ being positive. Thus, we have $s^n > r^n - n \tfrac{r^{n-1}}{N} - \tfrac{ (r+1)^n }{N}$.  By definition, we have $N > \tfrac{3}{a} n r^{n-1}$ implying $\tfrac{a}{3} > \tfrac{ r^{n-1}}{N}$. We also have $N > \tfrac{3}{a} (r+1)^n$ implying $\tfrac{a}{3} > \tfrac{(r+1)^n}{N}$. Therefore $s^n > r^n - \tfrac{2 a}{3} > q$. Since $r>s$, we have shown our result. 
 \end{proof}
 
 \section{Detailed $e$ computations}\label{app:e}
@@ -1818,7 +1837,7 @@ $a_n < S_n$
 \end{lemma}
 
 \begin{proof}
-The binomial expansion of $a_n$ is $\sum_{i=0}^n \frac{1}{i!} \prod_{j=1}^{i-1} (1-\tfrac{j}{n})$ (for $i=0$ and $i=1$, the product is just 1). By replacing each factor in each product with 1, we are making the expression larger. When done to completion, we have turned the sum into $S_n$. So $a_n < S_n$.
+The binomial expansion of $a_n$ is $\sum_{i=0}^n \frac{1}{i!} \prod_{j=1}^{i-1} (1-\tfrac{j}{n})$ (for $i=0$ and $i=1$, we take the product to be 1). By replacing each factor in each product with 1, we are making the expression larger. When done to completion, we have turned the sum into $S_n$. So $a_n < S_n$.
 \end{proof}
 
 \begin{lemma}\label{lem:snam}
@@ -1828,10 +1847,10 @@ For a given $m$, there exists an $n$ such that $S_m < a_n$.
 \begin{proof}
  We want to find $n$ such that $\sum_{i=0}^m \frac{1}{i!} < (1+\frac{1}{n})^n$. Our $n$ will be larger than $m$ so we can truncate the binomial expansion at $m+1$: $\sum_{i=0}^{m+1} \frac{1}{i!} \prod_{j=1}^{i-1} (1-\tfrac{j}{n})$, making a smaller quantity which is okay since we want this to be an upper bound. By choosing $n$ large enough, the products should be near enough to 1 that the $\frac{1}{(m+1)!}$ term should be large enough to make the expanded sum larger than the sum to $m$. 
 
- Specifically, we choose $\varepsilon < \frac{1}{(m+1)! S_{m+1}  }$ and from this we choose $n > \frac{m}{ 1 - \sqrt[m]{1-\varepsilon}}$\footnote{This inequality is equivalent to, and generated from, $(1-\tfrac{m}{n})^m > 1 - \varepsilon$. Also, $\ln(x) \approx m (\sqrt[m]{x} -1)$ for large enough $m$. This suggests the inequality can be viewed as $n >\frac{m^2}{\varepsilon} > m^2 (m+1)! S_m$. So $n$ is quite large for large $m$.}. With these choices, let us prove that $S_m < a_n$. 
+ Specifically, we choose $\varepsilon < \frac{1}{(m+1)! S_{m+1}  }$ and from this we choose $n > \frac{m}{ 1 - \sqrt[m]{1-\varepsilon}}$.\footnote{This inequality is equivalent to, and generated from, $(1-\tfrac{m}{n})^m > 1 - \varepsilon$. Also, $\ln(x) \approx m (\sqrt[m]{x} -1)$. This suggests the inequality can be viewed as $n > \frac{m}{1 - \sqrt[m]{1-\epsilon}} \approx \frac{m}{-\ln(1 - \epsilon)/m} \approx \frac{m^2}{\varepsilon} > m^2 (m+1)! S_m$. So $n$ is quite large for large $m$.} With these choices, let us prove that $S_m < a_n$. 
  
  With our choices, we claim that $\prod_{j=1}^{i-1} (1-\tfrac{j}{n}) > 1-\varepsilon$ for all $i \leq m+1$. Observe that $1-\tfrac{j}{n} > 1 -\tfrac{m}{n}$ for all $j < m$. Then rearranging the inequality we have for choosing $n$, we have $(1 - \tfrac{m}{n})^m > 1 - \varepsilon $. By possibly replacing factors of 1 with $1-\tfrac{m}{n}$, we can view all of the products as being greater than $(1 - \tfrac{m}{n})^n > 1-\varepsilon$.  Thus, we have 
- $a_n >  \sum_{i=0}^{m+1} \frac{1}{i!} \prod_{j=1}^{i-1} (1-\tfrac{j}{n}) > (1-\varepsilon) S_{m+1} = S_m + \frac{1}{(m+1)!} - \varepsilon S_{m+1}$.  Now, $\varepsilon$ was chosen so that $\varepsilon < \frac{1}{(m+1)! S_{m+1}}$ which is equivalent to $- \varepsilon S_{m+1} > -\frac{1}{(m+1)!}$. We therefore have $a_n > S_m + \frac{1}{(m+1)!} - \varepsilon S_{m+1} > S_m + \frac{1}{(m+1)!} - \frac{1}{(m+1)!} = S_m$. And we have established our result. 
+ $a_n >  \sum_{i=0}^{m+1} \frac{1}{i!} \prod_{j=1}^{i-1} (1-\tfrac{j}{n}) > (1-\varepsilon) S_{m+1} = S_m + \frac{1}{(m+1)!} - \varepsilon S_{m+1}$.  Now, $\varepsilon$ was chosen so that $\varepsilon < \frac{1}{(m+1)! S_{m+1}}$ which is equivalent to $- \varepsilon S_{m+1} > -\frac{1}{(m+1)!}$. We therefore have $a_n > S_m + \frac{1}{(m+1)!} - \varepsilon S_{m+1} > S_m + \frac{1}{(m+1)!} - \frac{1}{(m+1)!} = S_m$. We have established our result. 
 \end{proof}
 
 
@@ -1892,34 +1911,34 @@ But first, let us explore with some examples.
 
 If we have two rationals $\frac{a}{b} < \frac{c}{d}$ such that $bc - ad = 1$, then they are a Farey pair and the mediant process preserves this condition. In this case, the mediant process leads to the rational number being achieved in this process and it is in reduced form. This is what Theorem 1 in \cite{richards} states explicitly. The argument is that such Farey pairs always produce a mediant which is the closest rational to any number in the interval with the smallest denominator. Given that, if a rational is the target of the process, then it must be achieved as it will be its own best approximation at that level. 
 
-This theorem does not directly apply to non-Farey pairs. If $bc-ad > 1$,\footnote{This is the only other case since $\frac{a}{b} < \frac{c}{d}$ implies $bc - ad > 0$ and this is an integral quantity.} every rational in the interval will be obtained by a mediant process, but it will not be in reduced form. In general, one will have a scaling factor of $bc-ad$ for the form though it can be less as the example of $\frac{7}{8}< \frac{11}{12}$ with a target of $\frac{9}{10}$ demonstrates; the $bc-ad = 4$, but the process obtains $\frac{18}{20}$ instead of $\frac{36}{40}$. Note that there are some common factors involved here. In contrast, if we used the same interval but wanted to converge to $\frac{8}{9}$, we should end up there when we get to the fraction $\frac{32}{36}$ which we do as the sequence of mediants $\frac{18}{20}, \frac{25}{28}, \frac{32}{36}$ establish. Another random example is  $\frac{1}{4} , \frac{19}{9}$ with target $\frac{2}{1}$. The factor $67$ and the mediants do indeed become $\frac{134}{67}$  ($\frac{20}{13}, \frac{39}{22}, \frac{58}{31}, \frac{77}{40}, \frac{96}{49}, \frac{115}{58}, \frac{134}{67} = 2$). 
+This theorem does not directly apply to non-Farey pairs. If $bc-ad > 1$,\footnote{This is the only other case since $\frac{a}{b} < \frac{c}{d}$ implies $bc - ad > 0$ and this is an integral quantity.} every rational in the interval will be obtained by a mediant process, but it will not be in reduced form. In general, one will have a scaling factor of $bc-ad$ for the form though it can be less as the example of $\frac{7}{8}< \frac{11}{12}$ with a target of $\frac{9}{10}$ demonstrates; the $bc-ad = 4$, but the process obtains $\frac{18}{20}$ instead of $\frac{36}{40}$. Note that there are some common factors involved here. In contrast, if we used the same interval but wanted to converge to $\frac{8}{9}$, we should end up with the fraction $\frac{32}{36}$ which we do as the sequence of mediants $\frac{18}{20}, \frac{25}{28}, \frac{32}{36}$ establishes. Another random example is  $\frac{1}{4} , \frac{19}{9}$ with target $\frac{2}{1}$. The scaling factor is $67$ and the mediants do indeed become $\frac{134}{67}$  ($\frac{20}{13}, \frac{39}{22}, \frac{58}{31}, \frac{77}{40}, \frac{96}{49}, \frac{115}{58}, \frac{134}{67} = 2$). 
 
 
-To establish our claim, we want to find integers $m$, $n$, and $r$, with $m$ and $n$. When we form our first mediant, we get $\frac{a+c}{b+d}$. As we proceed with the processes, we will in general have the form $\frac{ma + nc}{mb + nd}$ for integers $m$ and $n$. One can prove this by seeing that taking the mediant of two numbers of this form will produce another number of that form. Since we start off with two numbers in this form, specifically, $m=1, n=0$ for $\frac{a}{b}$ and $m=0, n=1$ for $\frac{c}{d}$, we will stay with this form. 
+To establish our claim, we want to find non-negative integers $m$, $n$, and $r$, with $m$ and $n$ coprime. When we form our first mediant, we get $\frac{a+c}{b+d}$. As we proceed with the processes, we will in general have the form $\frac{ma + nc}{mb + nd}$ for integers $m$ and $n$. One can prove this by seeing that taking the mediant of two numbers of this form will produce another number of that form. Since we start off with two numbers in this form, specifically, $m=1, n=0$ for $\frac{a}{b}$ and $m=0, n=1$ for $\frac{c}{d}$, we will stay with this form. 
 
 Therefore, we need to find non-negative integers $m$ and $n$ such that $\frac{ma+nc}{mb+nd} = \frac{e}{f}$. This is equivalent to finding non-negative integers $m$ and $n$
 satisfying the equations
 \begin{align*}
     am + cn &= re & \\
-    bm + dn &= rf & \\
+    bm + dn &= rf & 
 \end{align*}
-This has solution, $m = \frac{r}{bc-ad} (cf-de)$ and $n= \frac{r}{bc-ad} (be-af)$. When $\frac{r}{bc-ad}$ is an integer, then $m$ and $n$ will be integers. We also need these to be non-negative. Since $\frac{a}{b} < \frac{e}{f} < \frac{c}{d}$, we have that $cf>de$ or $cd - de > 0$ and we have $bc>ad$ or $bc - ad > 0$. Thus, all the quantities are positive assuming we take $r$ to be as well. 
+This has solution, $m = \frac{r}{bc-ad} (cf-de)$ and $n= \frac{r}{bc-ad} (be-af)$. When $\frac{r}{bc-ad}$ is an integer, then $m$ and $n$ will be integers. We also need these to be non-negative. Since $\frac{a}{b} < \frac{e}{f} < \frac{c}{d}$, we have that $cf>de$ or $cf - de > 0$ and we have $be>af$ or $be - af > 0$. Thus, all the quantities are positive assuming we take $r$ to be as well. 
 
 The next question is whether we can actually achieve any combination of $m$ and $n$ from the mediant process. The answer is no, we cannot. The final condition we need is that $m$ and $n$ are coprime. This is what prevents us from claiming that we can achieve multiple forms of the rational number from this process, something we cannot do. In fact, the requirement of it being coprime is what changes the conclusion of the example above with the target of $\frac{9}{10}$. While we will establish why we need the coprimeness, let us first show that we can ensure that there do exist $m$ and $n$ satisfying these equations that are coprime. 
 
-Let $cf-de = st$ and $be-af = su$ where $t$ and $u$ are coprime and $s, t, u$ are integers.  Then mutliplying the first equation by $a$ and the second equation by $c$ and combining, leads to $e (cb -ad) = s (at  + cu)$. Multiplying the first equation by $b$ and the second by $d$ leads to $f (cb - ad) = s(bt + du)$. This means $s$ divides both $e(cb-ad)$ and $f(cb-ad)$. Since $e$ and $f$ are copprime, this means that $s$ must divide into $cb-ad$. If we take $r = \frac{(bc-ad)}{s}$, then we have that $m=t$ and $n=u$ implying they are corpime. 
+Let $cf-de = st$ and $be-af = su$ where $t$ and $u$ are coprime and $s, t, u$ are integers.  Then mutliplying the first equation by $a$, the second equation by $c$, and then combining, we end up with $e (bc -ad) = s (at  + cu)$. Multiplying the first equation by $b$ and the second by $d$ leads to $f (bc - ad) = s(bt + du)$. This means $s$ divides both $e(bc-ad)$ and $f(bc-ad)$. Since $e$ and $f$ are coprime, this means that $s$ must divide into $bc-ad$. If we take $r = \frac{(bc-ad)}{s}$, then we have that $m=t$ and $n=u$ implying they are corpime. 
 
 The final part of our proof is to establish that we can construct a mediant process given coprime $m$ and $n$. This is where we use Theorem 1 from \cite{richards}. The form $\frac{ma + nc}{mb+nd}$ for coprime $m$ and $n$ is obtained in the exact same way as $\frac{m}{n}$ is in the Farey process where $\frac{a}{b}= \frac{0}{1}$ and $\frac{c}{d}=\frac{1}{0}$ are the starting points. Since the Farey process always results in a fraction without common factors, we have to have $m$ and $n$ coprime for this to work.  
 
-We claim that the pathway through the mediant process is described by the continued fraction for $\frac{m}{n}$.  To show this, we need to establish comparative ordering for fractions of the form $\frac{ma + nc}{mb + nd}$. So let's consider such a fraction with $m,n$ as one pair and $p,q$ representing another pair. The numerator of their difference is 
+We need to establish comparative ordering for fractions of the form $\frac{ma + nc}{mb + nd}$. So let's consider such a fraction with $m,n$ as one pair and $p,q$ representing another pair. The numerator of their difference is 
 \begin{flalign*}
-(ma+nc)(pb+qd) & - (pa+qc)(mb+nq)  & \\
+(ma+nc)(pb+qd) & - (pa+qc)(mb+nd)  & \\
  & = pmab + pnbc + qmad + qncd -  mbpa - mqbc -  ndpa -ndqc & \\
  & = pnbc -pnad +qmad- mqbc & \\
  & = pn(bc-ad) + qm(ad-bc) & \\ 
- &= (pn-qm)(bc-ad) & \\
+ &= (pn-qm)(bc-ad) & 
 \end{flalign*}
-The denominator is $(mb+nd)(pb+qd)$.  Since we assume $m,n,p,q$ are non-negative, we take the denominators $b$ and $d$ to be positive, and we have $bc-ad > 0$ due to $\frac{a}{b} < \frac{c}{d}$, we can see that the difference of these two forms is entirely based on the computation of $pn - qm$. This implies that the sequence of choices about which subinterval to choose will always be decided in the same way. Specifically, if $pn - qm > 0$ if and only if $\frac{p}{q} > \frac{m}{n}$.
+The denominator is $(mb+nd)(pb+qd)$.  Since we assume $m,n,p,q$ are non-negative, and we can take the denominators $b$ and $d$ to be positive, and we have $bc-ad > 0$ due to $\frac{a}{b} < \frac{c}{d}$, we can see that the difference of these two forms is entirely based on the computation of $pn - qm$. This implies that the sequence of choices about which subinterval to choose will always be decided in the same way. Specifically, $pn - qm > 0$ if and only if $\frac{p}{q} > \frac{m}{n}$.
 
 Furthermore, we always start with $m=0, n=1$ and $m=1, n=0$. The next mediant will always be $m=1, n=1$. After that, we need to start comparing with our target. Let's say it is $\frac{Ma + Nc}{Mb + Nd}$. Then if $\frac{M}{N} > \frac{1}{1} = 1$, then we will go right and be looking at the interval $[\frac{a+c}{b+d}, \frac{c}{d}]$ leading to the next mediant being $m=1, n=2$. If $\frac{M}{N} < 1$, then we go left and look at the interval $[\frac{a}{b}, \frac{a+c}{b+d}]$ leading to the next mediant being $m=2, n=1$. We proceed in a similar fashion, comparing the target $\frac{M}{N}$ to the current $\frac{m}{n}$ and deciding which interval to select from that. When we achieve equality, we stop the process.
 
@@ -1927,37 +1946,7 @@ What we have just established is that we can start with any interval $[\frac{a}{
 
 Let us consider the simple interval $[1, 2]$ with target $\frac{3}{2}$. For this, the target is $m=1, n=1$ and happens after the first step. But now let's change the endpoint $2$ to $\frac{6}{3}$. This is the same rational, but it changes the $m$ and $n$ for the target. In particular, since $6*1-3*1 = 3$, we expect the target to be $\frac{9}{6}$ with $m=3, n=1$, generating the mediants $\frac{7}{4}, \frac{8}{5}, \frac{9}{6}$.  We can view this as we initially weighted the right endpoint more and so we start farther to the right and thus we need to go left a few times to compensate. 
 
-In summary, the mediant process of approximating a real number given a starting interval will always terminate when the real number is a rational in the interval. There is no condition on what the interval is or the form of the endpoints. All we require is that the target number is in the initial interval.
-
-
-\section{Constructing a non-rational} \label{app:uncountable}
-
-Here we do a fun little exercise. Let us consider the interval $[0,1]$ and the Stern-Brocot tree restricted to that interval. The first descendant is $\frac{1}{2}$ and it expands out from there. We imagine making a list of all the rationals in this interval by going across each level, starting from the least and going to the largest. 
-
-Our task will be to produce an oracle that is not on this list but is in this interval. We do this by constructing a sequence of intervals which progressively does not contain any of the previous numbers. Our method is to choose an interval at the $n$-th step that specifically will exclude the $n$-th entry on the list. This will generate a sequence of intervals and a sequence of rational continued fraction representations which will also highlight the path we have taken. 
-
-We start with the interval $[0,1]$ and our first choice is between $[0,\frac{1}{2}]$ and $[\frac{1}{2}, 1]$. Our list will start with $0, 1, \frac{1}{2}, \frac{1}{3}, \frac{2}{3}, \ldots$. So the first number is $0$. To avoid it, we select the right interval, $[\frac{1}{2}, 1]$. This tells us the continued fraction is either $[0;1,1]$ or $[0;2]$. The first $0$ was saying that we selected $[0,1]$ for the first interval after the mythical $[\frac{0}{1}, \frac{1}{0}]$ starting interval. Then we selected the right interval of the two split by $\frac{1}{2}$ which is changing direction. So $[0;1,1]$ is our choice and telling us the next mediant computed will be $\frac{2}{3}$. It is telling us to take the right descendant. But while the continued fraction is pointing to $\frac{2}{3}$, we have yet to take that step. 
-
-Taking that next step, we need to ensure $1$ is excluded. This is to the right of $\frac{1}{2}$ so we will want to get left to get away from it. Thus, we select the interval $[\frac{1}{2}, \frac{2}{3}]$ with continued fraction $[0;1,1,1]$ indicating we changed direction again. 
-
-Next, we are at $\frac{1}{2}$ which is the left endpoint of the subinterval we have. We clearly want to get rid of that. So we go right leading to $[\frac{3}{5}, \frac{2}{3}]$ and continued fraction $[0; 1, 1, 1, 1]$. 
-
-We are now at the level of the thirds. $\frac{1}{3}$ is to the left of $\frac{1}{2}$ while $\frac{2}{3}$ is to the right of it. This means for the $\frac{1}{3}$ entry, we will select the right subinterval to go away from it while for the $\frac{2}{3}$ we will go left. Thus, the continued fraction sequence is $[0;1, 1, 1, 2]$ and then $[0; 1, 1, 1, 2, 1]$ corresponding to intervals $[\frac{5}{8}, \frac{2}{3}]$ and then $[\frac{5}{8}, \frac{7}{11}]$. 
-
-As we descend down the tree, we make a record of whether each number is to the left or to the right of the chosen one above it. Then, as we get to that element in the list, we choose the subinterval that is the opposite to it. So if a number is to the left, we choose the right subinterval. In this way, we will always be moving away from all the elements above in the list and are ensured not to contain a given number. 
-
-As we descend down the tree, we do not actually need to take account of each number's specific placement. Most of them are accounted for already by the previous choices. If a number is to the left of the previous mediant and not a descendant of that mediant, then all of its children will be to the left of their relevant mediant. So at each stage, we double the number of left and right nodes with the exception of the chosen mediant for that level. For that mediant, we do need to compute something, but the rest we do not. Since we are going from left to right along each level, we can simply pop off each left or right as we go along the list, making for an efficient computation. 
-
-Let's look at the level after the thirds:  $\frac{1}{4}, \frac{2}{5}, \frac{3}{5}, \frac{3}{4}$. The first two are descendants of $\frac{1}{3}$ and are automatically left of the chosen mediant. For the other two, we have to know the choice at $\frac{2}{3}$ and then we will need to record that chose mediant's direction for computing the next level's decision. 
-
-Since we went to $\frac{3}{5}$, we have two full left nodes, one full right node, and then one node which is going to select the right path. So the next level is then going to have 4 left nodes from the full ones, a further left one since we selected the right node and the right node itself needs to be considered left since it will be the left endpoint of a subinterval so we will want to choose the right one. And then we have 2 right ones. 
-
-And then we can continue with this. 
-
-It is easy enough to write a little program to compute this out and about 100 levels deep, we have the number:  $[
-       0,      1,      1,      1,       2,
-       1,      3,      1,      6,       2,
-      11,      5,     23,      9,      46]$  which translates into $\frac{271373821}{427653648} \approx 0.634564$. 
+In summary, the mediant process of approximating a real number given a starting interval will always terminate when the real number is a rational in the interval. There is no condition on what the interval is or the form of the endpoints. All we require is that the target rational number is in the initial interval and then the process wil terminate.
 
 
 \medskip
