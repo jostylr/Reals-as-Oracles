@@ -1,6 +1,8 @@
 # Reals-as-Oracles
 This is a paper for a new definition of real numbers, namely, viewing a real number as an oracle that affirms when a rational interval contains the real number. 
 
+Here is the link to the [PDF](https://github.com/jostylr/Reals-as-Oracles/releases/download/v0.9.0/Reals_as_Oracles.pdf). It is also under releases.
+
 ## Why
 
 The currently used definition of real numbers have difficulties, many of which are not needed to be. For example, defining a real number as a Cauchy sequence introduces non-uniqueness which leads to defining it as an equivalence class of Cauchy sequences, but this is just a mind-numbingly large and irrelevant object for a real number. 
