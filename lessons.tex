@@ -1,0 +1,154 @@
+\documentclass[12pt]{article}
+\usepackage{amsfonts,amsmath,amssymb,mathrsfs,amsthm}
+\usepackage[hidelinks]{hyperref}
+
+\usepackage[backend=biber,style=alphabetic,sorting=ynt]{biblatex}
+\addbibresource{bib.bib}
+
+%Dangerous, possibly remove if weird
+\interfootnotelinepenalty=10000 
+
+\title{Rational Lesson Planning for the Real Numbers}
+\author{
+  James Taylor\footnote{Arts \& Ideas Sudbury School, 4915 Holder Ave, Baltumore, MD 21214, james@aisudbury.org}
+}
+\date{December 31, 2022}
+
+\addtolength{\textwidth}{2.0cm}
+\addtolength{\hoffset}{-1.0cm}
+\addtolength{\textheight}{3.0cm}
+\addtolength{\voffset}{-1.5cm}
+
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{proposition}{Proposition}
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+
+%https://tex.stackexchange.com/questions/432778/reduce-spacing-around-colons-in-math-mode
+\DeclareMathSymbol{:}{\mathord}{operators}{"3A} 
+%\mathrel{:} if need colon spaced. 
+%want small less than for colon replacement
+\newcommand{\lt}{\mathord{<}}
+
+%\sloppy%\openup-.1\jot
+\begin{document}\maketitle
+\begin{abstract}
+In a companion paper, we give a new definition of a real number as an oracle which affirms whether or not a real number is in a given rational interval. We established all the various properties of real numbers that one ought to have and explore some examples and generalizations. In this paper, we wish to explore ideas on how to present them to students. It is hoped that this new definition will allow for earlier and more precise treatment of what exactly a real number is. There is also the faint hope that this could inspire more of use interval arithmetic, promoting the idea of accuracy over precision. 
+\end{abstract}
+
+\tableofcontents
+
+\section{Current Definitional Deficits}
+
+What is the square root of 2? This is the number where complexity arises in our number system often for the first time in a student's life. It often is in the context of that simplest of figure, a square. Take a tile that we commonly walk on and measure its diagonal. We get a number and mathematics tells us that this number is not like the other numbers we have known. 
+
+How do we explain it? The typical way is that we use decimals to do so. We start listing off the decimals of the square root of 2, but we trail off pretty quickly. We wave at it and say that it keeps going on and there is no periodic pattern to it. And then we probably move on, mumbling something about arithmetic operations working just as before. 
+
+This was certainly unsatisfying to me as a student and I imagine most students also find it difficult. Prior math may have been difficult for them, but it was not a matter of understanding as much as one of computing. With the square root of 2, the understanding what we are even talking about is quite difficult. And we do not give them much to hold onto. 
+
+Higher mathematics is not much help here. The common suggestion for defining real numbers is that of using Cauchy sequences and Dedekind cuts. It would be hard to imagine this being successful in the slightest to explaining this to seventh graders, particularly before they have mastered something like square roots. But the infinite decimals are not easy either. The idea of arithmetic with something which goes on forever to the right would seem to be both nonsense and confusing to actually do. 
+
+We think there is a better way of handling this, one which is approachable to students learning about real numbers for the first time and which can be delved into later in all its glory for more advanced students. That approach is that of oracles. 
+
+\section{Introducing the Oracles}
+
+If we talk about the square root of 2 being 1.41 or so, what we really mean is that it is between 1.41 and 1.42. We think we should make this explicit. 
+
+Our proposal is that a real number, such as square root 2, is an object which should be thought of as being in a bunch of rational intervals. Its core job is to say Yes or No when presented with an interval. It says Yes if it is ``in'' the interval, and No if it is not. We call it an oracle. 
+
+There are a number of properties that an oracle must satisfy. It should not be too hard to lead curious students to come up with them. 
+
+The first property would be Consistency. If an interval contains a Yes interval, then it should be Yes too. While important, this is mostly a background property. If we have a Yes interval, we shouldn't really care about larger intervals that contain it. But it is important that this holds true. 
+
+Next, there should be at least some interval which is a Yes interval. This is the Existence Property. 
+
+While we are trying to handle numbers that are not fractions, how we handle the rationals is itself of interest. We certainly want to know how oracles describing rationals will behave. And part of this is do we allow an ``interval'' which consists of a single value? This is certainly debatable, but the choice I have taken is to include that. I call them singletons. If we are discussing an oracle that represents a rational, then we would want the singleton to be a Yes interval exactly when it is the correct rational. We can cast this as two properties. The first is the Rooted property which is that if we have two singletons, then at most one of them can be a Yes interval. The second is the Closed property which tells us that if a rational is present in every Yes non-singleton interval, then that rational's singleton interval is also a Yes interval. 
+
+We call an oracle with a Yes singleton to be a singleton oracle while non-singleton oracles we refer to as a neighborly oracle. Non-singleton intervals can be called neighborhoods. 
+
+We have one more property that oracles need to satisfy. This property finishes the forcing of the oracle to narrow on a single value which the Rooted property implies for rationals. 
+
+Let us say that the rational interval $[a, b]$ is a Yes interval. Then the final property we demand is that we can pick a rational $c$ such that $a < c <b$ and we have that either $[c,c]$ is a Yes singleton or exactly one of $[a,c]$ or $[c,b]$ is a Yes interval. This is the Interval Separating Property. The idea of it is that we have a Yes interval and we pick some rational inside that interval to split it into two pieces and the oracle tells us which one is the next interval that will work. It is how the existence of the oracle facilitates narrowing the intervals to reveal a better picture of which real number we are talking about. Bisection of the interval is the simplest strategy to use, but we will discuss later the wonderful use of mediants for this purpose. 
+
+After assembling these properties, one can pause and think about the necessity of each of them. Consistency and Existence should feel fairly basic and pretty obvious that they do not follow from the others. The Closed property is debatable, but hopefully with the discussion of the arithmetic, it will be made clear how useful it is to have the actual rational singletons.  
+
+The two properties for narrowing the choice should feel necessary, but they will probably also feel a little redundant. So for the curious student, it can be useful to explore if one implies the other. If we did not have the Separating property, we could satisfy the others with a false oracle that says Yes whenever an interval contains the square root of 2, the square root of 3, or both. Consistency and Existence are satisfied. Since there is no rational number contained in all such intervals (this can spark a discussion of whether those numbers could be rational or not), neither Rooted nor Closed are violated. But it does not do what we want. It does fail the Separating Property as picking a number in between the square root of 2 and square root 3 would highlight in an interval that contains both of those numbers.  
+
+To see that the Rooted Property is needed, consider the false oracle which is Yes for all intervals, including the singletons, that intersect with the interval $[0,1]$. This satisfies Consistency and Existence. It is also Closed as all singletons in $[0,1]$ are Yes. The Separating Property holds trivially since if we pick $c$ in $[0,1]$, then the singleton $c:c$ is a Yes interval. Hence, we are not forced to have one of the subintervals be a No. This obviously does not satisfy the Rooted property. 
+
+The companion paper proves that the family of all oracles, with a suitable ordering and arithmetic defined on it, does meet the criteria for the real numbers. Each rational is represented by the unique oracle that says Yes to that rational's singleton. 
+
+One of the key features of this approach is that we can use the fractional form of these numbers if we want to or we can use the decimal versions. For the infinite decimal version, generally fractional forms are not that embraced. With oracles, we are free to use what we wish. It could help with mastering fractional arithmetic. 
+
+We have a variety of properties that we can deduce about oracles from these five properties: 
+\begin{enumerate}
+    \item Consistency says that intervals that contain Yes intervals are Yes intervals. The flip side of that is that intervals contained in No intervals must be No. 
+    \item Disjoint intervals cannot be Yes intervals to the same oracle.
+    \item The intersection of two Yes intervals is another Yes interval. 
+    \item The union of two intersecting No intervals is a No interval. 
+    \item For neighborly oracles, given a Yes interval, we can always find an interval in which is strictly contained in that interval. 
+    \item For neighborly oracles, we can take any finite partition of a Yes interval and get exactly one Yes interval. This holds for singleton oracles unless the partition contains the singleton in which case the two subintervals that contain that singleton are Yes intervals. 
+    \item Ordering between oracles is based on how their disjoint Yes intervals are ordered. That is, we find small enough Yes intervals from the oracles that they do not overlap and then order them based on that interval ordering. Transitivity holds. 
+    \item Equality of oracles is a simple statement: they agree on all intervals. In practice, it can be hard to know if two rules will always give the same answer. 
+    \item One way to establish equality is to show that any two Yes intervals from the two oracles must intersect. A related way is if one can establish that every Yes interval of the one oracle contains a Yes interval of the other. 
+    \item We can always find a Yes interval for an oracle as small as we like. This is proven by using the bisection of the intervals and applying the Separating property. When combined with the intersection property, this can replace the Separating and Rooted Properties. 
+    \item Given any two points in a Yes interval, there exists a Yes interval which does not include at least one of them. When combined with the disjointness property, this can replace the Separating and Rooted Properties. 
+\end{enumerate}
+All of these claims are proven in the companion paper. 
+
+
+
+\section{Geometry, Quadratics, and Real Numbers}
+
+\section{Mediant Fun}
+
+\section{Arithmetic Explorations}
+
+\section{Calculus Notions}
+
+\section{Functions and Oracles}
+
+\medskip 
+
+\appendix 
+
+\section{Constructing a non-rational} \label{app:uncountable}
+
+Here we do a fun little exercise. Let us consider the interval $[0,1]$ and the Stern-Brocot tree restricted to that interval. The first descendant is $\frac{1}{2}$ and it expands out from there. We imagine making a list of all the rationals in this interval by going across each level, starting from the least and going to the largest. 
+
+Our task will be to produce an oracle that is not on this list but is in this interval. We do this by constructing a sequence of nested intervals which does not contain any of the previous numbers. Our method is to choose an interval at the $n$-th step that specifically will exclude the $n$-th entry on the list. This will generate a sequence of intervals and a sequence of rational continued fraction representations which will also highlight the path we have taken. 
+
+We start with the interval $[0,1]$ and our first choice is between $[0,\frac{1}{2}]$ and $[\frac{1}{2}, 1]$. Our list will start with $0, 1, \frac{1}{2}, \frac{1}{3}, \frac{2}{3}, \ldots$. So the first number is $0$. To avoid it, we select the right interval, $[\frac{1}{2}, 1]$. This tells us the continued fraction is either $[0;1,1]$ or $[0;2]$. The first $0$ was saying that we selected $[0,1]$ for the first interval after the mythical $[\frac{0}{1}, \frac{1}{0}]$ starting interval. Then we selected the right interval of the two split by $\frac{1}{2}$ which is changing direction. So $[0;1,1]$ is our choice and telling us the next mediant computed will be $\frac{2}{3}$. It is telling us to take the right descendant. But while the continued fraction is pointing to $\frac{2}{3}$, we have yet to take that step. 
+
+Taking that next step, we need to ensure $1$ is excluded. This is to the right of $\frac{1}{2}$ so we will want to get left to get away from it. Thus, we select the interval $[\frac{1}{2}, \frac{2}{3}]$ with continued fraction $[0;1,1,1]$ indicating we changed direction again. 
+
+Next, we are at $\frac{1}{2}$ which is the left endpoint of the subinterval we have. We clearly want to get rid of that. So we go right leading to $[\frac{3}{5}, \frac{2}{3}]$ and continued fraction $[0; 1, 1, 1, 1]$. 
+
+We are now at the level of the thirds. $\frac{1}{3}$ is to the left of $\frac{1}{2}$ while $\frac{2}{3}$ is to the right of it. This means for the $\frac{1}{3}$ entry, we will select the right subinterval to go away from it while for the $\frac{2}{3}$ we will go left. Thus, the continued fraction sequence is $[0;1, 1, 1, 2]$ and then $[0; 1, 1, 1, 2, 1]$ corresponding to intervals $[\frac{5}{8}, \frac{2}{3}]$ and then $[\frac{5}{8}, \frac{7}{11}]$. 
+
+As we descend down the tree, we make a record of whether each number is to the left or to the right of the chosen one above it. Then, as we get to that element in the list, we choose the subinterval that is the opposite to it. So if a number is to the left, we choose the right subinterval. In this way, we will always be moving away from all the elements above in the list and are ensured not to contain a given number. 
+
+As we descend down the tree, we do not actually need to take account of each number's specific placement. Most of them are accounted for already by the previous choices. If a number is to the left of the previous mediant and not a descendant of that mediant, then all of its children will be to the left of their relevant mediant. So at each stage, we double the number of left and right nodes with the exception of the chosen mediant for that level. For that mediant, we do need to compute something, but the rest we do not. Since we are going from left to right along each level, we can simply pop off each left or right as we go along the list, making for an efficient computation. 
+
+Let's look at the level after the thirds:  $\frac{1}{4}, \frac{2}{5}, \frac{3}{5}, \frac{3}{4}$. The first two are descendants of $\frac{1}{3}$ and are automatically left of the chosen mediant. For the other two, we have to know the choice at $\frac{2}{3}$ and then we will need to record that chosen mediant's direction for computing the next level's decision. 
+
+Since we went to $\frac{3}{5}$, we have two full left nodes, one full right node, and then one node which is going to select the right path. So the next level is then going to have 4 left nodes from the full ones, a further left one since we selected the right node and the right node itself needs to be considered left since it will be the left endpoint of a subinterval so we will want to choose the right one. And then we have 2 right ones. 
+
+And then we can continue with this. 
+
+It is easy enough to write a little program to compute this out and about 100 levels deep, we have the number:  $[
+       0,      1,      1,      1,       2,
+       1,      3,      1,      6,       2,
+      11,      5,     23,      9,      46]$  which translates into $\frac{271373821}{427653648} \approx 0.634564$. 
+
+
+\medskip
+
+\printbibliography
+
+\end{document}

@@ -349,7 +349,7 @@ We need to assume disjointness as No does not propagate upwards from the backgro
     
     Proposition \ref{pr:disjoint} establishes the Disjointness Property. 
 
-    For the other direction, the Rooted property follows immediately from the Disjointness Property sine $c \neq d$ implies $c:c$ and $d:d$ are disjoint. 
+    For the other direction, the Rooted property follows immediately from the Disjointness Property since $c \neq d$ implies $c:c$ and $d:d$ are disjoint. 
     
     To establish the Separation property, we need to consider a sequence of numbers approaching the $c$ of that property and argue that either $c$ is not in one of those intervals or it is a Yes singleton. Let $a_0=a$, $a_{i+1} = \frac{a_i + c}{2}$, $b_0 = b$, and $b_{i+1} = \frac{b_i + c}{2}$. Then using the Two Point Separation Property on $a_i$, $c$, we have the existence of a Yes interval, say $e_i:f_i$, that does not contain at least one of them. Similarly, we also have intervals $g_i:h_i$ which does not contain at least one of $b_i$ or $c$. 
     
@@ -493,7 +493,7 @@ We have established that every fonsi $\mathcal{I}$ gives rise to an oracle which
 We can import the concepts of equality and inequality from our work with oracles. In particular, if there exists a rational length $q$ such that for any interval with length $|I|<q$ in the fonsi $\mathcal{I}$ and interval $|J|<q$ in the fonsi $\mathcal{J}$, we have $I  < J$ as intervals, then the oracles formed from these have the same relation. They are equal if no separation exists. 
 
 \begin{proposition}\label{pr:fonsi-inter}
-Let $\mathcal{I}$ and $\mathcal{J}$ be two fonsis such that for every rational $q>0$ we have the existence of intervals $I \in \mathcal{I}$ and $J \in \mathcal{J}$ such that $I$ and $J$ intersect. Then the oracle $r$ of $\mathcal{I}$ and the oracle of $s$ of $\mathcal{J}$ are the same. 
+Let $\mathcal{I}$ and $\mathcal{J}$ be two fonsis such that for every rational $q>0$ we have the existence of intervals $I \in \mathcal{I}$ and $J \in \mathcal{J}$ such that $|I| <q$, $|J|>q$, and $I$ and $J$ intersect. Then the oracle $r$ of $\mathcal{I}$ and the oracle of $s$ of $\mathcal{J}$ are the same. 
 \end{proposition}
 
 \begin{proof}
@@ -512,9 +512,14 @@ For constructing an oracle, a fonsi can be a very appealing pathway. Here are a 
 
 
 
-We now use the concept of fonsi to establish the oracles of $\pi$ and $e$.
 
-\subsubsection{Example: $\pi$}
+
+\subsection{Examples}
+
+
+We now pause and give some explcit computations for computing out the three most widely known irrational numbers: $\pi$, $e$, and $\sqrt{2}$. The hope is to demonstrate how this framework interfaces with getting explicit bounds. The notion of a fonsi is very helpful here. 
+
+\subsubsection{Circles, $\pi$, and Sums}
 
 There are, of course, many ways of computing $\pi$, but here we will start with the classic approach of circumscribed and inscribed polygons and then proceed into the Bailey-Borwein-Plouffe formula which is entirely rational in the approximations. 
 
@@ -540,9 +545,9 @@ To apply our fonsi results, we need to show that that the sum is absolutely conv
 
 This formula for $\pi$ is entirely rational and the $p_n$ gives us interval estimates.
 
-\subsubsection{Example: $e$}\label{sec:e}
+\subsubsection{Products, $e$, and Sums}\label{sec:e}
 
-The other famous example is $e$. We define the Oracle of $e$ as follows. 
+We define the Oracle of $e$ as follows. 
 
 Let $S_N = \sum_{i=0}^N \frac{1}{i!}$. Notice that since we are adding positive terms as $N$ increases, we have $S_N < S_{N+1}$. 
 
@@ -574,7 +579,7 @@ For our final exploration of $e$, we would like to show that it is not a singlet
 
 It is instructive to compare this to Rudin's proof of $e$ being irrational. It is the same, except Rudin only concludes that $e$ is not rational. What we have naturally drawn out of that same work is that there can be no rational with denominator $q$ in the approximation intervals contained in $S_q$'s interval. That is, we have an explicit marker after which we know the denominators in the interval must be larger than $q$. 
 
-\subsubsection{Example: Explicitly computing roots}
+\subsubsection{Explicitly computing roots}
 
 Section \ref{sec:roots} shows the existence of $n$-th roots, but it does not give a great way of finding a $n$-th root. 
 
@@ -675,6 +680,35 @@ Inspired by this, let us define an $\textbf{error-bounded Cauchy sequence}$ to m
 Clearly, an error-bounded Cauchy sequence is a Cauchy sequence. The converse can be understood to be true, at least after a fashion. A rough sketch of this is that one can create a sequence of shrinking limits, say $1/n$, and bound each of the previous amount of finite terms based on how far they actually are from one another. We will not bother as that is a ridiculous procedure involving a potentially infinite amount of work and would not actually be useful. But if we had these error bounds more naturally in a practical problem, then they would be exactly what we want in understanding what oracle we are describing.    
 
 Note that the error-bounded Cauchy sequences are basically nested, shrinking intervals whose center is $a_n$ and length is $2p_n$ for the $n$-th element. 
+
+\subsection{Intermediate Value Theorem}
+
+A well-known process that is almost perfectly made for oracles with the separation property, is that of finding solutions to equations using the process of the Intermediate Value Theorem. 
+
+In this section, we will assume we have a function $f$ defined on the rationals to the rationals or that we have a family of functions defined on the rationals which gives us a fonsi for each rational input; we will call that $f$ as well. The model to have in mind is the Taylor approximations for a function such as $\sin(x)$. What we mostly need is to be able to refine a result sufficiently well to distinguish whether the value is above or below another value. Section \ref{sec:funora} has a different approach to functions and also discusses the Intermediate Value Theorem in that context. 
+
+Let us say that we are trying to solve $f(\alpha) = y$ on the interval $a:b$ and we have $f(a):y:f(b)$. Then we define a rule $R$ for intervals in $a:b$ such that $R(c:d) = 1$ exactly when $f(c):y:f(d)$ holds true. 
+
+For a random function $f$, this is not going to define an oracle. It will define a process that can certainly define an oracle. In particular, we can take the midpoint of the interval, make a choice of interval, take that midpoint, pick a new subinterval, etc. This is a sequence of narrowing, overlapping intervals and hence will define an oracle. But without more control on the function, different choices will potentially lead to different outcomes. 
+
+To make it independent of choices, we can take $f$ to be strictly monotonic on $a:b$ and rationally continuous.\footnote{Given $N >0$ and a number $q$, we can find $M$ such that if $|q-r|<\frac{1}{M}$, then $|f(q)-f(r)| < \frac{1}{N}$.} This will ensure that any subinterval in $a:b$ will give consistent results. In particular, it will satisfy
+
+\begin{enumerate}
+    \item Consistency. If $a:c:g:h:d:b$ and $g:h$ is a Yes interval, then by monotonicity, we have $f(c):f(g):y:f(h):f(d)$ and so $c:d$ is a Yes interval. If we have $c:d$ partially outside $a:b$, then the oracle pronounces Yes or No based on the intersection with $a:b$ with a No if it does not intersect $a:b$ at all. This choice will yield consistency. 
+    \item Existence. $a:b$ is a Yes interval.
+    \item Separating. Let $c:d$ be a Yes interval in $a:b$ and let $q$ be given as a number in $c:d$. We want to establish that $q$ separates the interval. Since $c:d$ is a Yes interval, we have $f(c):y:f(d)$. We compute $f(q)$. If $f(q) = y$, then $f(q):y:f(q)$ and $q:q$ is a Yes singleton. Let us assume that is not the case. If $f(c):f(q):y:f(d)$, then $q:d$ is a Yes interval and, thanks to monotonicity, $y$ cannot be in $f(c):f(q)$ so $c:q$ is a No interval. If $f(c):y:f(q):f(d)$, then $c:q$ is a Yes interval and $q:d$ is a No interval by monotonicity. Thus, Separation holds. 
+    \item Rooted. We need strictly monotonic here. Assume $q:q$ and $r:r$ are both Yes singletons. Then $f(r):y:f(r)$ and $f(q):y:f(q)$ holds true. This implies $f(q)=f(r)=y$. This is impossible if we have strict monotonicity. If did not have the strictness, then the example of $f(x)=y$ for all $x$ is an example which works except it is not rooted.  
+    \item Closed. Let's assume that $q$ is such that $q$ is in every Yes-interval. We need to show that $q:q$ is a Yes interval which means $f(q):y:f(q)$ implying $f(q) =y$ and $q$ is the actual solution. To establish this, we use continuity. Assume $f(q) \neq y$. Let's say $|f(q)  - y| = L$. Find $N$ such that $\frac{1}{N} < \frac{L}{3}$. By continuity, we have an $M$ such that $|q-r|<\frac{1}{M}$ implies $|f(q)-f(r)| < \frac{1}{N} < \frac{L}{3}$. Since $q$ is contained in all Yes intervals, we have a Yes interval $c:d$ contained in $q-\frac{1}{M}:q+\frac{1}{M}$, so that $f(c):y:f(d)$ holds true, but we also have $|f(q)-y| = |f(q) - f(c) + f(c) - y| \leq |f(q)-f(c)| + |f(c)-y| \leq |f(q)-f(c)| + |f(c) - f(d)| \leq |f(q) - f(c) | + |f(c) - f(q)| + |f(q) - f(d)| < L$. Since this is a contradiction, we must have $f(q) = y$.
+\end{enumerate}
+
+So under those conditions we have a well-defined oracle. Under more general conditions, we can produce an oracle which might not be unique.  
+
+By a similar argument to the closed case, we can argue that if $\alpha$ is the oracle defined above, then $f(\alpha)=y$ by continuity. Indeed, assume it was not true and then we can use rational intervals and continuity to make the case. We are assuming here that we understand how to define $f$ on the real numbers and that both continuity and monotonicity is maintained. One approach can be found in the function oracle section. 
+
+We can define $\pi$ as the zero of $\sin(x)$ on the interval $[3,4]$. We can define $e$ as the solution to  $\ln(x)=1$ on the interval $[2,3]$. We can define $\sqrt{2}$ as the solution to $x^2 = 2$ with starting interval $1:2$. All of these will work. To get detailed approximations, we can use the bisection method or can we use the mediant method as detailed in Section \ref{sec:mediant} and even produce the continued fraction representation for these numbers.
+ 
+Most of the real number constructions would be compatible with the general sequence approach, but they have no particular motivation to have the monotonicity conditions for uniqueness. The one exception is the Dedekind cut approach which fits most easily with the monotonicity. We can define the cut as $\{x| x<a or (a \leq x \leq b and f(x) < y) \}$. But this would not give any particular guidance in narrowing down to the solution nor would it be particularly helpful in the general sequence. Oracles handle both points of view equally well. 
+
 
 \subsection{The Collatz Number}
 
@@ -1304,9 +1338,11 @@ If we start out with the interval  $3:4$ and use the mediant process, we will be
 
 This is a method, perhaps a slow one, which allows one to compute the continued fraction of any solution to an equation of the form of $f(x) =0$ where the sign of $f$ changes near the solution. For an alternative direct method of computation using a variant of Newton's Method, see \cite{shiu95}.\footnote{I found this reference at an excellent MathStackExchange overview of computing out continued fractions: \url{https://math.stackexchange.com/questions/716944/}.  It also gives some references for doing arithmetic with continued fractions.} 
 
-The viewpoint of oracles seems naturally to lead into mediants which then leads into continued fractions.
+We could do something similar for $e$, where we look at whether the function $\ln(x)$ is greater or less than 1 to determine if we switch the intervals. The basic starting point will be $2:3$ leading to a sequence of mediants being $\frac{5}{2}, \frac{8}{3}, \frac{11}{4}, \frac{19}{7}$ where the last one is accurate to within $0.004$ with the bounding interval giving a bound of $0.036$. 
 
-\section{Function Oracles as Families of Narrowing Rational Rectangles}
+The viewpoint of oracles seems naturally to lead into mediants which then leads into continued fractions. 
+
+\section{Function Oracles as Families of Narrowing Rational Rectangles}\label{sec:funora}
 
 The oracles are equivalent to the axiomatic real numbers and we could, therefore, just do the usual story of functions being maps from oracles (reals) to oracles. But that is discarding the idea and usefulness of oracles. In particular, what we want to highlight is the difference between rationals and irrationals which is that rationals can be given precisely while irrationals always rely on intervals of rationals. The idea is that we want to be able to deduce the rest of the function by what it does solely at the rationals. 
 
@@ -1797,7 +1833,7 @@ We can now give our definition of an oracle for a metric space. The Oracle of $\
     \item Consistency. If $B$ contains $C$ and $C$ is a Yes-ball, then $B$ is a Yes ball.
     \item Existence. There exists $B$ such that $B$ is a Yes-ball.
     \item Two Point Separating. Given a Yes-ball $B$ and two points in it, then there is a Yes-ball inside $B$ which does not contain at least one of the given points. 
-    \item Disjointness. If $B$ and $C$ are disjoint, then at most one of them can be a Yes-ball for $R$.
+    \item Intersecting. If $B$ and $C$ are Yes balls, then they must intersect and their intersection must contain an Yes ball.
     \item Closed. If $q$ is contained in all Yes-balls, then the ball containing $q$ of radius 0 is a Yes-ball. 
 \end{enumerate}
 
@@ -1811,7 +1847,7 @@ One would need to check that this does define a distance. The triangle inequalit
 
 To establish the original space is still in there, we identify the singletons as their own representatives and note that the distance as defined above for oracles immediately gives us that the distance between the singletons is unchanged from the original space. 
 
-The final step is to show that the new space is complete. This could follow largely on how we did Cauchy sequences. Define a Cauchy sequence as a sequence of points such that we have a sequence of nested balls that contain the tail of the sequence and the size can be taken as small as we like. A Yes-ball is then any ball which contains one of these nesting balls. Consistency and existence are immediate from the definitions. Disjointness is easy to see since the nesting balls contain one another and thus there must be a common nested ball inside any ball which contains a nested ball. The Closed property, as we did before, is simply postulated as part of the definition of the balls. As for the two point separation property, given two points, there exists a small enough ball that cannot contain them both due to the non-zero distance between them. At that point, we should have a nested Yes ball that does not contain at least one of them. 
+The final step is to show that the new space is complete. This could follow largely on how we did Cauchy sequences. Define a Cauchy sequence as a sequence of points such that we have a sequence of nested balls that contain the tail of the sequence and the size can be taken as small as we like. A Yes-ball is then any ball which contains one of these nesting balls. Consistency and existence are immediate from the definitions. Intersection is easy to see since the nesting balls contain one another and thus there must be a common nested ball inside any ball which contains a nested ball. The Closed property, as we did before, is simply postulated as part of the definition of the balls. As for the two point separation property, given two points, there exists a small enough ball that cannot contain them both due to the non-zero distance between them. At that point, we should have a nested Yes ball that does not contain at least one of them. 
 
 \subsubsection{Functions in the complete metric spaces}
 
