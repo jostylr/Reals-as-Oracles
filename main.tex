@@ -1456,6 +1456,15 @@ Thanks to the singletons, this does satisfy the Separating property. The other p
 
 It should also be easy to see that this is Thomae's function. At a rational $\frac{p}{q}$, we have $1/q$ as common to all the rectangles while for any irrational, $0$ is common for all of them. 
 
+It is also worthwhile to think about graphing this function. In the classical presentation, it would be a bit of quandary. Our graphing tools technically only work with rational numbers. So any graph of the rational points would never have 0 in the range. From a probabilistic point of view, however, the rationals are a set of measure zero. This implies that if we were to randomly sample the interval, then the function should be identically zero. 
+
+Our approach suggests graphing rectangles. As we narrow the base, we end up with more varied rectangles of various heights. If we were to narrow in a irrational number, say using the mediant process, then we progressively get past the lower denominators and the bar heights do go to zero. For a rational, we can use a singleton to get its precise value. 
+
+Notice that for the classical characteristic function of the rationals, no amount of zooming changes the rectangles. The graph is simply a rectangle whose $y$-side is at least the interval $0:1$, regardless of the $x$-side. 
+
+I take it to be a merit of this approach that it brings this out. These rectangles are also guarantees that the values will be in the rectangle. This means that if we want to know if a value is less than a given number, we can say with confidence that it is if the rectangle's upper boundary is below that number. 
+
+
 \subsection{Monotonic Functions}
 
 For any monotonic rational function, $Q$, such as $x^3$, the rectangle approach works quite well. The minimal rectangle for a given interval $a \lt b$ would be $a:b \times Q(a):Q(b)$. The intersection of two such minimal rectangles, say with $x$-sides satisfying $A \lt a \lt B \lt b$ leads to $a \lt B  \times  Q(a):Q(B) $. We add in the appropriate rectangles containing these minimal rectangles for the consistency properties. The disjoint and separating property can be handled using the monotonic properties. 
