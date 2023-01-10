@@ -512,12 +512,40 @@ For constructing an oracle, a fonsi can be a very appealing pathway. Here are a 
 
 
 
+\subsection{Intermediate Value Theorem}
+
+A well-known process that is almost perfectly made for oracles with the separation property, is that of finding solutions to equations using the process of the Intermediate Value Theorem. 
+
+In this section, we will assume we have a function $f$ defined on the rationals to the rationals or that we have a family of functions defined on the rationals which gives us a fonsi for each rational input; we will call that $f$ as well. The model to have in mind is the Taylor approximations for a function such as $\sin(x)$. What we mostly need is to be able to refine a result sufficiently well to distinguish whether the value is above or below another value. Section \ref{sec:funora} has a different approach to functions and also discusses the Intermediate Value Theorem in that context. 
+
+Let us say that we are trying to solve $f(\alpha) = y$ on the interval $a:b$ and we have $f(a):y:f(b)$. Then we define a rule $R$ for intervals in $a:b$ such that $R(c:d) = 1$ exactly when $f(c):y:f(d)$ holds true. 
+
+For a random function $f$, this is not going to define an oracle. It will define a process that can certainly define an oracle. In particular, we can take the midpoint of the interval, make a choice of interval, take that midpoint, pick a new subinterval, etc. This is a sequence of narrowing, overlapping intervals and hence will define an oracle. But without more control on the function, different choices will potentially lead to different outcomes. 
+
+To make it independent of choices, we can take $f$ to be strictly monotonic on $a:b$ and rationally continuous.\footnote{Given $N >0$ and a number $q$, we can find $M$ such that if $|q-r|<\frac{1}{M}$, then $|f(q)-f(r)| < \frac{1}{N}$.} This will ensure that any subinterval in $a:b$ will give consistent results. In particular, it will satisfy
+
+\begin{enumerate}
+    \item Consistency. If $a:c:g:h:d:b$ and $g:h$ is a Yes interval, then by monotonicity, we have $f(c):f(g):y:f(h):f(d)$ and so $c:d$ is a Yes interval. If we have $c:d$ partially outside $a:b$, then the oracle pronounces Yes or No based on the intersection with $a:b$ with a No if it does not intersect $a:b$ at all. This choice will yield consistency. 
+    \item Existence. $a:b$ is a Yes interval.
+    \item Separating. Let $c:d$ be a Yes interval in $a:b$ and let $q$ be given as a number in $c:d$. We want to establish that $q$ separates the interval. Since $c:d$ is a Yes interval, we have $f(c):y:f(d)$. We compute $f(q)$. If $f(q) = y$, then $f(q):y:f(q)$ and $q:q$ is a Yes singleton. Let us assume that is not the case. If $f(c):f(q):y:f(d)$, then $q:d$ is a Yes interval and, thanks to monotonicity, $y$ cannot be in $f(c):f(q)$ so $c:q$ is a No interval. If $f(c):y:f(q):f(d)$, then $c:q$ is a Yes interval and $q:d$ is a No interval by monotonicity. Thus, Separation holds. 
+    \item Rooted. We need strictly monotonic here. Assume $q:q$ and $r:r$ are both Yes singletons. Then $f(r):y:f(r)$ and $f(q):y:f(q)$ holds true. This implies $f(q)=f(r)=y$. This is impossible if we have strict monotonicity. If did not have the strictness, then the example of $f(x)=y$ for all $x$ is an example which works except it is not rooted.  
+    \item Closed. Let's assume that $q$ is such that $q$ is in every Yes-interval. We need to show that $q:q$ is a Yes interval which means $f(q):y:f(q)$ implying $f(q) =y$ and $q$ is the actual solution. To establish this, we use continuity. Assume $f(q) \neq y$. Let's say $|f(q)  - y| = L$. Find $N$ such that $\frac{1}{N} < \frac{L}{3}$. By continuity, we have an $M$ such that $|q-r|<\frac{1}{M}$ implies $|f(q)-f(r)| < \frac{1}{N} < \frac{L}{3}$. Since $q$ is contained in all Yes intervals, we have a Yes interval $c:d$ contained in $q-\frac{1}{M}:q+\frac{1}{M}$, so that $f(c):y:f(d)$ holds true, but we also have $|f(q)-y| = |f(q) - f(c) + f(c) - y| \leq |f(q)-f(c)| + |f(c)-y| \leq |f(q)-f(c)| + |f(c) - f(d)| \leq |f(q) - f(c) | + |f(c) - f(q)| + |f(q) - f(d)| < L$. Since this is a contradiction, we must have $f(q) = y$.
+\end{enumerate}
+
+So under those conditions we have a well-defined oracle. Under more general conditions, we can produce an oracle which might not be unique.  
+
+By a similar argument to the closed case, we can argue that if $\alpha$ is the oracle defined above, then $f(\alpha)=y$ by continuity. Indeed, assume it was not true and then we can use rational intervals and continuity to make the case. We are assuming here that we understand how to define $f$ on the real numbers and that both continuity and monotonicity is maintained. One approach can be found in the function oracle section. 
+
+We can define $\pi$ as the zero of $\sin(x)$ on the interval $[3,4]$. We can define $e$ as the solution to  $\ln(x)=1$ on the interval $[2,3]$. We can define $\sqrt{2}$ as the solution to $x^2 = 2$ with starting interval $1:2$. All of these will work. To get detailed approximations, we can use the bisection method or can we use the mediant method as detailed in Section \ref{sec:mediant} and even produce the continued fraction representation for these numbers.
+ 
+Most of the real number constructions would be compatible with the general sequence approach, but they have no particular motivation to have the monotonicity conditions for uniqueness. The one exception is the Dedekind cut approach which fits most easily with the monotonicity. We can define the cut as $\{x| x<a or (a \leq x \leq b and f(x) < y) \}$. But this would not give any particular guidance in narrowing down to the solution nor would it be particularly helpful in the general sequence. Oracles handle both points of view equally well. 
+
 
 
 \subsection{Examples}
 
 
-We now pause and give some explcit computations for computing out the three most widely known irrational numbers: $\pi$, $e$, and $\sqrt{2}$. The hope is to demonstrate how this framework interfaces with getting explicit bounds. The notion of a fonsi is very helpful here. 
+We now pause and give some explicit computations for computing out the three most widely known irrational numbers: $\pi$, $e$, and $\sqrt{2}$. The hope is to demonstrate how this framework interfaces with getting explicit bounds. The notion of a fonsi is very helpful here. 
 
 \subsubsection{Circles, $\pi$, and Sums}
 
@@ -680,34 +708,6 @@ Inspired by this, let us define an $\textbf{error-bounded Cauchy sequence}$ to m
 Clearly, an error-bounded Cauchy sequence is a Cauchy sequence. The converse can be understood to be true, at least after a fashion. A rough sketch of this is that one can create a sequence of shrinking limits, say $1/n$, and bound each of the previous amount of finite terms based on how far they actually are from one another. We will not bother as that is a ridiculous procedure involving a potentially infinite amount of work and would not actually be useful. But if we had these error bounds more naturally in a practical problem, then they would be exactly what we want in understanding what oracle we are describing.    
 
 Note that the error-bounded Cauchy sequences are basically nested, shrinking intervals whose center is $a_n$ and length is $2p_n$ for the $n$-th element. 
-
-\subsection{Intermediate Value Theorem}
-
-A well-known process that is almost perfectly made for oracles with the separation property, is that of finding solutions to equations using the process of the Intermediate Value Theorem. 
-
-In this section, we will assume we have a function $f$ defined on the rationals to the rationals or that we have a family of functions defined on the rationals which gives us a fonsi for each rational input; we will call that $f$ as well. The model to have in mind is the Taylor approximations for a function such as $\sin(x)$. What we mostly need is to be able to refine a result sufficiently well to distinguish whether the value is above or below another value. Section \ref{sec:funora} has a different approach to functions and also discusses the Intermediate Value Theorem in that context. 
-
-Let us say that we are trying to solve $f(\alpha) = y$ on the interval $a:b$ and we have $f(a):y:f(b)$. Then we define a rule $R$ for intervals in $a:b$ such that $R(c:d) = 1$ exactly when $f(c):y:f(d)$ holds true. 
-
-For a random function $f$, this is not going to define an oracle. It will define a process that can certainly define an oracle. In particular, we can take the midpoint of the interval, make a choice of interval, take that midpoint, pick a new subinterval, etc. This is a sequence of narrowing, overlapping intervals and hence will define an oracle. But without more control on the function, different choices will potentially lead to different outcomes. 
-
-To make it independent of choices, we can take $f$ to be strictly monotonic on $a:b$ and rationally continuous.\footnote{Given $N >0$ and a number $q$, we can find $M$ such that if $|q-r|<\frac{1}{M}$, then $|f(q)-f(r)| < \frac{1}{N}$.} This will ensure that any subinterval in $a:b$ will give consistent results. In particular, it will satisfy
-
-\begin{enumerate}
-    \item Consistency. If $a:c:g:h:d:b$ and $g:h$ is a Yes interval, then by monotonicity, we have $f(c):f(g):y:f(h):f(d)$ and so $c:d$ is a Yes interval. If we have $c:d$ partially outside $a:b$, then the oracle pronounces Yes or No based on the intersection with $a:b$ with a No if it does not intersect $a:b$ at all. This choice will yield consistency. 
-    \item Existence. $a:b$ is a Yes interval.
-    \item Separating. Let $c:d$ be a Yes interval in $a:b$ and let $q$ be given as a number in $c:d$. We want to establish that $q$ separates the interval. Since $c:d$ is a Yes interval, we have $f(c):y:f(d)$. We compute $f(q)$. If $f(q) = y$, then $f(q):y:f(q)$ and $q:q$ is a Yes singleton. Let us assume that is not the case. If $f(c):f(q):y:f(d)$, then $q:d$ is a Yes interval and, thanks to monotonicity, $y$ cannot be in $f(c):f(q)$ so $c:q$ is a No interval. If $f(c):y:f(q):f(d)$, then $c:q$ is a Yes interval and $q:d$ is a No interval by monotonicity. Thus, Separation holds. 
-    \item Rooted. We need strictly monotonic here. Assume $q:q$ and $r:r$ are both Yes singletons. Then $f(r):y:f(r)$ and $f(q):y:f(q)$ holds true. This implies $f(q)=f(r)=y$. This is impossible if we have strict monotonicity. If did not have the strictness, then the example of $f(x)=y$ for all $x$ is an example which works except it is not rooted.  
-    \item Closed. Let's assume that $q$ is such that $q$ is in every Yes-interval. We need to show that $q:q$ is a Yes interval which means $f(q):y:f(q)$ implying $f(q) =y$ and $q$ is the actual solution. To establish this, we use continuity. Assume $f(q) \neq y$. Let's say $|f(q)  - y| = L$. Find $N$ such that $\frac{1}{N} < \frac{L}{3}$. By continuity, we have an $M$ such that $|q-r|<\frac{1}{M}$ implies $|f(q)-f(r)| < \frac{1}{N} < \frac{L}{3}$. Since $q$ is contained in all Yes intervals, we have a Yes interval $c:d$ contained in $q-\frac{1}{M}:q+\frac{1}{M}$, so that $f(c):y:f(d)$ holds true, but we also have $|f(q)-y| = |f(q) - f(c) + f(c) - y| \leq |f(q)-f(c)| + |f(c)-y| \leq |f(q)-f(c)| + |f(c) - f(d)| \leq |f(q) - f(c) | + |f(c) - f(q)| + |f(q) - f(d)| < L$. Since this is a contradiction, we must have $f(q) = y$.
-\end{enumerate}
-
-So under those conditions we have a well-defined oracle. Under more general conditions, we can produce an oracle which might not be unique.  
-
-By a similar argument to the closed case, we can argue that if $\alpha$ is the oracle defined above, then $f(\alpha)=y$ by continuity. Indeed, assume it was not true and then we can use rational intervals and continuity to make the case. We are assuming here that we understand how to define $f$ on the real numbers and that both continuity and monotonicity is maintained. One approach can be found in the function oracle section. 
-
-We can define $\pi$ as the zero of $\sin(x)$ on the interval $[3,4]$. We can define $e$ as the solution to  $\ln(x)=1$ on the interval $[2,3]$. We can define $\sqrt{2}$ as the solution to $x^2 = 2$ with starting interval $1:2$. All of these will work. To get detailed approximations, we can use the bisection method or can we use the mediant method as detailed in Section \ref{sec:mediant} and even produce the continued fraction representation for these numbers.
- 
-Most of the real number constructions would be compatible with the general sequence approach, but they have no particular motivation to have the monotonicity conditions for uniqueness. The one exception is the Dedekind cut approach which fits most easily with the monotonicity. We can define the cut as $\{x| x<a or (a \leq x \leq b and f(x) < y) \}$. But this would not give any particular guidance in narrowing down to the solution nor would it be particularly helpful in the general sequence. Oracles handle both points of view equally well. 
 
 
 \subsection{The Collatz Number}
