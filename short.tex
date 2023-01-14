@@ -10,7 +10,8 @@
 
 \title{Defining Real Numbers as Oracles, an Overview}
 \author{
-  James Taylor\footnote{Arts \& Ideas Sudbury School, 4915 Holder Ave, Baltumore, MD 21214, james@aisudbury.org}
+  James Taylor\footnote{Arts \& Ideas Sudbury School, 4915 Holder Ave, Baltumore, MD 21214, james@aisudbury.org \\
+  \hspace*{15px} Johns Hopkins University, Lecturer, Advanced Academic Programs, james.taylor@jhu.edu}
 }
 \date{\today}
 
@@ -44,13 +45,11 @@ A new definition of a real number is that it is a rule which says Yes or No base
 
 \section{What is a real number?}
 
-The question of how to define a real number has a long history in mathematics. There is a notion that it was settled 150 years ago with the introduction of Dedekind cuts and Cauchy sequences as real numbers. There are a number of issues with these definitions, but the primary one is that they seem to be treated more as mathematical curiosities. Indeed, it is quite common to take real numbers as axiomatically given rather than delve into these definitions. 
+The question of how to define a real number has a long history in mathematics. There is a notion that it was settled 150 years ago with the introduction of Dedekind cuts and Cauchy sequences as real numbers. The former has the issue of not being very helpful in computations and the latter is too involved in computations to be the definition. Neither definition seems to have influenced the thinking of anyone with regards to what a real number is. Indeed, it is quite common to take real numbers as axiomatically given rather than delve into these definitions.
 
-This is perhaps because these definitions are not in line with how real numbers are used in practice. These definitions highlight some features of real numbers while obscuring others. The hope is that the following new idea of real numbers will be both useful and approachable. 
+The first, and perhaps most lasting, notion of what a real number is may very well be its decimal expansion. It is problematic as the full decimal expansion cannot be written down and yet the definition seems to suggest that is what it is. The expansion is generally infinite and it is generally not easy to specify a pattern for the digits. As a compromise, a sufficient number of digits is written down to do the computations given one's constraints.  
 
-The first notion of what a real number is may very well be its decimal expansion. It is problematic as the full decimal expansion cannot be written down and yet the definition seems to suggest that is what it is. The expansion is generally infinite and it is generally not easy to specify a pattern for the digits. As a compromise, a sufficient number of digits is written down to do the computations given one's constraints.  
-
-Upon reflection, one way of viewing what is actually needed, given finite limitations, is an interval which is sufficiently small that the calculated resulting interval is sufficiently small for what the need is. The core need is to be able to get an interval sufficiently small. 
+Upon reflection, one way of viewing what is actually needed, given finite limitations, is an interval which is sufficiently small that the calculated resulting interval is sufficiently small for what the actual need is. The core task seems to be able to get an interval as small as desired. 
 
 One approach might be to specifically view a real number as something that produces these intervals. The problem is that the production of an interval representative requires a choice which is external to the real number. The approach here is different. The approach involves no arbitrary choice in defining a real number. It does, however, make central a mechanism for producing a useful interval of any length once an initial interval is given.\footnote{Even if one were to want to define the real numbers as being a function that produced approximations given a starting interval, there would still be the requirement to say that the starting interval contains the real number.}
 
