@@ -1,5 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage{amsfonts,amsmath,amssymb,mathrsfs,amsthm}
+\usepackage{mathabx}
 \usepackage[hidelinks]{hyperref}
 % \usepackage[pagewise]{lineno}\linenumbers   %AIMS Mathematics Recommendation
 \usepackage[backend=biber,style=alphabetic,sorting=ynt]{biblatex}
@@ -31,16 +32,20 @@
 
 
 %https://tex.stackexchange.com/questions/432778/reduce-spacing-around-colons-in-math-mode
-\DeclareMathSymbol{:}{\mathord}{operators}{"3A} 
+\DeclareMathSymbol{:}{\mathbin}{mathb}{"33}
+\DeclareMathSymbol{\col}{\mathord}{operators}{"3A}  %gives usual colon
+%do \mathrel{\col} for more spaced colon. 
 %\mathrel{:} if need colon spaced. 
 %want small less than for colon replacement
 \newcommand{\lt}{\mathord{<}}
+
 
 %\sloppy%\openup-.1\jot
 \begin{document}\maketitle
 \begin{abstract}
 A new definition of a real number is that it is a rule which says Yes or No based on whether the real number ought to be in a given rational interval. This is a summary paper of exploring and generalizing this definition. The full exploration is given in the paper ``Defining Real Numbers as Oracles''. 
 \end{abstract}
+
 
 
 \section{What is a real number?}
@@ -53,11 +58,13 @@ Upon reflection, one way of viewing what is actually needed, given finite limita
 
 One approach might be to specifically view a real number as something that produces these intervals. The problem is that the production of an interval representative requires a choice which is external to the real number. The approach here is different. The approach involves no arbitrary choice in defining a real number. It does, however, make central a mechanism for producing a useful interval of any length once an initial interval is given.\footnote{Even if one were to want to define the real numbers as being a function that produced approximations given a starting interval, there would still be the requirement to say that the starting interval contains the real number.}
 
-The idea is that a real number is an oracle that, when given a rational interval, says Yes or No. If it says Yes, then the real number is to be considered in that interval. If it says No, then the real number is to be considered not in that interval. The definition formalizes what ought to be true about the oracle's answers given that it is describing a single given number. The main paper establishes that this definition does lead to the real number field. This paper gives the definition and then highlight the results with some examples of how to use it. 
+The idea is that a real number is an oracle that, when given a rational interval, says Yes or No. If it says Yes, then the real number is to be considered to be in that interval. If it says No, then the real number is to be considered to not be in that interval. The definition formalizes what ought to be true about the oracle's answers given that it is describing a single number. The main paper establishes that this definition does lead to the real number field. This paper gives the definition and then highlights the results with some examples of how to use it. This definition balances the need to be computationally friendly while defining an existence independent of computation. 
+
+This is not the first time that a definition of real numbers as rational intervals has been entertained. For example, both \cite{bridger} and \cite{bridges} use the notion of a family of intersecting and arbitrarily fine intervals to define a real number; this is what this paper refers to as a fonsi. They use equivalence relations to handle different families representing the same real number while the approach here, for a fonsi, would be to take the maximal fonsi as the unique definition of a real number. The fonsi definition of real number fits well with constructivist ideas. Gabriel Stolzenberg seems to be credited with the idea. It was apparently motivated by the idea of measuring physical quantities and noting that an interval is always returned from that procedure. 
 
 \section{Defining the oracles}\label{sec:ora}
 
-Set theoretically, an oracle is a function $R:\ \mathbb{Q}^2 \to \{0,1\}$ where each pair $(a,b)$ is identified with the  the closed interval $[a,b]$, or $[b,a]$ if $b < a$. For equality, $(a,a)$ is allowed as a rational interval and they are referred to as singletons. The main paper uses the unconventional, but useful, notation $a:b$ to represent the interval both for shortness and to indicate the lack of concern for ordering of the endpoints. This paper will primarily use conventional notation though the use of $[a]$ for a singleton interval consisting of just $a$ does get used. 
+An oracle is a rule, satisfying a few properties below, that takes in a closed interval and returns a 1 or a 0. The 1 should be returned when an interval ought to contain the real number.\footnote{Set theoretically, an oracle is a function $R \col \ \mathbb{Q}^2 \to \{0,1\}$ where each pair $(a,b)$ is identified with the  the closed interval $a:b$. This viewpoint is suppressed here as the goal is to provide a framework for just-in-time determination. Another way of viewing the rule is that it is the characteristic function of the set of intervals that contain the real number which is also not adopted here.} This includes closed intervals consisting of exactly one point which may be denoted by $[a]$. The main paper uses the unconventional, but useful, notation $a:b$ to represent either the closed interval $[a,b]$ or $[b,a]$ both for shortness and to indicate the lack of concern for ordering of the endpoints. This paper will primarily follow that convention. 
 
 In what follows, Yes represents a 1 and No represents a 0 result for the interval. The following are the properties that a rule $R$ must satisfy to be an oracle. 
 
@@ -65,7 +72,7 @@ In what follows, Yes represents a 1 and No represents a 0 result for the interva
     \item Consistency. If an interval contains a Yes interval, then it needs to be a Yes interval. This maintains the illusion of the real number being in the Yes intervals and also leads to this being a unique representative of a real number. 
     \item Existence. There should be a Yes interval. All other properties are conditional so this is the only one that says there is something there. 
     \item Closed. If a rational number is in every Yes interval, then its singleton should also be a Yes. This is the other part in making sure that there is only one representative of the real number. It is the reason for using closed intervals. This makes arithmetic with rationals much easier than with other definitions of real numbers.
-    \item Rooted. There is at most one Yes singleton. rational can be in every Yes interval. This helps make ensure that the oracle is narrowed in on a single number. 
+    \item Rooted. There is at most one Yes singleton.  This helps make ensure that the oracle is narrowed in on a single number. 
     \item Interval Separation. This is the key property. For a given Yes interval, a point $c$ inside that interval creates two subintervals in addition to its own singleton. The requirement is that exactly one of those intervals is Yes unless $[c]$ is a Yes singleton. 
 \end{enumerate}
 
@@ -75,7 +82,7 @@ While the first three properties above seem to be basic requirements, there is f
 
 The first equivalent replacement would be the two properties: 1) Two Point Separation Property, which states that given any two rational numbers in a Yes interval, there exists a Yes interval that does not contain at least one of the two numbers, and 2) Disjointness Property, which states that if two intervals are disjoint, then at most one of them can be a Yes interval. These two properties are more useful in generalizing to metric spaces, where closed balls are considered instead of closed intervals. The interval separation does not generalize to that context, but two point separation does. The main paper gives more details about metric completion using oracles. 
 
-The second equivalent replacement would be the two properties: 1) Narrowing Property, which states that states there is a Yes interval that is shorter than a given length, and 2) Intersection Property, which is that all Yes intervals intersect. If a set of intervals satisfy these two properties, then they are called a Family of Overlapping, Notionally Shrinking Intervals, or fonsi. Given a fonsi, there is a unique oracle whose Yes intervals contain the fonsi. The oracle is defined by an interval being a Yes interval if it contains an intersection of elements of the fonsi. This can be finite or infinite. The infinite intersection is non-empty exactly when this refers to a singleton. This is a very practical tool in establishing oracles in a variety of contexts. A maximal fonsi is a fonsi in which all intersections are in the fonsi and all intervals that contain an element of the fonsi is in it. A maximal fonsi is exactly the set of Yes intervals for the related oracle. 
+The second equivalent replacement would be the two properties: 1) Narrowing Property, which states that states there is a Yes interval that is shorter than a given length, and 2) Intersection Property, which is that all Yes intervals intersect. If a set of intervals satisfy these two properties, then they are called a Family of Overlapping, Notionally Shrinking Intervals, or \textbf{fonsi}. Given a fonsi, there is a unique oracle whose set of Yes intervals contain the fonsi. The oracle is defined by an interval is considered to be a Yes interval if it contains an intersection of elements of the fonsi. This intersection can be finite or infinite. The infinite intersection is mainly of interest for rooted oracles as the singleton may not be in the fonsi nor included in finite intersections. This is a very practical tool in establishing oracles in a variety of contexts, such as . A maximal fonsi is a fonsi in which all intersections are in the fonsi and all intervals that contain an element of the fonsi is in it. A maximal fonsi is exactly the set of Yes intervals for the related oracle. 
 
 
 \subsection{Basic properties of an oracle}
@@ -97,30 +104,30 @@ There are a variety of properties that can be deduced from these definitions. Pr
 
 The first examples to explore as oracles are the rationals and $n$-th roots. 
 
-The oracle of a rational number $q$ is defined as the rule that $[a,b]$ is a Yes interval exactly when $a \leq q \leq b$. It is easy to check the properties hold. It has a canonical representative interval in the form of the singleton $[q]$. This works because the rational numbers independently exist outside of this definition. They are the model for how the irrationals ought to behave.  
+The oracle of a rational number $q$ is defined as the rule that $a:b$ is a Yes interval exactly when $a \leq q \leq b$. It is easy to check the properties hold. It has a canonical representative interval in the form of the singleton $[q]$. This works because the rational numbers independently exist outside of this definition. They are the model for how the irrationals ought to behave.  
 
-The $n$-th root of a positive rational number $q$ is defined as the rule that $[a,b]$ is a Yes interval exactly when $\max(a, 0)^n \leq q \leq \max(b,0)^n$. If $b > a> 0$, this is more simply stated as $q$ being between the $n$-th powers of $a$ and $b$. This is again pretty easy to prove the properties. The Closed Property takes a little work to show that if $p^n \neq q$, then there is a Yes interval that excludes $p$. 
+The $n$-th root of a positive rational number $q$ is defined as the rule that $a:b$ is a Yes interval exactly when $\max(a, 0)^n \leq q \leq \max(b,0)^n$. If $b > a> 0$, this is more simply stated as $q$ being between the $n$-th powers of $a$ and $b$. This is again pretty easy to prove the properties. The Closed Property takes a little work to show that if $p^n \neq q$, then there is a Yes interval that excludes $p$. 
 
 The oracle of the $n$-th root exists. The next step is to start finding some Yes intervals. A great algorithm is the one from Newton's Method. Start with a given positive number $x$ for the $n$-th root of $q$, ideally somewhat close to to the root though one can always use $1$. This guess has the associated Yes interval $x:\frac{q}{x^{n-1}}$ which satisfies $x^n : q : (\frac{q}{x^{n-1}})^n$. The next interval is obtained by taking the weighted average, specifically $\frac{1}{n}( (n-1) x + \frac{q}{x^{n-1}} )$ becomes the next $x$. Continue to iterate. At each stage, there is a Yes interval for $\sqrt[n]{q}$. This sequence of intervals is nested and the lengths are shrinking quadratically to zero.  
 
 There are, of course, many techniques for obtaining the roots. One technique given in the main paper is to experiment with using right triangles to get an interval trapping of $\sqrt{2}$. This helps illustrate the natural perspective of interval containment.  
 
-A perfectly motivating example for oracles is that of those that the Intermediate Value Theorem produces. In particular, given a function $f$ and a value $y$, the oracle $\alpha$ of interest is the solution to $f(\alpha) = y$. The assumption is that there is a limited interval $[a,b]$ on which the function $f$ is continuous, monotonic, and $y$ is between $f(a)$ and $f(b)$. Then for $[c,d]$ in $[a,b]$, the interval is a Yes interval if $y$ is between $f(c)$ and $f(d)$. This defines the answer and the oracle properties, other than Consistency, can be established which relies on the assumptions about $f$ in that interval. The oracle's definition is augmented to have Yes intervals include those intervals that contain a Yes interval $[c,d]$ in $[a,b]$ which then satisfies the Consistency property. If $f$ is monotonic and continuous on $(\-infty, \infty)$, then the extension would be unnecessary.  
+A perfectly motivating example for oracles is that of those that the Intermediate Value Theorem produces. In particular, given a function $f$ and a value $y$, the oracle $\alpha$ of interest is the solution to $f(\alpha) = y$. The assumption is that there is a limited interval $a:b$ on which the function $f$ is continuous, monotonic, and $y$ is between $f(a)$ and $f(b)$. Then for $c:d$ in $a:b$, the interval is a Yes interval if $y$ is between $f(c)$ and $f(d)$. This defines the answer and the oracle properties, other than Consistency, can be established which relies on the assumptions about $f$ in that interval. The oracle's definition is augmented to have Yes intervals include those intervals that contain a Yes interval $c:d$ in $a:b$ which then satisfies the Consistency property. If $f$ is monotonic and continuous on $(-\infty, \infty)$, then the extension would be unnecessary.  
 
-Some examples to explore include: $\pi$ as the zero of $\sin(x)$ on the interval $[3,4]$, $e$ as the solution to  $\ln(x)=1$ on the interval $[2,3]$, and $\sqrt{2}$ as the solution of $x^2 = 2$ on the interval $[1,2]$. 
+Some examples to explore include: $\pi$ as the zero of $\sin(x)$ on the interval $3:4$, $e$ as the solution to  $\ln(x)=1$ on the interval $2:3$, and $\sqrt{2}$ as the solution of $x^2 = 2$ on the interval $1:2$. 
 
-This method provides more than just the existence of a solution, which is often insufficient for practical use. Oracles in general come with the ability to construct a sequence of narrowing intervals. To do so, take the bisection point of $[a,b]$, namely $m =\frac{a+b}{2}$, and test it out. Compute $f(m)$ and decide how it relates to $y$, $f(a)$, and $f(b)$. Replace one of the endpoints with $f(m)$ to maintain $y$ being in the resulting interval. Iterate this until sufficient precision is obtained.  The midpoint strategy will halve the interval at each step which is convenient for estimating how many steps to take to achieve a desired precision. 
+This method provides more than just the existence of a solution, which is often insufficient for practical use. Oracles in general come with the ability to construct a sequence of narrowing intervals. To do so, take the bisection point of $a:b$, namely $m =\frac{a+b}{2}$, and test it out. Compute $f(m)$ and decide how it relates to $y$, $f(a)$, and $f(b)$. Replace one of the endpoints with $f(m)$ to maintain $y$ being in the resulting interval. Iterate this until sufficient precision is obtained.  The midpoint strategy will halve the interval at each step which is convenient for estimating how many steps to take to achieve a desired precision. 
 
 Another useful choice is to use mediants. For the fractions $\frac{a}{b}$ and $\frac{c}{d}$, the mediant is $\frac{a+c}{b+d}$ and it is a number in between them. The main paper devotes a section to their use, the relation to continued fractions, the Farey process, and the Stern-Brocot tree. By using mediants and the above function evaluation method, the narrowing process generates the best rational approximations to the solution of the equation as well as generating the continued fraction representation of that solution. 
 
-If the solution of the equation is rational, then the mediant process will produce it exactly while the midpoint process will typically generate a sequence of approximations that never achieves the full solution. For example, solving $3x = 1$ starting in $[0,1]$ will produce the solution of $[\frac{1}{3}]$ in two steps using mediants while the midpoint process produces $[\frac{1}{2}, 1], [\frac{1}{4}, \frac{1}{2}], [\frac{1}{4}, \frac{3}{8}], [\frac{5}{16}, \frac{3}{8}], \ldots$
+If the solution of the equation is rational, then the mediant process will produce it exactly while the midpoint process will typically generate a sequence of approximations that never achieves the full solution. For example, solving $3x = 1$ starting in $0:1$ will produce the singleton solution of $[\frac{1}{3}]$ in two steps using mediants while the midpoint process produces $\frac{1}{2}: 1, \frac{1}{4}: \frac{1}{2}, \frac{1}{4}: \frac{3}{8}, \frac{5}{16}: \frac{3}{8}, \ldots$
  
 
 \subsection{Being complete}
 
 There are a few tasks that real numbers have to be able to handle that the rationals were not capable of doing so. These are the completion properties. Details are in the main paper.
 
-The first is the least upper bound property. Given a non-empty set $E$ of rationals with an upper bound, the goal is  to establish that there is an oracle which will serve as a least upper bound. Define the set of upper bounds to be $U$. Then define the oracle by the rule that $[a,b]$ is a Yes interval exactly when $a\leq y$ for all $y \in U$ and $b\geq x$ for all $x\in E$. Most of the proof is simply writing down the statements and working out the inequalities. 
+The first is the least upper bound property. Given a non-empty set $E$ of rationals with an upper bound, the goal is  to establish that there is an oracle which will serve as a least upper bound. Define the set of upper bounds to be $U$. Then define the oracle by the rule that $a:b$ is a Yes interval exactly when $a\leq y$ for all $y \in U$ and $b\geq x$ for all $x\in E$. Most of the proof is simply writing down the statements and working out the inequalities. 
 
 The main paper also augments this to any bounded set of oracles having a least upper bound. The details mainly differ by having to use the interval representation of the oracles in getting a lower and upper bound for the intervals. 
 
@@ -138,7 +145,7 @@ How are two oracles related? How do two oracles combine to give a third oracle? 
 
 \subsection{Equality and ordering}
 
-The relation of two oracles can be seen by their relation on sufficiently narrow Yes-intervals. An interval $[a,b]$ is less than the interval $[c,d]$ exactly when $b < c$. If $R$ and $S$ are two oracles, then they are:
+The relation of two oracles can be seen by their relation on sufficiently narrow Yes-intervals. An interval $a:b$ is less than the interval $c:d$ exactly when $b < c$. If $R$ and $S$ are two oracles, then they are:
 \begin{enumerate}
 \item $R<S$ if there exists a $R$-Yes interval which is strictly less than a $S$-Yes interval.
 \item $R>S$ if there exists a $R$-Yes interval which is strictly greater than a $S$-Yes interval.
@@ -147,7 +154,7 @@ The relation of two oracles can be seen by their relation on sufficiently narrow
 \end{enumerate}
 
 The first three are what one would expect. The last one is a capitulation to the reality that it is often not possible to fully differentiate an oracle from a nearby one. The main paper gives an example of an oracle that is based on the Collatz conjecture. The resolution of compatibility with the oracle of 0 
- is $[0,2^{-68}]$. This is the best known result about that conjecture and that number at this time. This example is, of course, not of practical significance, but it does illustrate potential limitations. 
+ is $0:2^{-68}$. This is the best known result about that conjecture and that number at this time. This example is, of course, not of practical significance, but it does illustrate potential limitations. 
 
  It is a merit of the oracle approach that this can be said clearly. 
 
@@ -168,46 +175,46 @@ Oracle arithmetic, while based on intervals, does create a single oracle answer 
 
 The main paper goes through all the different arithmetic operators, produces bounds for the interval arithmetic operators, and establishes the necessary results from that. This paper will simply illustrate it with an example. 
 
-The task is to compute $\frac{e-\sqrt{2}}{\pi}$. This should be an oracle and so it should be able to answer questions about any interval given to it. For example, is that in the interval $Q = [\frac{41}{100}, \frac{42}{100}]$? 
+The task is to compute $\frac{e-\sqrt{2}}{\pi}$. This should be an oracle and so it should be able to answer questions about any interval given to it. For example, is that in the interval $Q = \frac{41}{100}: \frac{42}{100}$? 
 
 The first step is to start computing the interval arithmetic with some narrow inputs. If it is sufficiently narrow, either the output interval will be contained in $Q$, in which case the oracle says Yes, or it will be disjoint from $Q$ in which case the oracle says No. After testing this interval, the mediant process will be demonstrated also using this one computed interval. 
 
 To compute out a Yes interval, the inputs needed are interval representations for $e$, $\sqrt{2}$, and $\pi$. Using mediant approximations for these numbers is recommended: 
 \begin{enumerate}
-\item $e$-Yes interval $A  = [\frac{106}{39}, \frac{87}{32}]$,
-\item $\sqrt{2}$-Yes interval $B = [\frac{41}{29}, \frac{17}{12}]$, and
-\item $\pi$-Yes interval of $C= [\frac{333}{106}, \frac{22}{7}]$.
+\item $e$-Yes interval $A  = \frac{106}{39}: \frac{87}{32}$,
+\item $\sqrt{2}$-Yes interval $B = \frac{41}{29}: \frac{17}{12}$, and
+\item $\pi$-Yes interval of $C= \frac{333}{106}: \frac{22}{7}$.
 \end{enumerate}
 The interval operations are then as follows:
 \begin{enumerate}
-\item Subtraction is $A\ominus B = [\frac{106}{39} - \frac{17}{12}, \frac{87}{32} - \frac{41}{29}] = [\frac{203}{156}, \frac{1211}{928}]$,
-\item Reciprocating to do the dvision leads to  $1\oslash C = [\frac{7}{22}, \frac{106}{333}]$
-\item Multiply the reciprocal by the subtraction result to get $D = (A\ominus B)\oslash C = [\frac{203}{156} *\frac{7}{22}, \frac{1211}{928} * \frac{106}{333}] = [\frac{1421}{3432}, \frac{64183}{154512}]$
+\item Subtraction is $A\ominus B = \frac{106}{39} - \frac{17}{12}: \frac{87}{32} - \frac{41}{29} = \frac{203}{156}: \frac{1211}{928}$,
+\item Reciprocating to do the dvision leads to  $1\oslash C = \frac{7}{22}: \frac{106}{333}$
+\item Multiply the reciprocal by the subtraction result to get $D = (A\ominus B)\oslash C = \frac{203}{156} *\frac{7}{22}: \frac{1211}{928} * \frac{106}{333} = \frac{1421}{3432}: \frac{64183}{154512}$
 \end{enumerate}
 If that precision is insufficient, then the steps can be repeated with more precise input intervals. The main paper does have bounds that would allow for the computation of the precision ahead of time. 
 
 To test whether $Q$ is in that interval, the task is to compute whether the endpoints are greater than or less than one another. A useful fact to know is that $\frac{a}{b} < \frac{c}{d}$ exactly when $ad - bc < 0$. Equality happens if that quantity is 0. Computing $1421*100 - 41*3432 = 1388$, the conclusion is that $\frac{41}{100} < \frac{1421}{3432}$. For the other endpoint, the computation $64183*100 - 154512*42 = -71204$ yields $ \frac{64183}{154512} < \frac{42}{100}$. The Yes interval $D$ is therefore contained in the interval $Q$ which, by consistency, forces the oracle to reply Yes for $Q$. 
 
-The rational intervals obtained from the arithmetic operators can have complex fractions as endpoints. The mediant process can reduce that complexity. The process starts with the unique Yes interval which is of length 1 with integral endpoints. For this oracle, that interval is $[\frac{0}{1},\frac{1}{1}]$ as $D$ is clearly contained in it. 
+The rational intervals obtained from the arithmetic operators can have complex fractions as endpoints. The mediant process can reduce that complexity. The process starts with the unique Yes interval which is of length 1 with integral endpoints. For this oracle, that interval is $\frac{0}{1}:\frac{1}{1}$ as $D$ is clearly contained in it. 
 
 The approach is to compute the mediant of the interval and then see which of the two subintervals it defines still contains interval $D$. This continues until the mediant is inside $D$ and it ceases to be possible to determine from $D$ which interval is a Yes interval. 
 \begin{enumerate}
-\item Mediant is $\frac{1}{2}$. Computation with the the upper endpoint:  $2*64183 - 1*154512 = -26146 < 0$. The mediant is therefore greater than the upper endpoint leading to $D$ being in the interval $[\frac{0}{1}, \frac{1}{2}]$. (L)
-\item Mediant is $\frac{1}{3}$. This turns out to be below the lower endpoint:  $3*1421 - 1*3432 = 831>0$. Thus, $D$ is in the interval $[\frac{1}{3}, \frac{1}{2}]$. (R)
-\item Mediant is $\frac{2}{5}$. It is below the lower endpoint: $5*1421 - 2*3432 = 241 > 0$. Thus, $D$ is in the interval $[\frac{2}{5}, \frac{1}{2}]$. (R)
-\item Mediant is $\frac{3}{7}$. It is above the upper endpoint: $7*64183- 3*154512 = -14255 < 0$. Thus $D$ is in the interval $[\frac{2}{5}, \frac{3}{7}]$. (L)
-\item Mediant is $\frac{5}{12}$. It is above the upper endpoint: $5*64183 - 12*154512 = -2364 < 0$. Thus $D$ is in the interval $[\frac{2}{5}, \frac{5}{12}]$. (L)
-\item Mediant is $\frac{7}{17}$. It is below the lower endpoint: $17*1421 - 7*3432 = 133 > 0$. Thus $D$ is in the interval $[\frac{7}{17}, \frac{5}{12}]$. (R)
-\item Mediant is $\frac{12}{29}$. It is below the lower endpoint: $29*1421 - 12*3432 = 25 > 0$. Thus $D$ is in the interval $[\frac{12}{29}, \frac{5}{12}]$. (R)
-\item Mediant is $\frac{17}{41}$. It is not below the lower endpoint: $41*1421-17*3432 = -83$. It is not above the upper endpoint: $41*64183-17*154512 = 2368836 >0$. $D$ is not contained in either $[\frac{12}{29}, \frac{17}{41}]$ or $[\frac{12}{29},\frac{17}{41}]$. To proceed further, a more narrow Yes interval must be computed to replace $D$. 
+\item Mediant is $\frac{1}{2}$. Computation with the the upper endpoint:  $2*64183 - 1*154512 = -26146 < 0$. The mediant is therefore greater than the upper endpoint leading to $D$ being in the interval $\frac{0}{1}: \frac{1}{2}$. (L)
+\item Mediant is $\frac{1}{3}$. This turns out to be below the lower endpoint:  $3*1421 - 1*3432 = 831>0$. Thus, $D$ is in the interval $\frac{1}{3}: \frac{1}{2}$. (R)
+\item Mediant is $\frac{2}{5}$. It is below the lower endpoint: $5*1421 - 2*3432 = 241 > 0$. Thus, $D$ is in the interval $\frac{2}{5}: \frac{1}{2}$. (R)
+\item Mediant is $\frac{3}{7}$. It is above the upper endpoint: $7*64183- 3*154512 = -14255 < 0$. Thus $D$ is in the interval $\frac{2}{5}: \frac{3}{7}$. (L)
+\item Mediant is $\frac{5}{12}$. It is above the upper endpoint: $5*64183 - 12*154512 = -2364 < 0$. Thus $D$ is in the interval $\frac{2}{5}: \frac{5}{12}$. (L)
+\item Mediant is $\frac{7}{17}$. It is below the lower endpoint: $17*1421 - 7*3432 = 133 > 0$. Thus $D$ is in the interval $\frac{7}{17}: \frac{5}{12}$. (R)
+\item Mediant is $\frac{12}{29}$. It is below the lower endpoint: $29*1421 - 12*3432 = 25 > 0$. Thus $D$ is in the interval $\frac{12}{29}: \frac{5}{12}$. (R)
+\item Mediant is $\frac{17}{41}$. It is not below the lower endpoint: $41*1421-17*3432 = -83$. It is not above the upper endpoint: $41*64183-17*154512 = 2368836 >0$. $D$ is not contained in either $\frac{12}{29}: \frac{17}{41}$ or $\frac{12}{29}:\frac{17}{41}$. To proceed further, a more narrow Yes interval must be computed to replace $D$. 
 \end{enumerate}
-The conclusion so far is that $[\frac{12}{29}, \frac{5}{12}]$ is a $\frac{e-\sqrt{2}}{\pi}$-Yes interval. If an error of $.0029$ is sufficient, then the computation can stop here. In comparison, the error in interval $D$ is $.0013$. Notice that the mediant representative interval has much simpler fractions to work with which is the advantage of using mediants when possible. To check on the initial interval of concern, the computations are $12*100 - 29*41 = 11$ and $5*100-12*42 = -4$. This leads to the same conclusion, but with simpler arithmetic involved. 
+The conclusion so far is that $\frac{12}{29}: \frac{5}{12}$ is a $\frac{e-\sqrt{2}}{\pi}$-Yes interval. If an error of $.0029$ is sufficient, then the computation can stop here. In comparison, the error in interval $D$ is $.0013$. Notice that the mediant representative interval has much simpler fractions to work with which is the advantage of using mediants when possible. To check on the initial interval of concern, the computations are $12*100 - 29*41 = 11$ and $5*100-12*42 = -4$. This leads to the same conclusion, but with simpler arithmetic involved. 
 
-It is useful to note that the mediant process above is computing out the continued fraction for the oracle. As mentioned in the main paper, the continued fraction is an accounting of whether the left or right subinterval is selected. The pattern was L,L,R,R,L,L,R,R.\footnote{The first L comes from selecting $[\frac{0}{1}, \frac{1}{0}]$ from the actual starting ``interval'' of $[\frac{0}{1}, \frac{1}{0}]$. The leading 0 in the continued fraction represents the number of initial right selections which is equal to the integer portion of the number.} Thus, doing a count, the continued fraction at this point is $[0;2,2,2,2]$ and the next one, representing the choice to be made with $\frac{17}{41}$, is either $[0;2,2,2,2,1]$ or $[0;2,2,2,3]$. As continued fraction, those two choices both represent $\frac{17}{41}$, but for the mediant process they represent either a left selection or a right selection, respectively. In fact, the next two selections will be a right selection before switching, leading to $[0;2,2,2,4,1]$. The next three intervals are therefore, $[\frac{17}{41}, \frac{5}{12}]$, $[\frac{22}{53}, \frac{5}{12}]$, and then with the switch, $[\frac{22}{53}, \frac{27}{65}]$. That final interval has a length of about $0.00029$. 
+It is useful to note that the mediant process above is computing out the continued fraction for the oracle. As mentioned in the main paper, the continued fraction is an accounting of whether the left or right subinterval is selected. The pattern was L,L,R,R,L,L,R,R.\footnote{The first L comes from selecting $\frac{0}{1}: \frac{1}{0}$ from the actual starting ``interval'' of $\frac{0}{1}: \frac{1}{0}$. The leading 0 in the continued fraction represents the number of initial right selections which is equal to the integer portion of the number.} Thus, doing a count, the continued fraction at this point is $[0;2,2,2,2]$ and the next one, representing the choice to be made with $\frac{17}{41}$, is either $[0;2,2,2,2,1]$ or $[0;2,2,2,3]$. As continued fraction, those two choices both represent $\frac{17}{41}$, but for the mediant process they represent either a left selection or a right selection, respectively. In fact, the next two selections will be a right selection before switching, leading to $[0;2,2,2,4,1]$. The next three intervals are therefore, $\frac{17}{41}: \frac{5}{12}$, $\frac{22}{53}: \frac{5}{12}$, and then with the switch, $\frac{22}{53}: \frac{27}{65}$. That final interval has a length of about $0.00029$. 
 
 This has been an example of oracle arithmetic. It is messy and it will rarely end with an exact production of a number. But it can produce intervals to arbitrary precision given sufficient computational resources and the ability to be arbitrarily precise on the input intervals. The mediant process allows for the reduction of complexity. 
 
-For rational oracles, arithmetic can be performed with their singletons. So $2 \pi$ could take $[\frac{333}{106}, \frac{22}{7}]$ and transform it into $[\frac{333}{53}, \frac{44}{7}]$. If one then tried to recover 2 by dividing  by $\pi$, using that same interval for $\pi$, the result is $[\frac{333}{53} * \frac{7}{22}, \frac{44}{7} * \frac{106}{333}] = [\frac{2331}{1166}, \frac{4664}{2321}] ~~ [1.9991, 2.0009]$. That is, while 2 is in that interval and will be in all such intervals, the interval arithmetic does not lead to an immediate conclusion of the singleton. This is a practical problem with the arithmetic of real numbers which seems to apply to all definitions of real numbers. This approach at least gives immediate bounds as part of the process.
+For rational oracles, arithmetic can be performed with their singletons. So $2 \pi$ could take $\frac{333}{106}: \frac{22}{7}$ and transform it into $\frac{333}{53}: \frac{44}{7}$. If one then tried to recover 2 by dividing  by $\pi$, using that same interval for $\pi$, the result is $\frac{333}{53} * \frac{7}{22}: \frac{44}{7} * \frac{106}{333} = \frac{2331}{1166}: \frac{4664}{2321} \approx 1.9991: 2.0009$. That is, while 2 is in that interval and will be in all such intervals, the interval arithmetic does not lead to an immediate conclusion of the singleton. This is a practical problem with the arithmetic of real numbers which seems to apply to all definitions of real numbers. This approach at least gives immediate bounds as part of the process.
 
 While not all properties of arithmetic apply to intervals, they do apply to oracles. In particular, the arithmetic of oracles do have have additive and multiplicative inverses as well as obeying the distributive property.
 
@@ -248,15 +255,15 @@ By working with the properties, it can be shown that for every oracle $\alpha$ i
 
 It can be proven that oracle functions are equivalent to the usual real functions that are continuous everywhere except possibly at the rationals. Thomae's function is the classic example. This happens because singletons are allowed as the entire base of a rectangle. Any given rational can be assigned to any oracle. The family of rectangles for that rational would consist of the walls being the Yes intervals of the output oracle. The irrationals, however, cannot be picked out in such a way. They are in line with their neighbors and this is how continuity arises for them.
 
-The rationals are not entirely independent of their neighbors in the aggregate. Any particular rational can be whatever value, but eventually the rationals must do some kind of alignment with the irrationals as in Thomae's function. As an example, the characteristic function of the rationals cannot arise from a function oracle. Any non-singleton rectangle will include both rational and irrational oracles which means the wall must include at least the interval $[0,1]$. This is why it fails to satisfy the Separating property. 
+The rationals are not entirely independent of their neighbors in the aggregate. Any particular rational can be whatever value, but eventually the rationals must do some kind of alignment with the irrationals as in Thomae's function. As an example, the characteristic function of the rationals cannot arise from a function oracle. Any non-singleton rectangle will include both rational and irrational oracles which means the wall must include at least the interval $0:1$. This is why it fails to satisfy the Separating property. 
 
-Given a function oracle and a classically continuous function, another function oracle can be defined by composition. As a special case, every classically continuous function can be represented by a function oracle composed with the function oracle $x$ whose foundational rectangles are $[a,b] \times [a,b]$.
+Given a function oracle and a classically continuous function, another function oracle can be defined by composition. As a special case, every classically continuous function can be represented by a function oracle composed with the function oracle $x$ whose foundational rectangles are $a:b \times a:b$.
 
 With the usual error estimates, Taylor polynomials can also be used to construct function oracles. 
 
 Function oracles are Riemann integrable. Indeed, their setup is that of the bounding rectangles one would need to compute the areas. 
 
-A version of the intermediate value theorem can be proven. Given a function oracle $f$, an interval $[a,b]$ in the domain of the function oracle,\footnote{An interval is in the domain if every oracle in the interval is in the base of a Yes rectangle. An oracle being in an interval means the interval a Yes-interval for that oracle.} and a value $y$ satisfying $f(a):y:f(b)$, then there exists an oracle $c$ such that all non-singleton rectangles containing $c$ in the base will have $y$ in the wall. If the oracle $c$ is not a singleton, then $f(c) = y$. If the oracle $c$ is a singleton, then it could be defined differently from $y$ and the function oracle would be discontinuous at $c$. 
+A version of the intermediate value theorem can be proven. Given a function oracle $f$, an interval $a:b$ in the domain of the function oracle,\footnote{An interval is in the domain if every oracle in the interval is in the base of a Yes rectangle. An oracle being in an interval means the interval a Yes-interval for that oracle.} and a value $y$ satisfying $f(a):y:f(b)$, then there exists an oracle $c$ such that all non-singleton rectangles containing $c$ in the base will have $y$ in the wall. If the oracle $c$ is not a singleton, then $f(c) = y$. If the oracle $c$ is a singleton, then it could be defined differently from $y$ and the function oracle would be discontinuous at $c$. 
 
 \section{Relation to other definitions}
 
@@ -272,7 +279,7 @@ Continued fraction representations are not that arbitrary. Finite continued frac
 
 Another approach, as discussed in \cite{ittay-2015}, is that of maximal Cauchy ultra-filters. This is roughly equivalent to defining a real number as the set of all sets the contain a non-singleton Yes-interval. This is similar in statement to what is under consideration here, but with a few significant differences. First, for rationals, the singleton is not a part of the set. This means that arithmetic with rationals is not simplified at all nor is there an easy way of distinguishing rationals from reals. Second, and more importantly, it is very difficult to see the real number in these sets. The sets can be almost arbitrary. They do need a core interval, but these sets could contain many disjoint intervals. It is not clear how to use this set to narrow down on the real number as was done with the oracles with the mediant process.  
 
-The final definition under consideration is that of Dedekind cuts. They are not arbitrary as many of the other representations are. Indeed, they are the lower bounds of the Yes-intervals, excluding singletons. They work, but they seem unhelpful. For example, in the intermediate value definition for a monotonic function, the solution by Dedekind cuts is defined as $\{x: f(x) < y\}$. This does not actually suggest a way of computation nor does this seem clearer or easier to handle than $f(x) = y$. The oracle perspective provides an easy definition and suggests how to compute a good representative. It is not even clear with Dedekind cuts what one ought to compute while for oracles, computing smaller intervals is strongly suggested by the formulation. 
+The final definition under consideration is that of Dedekind cuts. They are not arbitrary as many of the other representations are. Indeed, they are the lower bounds of the Yes-intervals, excluding singletons. They work, but they seem unhelpful. For example, in the intermediate value definition for a monotonic function, the solution by Dedekind cuts is defined as $\{x \col f(x) < y\}$. This does not actually suggest a way of computation nor does this seem clearer or easier to handle than $f(x) = y$. The oracle perspective provides an easy definition and suggests how to compute a good representative. It is not even clear with Dedekind cuts what one ought to compute while for oracles, computing smaller intervals is strongly suggested by the formulation. 
 
 It can be useful to also consider how these definitions handle the completion properties. Cauchy sequences are their own limits? Dedekind cuts yield the set $E$ itself as the least upper bound of the set $E$? For the least upper bound, Cauchy sequences lead to having to do the algorithm to define it. For Dedekind cuts, the Cauchy sequence limit definition of an $x$ being less than a tail segment feels like just a partial specification. 
 

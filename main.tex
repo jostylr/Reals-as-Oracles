@@ -1,5 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage{amsfonts,amsmath,amssymb,mathrsfs,amsthm}
+\usepackage{mathabx}
 \usepackage[hidelinks]{hyperref}
 % \usepackage[pagewise]{lineno}\linenumbers   %AIMS Mathematics Recommendation
 \usepackage[backend=biber,style=alphabetic,sorting=ynt]{biblatex}
@@ -29,9 +30,11 @@
 \newtheorem{remark}{Remark}
 
 
-%https://tex.stackexchange.com/questions/432778/reduce-spacing-around-colons-in-math-mode
-\DeclareMathSymbol{:}{\mathord}{operators}{"3A} 
-%\mathrel{:} if need colon spaced. 
+
+%from mathabx. see mathtest.pdf page 19
+\DeclareMathSymbol{:}{\mathbin}{mathb}{"33} %this does triple dot but just need to type : 
+\DeclareMathSymbol{\col}{\mathord}{operators}{"3A}  %gives usual colon
+%do \mathrel{\col} for more spaced colon. 
 %want small less than for colon replacement
 \newcommand{\lt}{\mathord{<}}
 
@@ -783,11 +786,11 @@ Let $a \leq p \leq b$ and $c\leq  q \leq  d$. Then from normal inequality arithm
     A table form of the inclusion would be 
     
     \begin{tabular}{ccccc}
-        $ca$ &:& $cp$ &:& $cb$ \\
-        .. & & .. & & .. \\
-        $qa$ &:& $qp$ &:& $qb$\\
-        .. & & .. & & .. \\
-         $da$ &:& $dp$&:& $db$
+        $ca$ &$:$& $cp$ &$:$& $cb$ \\
+        $\cdots$ & & $\cdots$ & & $\cdots$ \\
+        $qa$ &$:$& $qp$ &$:$& $qb$\\
+        $\cdots$ & & $\cdots$ & & $\cdots$ \\
+         $da$ &$:$& $dp$&$:$& $db$
     \end{tabular}
     
     Let us demonstrate with some examples. 
@@ -795,11 +798,11 @@ Let $a \leq p \leq b$ and $c\leq  q \leq  d$. Then from normal inequality arithm
     A fully positive example is $2:p:3$ and $5:q:7$ leading to 
     
      \begin{tabular}{ccccc}
-        $10$ &:& $5p$ &:& $15$ \\
-        .. & & .. & & .. \\
-        $2q$ &:& $qp$ &:& $3q$\\
-        .. & & .. & & .. \\
-         $14$ &:& $7p$&:& $21$
+        $10$ &$:$& $5p$ &$:$& $15$ \\
+        $\cdots$ & & $\cdots$ & & $\cdots$ \\
+        $2q$ &$:$& $qp$ &$:$& $3q$\\
+        $\cdots$ & & $\cdots$ & & $\cdots$ \\
+         $14$ &$:$& $7p$&$:$& $21$
     \end{tabular}
     
     with the result of $10:21$ being the multiplication of $2:3$ with $5:7$
@@ -807,11 +810,11 @@ Let $a \leq p \leq b$ and $c\leq  q \leq  d$. Then from normal inequality arithm
     Let's try $-2 : p : 7$ and $3: q : 5$ leading to
     
      \begin{tabular}{ccccc}
-        $-6$ &:& $3p$ &:& $21$ \\
-        .. & & .. & & .. \\
-        $-2q$ &:& $qp$ &:& $7q$\\
-        .. & & .. & & .. \\
-         $-10$ &:& $5p$&:& $35$
+        $-6$ &$:$& $3p$ &$:$& $21$ \\
+        $\cdots$ & & $\cdots$ & & $\cdots$ \\
+        $-2q$ &$:$& $qp$ &$:$& $7q$\\
+        $\cdots$ & & $\cdots$ & & $\cdots$ \\
+         $-10$ &$:$& $5p$&$:$& $35$
     \end{tabular}
     
     and thus $-10:35$ is the result of multiplying $-2:7$ with $3:5$.
@@ -819,11 +822,11 @@ Let $a \leq p \leq b$ and $c\leq  q \leq  d$. Then from normal inequality arithm
     Let's try $-2 : p : 7$ and $-3: q : 5$ leading to
     
      \begin{tabular}{ccccc}
-        $6$ &:& $-3p$ &:& $-21$ \\
-        .. & & .. & & .. \\
-        $-2q$ &:& $qp$ &:& $7q$\\
-        .. & & .. & & .. \\
-         $-10$ &:& $5p$&:& $35$
+        $6$ &$:$& $-3p$ &$:$& $-21$ \\
+        $\cdots$ & & $\cdots$ & & $\cdots$ \\
+        $-2q$ &$:$& $qp$ &$:$& $7q$\\
+        $\cdots$ & & $\cdots$ & & $\cdots$ \\
+         $-10$ &$:$& $5p$&$:$& $35$
     \end{tabular}
     
     and thus $-21:35$ is the result of multiplying $-2:7$ with $-3:-5$.
@@ -831,11 +834,11 @@ Let $a \leq p \leq b$ and $c\leq  q \leq  d$. Then from normal inequality arithm
     For our final example, let's do all negatives: $-2 : p : -7$ and $-3: q : -5$ leading to
     
      \begin{tabular}{ccccc}
-        $6$ &:& $-3p$ &:& $21$ \\
-        .. & & .. & & .. \\
-        $-2q$ &:& $qp$ &:& $-7q$\\
-        .. & & .. & & .. \\
-         $10$ &:& $-5p$&:& $35$
+        $6$ &$:$& $-3p$ &$:$& $21$ \\
+        $\cdots$ & & $\cdots$ & & $\cdots$ \\
+        $-2q$ &$:$& $qp$ &$:$& $-7q$\\
+        $\cdots$ & & $\cdots$ & & $\cdots$ \\
+         $10$ &$:$& $-5p$&$:$& $35$
     \end{tabular}
     
     and thus $6:35$ is the result of multiplying $-2:-7$ with $-3:-5$.
