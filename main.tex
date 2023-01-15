@@ -56,7 +56,9 @@ Informally, the Oracle of $r$ is a rule which, given two rational numbers, will 
 
 We will define a rational interval $a:b$ as a binary rule that for a given rational $q$, yields $1$ (Yes) if $q$ is between $a$ and $b$, inclusive, and yields $0$ (No) if not. We say that $q$ is contained in $a:b$ if the interval rule yielded an affirmative answer.  We identify $b:a$ as the same rule. The interval $a:b$ contains the interval $c:d$ if being in the interval $c:d$ implies being in the interval $a:b$. We will write $a\lt b$ if we want to indicate the ordering relation between the rationals; it is sometimes convenient to slip that into notation, but it is often not needed in which case we just use $a:b$. We will also write $a:b < c:d$ to indicate the situation in which $a$ and $b$ are less than $c$ and $d$ which implies that all rationals $q$ in $a:b$ are less than all rationals $r$ in $c:d$.
 
-We define the term \textbf{singleton} to be intervals of the form $a:a$, namely the only number in the interval is the rational $a$. We also define the term \textbf{neighborhood} or a \textbf{neighborly interval} to be intervals which are not singletons, that is, $a < b$ is its form. For our later definition of functional oracles, singleton vs neighborhoods will be important distinctions. When we write $a:b$, we will allow for $a=b$.
+Please take note that the intervals not only have rational endpoints but they consist entirely of rational points as we do not have real numbers. Throughout, unless we say otherwise, intervals always include their endpoints. If we had the real numbers, these would be closed intervals with rational endpoints.  
+
+We define the term \textbf{singleton} to be intervals of the form $a:a$, namely the only number in the interval is the rational $a$; we may also write $[a]$ for the singleton as it does correspond to the real closed interval $[a,a]$. We also define the term \textbf{neighborhood} or a \textbf{neighborly interval} to be intervals which are not singletons, that is, $a < b$ is its form. For our later definition of functional oracles, singleton vs neighborhoods will be important distinctions. When we write $a:b$, we will allow for $a=b$.
 
 A rational $q$ is strictly contained in $a\lt b$ if $a < q < b$. 
 
@@ -620,7 +622,7 @@ We want to find the $n$-th root of $q$. This starts by realizing that given any 
 
 Our argument for that starts with the observation that $x^{n-1}*\dfrac{q}{x^{n-1}} = q$. Let $r$ represent the root, which exists as an oracle from above. For what follows, we will assume the usual rules hold for oracle arithmetic; we will cover them later. We have either $x^n < q$, $x^n = q$, or $x^n > q$ as the three possible cases. If we have equality, then $x$ is the solution and the interval above is a singleton as the root partner becomes itself when $x$ is the root. 
 
-If $x^n < q$, then we know from monotonicity that $x < r$ if and only if $x^n < r^n$ as well as $x^{n-1} < r^{n-1}$. Multiplying both sides by $r$, we then have $x^{n-1} r < r^{n} = q$ leading to $r < \frac{q}{x^{n-1}}$. Thus, if $x^n < q$, we have $x<r<\frac{q}{x^{n-1}}$. Similarly, if $x^n > q$, we can argue $x > r > \frac{q}{x^{n-1}}$. This covers the cases. 
+If $x^n < q$, then we know from monotonicity that $x < r$ if and only if $x^n < r^n$ as well as $x^{n-1} < r^{n-1}$. It is a basic inequality fact that if $ab = cd$ and $a < c $, then $b > d$ since, otherwise, we would have $ab < cd$.Since $x^{n-1} * \frac{q}{x^n-1} = r^{n-1} r$, we must have $\frac{q}{x^{n-1}} > r$. This argument also applies in the case of $x^n > q$. This covers the cases. 
 
 Since $a<b$ implies $\frac{q}{b^{n-1}} < \frac{q}{a^{n-1}}$, we can choose any rational between $x:\frac{q}{x^{n-1}}$ for our next ``$x$'' and interval computation. This will produce an interval that is contained in the previous one. If we use bisection to choose the next $x$, then we can guarantee the length of the following intervals is at least halved at each step. 
 
@@ -1555,7 +1557,7 @@ Note that it is quite possible that the rectangle $M$ has a singleton as an $x$-
 
 \end{enumerate}
 
-With this established, polynomials can be represented by function oracles as well as classically continuous functions. Note that our input intervals are always closed. We can also apply functions to discontinuous functions as long as every $g$-Yes rectangle contains a $g$-Yes rectangle whose $y$-side does not contain the points of discontinuity. For example, we can have $1/x$ as a function oracle by taking the modified function oracle of $x$ where the modification is to remove all rectangles whose $x$-side contains 0. 
+With this established, polynomials can be represented by function oracles as well as classically continuous functions. Note that our input intervals are always inclusive of the endpoints. We can also apply functions to discontinuous functions as long as every $g$-Yes rectangle contains a $g$-Yes rectangle whose $y$-side does not contain the points of discontinuity. For example, we can have $1/x$ as a function oracle by taking the modified function oracle of $x$ where the modification is to remove all rectangles whose $x$-side contains 0. 
 
 As a questionable example, we can also apply this to the tangent function as it is continuous everywhere on its domain. When we consider the function rectangles, we simply need to ensure that the intervals do not include odd multiples of $\frac{\pi}{2}$. The questionable part of this is that we would need to have a reliably defined tangent function, but we put it here to illustrate that discontinuous functions at irrationals are not a problem if the function is not defined at that irrational. 
 
@@ -1849,13 +1851,15 @@ Oracles avoid much in the way of irrelevant claims and choices. The main difficu
 
 \subsection{Generalizations}
 
-Given a metric space, we can complete it by replacing intervals with closed balls. The interval separation property is unpleasant in this context as it involves splitting a space and one point will not be sufficient. Instead, we will use a generalization of the two point separation property. 
+Given a metric space, we can complete it by replacing intervals with balls. The interval separation property is unpleasant in this context as it involves splitting a space and one point will not be sufficient. Instead, we will use a generalization of the two point separation property. 
 
-A closed ball is specified by a point $p$ (the center) and a radius $r$ and is a rule $B$ such that $B(q) = 1$ if and only if the distance $d(p,q) \leq r$; we say that $q$ is contained in $B$. The radius could be either rationals or, now that we have them, real numbers. The function $d$ is the distance function, or metric, whose existence is given by this being a metric space; the distance must satisfy some properties such as positivity, symmetry, and the triangle inequality. Containment of balls is that any point in the contained ball is also in the containing ball. We do allow singletons which is the closed ball of radius $0$ with center $p$. It has the property that only $p$ is in it. Two closed balls $B$ and $C$ are disjoint if there does not exist any point $q$ that is contained in both $B$ and $C$.
+A ball is specified by a point $p$ (the center) and a radius $r$ and is a rule $B$ such that $B(q) = 1$ if and only if the distance $d(p,q) \leq r$; we say that $q$ is contained in $B$. The radius could be either rationals or, now that we have them, real numbers. The function $d$ is the distance function, or metric, whose existence is given by this being a metric space; the distance must satisfy some properties such as positivity, symmetry, and the triangle inequality. Containment of balls is that any point in the contained ball is also in the containing ball. We do allow singletons which is the ball of radius $0$ with center $p$. It has the property that only $p$ is in it. Two balls $B$ and $C$ are disjoint if there does not exist any point $q$ that is contained in both $B$ and $C$.
+
+Note that our balls would be closed balls if we had a complete metric space. We are including the boundary sphere. 
 
 \subsubsection{Oracles in a metric space}
 
-We can now give our definition of an oracle for a metric space. The Oracle of $\alpha$ is a rule defined on closed balls that decides on whether they are a Yes ball or No ball and satisfies ($B$ and $C$ are closed balls in what follows, $p$ and $q$ are points in the original metric space ): 
+We can now give our definition of an oracle for a metric space. The Oracle of $\alpha$ is a rule defined on balls that decides on whether they are a Yes ball or No ball and satisfies ($B$ and $C$ are balls in what follows, $p$ and $q$ are points in the original metric space ): 
 \begin{enumerate}
     \item Consistency. If $B$ contains $C$ and $C$ is a Yes-ball, then $B$ is a Yes ball.
     \item Existence. There exists $B$ such that $B$ is a Yes-ball.
@@ -1878,7 +1882,7 @@ The final step is to show that the new space is complete. This could follow larg
 
 \subsubsection{Functions in the complete metric spaces}
 
-The Function oracles we defined can be extended to the realm of the completed metric spaces. There is very little we need to change here. Instead of the sides of the ``rectangle'' being an interval, we use a closed ball. When we are considering the intersection of these function rectangles, we take the intersection of the sides to be the largest closed ball contained in them. 
+The Function oracles we defined can be extended to the realm of the completed metric spaces. There is very little we need to change here. Instead of the sides of the ``rectangle'' being an interval, we use a ball. When we are considering the intersection of these function rectangles, we take the intersection of the sides to be the largest ball contained in them. 
 
 We expect to find again that such functions are continuous at all the new points and potentially discontinuous at the old points. 
 
