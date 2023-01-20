@@ -1,0 +1,224 @@
+\documentclass[12pt]{article}
+\usepackage{amsfonts,amsmath,amssymb,mathrsfs,amsthm}
+\usepackage{mathabx}
+\usepackage[hidelinks]{hyperref}
+% \usepackage[pagewise]{lineno}\linenumbers   %AIMS Mathematics Recommendation
+\usepackage[backend=biber,style=alphabetic,sorting=ynt]{biblatex}
+\addbibresource{bib.bib}
+
+%Dangerous, possibly remove if weird
+\interfootnotelinepenalty=10000 
+
+\title{Completing Metric Spaces with Oracles}
+\author{
+  James Taylor\footnote{Arts \& Ideas Sudbury School, 4915 Holder Ave, Baltumore, MD 21214, james@aisudbury.org}
+}
+\date{December 31, 2022}
+
+\addtolength{\textwidth}{2.0cm}
+\addtolength{\hoffset}{-1.0cm}
+\addtolength{\textheight}{3.0cm}
+\addtolength{\voffset}{-1.5cm}
+
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{proposition}{Proposition}
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+
+
+%from mathabx. see mathtest.pdf page 19
+\DeclareMathSymbol{:}{\mathbin}{mathb}{"33} %this does triple dot but just need to type : 
+\DeclareMathSymbol{\col}{\mathord}{operators}{"3A}  %gives usual colon
+%do \mathrel{\col} for more spaced colon. 
+%want small less than for colon replacement
+\newcommand{\lt}{\mathord{<}}
+\newcommand{\lte}{\mathord{\leq}}
+
+%\sloppy%\openup-.1\jot
+\begin{document}\maketitle
+\begin{abstract}
+ We propose a new definition of a real number based on the insight that a real number is an oracle that, when provided with a rational interval, answers Yes or No depending on if that real number ought to be considered to be in the given rational interval or not. Since we are defining the real number, we cannot actually define it this way, but the intuition does guide us to several key properties that ensures any such rule will yield a real number which we prove. We provide various examples and algorithms in using oracles. We compare and contrast with this with other common definitions, such as Cauchy sequences and Dedekind cuts. After exploring real numbers as oracles, we introduce a new definition of a function, which we call function oracles. These are oracles that give affirmation for rational rectangles that should contain the image of its base under the function it is modeling. These turn out to be equivalent to functions that are continuous everywhere except possibly on the rationals. We do establish a version of the Intermediate Value Theorem. We finish by generalizing these ideas to the completion of metric spaces. 
+\end{abstract}
+
+
+\section{Metric Spaces}
+
+Given a dense metric space, we can complete it by replacing intervals with balls. The interval separation property is unpleasant in this context as it involves splitting a space and one point will not be sufficient. Instead, we will use a generalization of the two point separation property. 
+
+We will use $E$ and primes on that to denote different metric spaces. A metric space is a set $E$ equipped with a distance function, $d$, which takes in pairs of points from $E$ and returns a non-negative number. We will use $d_E$ if we need to distinguish different distance functions for different metric spaces. A distance function must be symmetric and is zero exactly when computing the distance from a point to itself. In addition, it must satisfy the triangle inequality $d(x,y) \leq d(x,y) + d(y,z)$. 
+
+A ball is specified by a point $c$ (the center) and a radius $r$ and is a rule $B[c,r]$ such that $B[c,r](q) = 1$ if and only if the distance $d(c,q) \leq r$; we say that $q$ is contained in $B[c,r]$. The radius could be either rationals or, now that we have them, real numbers. The function $d$ is the distance function, or metric, whose existence is given by this being a metric space; the distance must satisfy some properties such as positivity, symmetry, and the triangle inequality. Containment of balls is that any point in the contained ball is also in the containing ball. We do allow singletons which is the ball of radius $0$ with center $p$. It has the property that only $p$ is in it. Two balls $B$ and $C$ are disjoint if there does not exist any point $q$ that is contained in both $B$ and $C$.
+
+Note that our balls would be closed balls if we had a complete metric space. We are including the boundary sphere. 
+
+Our metric spaces will be dense metric spaces which we take to mean that in any given ball $B[c,r]$, there exists $q \in E$ such that $q \neq c$ and $q$ is in $B[c,r]$.
+
+
+\subsection{Oracles in a Metric Space}
+
+We can now give our definition of an oracle for a metric space $E$. The Oracle of $\alpha$ is a rule defined on balls that decides on whether they are a Yes ball or No ball and satisfies ($B$ and $C$ are balls in what follows, $p$ and $q$ are points in the original metric space ): 
+\begin{enumerate}
+    \item Consistency. If $B$ contains $C$ and $C$ is a Yes-ball, then $B$ is a Yes ball.
+    \item Existence. There exists $B$ such that $B$ is a Yes-ball.
+    \item Two Point Separating. Given a Yes-ball $B$ and two points in it, then there is a Yes-ball inside $B$ which does not contain at least one of the given points. 
+    \item Intersecting. If $B$ and $C$ are Yes balls, then they must intersect and their intersection must contain an Yes ball.
+    \item Closed. If $q$ is contained in all Yes-balls, then the ball containing $q$ of radius 0 is a Yes-ball. 
+\end{enumerate}
+
+Similar to before, this is equivalent to looking at a maximal family of overlapping, notionally shrinking balls. And, as before, the oracle is preferred to emphasize the algorithmic nature of it all. 
+
+One would need to establish that the singletons represent themselves in this new space, that the metric extends to these new creations, and that it is complete as a metric space.
+
+
+
+\subsection{Family of Overlapping Notionally Shrinking Balls}
+
+An equivalent replacement for the Two Point Separating Property is the Narrowing Property: Given any Yes-ball $B$ for the oracle $\alpha$ and real number $\varepsilon >0$, we can find a Yes-ball whose diameter is less than $\varepsilon$ inside $B$.
+
+\begin{proposition}
+    The Two Point Separating Property and the Narrowing Property are equivalent.
+\end{proposition}
+
+\begin{proof}
+    
+\end{proof}
+
+
+Two oracles are equal if they agree on all intervals. If they are not equal, then there exists a Yes-ball for one of them which is a No-ball for the other one. Because of consistency, there can be no Yes-balls within the No-ball. 
+
+
+\subsection{The Closure of a Metric Space}
+
+The distance can be defined as follows. Let $x$ and $y$ be two oracles. Then $\overline{d}(x,y)$ is defined as the real number oracle which is the infimum of the set of distances $d(B, C)$ where $B$ is a $x$-Yes ball and $C$ is a $y$-Yes ball. The distance between two balls in the original space say with centers $q$ and $s$ and radii $r$ and $t$, respectively, is defined as $r + d(q,s) + t$. This should encompass the distance defined as the supremum over all the distances of the points within the ball. Indeed, let $q' \in B$ and $s'\in C$. Then $d(q', s') \leq d(q',q) + d(q,s') \leq d(q',q) + d(q,s) + d(s,s') = r + d(q,s) + t$ by two applications of the triangle inequality.  
+
+We need to show that this does define a metric, that the distances between pairs on the original space is the same, and that this new space is closed. We will also establish the equivalence of the fonshb. 
+
+\begin{proposition}
+    The function $\overline{d}$ defined above is a distance function for the space of oracles of $E$. 
+\end{proposition}
+
+\begin{proof}
+We need to check the properties. 
+\begin{enumerate}
+\item Non-negativity. The function $\overline{d}$ is non-negative as this is the greatest lower bound of a set of numbers bounded below by 0. 
+\item Symmetry. The function $\overline{d}$ is symmetric. This follows as $d(B,C) = d(C,B)$ for distances between balls and so the sets for the greatest lower bound of $\overline{d}(x,y)$ is the same as the set for $\overline{d}(y,x)$.
+\item Equality. We have $\overline{d}(x,y) = 0$ exactly when $x=y$. If $x=y$, then we can consider the set of distances $d(B,B)= 2r$ of balls that contain $x$ to itself. Since we can take the balls to be arbitrarily small, we have the greatest lower bound is 0. If $x \neq y$, then there exists disjoint balls $B$ and $C$ with $x \in B$ and $y \in C$. The greatest lower bound is then bounded below by the $\inf\{d(q,p) | q \in B, p \in C\}$ since contained balls in them will have distances of their centers at least as large as that infimum. 
+\item Triangle Inequality. We have $\overline{d}(x,z) \leq \overline{d}(x,y) + \overline{d}(y,y)$. Let $A$, $A'$, and $A''$ be Yes-balls for $x$, $y$, and $z$, respectively. Let $(q,c, r)$, $(q',c', r')$, and $(q'', c'', r'')$ be points in, centers and radii for, respectively, the similarly primed balls. Then $d(q,c) + d(c, c'') + d(q'',c'')$ is the quantity that represents an element of the distance set whose infimum is $\overline{d}(x,z)$. We need to compare it to the representatives of the other two distances summed. Well, $d(c,c'') \leq d(c,c') + d(c', c'')$. Substituting that in, we get $(q,c) + d(c, c'') + d(q'',c'') \leq (q,c) + d(c,c') + d(c', c'') + d(q'',c'')$ which is less than the representatives of the sum $\overline{d}(x,y) + \overline{d}(y,z)$. When we take the infimum, the inequality is preserved. 
+\end{enumerate}
+\end{proof}
+
+
+One would need to check that this does define a distance. The triangle inequality should follow largely from the original triangle inequality and some inequality work involving infimums. 
+
+To establish the original space is still in there, we identify the singletons as their own representatives and note that the distance as defined above for oracles immediately gives us that the distance between the singletons is unchanged from the original space. 
+
+The final step is to show that the new space is complete. This could follow largely on how we did Cauchy sequences. Define a Cauchy sequence as a sequence of points such that we have a sequence of nested balls that contain the tail of the sequence and the size can be taken as small as we like. A Yes-ball is then any ball which contains one of these nesting balls. Consistency and existence are immediate from the definitions. Intersection is easy to see since the nesting balls contain one another and thus there must be a common nested ball inside any ball which contains a nested ball. The Closed property, as we did before, is simply postulated as part of the definition of the balls. As for the two point separation property, given two points, there exists a small enough ball that cannot contain them both due to the non-zero distance between them. At that point, we should have a nested Yes ball that does not contain at least one of them. 
+
+We call the space of oracles with this induced metric $\overline{E}$, the \textbf{closure} of $E$.
+
+\subsection{Function oracles for metric spaces}
+
+The Function oracles we defined can be extended to the realm of the completed metric spaces. There is very little we need to change here. Instead of the sides of the ``rectangle'' being an interval, we use a ball. When we are considering the intersection of these function rectangles, we take the intersection of the sides to be the largest ball contained in them. 
+
+We expect to find again that such functions are continuous at all the new points and potentially discontinuous at the old points. 
+
+
+A \textbf{function oracle} $f$ over the metric space $E$ and into the metric space $E'$ is a rule that, given any rectangle $R= A \times B$ with $A$ a ball in $E$ and $B$ a ball in  $E'$, either says Yes or No and satisfies: 
+\begin{enumerate}
+    \item Elongating Consistency. If the wall of rectangle $M$ contains the wall of rectangle $N$ with $N$ and $M$ having the same base,  then $M$ is a $f$-Yes rectangle if $N$  is an $f$-Yes Rectangle. 
+    \item Narrowing Consistency. If the base of rectangle $M$ contains rectangle $N$ with $N$ and $M$ having the same wall, then $N$ is a $f$-Yes rectangle if $M$ is. 
+    \item Intersection. If two $f$-Yes rectangles intersect, then there is an $f$-Yes rectangle contained in the intersection. 
+    \item Single-valued. Given two disjoint rectangles $M$ and $N$ with the same base, at most one of them can be a Yes-rectangle for $f$. 
+    \item Separating. Given an $f$-Yes rectangle $M$, an oracle $\alpha$ contained in the base of $M$, and two points $r$ and $s$ contained in the wall of $M$, then there exists an $f$-Yes rectangle whose wall does not contain at least one of those points and whose base contains $\alpha$.
+\end{enumerate} 
+
+The development of this is almost identical to what was done before. We start with establishing the Narrowing Property: 
+
+\begin{proposition}\label{pr:metricfshrink}
+Given a function oracle $f$ over the metric space $E$ to the metric space $E'$, an oracle $\alpha$ in the $f$-Yes rectangle $M$, and an $\varepsilon > 0$, then we can find an $f$-Yes rectangle contained in $M$ whose base contains $\alpha$ such that its wall has diameter less than $\varepsilon$.
+\end{proposition}
+
+The distance function that appears below is that of $E'$ as the Separating property handles the $E$ part. 
+
+\begin{proof}
+    Let $f$, $\alpha$, and $\varepsilon$ be given. Define $B[c_0, r_0]$ to be the wall of $M_0 =M $. Assume $M_i$ is defined with $B[c_i, r_i]$ being the wall of $M_i$. If $2r_i$ is less than $\varepsilon$, then we are done. If not, by the density of the metric space, there exists $p$ in $B[c_i, \frac{r_i}{3}]$. By the separating property, there exists a rectangle $M_{i+1}$ whose wall, $B[c_{i+1}, r_{i+1}]$, excludes either $ p$ or $c_i$. We wish to argue that $r_{i+1} < \frac{2r_i}{3}$. Let $q$ be in $B[c_i, r_i]$. Then $d(q, c_i) \leq r_i$ by definition of the ball.  By the triangle inequality, $d(q, p) \leq d(q,c_i) + d(p, c_i) \leq r_i + \frac{r_i}{3}= \frac{4 r_i}{3}$. Thus, the diameter must be less than $\frac{4r_i}{3}$ if $p$ is excluded while it must be less than $r_i$ if $c$ is excluded. Therefore, the radius $r_{i+1} < \frac{2r_i}{3}$. 
+
+    We repeat this at most until $i$ satisfies $(\frac{2}{3})^i r_0 < \varepsilon$. 
+\end{proof}
+
+The Narrowing Property also will imply the separating property by taking $\varepsilon$ to be less than the distance between the two points. We favor the separating property as it usually does not require more than two steps to establish, but the narrowing property is crucial in establishing a variety of important properties. The separating property can be viewed as the foundation for the powerful machinery of the narrowing property. 
+
+We can now establish the classical existence of the function value.
+
+\begin{proposition}
+Let $E$ and $E'$ be metric spaces with $f$ being a function oracle from $E$ to $E'$. If an oracle $\alpha$ in $\overline{E}$ has a Yes-interval which is the base of a $f$-Yes rectangle, then $f(\alpha)$ is defined as the unique oracle $\beta$ in $\overline{E'}$ associated with the family of overlapping notionally shrinking balls given by the walls of the $f$-Yes rectangles that contain $\alpha$. 
+\end{proposition}
+
+\begin{proof}
+We need to show that the set of walls is a fonsb. Given two such walls, their bases intersect and we can restrict them to the same base by the Narrowing property. By the Single-valued property, the walls must intersect. By the Intersection property, that intersection must contain an $f$-Yes rectangle whose wall will be contained in the wall of the original two rectangles. Thus, that wall is in the fonshb. As for notionally shrinking, that is directly the narrowing property. 
+
+By the fonshb proposition, we have a unique oracle associated with it. 
+\end{proof}
+
+The main addition that the fonshb does is to add in the singleton if it is missing. 
+
+We say that an oracle $\alpha$ is in the domain of the function oracle $f$ if there is at least one $f$-Yes rectangle $M$ whose base is a $\alpha$-Yes interval. By the proposition above, being in the domain does imply that the function will have a value at $\alpha$ in the classical sense. 
+
+
+\subsection{Composition of Function Oracles}
+
+To compose function oracles, say $h = f \circ g$, we define it as follows. Let $M$ be a $g$-Yes rectangle. Then we define the family of $h$-Yes rectangles $\mathcal{F}_M$ to be any $f$-Yes rectangle whose base is contained in the wall of $M$. The collection of all such families defines a new function oracle which is what we define $f \circ g$ to mean. 
+
+If $f$ is a function oracle from the metric space $E'$ to the metric space $E''$ and $g$ is a function oracle from metric space $E$ to the metric space $E'$, then $f \circ g$ is a map from $E$ to $E''$.
+
+We need to establish that this is a function oracle. 
+
+\begin{enumerate}
+    \item Elongating Consistency. Let rectangle $A$ $y$-contain $B$ with $A$ and $B$ being $x$-same  and assume $B$ is a $f \circ g$-Yes rectangle. We need to show that $A$ is also a $f \circ g$-Yes rectangle. Let $M$ be the $g$-Yes rectangle such that $B$ is in the family $\mathcal{F}_M$. Specifically, the wall of $M$ contains the base of $B$. $B$ is a $f$-Yes rectangle and so $A$ is $f$-Yes as well by $f$'s Elongating Consistency. Since $A$ and $B$ have the same base, the base of $A$ is contained in the wall of $M$ and is included in $\mathcal{F}_M$. Thus, it is a $f \circ g$-Yes Rectangle.
+    \item Narrowing Consistency. Let the base of $A$ contain the base of $B$ with $B$ and $A$ having the same wall. Further assume $A$ is a $f \circ g$-Yes rectangle. Then we need to show that $B$ is a $f \circ g$-Yes rectangle. Let $M$ be the $g$-Yes rectangle whose wall contains the base of $A$. Then $M$ contains the base of $B$. Since $A$ is $f$-Yes, by $f$'s Narrowing Consistency, we have $B$ is $f$-Yes. We conclude $B$ is $f \circ g$ Yes. 
+    \item Intersection. Let $A$ and $B$ be two $f\circ g$-Yes rectangles that intersect. We need to show that the intersection contains a $f \circ g$-Yes rectangle. 
+    \item Single-valued. Let $A$ and $B$ be two disjoint rectangles with the same base. We need to show that at most one is a $f\circ g $-Yes rectangle. 
+    \item Separating. Let $A$ be a $f\circ g$-Yes rectangle, $\alpha$ an oracle in the base of $A$, and $r, s$ be two points in the wall of $A$. We need to show that there exists a $f\circ g$-Yes rectangle whose base includes $\alpha$ but whose wall excludes at least one of $r$ or $s$. 
+    
+\end{enumerate}
+
+\subsection{Product Metric Spaces}
+
+A product metric space is ... 
+
+Need to show closure of the product is the product of the closures. 
+
+
+
+\subsection{Arithmetic of Function Oracles}
+
+We can now apply the composition of function oracles to establish the arithmetic of function oracles. $\mathcal{Q}^n$ is a metric space, which we will call the rational $n$-space. We can view arithmetic operators as a composition of maps between rational $n$-spaces. For example, addition is 
+
+
+\subsection{Multivariable Function Oracles}
+
+We could generalize this to multivariable functions. But we will soon be discussing metric spaces in general which we can then apply to the special case of $\mathbb{Q}^n$. 
+
+
+\subsection{Continuity}
+
+\subsection{Integral of Function Oracles}
+
+Need a volume for metric spaces which is actually a way to compute volumes for balls. 
+
+\subsection{Derivative of Function Oracles}
+
+Need a linear structure over the metric space. 
+
+
+
+\medskip
+
+\printbibliography
+
+\end{document}
