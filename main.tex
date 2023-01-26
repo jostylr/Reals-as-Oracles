@@ -36,6 +36,12 @@
 \raise4\p@\hbox{.}\mkern-3mu\raise7\p@\hbox{.}\mkern1mu}}
 \makeatother
 
+\makeatletter
+\def\DDdots{\mathinner{\mkern1mu\raise7\p@
+\vbox{\kern7\p@\hbox{.}}\mkern-3mu
+\raise4\p@\hbox{.}\mkern-3mu\raise\p@\hbox{.}\mkern1mu}}
+\makeatother
+
 
 %from mathabx. see mathtest.pdf page 19
 \DeclareMathSymbol{:}{\mathbin}{mathb}{"33} %this does triple dot but just need to type : 
@@ -44,6 +50,7 @@
 %want small less than for colon replacement
 \newcommand{\lt}{\mathord{<}}
 \newcommand{\lte}{\Ddots}{%\mathord{\leq}}
+\newcommand{\gte}{\DDdots}
 
 %\sloppy%\openup-.1\jot
 \begin{document}\maketitle
@@ -67,6 +74,8 @@ Informally, the Oracle of $r$ is a rule which, given two rational numbers, will 
 
 We will define a rational interval $a:b$ as a binary rule that for a given rational $q$, yields $1$ (Yes) if $q$ is between $a$ and $b$, inclusive, and yields $0$ (No) if not. We say that $q$ is contained in $a:b$ if the interval rule yielded an affirmative answer.  We identify $b:a$ as the same rule. The interval $a:b$ contains the interval $c:d$ if being in the interval $c:d$ implies being in the interval $a:b$. We will write $a\lt b$ if we want to indicate the ordering relation between the rationals and they are strictly not equal; it is sometimes convenient to slip that into notation, but it is often not needed in which case we just use $a:b$. We may also require knowing the ordering, but still allow inequality. In that case, we use the notation $a \lte b$ We will also write $a:b < c:d$ to indicate the situation in which $a$ and $b$ are less than $c$ and $d$ which implies that all rationals $q$ in $a:b$ are less than all rationals $r$ in $c:d$.
 
+$a \lte b$
+$a\gte b$
 
 Please take note that the intervals not only have rational endpoints but they consist entirely of rational points as we do not have real numbers. Throughout, unless we say otherwise, intervals always include their endpoints. If we had the real numbers, these would be closed intervals with rational endpoints.  The symbol $:$ was chosen to represent the two endpoints with something in between. Being dotted is to be a reminder that it is just the discrete rational interval under discussion. 
 
@@ -819,7 +828,7 @@ This is not the same as the eventual oracle arithmetic. Here, for example, subtr
 Let $a \leq b$ and $c \leq d$, all of them being rational numbers. Then we define:
 \begin{enumerate}
     \item Addition. $a:b \oplus c:d = (a+c):(b+d)$
-    \item Negation. $\ominus a:b = -b:-a$
+    \item Negation. $\ominus\ a:b = -b:-a$
     \item Subtraction. $a:b \ominus c:d = a:b \oplus (-d:-c) = a-d:b-c$
     \item Multiplication. $a:b \otimes c:d = \min(ac, ad, bc, bd): \max(ac,ad,bc,bd)$. For $0<a<b$ and $0<c<d$, this is equivalent to $a:b \otimes c:d = ac:bd$. 
     \item Reciprocity. $1 \oslash (a:b) = \frac{1}{b}:\frac{1}{a}$ as long as $a:b$ does not contain 0. If 0 is contained in $a \lt b$, then the reciprocal is undefined as it actually generates the split interval of $-\infty:\frac{1}{a}$ and $\frac{1}{b}:\infty$.\footnote{We could define the interval $0 \lt b$ to have a reciprocal as $\frac{1}{b}:\infty$. This could be useful if we wanted to introduce one-sided oracles, such as having a $0^+$ oracle which would consist of $0$-Yes intervals of the form $0\lt b$. This would allow us to define the reciprocal of the Yes intervals as $\frac{1}{b}:\infty$ and would represent the oracle of $+ \infty$. We will not pursue that here.  }
@@ -960,23 +969,21 @@ As we have seen, the arithmetic of intervals has some common properties with nor
 
 We can now define oracle arithmetic. The basic idea is that if an interval contains the result of combining the Yes intervals of the oracles being combined, then it is a Yes interval itself. 
 
-We will prove a general statement about creating an oracle out of other oracles based on the property that shrinking intervals of the inputs lead to shrinking the interval of the output. We will then apply it to the various forms of arithmetic operators. Due to the presence of the singletons, this is only an appropriate model for maps that map rationals to rationals.
+We will prove a general statement about creating an oracle out of other oracles based on map that have the property that shrinking intervals of the inputs lead to shrinking the interval of the output. We will then apply it to the various forms of arithmetic operators. The maps under consideration take in rationals and yield rationals. 
 
 This shrinking is what allows us to go from the arithmetic of intervals, which does not have a mechanism to use this property, to an arithmetic of oracles, which can use it since we can shrink the intervals of interest for oracles. 
 
-A good example to keep in mind is that of multiplication. Let's assume, to avoid cases in this example, that  $0 < a < b < c < d$ and we are computing $a:b \otimes c:d$. Then we have that the length of that product interval is $bd-ac = bd-ad+ad - ac= (d(b-a) + a(d-c))< d ( ( b-a) + (d-c) )$. We can replace this with $2dL$ where $L = \max(b-a, d-c)$. If $e<f$ and $g<h$ are contained in the intervals $a:b$ and $c:d$ respectively, then the length of the product of the two intervals is bounded above by $2d\max(f-e, g-h)$. We can therefore see that the length of the product interval goes to 0 as the lengths of the subintervals go to 0. Notice that the bound for this does involve the original intervals, but once that initial choice is made, then we can bound the lengths down to 0. This is the key property we are abstracting out in what follows. 
+A good example to keep in mind is that of multiplication. Let's assume, to avoid cases in this example, that  $0 < a < b < c < d$ and we are computing $a:b \otimes c:d$. Then we have that the length of that product interval is $bd-ac = bd-ad+ad - ac= (d(b-a) + a(d-c))< d ( ( b-a) + (d-c) )$. We can replace this with $2dL$ where $L = \max(b-a, d-c)$. If $e<f$ and $g<h$ are contained in the intervals $a:b$ and $c:d$ respectively, then the length of the product of the two intervals is bounded above by $2d\max(f-e, h-g)$. We can therefore see that the length of the product interval goes to 0 as the lengths of the subintervals go to 0. Notice that the bound for this does involve the original intervals, but once that initial choice is made, then we can bound the lengths down to 0. This is the key property we are abstracting out in what follows. 
 
 \subsection{Narrowing of Intervals}
 
-An \textbf{interval operator} $f$ is a mapping that takes in a finite number of rational intervals and outputs a rational interval. An \textbf{oracle operator} $F$ is a mapping that takes in a finite number of oracles and produces another oracle.
+A rational \textbf{interval operator} $f$ is a mapping that takes in a finite number of rational intervals and outputs a rational interval. An \textbf{oracle operator} $F$ is a mapping that takes in a finite number of oracles and produces another oracle.
 
-We will use $|I|$ to denote the length of the intervals which for a rational interval $a<b$ is $b-a$. We shall consider $n$-tuples of intervals by which we mean an ordered collection of $n$ rational intervals. The $n$-tuple $\vec{J}$ is contained in the $n$-tuple $\vec{I}$ if the $i$-th interval in $\vec{J}$ is contained in the $i$-th interval of $\vec{I}$ for each $1 \leq i \leq n$. For our purposes, we will define the length of the $n$-tuple $\vec{I}$ as $|\vec{I}| = \max_{i=1}^n (|I_i|)$.
+We will use $|I|$ to denote the length of the intervals which for the rational interval $a<b$ is $b-a$. We shall consider $n$-tuples of intervals by which we mean an ordered collection of $n$ rational intervals. The $n$-tuple $\vec{J}$ is contained in the $n$-tuple $\vec{I}$ if the $i$-th interval in $\vec{J}$ is contained in the $i$-th interval of $\vec{I}$ for each $1 \leq i \leq n$. For our purposes, we will define the length of the $n$-tuple $\vec{I}$ as $|\vec{I}| = \max_{i=1}^n (|I_i|)$.
 
-An interval operator has the \textbf{narrowing} property if the following holds. Let $\vec{I}$ be any $n$-tuple of intervals and define the interval $K$ as $f(\vec{I}) = K$. Let $\vec{J}$ be an $n$-tuple contained in $\vec{I}$ and take $L= f(\vec{J})$. Then the narrowing property is the assertion that $L$ is contained in $K$ and $|L| \leq M_{\vec{I}} |\vec{J}|$ where $M_{\vec{I}}$ is a constant that depends only on $\vec{I}$. We also require that $L$ is a non-empty interval though it is allowed to be a singleton whose length would be 0. With the narrowing property, the image of a tuple with all singletons must be a singleton. 
+An interval operator has the \textbf{narrowing property} if the following holds. Let $\vec{I}$ be any $n$-tuple of intervals and define the interval $K$ as $f(\vec{I}) = K$. Let $\vec{J}$ be an $n$-tuple contained in $\vec{I}$ and take $L= f(\vec{J})$. Then the narrowing property is the assertion that $L$ is contained in $K$ and $|L| \leq M_{\vec{I}} |\vec{J}|$ where $M_{\vec{I}}$ is a constant that depends only on $\vec{I}$. We also require that $L$ is a non-empty interval though it is allowed to be a singleton whose length would be 0. With the narrowing property, the image of a tuple with all singletons must be a singleton. 
 
-The narrowing property reflects the shrinking nature rooted within the interval tuples that contain the inputs. The narrowing property implies that $f$ should be defined on all contained tuples. If $f$ was undefined on an $n$-tuple $\vec{J}$, then $f$ should be undefined on any $n$-tuple $\vec{I}$ that contains $\vec{J}$. 
-
-
+The narrowing property reflects the shrinking nature rooted within the interval tuples that contain the inputs. The narrowing property implies that $f$ should be defined on all contained tuples. If $f$ was undefined on an $n$-tuple $\vec{J}$, then $f$ should be undefined on any $n$-tuple $\vec{I}$ that contains $\vec{J}$. We use the terminology that $\vec{I}$ is in the domain of $f$ if $f(\vec{I})$ is defined. 
 
 The intersection of two $n$-tuple intervals is the $n$-tuple formed by intersecting their respective components. They are disjoint if at least one of the intersecting components is disjoint. 
 
@@ -993,56 +1000,25 @@ Assume $\vec{I}$ and $\vec{J}$ are not disjoint. Let $\vec{A}$ be the intersecti
 For an $n$-tuple $\vec{\alpha}$ of oracles, we say that the $n$-tuple $\vec{I}$ is a $\vec{\alpha}$-Yes tuple if for each of the $I_i$ intervals, we have $I_i$ is an $\alpha_i$-Yes interval. 
 
 \begin{theorem}
-If $f$ is an interval operator with the narrowing property, then there is an associated oracle operator $F$. It is defined for $\beta = F(\vec{\alpha}) = F(\alpha_1, \alpha_2, \ldots, \alpha_n)$ as the unique oracle such that the interval $J$ is a $\beta$-Yes interval exactly when it contains an interval $I = f(\vec{I}) = f(I_1, I_2, \ldots, I_n)$ where $\vec{I}$ is an $\alpha$-Yes tuple. Additionally, if a rational $q$ is contained in all such intervals, then its singleton interval is taken to be a $\beta$-Yes interval. $F(\vec{\alpha})$ is undefined if there is no $\vec{\alpha}$-Yes tuple which $f$ is defined on. 
+If $f$ is an interval operator with the narrowing property, then there is an associated oracle operator $F$. For any $\vec{\alpha}$ such that there is an $\vec{\alpha}$-Yes interval tuple $\vec{I}$ that is in the domain of 
+$f$, then $\vec{\alpha}$ is considered to be in the domain of $F$ and the family of intervals of the form $f(\vec{I})$ for all $\vec{\alpha}$-Yes intervals $\vec{I}$ in the domain of $f$ is a fonsi. We write $F(\vec{\alpha})$ to denote the unique oracle associated with that fonsi. 
 \end{theorem}
 
-Essentially, we use the interval operator to translate Yes intervals into a Yes interval. Unfortunately, we cannot rely on singletons appearing directly from that process so we must add that in. It still is not entirely satisfactory as we generally must rely on an infinite set of computations to determine whether the singleton should be included. We can say, however, that there will be at most one such singleton. 
+We could define an oracle directly, but the proof would mimic that of the fonsi. Arithmetic operators inherently produce fonsis and only secondarily produce oracles. This seems to be an essential part of the difficulty of doing arithmetic with real numbers. 
 
-For the undefined portion, the operator to keep in mind is the reciprocal operator. It is undefined on the Oracle of 0 as any 0-Yes interval will contain 0 and thus the reciprocal interval operator is undefined on it. 
+For the relevance of domain, the operator to keep in mind is the reciprocal operator. It is undefined on the Oracle of 0 as any 0-Yes interval will contain 0 and thus the reciprocal interval operator is undefined on it. 
 
-Also note that because of the narrowing property, once there is an $\vec{\alpha}$-Yes tuple for which $f$ is defined on, then all contained ones are also defined implying that $\beta$ is defined. Again, the reciprocal is a good one to keep in mind as say the $2$-Yes interval $-2:5$ is not defined for the reciprocal, but $1:3$ is defined (and it is $1:\frac{1}{3}$) and all subintervals of $1:3$ are defined as well, leading to the Oracle of $\frac{1}{2}$. One should also note that, say, the interval $-1:1$ is also a $\frac{1}{2}$-Yes interval. That is, while the interval operator is exclusionary as one gets more expansive $n$-tuples, the oracle version is inclusionary of the larger intervals. 
-
-To determine that an interval $K$ is a $\beta$-No interval, we would need to produce an $n$-tuple of $\alpha_i$ intervals such that $f$ applied to them yields a disjoint interval to $K$. This is what the Proposition \ref{pr:op-nrw} tells us.  
-
-In the lemmas that follow, when we say that $\beta$ is as in the theorem, we are referencing how it is defined as a rule that answers Yes for intervals exactly when the interval contains the output of the interval operator on an $n$-tuple of intervals that are $\alpha$-Yes. We are not assuming the oracle properties. 
-
-\begin{lemma}
-Let $f$, $\vec{\alpha}$, $F$ and $\beta = F(\vec{\alpha})$ be as in the theorem. Given any two disjoint intervals, $C$ and $D$, at most one of them will be a $\beta$-Yes interval.
-\end{lemma}
-
-We use the bisection method on the input tuples repeatedly until the resulting interval cannot contain both $C$ and $D$. 
+Also note that because of the narrowing property, once there is an $\vec{\alpha}$-Yes tuple for which $f$ is defined on, then all contained ones are also defined. Again, the reciprocal is a good one to keep in mind as say the $2$-Yes interval $-2:5$ is not defined for the reciprocal, but $1:3$ is defined (and it is $1:\frac{1}{3}$) and all subintervals of $1:3$ are defined as well, leading to the Oracle of $\frac{1}{2}$. One should also note that, say, the interval $-1:1$ is also a $\frac{1}{2}$-Yes interval. That is, while the interval operator is exclusionary as one gets more expansive $n$-tuples, the oracle version is inclusionary of the larger intervals, being a maximalized fonsi. 
 
 \begin{proof}
-By assumption of $\beta$ being defined, there exists an $\vec{\alpha}$-Yes tuple $\vec{I}$ such that $f(\vec{I})$ is defined. Let $N =|\vec{I}|$. By the narrowing property, we have a constant $M_{\vec{I}}$, which we will just call $M$, such that for every $\vec{J}$ contained in $\vec{I}$, the length of $|f(\vec{J})| < M |\vec{J}|$. Let $L$ be the distance from the closest endpoints of $C$ and $D$; this is well-defined and non-zero since they are disjoint. Then use the bisection method on each of the $\vec{I}$ intervals $k$-times where $k$ satisfies $\frac{N}{2^k} < \frac{L}{2M}$. This will ensure that the resulting $\vec{\alpha}$-Yes $n$-tuple $\vec{J}$ has length $|\vec{J}| < \frac{N}{2^{k}} < \frac{L}{2M}$. Let $J = f(\vec{J})$. We have $|J| \leq M |\vec{J}| < \frac{L}{2}$ which implies the interval $J$ cannot intersect both $C$ and $D$. 
+To prove that the family of intervals is a fonsi, we need to demonstrate that any two such intervals intersect and that given a rational $\varepsilon > 0$, we can find an interval in the family smaller than that. 
 
-Let's assume $D$ does not intersect $J$ but that $D$ is a $\beta$-Yes interval. That means there exists a $\vec{K}$ which is an $\vec{\alpha}$-Yes $n$-tuple. Then $\vec{J}$ and $\vec{K}$ intersect in a $\vec{\alpha}$-Yes $n$-tuple, say $\vec{A}$. By the narrowing property, $f(\vec{A})$ is non-empty and intersects both $J$ and $K$. But as they are disjoint, this contradiction establishes that $D$ is not a $\beta$-Yes interval. 
+By Proposition \ref{pr:op-nrw}, since any pair of $\vec{\alpha}$-Yes tuples intersect, we must have that their images intersect. Thus, we do have that the family is an overlapping family. In fact, because of the Narrowing Property, the intersection of the two tuples, which is also a $\vec{\alpha}$-Yes tuple, has its image under $f$ defined and contained in both of the images of the original Yes tuples. 
+
+For the other part, let rational $\varepsilon >0$ be given. Part of the theorem is that there exists an $\vec{\alpha}$-Yes tuple $\vec{I}$ such that $f(\vec{I})$ is defined. Let $N =|\vec{I}|$. By the narrowing property, we have a constant $M_{\vec{I}}$, which we will just call $M$, such that for every $\vec{J}$ contained in $\vec{I}$, the length of $|f(\vec{J})| < M |\vec{J}|$. Because each $\alpha_i$ is an oracle, we can find $\alpha_i$-Yes intervals $J_i$ whose length is less than $\frac{\varepsilon}{M}$ and $J_i \subseteq I_i$. Let $\vec{J}$ be the $\vec{\alpha}$-Yes interval tuple whose $i$-the component is $J_i$. Then $f(\vec({J})$ is in the fonsi and $|f(\vec{J})| < M |\vec{J}| < M \frac{\varepsilon}{M} = \varepsilon$ as was to be shown. 
+
+For a given $\vec{\alpha}$ in the domain of $F$, we have a fonsi and, therefore, an associated oracle.
 \end{proof}
-
-\begin{lemma}
-Let $f$, $\vec{\alpha}$, $F$ and $\beta$ be as in the theorem. Given $A$ and $B$, two $\beta$-Yes intervals, the intersection $C$ is also a $\beta$ interval. 
-\end{lemma}
-
-\begin{proof}
-Since they are both $\beta$ intervals, there exist $\vec{\alpha}$-Yes $n$-tuples $\vec{J}$ and $\vec{K}$ such that $A \supset J = f(\vec{J})$ and $B \supset K= f(\vec{K})$. Because $\vec{\alpha}$ is an $n$-tuple of oracles, the intersection of $\vec{J}$ and $\vec{K}$ is non-empty and an $\vec{\alpha}$-Yes $n$-tuple; let's denote that as $\vec{L}$. Then $L = f(\vec{L})$ is contained in $J$ and $K$ by the narrowing property of $f$. This $L$ is therefore contained in $C$ and since $L$ is the image of $\vec{\alpha}$-Yes $n$-tuple, we have that $C$ is a $\beta$-Yes interval. 
-\end{proof}
-
-We can now prove the theorem. 
-
-\begin{proof}
-We proceed by establishing each of the properties. 
-
-\begin{enumerate}
-    \item Consistency. By transitivity of containment, this follows almost immediately from the definition. 
-    \item Existence. Since $F(\vec{\alpha})$ is defined, we have that there is a $\vec{\alpha}$-Yes tuple such that $f$ is defined on it and that is a $\beta$-Yes interval.
-    \item Separating. For a given $c$, we are done if it is contained in every neighborly $\beta$ interval. So let us assume it is not contained in one and, by the intersection lemma, we can assume that interval is contained in $a:b$ which then implies that it is contained in either $a:c$ or $c:b$ since it does not contain $c$. Let's say it is $a:c$. Then $R(a:c)=1$ since it contains a $\beta$ interval. Since this interval does not contain $c$ and is an interval, it must be disjoint from $c:b$. Hence, by the first lemma, we have $R(c:b)=0$ and our result has been obtained.
-    \item Rooted. For any given two rational points, their singleton intervals will be disjoint and therefore by the first lemma, there is at most one which is a Yes. 
-    \item Closed. This is true by definition of the oracle. We are essentially closing up the oracle and it is a bit of a theoretical sleight of hand.
-\end{enumerate}
-
-Uniqueness of the oracle follows again by disjointness. To be distinct, the oracles must have disjoint intervals, but  as they must contain images of $\vec{\alpha}$-Yes tuples and their intersections, they cannot be disjoint. 
-
-\end{proof}
-
 
 
 \subsection{Arithmetic Operators}
