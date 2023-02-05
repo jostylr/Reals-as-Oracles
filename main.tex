@@ -1,8 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage{amsfonts,amsmath,amssymb,mathrsfs,amsthm}
-\usepackage{mathabx}
-\usepackage{ulem} %underlining
-\usepackage{graphicx} %used for the wall symbol rotation
+\usepackage{realoracles}
 \usepackage[hidelinks]{hyperref}
 \usepackage{xassoccnt}
 % \usepackage[pagewise]{lineno}\linenumbers   %AIMS Mathematics Recommendation
@@ -16,7 +14,7 @@
 \author{
   James Taylor\footnote{Arts \& Ideas Sudbury School, 4915 Holder Ave, Baltumore, MD 21214, james@aisudbury.org}
 }
-\date{December 31, 2022}
+\date{January 31, 2023}
 
 \addtolength{\textwidth}{2.0cm}
 \addtolength{\hoffset}{-1.0cm}
@@ -36,39 +34,6 @@
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}
 
-% Modified from https://tex.stackexchange.com/a/125775
-\makeatletter
-\def\Ddots{\mathinner{\mkern1mu\raise\p@
-\vbox{\kern7\p@\hbox{.}}\mkern-3mu
-\raise4\p@\hbox{.}\mkern-3mu\raise7\p@\hbox{.}\mkern1mu}}
-\makeatother
-
-\makeatletter
-\def\DDdots{\mathinner{\mkern1mu\raise7\p@
-\vbox{\kern7\p@\hbox{.}}\mkern-3mu
-\raise4\p@\hbox{.}\mkern-3mu\raise\p@\hbox{.}\mkern1mu}}
-\makeatother
-
-%https://latex.org/forum/viewtopic.php?t=1892
-\makeatletter
-\newcommand*\dln{\rotatebox[origin=c]{90}{$\dabar@\dabar@$}}
-\makeatother
-
-\makeatletter
-\newcommand*\duln{\raise-5\p@\hbox{$\dabar@\dabar@$}\mkern-16mu}
-\makeatother
-
-
-%from mathabx. see mathtest.pdf page 19
-\DeclareMathSymbol{:}{\mathbin}{mathb}{"33} %this does triple dot but just need to type : 
-\DeclareMathSymbol{\col}{\mathord}{operators}{"3A}  %gives usual colon
-%do \mathrel{\col} for more spaced colon. 
-%want small less than for colon replacement
-\newcommand{\lt}{\mathord{<}}
-\newcommand{\lte}{\Ddots}{%\mathord{\leq}}
-\newcommand{\gte}{\DDdots}
-\newcommand{\base}[1]{\duln #1 }
-\newcommand{\wall}[1]{\dln #1}
 
 %\sloppy%\openup-.1\jot
 \begin{document}\maketitle
@@ -1742,6 +1707,9 @@ Let us run through our criteria.
 \end{itemize}
 
 Infinite decimals are a natural attempt and it is a very common presentation of what we know of a number. But it is often not a convenient form and strongly suggests intervals instead. 
+
+The lack of error control is problematic with the decimal expansion. For example, assume we want to multiply the real numbers $\sqrt{2} \approx 1.414$ and $\sqrt[3]{48}\approx 3.634$. Let's take the truncated versions of 1.4 and 3.6 with the implicit understanding of having the interval $1.4:1.5$ and $3.6:3.7$ as the intervals containing these numbers, respectively. When we multiply the representatives, we get $1.4*3.6 = 5.04$, but when we multiply $1.5*3.7$ we get $5.55$. The spread has increased and the best we can say is that $\sqrt{2} \sqrt[3]{48}$ is in in the interval $5.04:5.55$ leading to $5$ as the truncated answer if we follow the truncation convention. If instead of viewing the decimal expansion as representing the story so far and instead viewing it as having been rounded, then the numbers represent $1.35:1.45$ and $3.55 :3.65$ which leads to the interval $4.7925: 5.2925$ and thus for a rounded version, we again find $5$ as the representative answer with the increased uncertainty of $4.5:5.5$ as the implied interval. We can, of course, repeat this with more digits. For example, doing the rounded version with three digit approximation, we get $1.4135:1.4145\otimes 3.6335:3.6345 = 5.13595225:5.14100025$ which leads to a rounded version of $5.14$ representing the interval $5.135:5.145$. To track precision properly, we need to have intervals as part of the decimal arithmetic. 
+
 
 \subsection{Nested Intervals}
 

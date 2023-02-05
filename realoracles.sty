@@ -1,0 +1,52 @@
+%%Identification
+%%The package identifies itself and the LaTeX version needed
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{realoracles}[2023/02/05 Representing Real Oracles with colons and such]
+
+%%Requeiried packages and preliminary definitions, needed by the options
+\RequirePackage{mathabx}
+\RequirePackage{ulem} %underlining
+\RequirePackage{graphicx} %used for the wall symbol rotation
+
+
+%https://tex.stackexchange.com/questions/432778/reduce-spacing-around-colons-in-math-mode
+\DeclareMathSymbol{:}{\mathbin}{mathb}{"33}
+\DeclareMathSymbol{\col}{\mathord}{operators}{"3A}  %gives usual colon
+%do \mathrel{\col} for more spaced colon. 
+%\mathrel{:} if need colon spaced. 
+%want small less than for colon replacement
+
+
+% Modified from https://tex.stackexchange.com/a/125775
+\makeatletter
+\def\Ddots{\mathinner{\mkern1mu\raise\p@
+\vbox{\kern7\p@\hbox{.}}\mkern-3mu
+\raise4\p@\hbox{.}\mkern-3mu\raise7\p@\hbox{.}\mkern1mu}}
+\makeatother
+
+\makeatletter
+\def\DDdots{\mathinner{\mkern1mu\raise7\p@
+\vbox{\kern7\p@\hbox{.}}\mkern-3mu
+\raise4\p@\hbox{.}\mkern-3mu\raise\p@\hbox{.}\mkern1mu}}
+\makeatother
+
+%https://latex.org/forum/viewtopic.php?t=1892
+\makeatletter
+\newcommand*\dln{\rotatebox[origin=c]{90}{$\dabar@\dabar@$}}
+\makeatother
+
+\makeatletter
+\newcommand*\duln{\raise-5\p@\hbox{$\dabar@\dabar@$}\mkern-16mu}
+\makeatother
+
+
+%from mathabx. see mathtest.pdf page 19
+\DeclareMathSymbol{:}{\mathbin}{mathb}{"33} %this does triple dot but just need to type : 
+\DeclareMathSymbol{\col}{\mathord}{operators}{"3A}  %gives usual colon
+%do \mathrel{\col} for more spaced colon. 
+%want small less than for colon replacement
+\newcommand{\lt}{\mathord{<}}
+\newcommand{\lte}{\Ddots}{%\mathord{\leq}}
+\newcommand{\gte}{\DDdots}
+\newcommand{\base}[1]{\duln #1 }
+\newcommand{\wall}[1]{\dln #1}
