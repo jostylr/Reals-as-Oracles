@@ -38,7 +38,7 @@
 %\sloppy%\openup-.1\jot
 \begin{document}\maketitle
 \begin{abstract}
- We propose a new definition of a real number based on the insight that a real number is an oracle that, when provided with a rational interval, answers Yes or No depending on if that real number ought to be considered to be in the given rational interval or not. Since we are defining the real number, we cannot actually define it this way, but the intuition does guide us to several key properties that ensures any such rule will yield a real number which we prove. We provide various examples and algorithms in using oracles. We compare and contrast with this with other common definitions, such as Cauchy sequences and Dedekind cuts. After exploring real numbers as oracles, we introduce a new definition of a function, which we call function oracles. These are oracles that give affirmation for rational rectangles that should contain the image of its base under the function it is modeling. These turn out to be equivalent to functions that are continuous everywhere except possibly on the rationals. We do establish a version of the Intermediate Value Theorem. We finish by generalizing these ideas to the completion of metric spaces. 
+This paper gives a new definition of a real number based on the insight that a real number is an oracle that, when provided with a rational interval, answers Yes or No depending on if that real number ought to be considered to be in the given rational interval or not. Since the goal is to define the real numbers, this cannot be the actual definition, but the intuition from it leads to key properties that ensures any such rule will yield a real number. Various examples and algorithms in using oracles are explored. There is a section comparing and contrasting with  other common definitions, such as Cauchy sequences and Dedekind cuts. Having obtained real numbers as oracles, the next step is a new definition of a function, called function oracles. These are oracles that give affirmation for rational rectangles whose walls contain the image of the base under the function it is modeling. These turn out to be equivalent to functions that are continuous everywhere except possibly on the rationals. There is a version of the Intermediate Value Theorem that applies to function oracles. Oracles easily generalize to metric spaces. 
 \end{abstract}
 
 \tableofcontents
@@ -47,24 +47,24 @@
 
 Our goal is to give a new definition of real numbers. This definition strikes a balance between having a solid definition of a real number and being useful in computing. Most definitions of real numbers, such as decimal expansions and Cauchy sequences, seem to require explicit computations to even define the number. This is problematic given the infinite nature of real numbers. Other definitions, such as the Dedekind cut, do not require computations to state, but they seem to offer no useful guidance in computing. 
 
-What we want to provide is an object that can be defined without computation, but provides the underlying mechanism for computing the real number to any precision one wants. In some sense, we are producing the framework for producing approximations to real numbers given the particulars of a given real number. In programming, this is analogous to having a sorting algorithm written generally which just needs to be given the comparison function to make the sorting decision while the framework handles the actual details of sorting given that answer. 
+What we want to provide is an object that can be defined without computation, but provides the underlying mechanism for computing the real number to any precision one wants. In some sense, we are producing the framework for producing approximations to real numbers given the particulars of a given real number. In programming, this is analogous to having a sorting algorithm written generally which just needs to be given the comparison function to make the sorting decision while the framework handles the actual details of sorting given the comparator. 
 
-Since this is a mechanism that provides answers to our questions, we call it an oracle. The idea is that a real number is an oracle that reveals itself by answering, under repeated questioning, whether it is in various rational intervals. 
+Since this is a mechanism that provides answers to our questions, it seems reasonable to call it an oracle. The idea is that a real number is an oracle that reveals itself by answering, under repeated questioning, whether it is in various rational intervals. 
 
 Informally, the Oracle of $r$ is a rule which, given two rational numbers, will return 1 (Yes) if $r$ ought to be in the closed interval defined by the two rational numbers and returns 0 (No) otherwise. If the answer was a 1, then we say the interval is an $r$-Yes interval; if the answer is a 0, then we say the interval is an $r$-No interval.  If we are just speaking of one oracle, we may simply say a Yes-interval or No-interval. 
 
 \subsection{Interval notation}
 
-We will define a rational interval $a:b$ as a binary rule that for a given rational $q$, yields $1$ (Yes) if $q$ is between $a$ and $b$, inclusive, and yields $0$ (No) if not. We say that $q$ is contained in $a:b$ if the interval rule yielded an affirmative answer.  We identify $b:a$ as the same rule. The interval $a:b$ contains the interval $c:d$ if being in the interval $c:d$ implies being in the interval $a:b$. We will write $a\lt b$ if we want to indicate the ordering relation between the rationals and they are strictly not equal; it is sometimes convenient to slip that into notation, but it is often not needed in which case we just use $a:b$. We may also require knowing the ordering, but still allow inequality. In that case, we use the notation $a \lte b$ We will also write $a:b < c:d$ to indicate the situation in which $a$ and $b$ are less than $c$ and $d$ which implies that all rationals $q$ in $a:b$ are less than all rationals $r$ in $c:d$.
+We will define a rational interval $a:b$ as a binary rule that for a given rational $q$, yields $1$ (Yes) if $q$ is between $a$ and $b$, inclusive, and yields $0$ (No) if not. We say that $q$ is contained in $a:b$ if the interval rule yielded an affirmative answer.  We identify $b:a$ as the same rule. The interval $a:b$ contains the interval $c:d$ if being in the interval $c:d$ implies being in the interval $a:b$. We will write $a\lt b$ if we want to indicate the ordering relation between the rationals and they are strictly not equal; it is sometimes convenient to slip that into notation, but it is often not needed in which case we just use $a:b$. We may also require knowing the ordering, but still allow equality. In that case, we use the notation $a \lte b$ to indicate $a \leq b$.  We will also write $a:b < c:d$ to indicate the situation in which $a$ and $b$ are less than $c$ and $d$ which implies that all rationals $q$ in $a:b$ are less than all rationals $r$ in $c:d$.
 
 
 Please take note that the intervals not only have rational endpoints but they consist entirely of rational points as we do not have real numbers. Throughout, unless we say otherwise, intervals always include their endpoints. If we had the real numbers, these would be closed intervals with rational endpoints.  The symbol $:$ was chosen to represent the two endpoints with something in between. Being dotted is to be a reminder that it is just the discrete rational interval under discussion. 
 
-We define the term \textbf{singleton} to be intervals of the form $a:a$, namely the only number in the interval is the rational $a$; we may also write $[a]$ for the singleton as it does correspond to the real closed interval $[a,a]$. We also define the term \textbf{neighborhood} or a \textbf{neighborly interval} to be intervals which are not singletons, that is, $a \lt b$ is its form. For our later definition of functional oracles, singleton vs neighborhoods will be important distinctions. When we write $a:b$, we will allow for $a=b$.
+We define the term \textbf{singleton} to be intervals of the form $a:a$, namely the only number in the interval is the rational $a$. We also define the term \textbf{neighborhood} or a \textbf{neighborly interval} to be intervals which are not singletons, that is, $a \lt b$ is its form. For our later definition of functional oracles, singleton vs neighborhoods will be important distinctions. When we write $a:b$, we do allow for $a=b$.
 
 A rational $q$ is strictly contained in $a\lt b$ if $a < q < b$. 
 
-Note that we have transitivity of interval inequality, that is $a:b < c:d$ and $c:d < e:f$, then $a:b < e:f$. This follows immediately from the transitivity of inequalities on rationals.
+Note that we do have transitivity of interval inequality, that is, if $a:b < c:d$ and $c:d < e:f$, then $a:b < e:f$. This follows immediately from the transitivity of inequalities on rationals.
 
 \subsection{Defining the Oracle}
 
@@ -105,17 +105,17 @@ For further elaboration on what each of these properties means:
 
     We also want to note that while we did exclude $c$ from being the endpoints, this is not because that would yield a problem, but rather because it is a vacuous statement. Indeed, if $c=a$, then either $R(a:a)=1$ or $R(a:a)=0$. If it is the former, then we have satisfied the singleton part of the separation property. If $R(a:a)=0$, then since $R(a:b)=1$ by assumption, we have $R(a:a) \neq R(a:b)$ which is the other part of the property. We therefore concentrate our discussion solely on $c$ strictly between $a$ and $b$.
     
-    \item Being Rooted ensures that there is just one single number under discussion. Without this, we could have the rule, for example, $R(a:b) = 1$ for all $a:b$ that contain a subinterval of a fixed given interval $c:d$. This is compatible with all the properties except for being rooted. In particular, the separation property is fine since given an interval $a:b$ contained in $c:d$, and a number $e$ in $a:b$, then $R(e:e) = 1$ and hence there is no requirement to have a No-interval in $a:b$. 
+    \item Being Rooted ensures that there is just one single number under discussion. Without this, we could have the rule, for example, $R(a:b) = 1$ for all $a:b$ that contain a subinterval of a fixed given interval $c:d$. This is compatible with all the properties except for being rooted. In particular, the separation property is fine since given an interval $a:b$ overlapping  $c:d$, and any number $e$ that is in both $a:b$ and in $c:d$, then $R(e:e) = 1$ and hence $R(a:e)=R(e:b) = 1$ is perfectly allowed even though this applies for multiple rational numbers $e$.
     
     In the arithmetic operations, this is proven by taking two rational singletons and then exhibiting an interval of sufficiently small length that the two can be distinguished. 
 
     \item An important benefit of the Closed property is that the arithmetic of rationals is unchanged. As we shall see, oracle arithmetic involves interval arithmetic. With the presence of the singletons, we can do arithmetic with them just as usual arithmetic.
     
-    It also helps ensure the uniqueness of an oracle. For example, we could define a $0+$ oracle by being all the intervals of the form $0\lt a$ and another oracle $0-$ as intervals of the form $a \lt 0$. These two proto-oracles satisfy the other properties. Both could be said to represent $0$, but they are distinct. They obviously fail to satisfy the Closed property. If we add in $0:0$ to them to satisfy the Closed Property, then they fail Consistency since we now we need to include all intervals that include $0:0$. This is how we achieve uniqueness. 
+    It also helps ensure the uniqueness of an oracle. For example, we could define a $0+$ oracle by being all the intervals of the form $0\lt a$ and another oracle $0-$ as intervals of the form $a \lt 0$. These two proto-oracles satisfy the other properties. Both could be said to represent $0$, but they are distinct. They obviously fail to satisfy the Closed property. If we add in $0:0$ to them to satisfy the Closed Property, then they fail Consistency since we now need to include all intervals that include $0:0$. This is how we achieve uniqueness. 
     
     Most representations of real numbers have this issue with rationals. Decimals have the issue of repeating 9s. Dedekind cuts have the question of whether to include the rational or not in its cut. Continued fraction representations are unique on irrational numbers, but they have two representatives for rationals. 
     
-    In our constructions, we often need to add this in explicitly. It is a bit awkward as this seems to be one of the essential difficulties with real numbers. 
+    In our constructions, we often need to add this in explicitly. Establishing that a rational real is rational can be difficult, possibly impossible. This seems to be one of the essential difficulties with real numbers, to varying degrees.
 
 \end{enumerate}
 
@@ -285,6 +285,7 @@ We can also add in definitions of intervals. While we could rely on the customar
 \item The oracle $\gamma$ is in the half-closed interval $[\alpha, \infty)$ if for all $\alpha$-Yes intervals, $a$ is the lower bound for a $\gamma$-Yes interval. 
 \item The oracle $\gamma$ is in the open interval $(-\infty, \alpha]$ if for all $\alpha$-Yes intervals, $b$ is the upper bound for a $\gamma$-Yes interval. 
 \end{enumerate}
+
 
 
 \subsubsection{Equality}
@@ -907,7 +908,7 @@ Let $a \leq p \leq b$ and $c\leq  q \leq  d$. Then from normal inequality arithm
 We also want to point out that the above pointwise containment then extends so that if $a:b$ and $c:d$ are contained in $e:f$ and $g:h$, respectively, then $a:b \oplus c:d $ is contained in $e:f \oplus g:h$ and similarly for the various other operations, with the understanding of the appropriate restrictions on not containing 0 for the division and reciprocals. 
 
 
-\subsection{Verifying the rules}\label{sec:rules}
+\subsection{Verifying the Rules}\label{sec:rules}
 
 The associative and commutative rules of arithmetic apply to intervals. The distributive rule somewhat applies. Each of these is a distinct computation, but very straightforward. We will do the distributive property separately. 
 
@@ -1340,7 +1341,7 @@ The last two computations were done with WolframAlpha.  WolframAlpha also report
 
 As one can see, Newton's Method converges quickly, but the fractions are quite complex. With the mediant method, the fraction $25022/11251$ is a closer approximation than $x_3$ above while being far smaller in the digits. One should also keep in mind that the computations for the mediant method requires nothing more than multiplication and addition with the added bonus that the fractions are always in reduced form. It is also worth mentioning that this iteration did start with an interval in common with the mediant method. 
 
-\subsection{Example: Geometrically Computing $\sqrt{2}$}
+\subsection{Geometrically Computing $\sqrt{2}$}
 
 In this section, we are going to explore computing the square root of 2 with right triangles whose sides are Pythagorean triples and whose legs are almost identical. This will allow us to get rational intervals that bound the square root of 2. 
 
@@ -1589,6 +1590,8 @@ We can then define the function oracle as the collection of rectangles defined b
 
 \subsection{Intermediate Value Theorem}
 
+In what follows, we extend our notation of $a:b$ for rationals to include oracles as well, where $\alpha : \beta$ represents the interval $[\alpha,\beta]$ or $[\beta, \alpha]$, depending on the order relation of $\beta$ and $\alpha$. In dealing with the Intermediate Value Theorem, it is convenient to describe the interval between two numbers without having to specify which one is greater than the other since it does not actually matter. We could also use the notation $[\alpha]:[\beta]$ if we wanted to emphasize that these are oracles rather than rational numbers. This notation would hopefully help to recall that we are dealing with Yes-intervals as representatives of the oracles.
+
 The usual Intermediate Value Theorem states that if a function $f$ is continuous, then for any $y$ in $f(a):f(b)$, there exists a $c$ in $a:b$ such that $f(c) = y$. We have a slightly different statement.
 
 \begin{theorem}[Intermediate Value Theorem for Function Oracles]
@@ -1661,7 +1664,7 @@ To argue for the existence of such a partition, we would like to pick a sequence
 Consider the set of rational points $q$ in $\base{R}$ such that there is no non-singleton rectangle whose base contains $q$ and whose height is less than $m$. Since these are rationals, we can enumerate them, e.g.,  by their ordering on the Stern-Brocot tree. Let $q_n$ denote the $n$-th one. Let $\alpha_n$ and $\beta_n$ be irrational oracles that satisfy $q_n - \frac{\delta}{2^{n+1}} \leq \alpha_n < q_n < \beta_n < q_n + \frac{\delta}{2^{n+1}}$ and are in $\base{R}$; if $q_n$ is an endpoint of $\base{R}$, then we just use the one side that is in $\base{R}$. Since the $\alpha_n$ are irrational oracles, there exists rectangles $A_n$ and $B_n$ whose base side contains $\alpha_n$ and $\beta_n$, respectively and whose heights are less than $\epsilon$. Let $r_n$ and $s_n$ be the upper and lower endpoints of $A_n$ and $B_n$, respectively. We have that $r_n < q_n < s_n$ is an open interval which contains $q_n$. If we take the union of such intervals, we get an open set whose length is less than $\sum_{i=0}^\infty \frac{\delta}{2^{n+1}} = \frac{\delta}{2} * 2 = \delta$ and, when we remove it from $\base{R}$, we are left with a closed and bounded set. In what remains, we can cover it with rectangles (the open interiors of the bases) all of whose height is less than $m$ since we have removed all points that could not be so covered. By the Heine-Borel Theorem, there is a finite cover of such rectangles. We then know that their upper and lower sum differences are bounded by $|\base{R}|*m < \frac{\varepsilon}{2}$. The other portion has rectangles bounded in height by $|\wall{R}|$ and the length is less than $\delta$. So those height differences are bounded by $|\wall{R}|*\delta = \frac{\varepsilon}{2}$. Because of the finite cover by the rectangles, the removed open set can be covered by the finite number of intervals in between the bases of the finite cover. We can thus cover that set with a finite number of rectangles with wall $\wall{R}$. Combined, the two sum to $\varepsilon$ and we have established that we have a finite partition whose upper and lower sums are within $\varepsilon$ of each other. 
 
 
-\section{Relation to other definitions}\label{sec:others}
+\section{Alternative Definitions}\label{sec:others}
 
 It is useful to compare our oracle approach with other common approaches and some nearby alternatives to this. 
 
@@ -1846,7 +1849,7 @@ An interesting and quite useful construct with real numbers is that of continued
 
 Continued fractions are a great tool and have some nice properties as a definition, but fundamentally it seems specialized to certain needs. In other words, to express a number as  a continued fraction to simply state it as the number would be wasted work. 
 
-\subsection{Other constructs}
+\subsection{Other Constructs}
 
 The survey paper \cite{ittay-2015} informs the rest of our analysis of other constructions. 
 
@@ -1855,6 +1858,209 @@ Many of them are sequences of sums or products, which are rather interesting dif
 They generally seem quite amenable to producing intervals in which the number can be seen.
 
 The survey paper is an enjoyable and enlightening read for those interested in other constructions of the reals. 
+
+\subsection{Contrasting an actual computation}
+
+Earlier, we looked at $\sqrt{2} (e + \pi) $ as done out with oracles. It can be instructive to see how we might approach that computation in each of the different options. We will be brief with most of the options as there is not much to say on some of them. We will go in-depth into the decimal version and leave that to the end of this section. 
+
+\begin{enumerate}
+\item Decimals. This is the standard arithmetic. It suffers from the carry problem if thinking about decimals exactly. For approximations, it suffers from the expanding nature of interval arithmetic. See below for some of the issues. 
+\item Nested Intervals. One has to choose the nested interval representations for $\sqrt{2}$, $e$, and $\pi$. Then we can just do the indicated operations. This can look similar to what was done with oracles, except there is no ending point. It really implies that we need to have formulas for each element of the sequence and then combine those formulas. It would then need to be shown that they are nested and the lengths are shrinking to 0. 
+\item Cauchy Sequences. In some ways, this is similar to the nested intervals in that we need to pick the Cauchy sequences for these numbers and then combine these sequences. This is assuming that we are looking at particular Cauchy sequences. If we are trying to do this with the equivalence classes of Cauchy sequences, then it is unclear what one could really compute. We listed explicit summations for $\pi$ and $e$. For $\sqrt{2}$, we can use the double factorial sum $\sqrt{2} = \sum_{k=0}^\infty (-1)^{k+1} \frac{(2k-3)!!}{(2k)!!} =
+1 + \frac{1}{2} - \frac{1}{2\cdot4} + \frac{1\cdot3}{2\cdot4\cdot6} - \frac{1\cdot3\cdot5}{2\cdot4\cdot6\cdot8} + \cdots = 1 + \frac{1}{2} - \frac{1}{8} + \frac{1}{16} - \frac{5}{128} + \frac{7}{256} + \cdots$. One would then add the sums of $\pi$ and $e$ and multiply that sum by the expression above, doing partial sums to get concrete representations. The multiplication adds some complications though less than if one was doing division or higher powers. 
+\item Fonsis. This is similar to the nested intervals and the oracles. It is more flexible spanning the possibilities of a singleton to the maximal family of oracles. It is the primary ingredient to doing oracle arithmetic. 
+\item Dedekind Cuts. 
+\item Minimal Cauchy Filters. This is doing arbitrary set arithmetic and rather unclear what would be sufficient. One could focus on fonsis and get the results, but something which is fundamentally of this kind is unclear. 
+\item Continued Fractions. This is where continued fractions have severe impediments to being a good definition of reals from a conventional point of view. But this difficulty was overcome in the 1970s by Bill Gosper. See the dedicated subsection below for references and how to do a computation with it. 
+\item Other Constructs. Use the given representatives and do the operations as was indicated with the Cauchy sequences. 
+\end{enumerate}
+
+\subsubsection{Decimals}
+
+For decimals, we have a few difficulties. For example, if we multiply the decimal version of $\frac{1}{9} = 0.\bar{1}$ with itself, we should end up with $\frac{1}{81} = 0.\bar{012345679}$. For oracles, we can just multiply the fractional representatives with no difficulties as it is a singleton. For decimals, to do it with decimals, we multiply these two infinite strings of 1's which leads to adding up arbitrarily large numbers of 1's. This creates carrying problems. Mysteriously, it will come out to the pattern described above, but it is not clear how. Norm Wildberger has a nice video exploring this.\footnote{\url{https://youtu.be/YYnYatWV-pU?t=2198}}
+
+Another difficulty is what exactly a decimal represents. If one writes $3.14\ldots$, then what interval is one implying by that and is it maintained by the arithmetic of these shorter representatives? In what follows, the symbol $=$ will stand in for approximately equal. There are four likely interpretations of what that means:
+
+\begin{itemize}
+\item Short Rounding. $x$ is in the interval $a.d_1d_2d_3\ldots d_n \pm 0.5*10^{-n}$. $\pi = 3.14$ implies the interval $3.135:3.145$.
+\item Truncation. $x$ is in the interval $a.d_1d_2d_3\ldots d_n: a.d_1d_2d_3\ldots (d_n+1)$. $\pi=3.14$ implies the interval $3.14:3.15$.
+\item Long Rounding. $x$ is in the interval $a.d_1d_2d_3\ldots d_n \pm .1*10^{-n}$. $\pi = 3.14$ implies the interval $3.13:3.15$. 
+\item Big Uncertainty in Last Digit. $x$ is in the interval $a.d_1d_2d_3\ldots d_n \pm 5*10^{-n}$. $\pi = 3.14$ implies the interval $3.09:3.19$. 
+\end{itemize}
+
+Redoing the computation\footnote{Another computation done along these lines is in the overview paper \cite{taylor23over} which explores $x = \frac{e-\sqrt{2}}{\pi}$. Being division, it makes the interval computation more interesting though a little more contractive.} of $x = \sqrt{2}(e+\pi)$  using $\pi = 3.14$, $e=2.72$, $\sqrt{2} = 1.41$, the single value computation yields $u = 8.2626$. To about that precision, $x$ is $8.2871$. This does suggest that the rough computation needs to be rounded or truncated to avoid giving a false precision. In what follows, two intervals for each method will be produced. The first interval is the interval level that the default interpretation would contain both the short computation result as well as the longer one. The second interval will be the interval that gets produced by doing interval arithmetic and then the appropriate representative to produce something that contains that interval will also be given. 
+
+\begin{itemize}
+    \item Short Rounding. $8.26$ represents the interval $8.255:8.265$ which contains $x$, but not $u$. $8.3$ represents $8.25:8.35$ and does contain both $x$ and$u$. Computing the implied interval, the result is $1.405(2.715 + 3.135):1.415(2.725 + 3.145)  = 8.21925:8.30605$. This does include $x$, but to translate it into a single number with the implied spread covering this entire interval would yield $8$ because $8.30605$ is not contained in $8.2$'s interval while $8.21925$ is not contained in $8.3$'s interval under short rounding. The implied interval for $8$ is $8.5:7.5$.
+    \item Truncation. $8.2$ would work as the interval of $8.2:8.3$ contains both $x$ and $u$. Truncating $u$ to $8.26$ would yield the interval $8.26:8.27$ which does not contain $x$. The interval computation is $1.41(2.72+3.14):1.42(2.73+3.15)  = 8.2626:8.3496$. We do have $x$ in this interval and $8.2$ also covers $x$ and $u$, what we do not have is covering the half the computed interval. For that, we need to use $8$ as the representative. Thus, as before, $8$ is the single number representative; it implies $8:9$ as the interval. 
+    \item Long Rounding. Since $x-u > 0.02$, we need to use $8.3$ to cover it with the implied interval $8.2:8.4$. We could also use $8.2$ covering $8.1:8.3$. So either version will contain both $x$ and $u$. As for the interval computation, $1.40(2.71+3.13): 1.42(2.73+3.15) = 8.176: 8.3496$. Neither $8.2$ nor $8.3$ will have that whole interval contained in it. So $8$ is to be chosen implying $7:9$. 
+    \item Big Uncertainty in the Last Digit. There are several representatives that can cover both $x$ and $u$. $8.26$ leads to the interval $8.21:8.31$. The interval computation is $1.36(2.67+3.09): 1.46(2.77+3.19) = 7.8336:8.7016$. The representative $8.3$ leads to $7.8:8.8$ which just barely covers the computed interval.  
+\end{itemize}
+
+The problem with decimal arithmetic is that the imprecision grows making it difficult to use a single representative without sacrificing claims of precision. The last two options for interpretation also imply multiple reasonable representatives for a given decimal and level of precision. 
+
+How about calculators? The calculator used here will be a TI-84. The calculator reports  $e = 2.718281828$, $\pi = 3.141592654$, and $\sqrt{2} = 1.414213562$. The calculator seems to do short rounding to produce decimals, for example, if expanding $\pi $ just a little further, the result is  $3.14159265358$ which the calculator rounds up. Computing out the decimals, the calculator reports $8.287113966$ with the implication that the result should be in the interval $8.2871139655:8.2871139665$.  WolframAlpha reports it as $8.287113966317$ so it is indeed in that interval. 
+
+This success is because the calculator is computing more digits than is shown. If the directly displayed digits were used for the numbers, then the result is $8.287113964$ which implies the interval $8.2871139635:8.2871139645$ and this is not an interval that contains the quantity being computed. 
+
+On a practical level, our tools have been engineered to produce sufficiently accurate numbers for any practical concerns, but it can be potentially misleading, particularly for those just learning how to use decimals. Intervals lead to precise statements that convey the limitations inherently and unambiguously at the cost of length and time.  
+
+
+\subsubsection{Continued Fractions}
+
+Arithmetic can be done for continued fractions in the continued fraction form. The two sources I found for this are slides for a talk\footnote{See \url{https://perl.plover.com/yak/cftalk/} as well as what seems to be an unpublished version of Bill Gosper's exploration of these ideas and more: \url{https://perl.plover.com/yak/cftalk/INFO/} including an interesting idea about continued logarithms.} and a more recent blog post by physicist graduate student\footnote{\url{https://srossd.com/posts/2020-09-18-gosper-1/}}. 
+
+The basic idea is that the form $$z = \frac{a +bx + cy + dxy}{e + fx + gy + hxy}$$ is closed under substitutions of the form $x = q + \frac{1}{u}$ and $y = p + \frac{1}{v}$. Indeed, making those substitutions and multiplying by $uv$ , we get 
+$$z = \frac{d + (c+d p) u + (b+dq)v + (a+bp + cq + dpq)uv}{h + (g+hp)u + (f+hq)v + (e+fp+ gq + hpq)uv}$$
+
+Depending on the operation, we can start with the various forms (any non-specified variable is 0): addition [$b=c=e=1$], subtraction [$b=e=1, c=-1$], multiplication [$d=e=1$], and division [$a=1,h=1$]. Then we just expand, iterating through the continued fraction expansion of $x$ and $y$. It can be more prudent to do $x$ and $y$ as separate steps, using some conditions on the coefficients to decide which one to get an input from. See the above references for details. Ultimately, that choice is an optimization and one can easily choose multiple paths to the same outcome. 
+
+We do this until the floored versions of $\frac{a}{e}, \frac{b}{f}, \frac{c}{g}, \frac{d}{h}$ all agree in which case that is the next number in the continued fraction expansion of $z$. We then reduce $z$ by $z = r + \frac{1}{w} = \frac{m}{n}$ where $m$ and $n$ are the numerator and denominator of our standard form above. Working towards getting $w$, we first have $\frac{1}{w} = \frac{m}{n} - r = \frac{m-nr}{n}$. We then obtain $w$ by flipping to get $w = \frac{n}{m-nr}$. The final form is 
+$$w =  \frac{e + fx + gy + hxy}{(a-er) + (b-fr)x + (c-gr) y + (d-hr)xy}$$
+
+This is how we extract the continued fraction of our result. We do the extraction whenever the ``corners'' agree after flooring. The corners are where we put in 0 and $\infty$ in for $x$ and $y$. The number must be between the corners and so if they are all floored to the same number, then the number must have that as the integer part.
+
+Implementing this for $\sqrt{2}(e + \pi)$, we start with the addition. We should note here that $e = [2; 1, 2, 1, 1, 4, 1, 1, 6, ...]$, $\pi = [3; 7, 15, 1, 292, 1, 1, 1, 2, \ldots]$, and $\sqrt{2} = [1; \bar{2}]$. We use a notation of subscripts to indicate the remainder up to that term. For example, $\pi = 3 + \frac{1}{\pi_1} =  3 + \frac{1}{7 + \frac{1}{\pi_2}}$. 
+
+Addition starts with $z = e + \pi =  (2 + \frac{1}{e_1} ) + (3 + \frac{1}{\pi_1}) = \frac{e_1 + \pi_1 + 5 e_1 \pi_1}{e_1 \pi_1}$. Switching to a more compact version for the coefficents with the third row being the corners, i.e., 
+$$\bigg\langle\begin{smallmatrix}
+  a & b & c & d\\
+  e & f & g & h \\
+  [\frac{a}{e}] & [\frac{b}{f}] & [\frac{c}{g}] & [\frac{h}{d}] 
+\end{smallmatrix}\bigg\rangle$$ we can write it as 
+\begin{multline*}
+\big\langle\begin{smallmatrix}
+  0 & 1 & 1 & 0\\
+  1 & 0 & 0 & 0\\
+  0 & \infty & \infty & 0
+\end{smallmatrix}\big\rangle
+\xrightarrow{2, 3}
+\big\langle\begin{smallmatrix}
+  0 & 1 & 1 & 5\\
+  0 & 0 & 0 & 1\\
+  0 & \infty & \infty & 5 
+\end{smallmatrix}\big\rangle
+\xrightarrow{1, 7}
+\big\langle\begin{smallmatrix}
+  5 & 36 & 6 & 43\\
+  1 & 7 & 1 & 7\\
+  5 & 5 & 6 & 6 
+\end{smallmatrix}\big\rangle
+\xrightarrow{2, 15}
+\big\langle\begin{smallmatrix}
+  5 & 36 & 6 & 43\\
+  1 & 7 & 1 & 7 \\
+  6 & 6 & 5 & 5 
+\end{smallmatrix}\big\rangle
+\xrightarrow{1, 1}
+\big\langle\begin{smallmatrix}
+  1847 & 1969 & 2498 & 2663\\
+  318 & 339 & 424 & 452 \\
+  5 & 5 & 5 & 5 
+\end{smallmatrix}\big\rangle \\
+\xrightarrow[5]{}
+\big\langle\begin{smallmatrix}
+  318 &339 & 424  & 452\\
+  257 & 274 & 378 & 403 \\
+  1 & 1 & 1 & 1
+\end{smallmatrix}\big\rangle
+\xrightarrow[1]{}
+\big\langle\begin{smallmatrix}
+  257 &274 & 378  & 403\\
+  61 & 65 & 46 & 49 \\
+  4 & 4 & 8 & 8
+\end{smallmatrix}\big\rangle
+\xrightarrow{1, 292}
+\big\langle\begin{smallmatrix}
+  403 & 11805 & 677 & 198319 \\
+  49 & 14354 & 114 & 33395 \\
+  8 & 8 & 5 & 5 
+\end{smallmatrix}\big\rangle
+\xrightarrow{}\cdots
+\end{multline*}
+The numbers above the arrow are the next terms in the continued fraction of the inputs while the numbers underneath are the numbers being extracted to represent the output. Here we have concluded $[5; 1, \ldots]$ as the first two terms of the continued fraction. We know the next term is either 5, 6, 7, or 8. It is, in fact, 6. 
+
+To continue with our computation, we would next do the multiplication. As we do the multiplication, we will be pulling in terms from the sum. If we need more terms, we can go back to the sum and continue that process. In that way, these chains of arithmetic can be done just-in-time. 
+
+The computation for the multiplication is as follows, where to get the first term, we use the sum's continued fraction of $[6; 1, 6, 7, \ldots]$
+\begin{multline*}
+ \big\langle\begin{smallmatrix}
+  0 & 0 & 0 & 1\\
+  1 & 0 & 0 & 0\\
+  0 & 0 & 0 & \infty
+\end{smallmatrix}\big\rangle
+\xrightarrow{1, 5}
+\big\langle\begin{smallmatrix}
+  1 & 5 & 1 & 5\\
+  0 & 0 & 0 & 1\\
+  \infty & \infty & \infty & 5 
+\end{smallmatrix}\big\rangle   
+\xrightarrow{2, 1}
+\big\langle\begin{smallmatrix}
+  5 & 6 & 15 & 18\\
+  1 & 1 & 12 & 2\\
+  5 & 6 & 7 & 9 
+\end{smallmatrix}\big\rangle  \xrightarrow{2, 6}
+\big\langle\begin{smallmatrix}
+  18 & 123 & 42 & 287\\
+  2 & 14 & 5 & 35  \\
+  9 & 8 & 8 & 8 
+\end{smallmatrix}\big\rangle  
+\xrightarrow{2, 7}
+\big\langle\begin{smallmatrix}
+  287 & 2051 & 697 & 4981\\
+  35 & 250 & 84 & 600  \\
+  8 & 8 & 8 & 8 
+\end{smallmatrix}\big\rangle 
+\xrightarrow[8]{}
+\big\langle\begin{smallmatrix}
+  35 & 250 & 84 & 600  \\
+  7  & 51 & 25 & 181  \\
+  5 & 4 & 3 & 3 
+\end{smallmatrix}\big\rangle 
+\end{multline*}
+
+Thus after some laborious computations, we have the first term is 8. 
+
+This procedure can do the arithmetic. But just as decimals have a carry problem, there is an analogous problem that can arise. Consider the case of multiplying the square root of 2 by itself. It should produce 2 whose continued fraction is just [2]. That means in the multiplication, the first extraction should terminate the computation. In fact, we will never be able to extract anything for certain: 
+\begin{multline*}
+ \big\langle\begin{smallmatrix}
+  0 & 0 & 0 & 1\\
+  1 & 0 & 0 & 0\\
+  0 & 0 & 0 & \infty
+\end{smallmatrix}\big\rangle
+\xrightarrow{1, 1}
+ \big\langle\begin{smallmatrix}
+  1 & 1 & 1 & 1\\
+  0 & 0 & 0 & 1\\
+  \infty & \infty & \infty & 1
+\end{smallmatrix}\big\rangle
+\xrightarrow{2, 2}
+ \big\langle\begin{smallmatrix}
+  1 & 3 & 3 & 9\\
+  1 & 2 & 2 & 4\\
+  1 & 1 & 1 & 2
+\end{smallmatrix}\big\rangle
+\xrightarrow{2, 2}
+ \big\langle\begin{smallmatrix}
+  9 & 21 & 21 & 49\\
+  4 & 10 & 10 & 25\\
+  2 & 2 & 2 & 1
+\end{smallmatrix}\big\rangle
+\xrightarrow{2, 2}
+ \big\langle\begin{smallmatrix}
+  49 & 119 & 119 & 289\\
+  25 & 60 & 60 & 144\\
+  1 & 1 & 1 & 2
+\end{smallmatrix}\big\rangle
+\end{multline*}
+
+The corners will always have the 1's and 2's meaning we can never be confident of our extraction. If we do an extraction, the process will try to correct itself with negative numbers. 
+
+The oracles avoid this problem of undecidability for any intervals whose endpoints do not include 2. One can always find smaller inputs to the arithmetic to narrow in the interval. But if an interval endpoint is 2, then all one can do is shrink the other endpoints. This is how the mediant process would handle this situation in which the first value to try is the answer, but we cannot establish it as such. Indeed, if we started out squaring the $\sqrt{2}$-Yes interval of $\frac{41}{29}:\frac{17}{12}$ to produce the $(\sqrt{2})^2=T$-Yes interval of $\frac{1681}{841}:\frac{289}{144}$, it would not distinguish $1:2$ or $2:3$, both of which are yes intervals, but not seen as such from this interval representative. But it does say that $1:3$ is a Yes interval. Using $\frac{2}{1}$ to generate mediants of $1:2$ and $2:3$, we get candidates $\frac{3}{2}$ and $\frac{5}{2}$ to test in some fashion. If we use the endpoint $2$, as we typically do, it would not be decidable. But we can look at $\frac{3}{2}:\frac{5}{2}$ and see that it is a Yes-interval while both $1:\frac{3}{2}$ and $\frac{5}{2}:3$ are No-intervals. We can continue, testing and getting Yes for intervals such as $\frac{5}{3}:\frac{7}{3}, \frac{7}{4}:\frac{9:4}, \ldots, \frac{1 + 2k}{1+k}:\frac{3+2k}{1+k}$. These will be seen to be Yes-intervals as long as $\frac{1+2k}{1+k} < \frac{1681}{841} < \frac{289}{144} < \frac{3+2k}{1+k}$. The first lasts until $k=839$ while the second lasts until $k=142$. So we can confidently say that the square of the square root of 2 is in the interval $\frac{284}{143}:\frac{287}{143}$. To get more precision, we need to extract a shorter interval for the square root of 2. 
+
+The main point of this is that with intervals, we can make progress and make definite statements. Both continued fractions and decimals do not have mechanisms on their own to precisely get past these points of indecision. The interval approach does not have this difficulty and oracles give us the maximal flexibility in taking advantage of that mechanism.
+
 
 \subsection{Extended Reals}
 
@@ -1906,7 +2112,7 @@ Oracles do provide easy ways of discussing the completion properties. For Dedeki
 
 Oracles are a balanced approach to real numbers. 
 
-\subsection{Oracles vs fonsi}
+\subsection{Oracle vs Fonsi}
 
 The idea of using rational intervals to represent real numbers is not new. From Bachmann, a sequence of nested shrinking intervals was contemplated. More recently, the idea of a fonsi defining a real number is popular among constructivists though they do not use this name nore have a good.  (fine, consistent).  
 
@@ -1921,6 +2127,20 @@ A fonsi, on the other hand, promotes the idea of a choice point of view. It sugg
 Fundamentally, it feels that it is theoretically possible to have a rule that does say Yes or No for any given interval. Furthermore, that if we had such a rule, we would very much be able to use the number quite effectively, particularly with the narrowing down methods, such as bisection or the mediant method. With a fonsi, we could never really have an infinite collection of intervals. At best, it could be a mechanism that given an $\varepsilon$, we get a Yes interval of that size. But we can get that from an oracle without pretending that we actually have this full set. And there are infinitely many ways to produce an interval for a given $\varepsilon$; that choice goes beyond what is encoded by the real number. 
 
 Oracles avoid much in the way of irrelevant claims and choices.
+
+\subsection{Other Dense Sets}
+
+This setup also allows us to consider other foundational sets different from the rationals, but that are still dense in the real numbers. 
+
+The easiest to handle are those that are fields themselves. This would be the algebraic extension fields such as adding $\sqrt{2}$ as a primitive. As long as the extension is closed under arithmetic, then the intervals defined by the elements of the field can properly participate in the arithmetic to define the oracle arithmetic. 
+
+Other dense sets, such as rationals whose denominators are powers of 2, appropriate for binary computations, are not closed under arithmetic. We can still use them for representing intervals and numbers, but the arithmetic of those intervals no longer produces intervals drawn from that set. In particular, the reciprocal of, say, the interval $\frac{3}{4}:1$ is $\frac{4}{3}:1$ which does not have a power of 2 denominator.  
+
+Other definitions, such as nested intervals, fonsis, and Cauchy sequences are compatible with these notions with it specifying what the relevant elements are allowed to be. Specific representations are generally not compatible with this, generally needing arbitrary rationals to express themselves, such as with continued fractions. Dedekind cuts and minimal Cauchy filters are impacted and compatible, but it is less clear with those sets how much of an impact it would have. 
+
+There is something tangibly different with oracles versus the other definitions in that this impacts what singletons are allowed, impacting both exact arithmetic and function oracles. In particular, each choice changes where discontinuities are allowed in function oracles. 
+
+This foreshadows which definitions of real numbers can be extended easily and meaningfully to general metric spaces. 
 
 \subsection{Completing Metric Spaces}
 
