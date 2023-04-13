@@ -21,9 +21,10 @@
 \makeatletter
 \def\Ddots{\mathinner{\mkern1mu\raise\p@
 \vbox{\kern7\p@\hbox{.}}\mkern-3mu
-\raise4\p@\hbox{.}\mkern-3mu\raise7\p@\hbox{.}\mkern1mu}}
+\raise4\p@\hbox{.}\mkern-2.87mu\raise6.8\p@\hbox{.}\mkern1mu}}
 \makeatother
 
+%% Should modify this one too to match the -2.87 and 6.8, but need an example. not sure if we use this
 \makeatletter
 \def\DDdots{\mathinner{\mkern1mu\raise7\p@
 \vbox{\kern7\p@\hbox{.}}\mkern-3mu
@@ -50,3 +51,6 @@
 \newcommand{\gte}{\DDdots}
 \newcommand{\base}[1]{\duln #1 }
 \newcommand{\wall}[1]{\dln #1}
+\newcommand{\lge}{\mathbin{?}}
+
+\newcommand{\closeto}{\mathord{\rightarrow}}

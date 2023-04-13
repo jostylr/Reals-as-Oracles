@@ -1,50 +1,43 @@
 \documentclass[12pt]{article}
-\usepackage{amsfonts,amsmath,amssymb,mathrsfs,amsthm}
-\usepackage{mathabx}
-\usepackage[hidelinks]{hyperref}
-% \usepackage[pagewise]{lineno}\linenumbers   %AIMS Mathematics Recommendation
-\usepackage[backend=biber,style=alphabetic,sorting=ynt]{biblatex}
-\addbibresource{bib.bib}
+\usepackage{personal}
+\usepackage{realoracles}
 
-%Dangerous, possibly remove if weird
-\interfootnotelinepenalty=10000 
-
-\title{Completing Metric Spaces with Oracles}
-\author{
-  James Taylor\footnote{Arts \& Ideas Sudbury School, 4915 Holder Ave, Baltumore, MD 21214, james@aisudbury.org}
-}
-\date{December 31, 2022}
-
-\addtolength{\textwidth}{2.0cm}
-\addtolength{\hoffset}{-1.0cm}
-\addtolength{\textheight}{3.0cm}
-\addtolength{\voffset}{-1.5cm}
-
-
-\newtheorem{theorem}{Theorem}
-\newtheorem{lemma}{Lemma}
-\newtheorem{corollary}{Corollary}
-\newtheorem{proposition}{Proposition}
-
-\theoremstyle{remark}
-\newtheorem{remark}{Remark}
+\title{Topological Completions with Oracles}
+\jtauthor
+\date{March 1, 2023}
 
 
 
-%from mathabx. see mathtest.pdf page 19
-\DeclareMathSymbol{:}{\mathbin}{mathb}{"33} %this does triple dot but just need to type : 
-\DeclareMathSymbol{\col}{\mathord}{operators}{"3A}  %gives usual colon
-%do \mathrel{\col} for more spaced colon. 
-%want small less than for colon replacement
-\newcommand{\lt}{\mathord{<}}
-\newcommand{\lte}{\mathord{\leq}}
 
 %\sloppy%\openup-.1\jot
 \begin{document}\maketitle
 \begin{abstract}
- We propose a new definition of a real number based on the insight that a real number is an oracle that, when provided with a rational interval, answers Yes or No depending on if that real number ought to be considered to be in the given rational interval or not. Since we are defining the real number, we cannot actually define it this way, but the intuition does guide us to several key properties that ensures any such rule will yield a real number which we prove. We provide various examples and algorithms in using oracles. We compare and contrast with this with other common definitions, such as Cauchy sequences and Dedekind cuts. After exploring real numbers as oracles, we introduce a new definition of a function, which we call function oracles. These are oracles that give affirmation for rational rectangles that should contain the image of its base under the function it is modeling. These turn out to be equivalent to functions that are continuous everywhere except possibly on the rationals. We do establish a version of the Intermediate Value Theorem. We finish by generalizing these ideas to the completion of metric spaces. 
+A real number can be defined as an oracle that responds Yes or No depending on if that real number ought to be considered to be in the given rational interval or not. This idea can be extended to more general settings. This paper investigates oracles in the context of metric spaces, general topological spaces, and a relatively new approach to topology, the theory of linear structures. This paper also explores generalizing the notion of function oracles, namely, oracles that take a generalized rectangle and decide whether or not the image of the base is contained in the wall of the rectangle. This is a proposed replacement for classical functions in order to respect a space being a completed space. 
 \end{abstract}
 
+\section{Introduction}
+
+Our task is to explore how to complete various spaces using the notion of oracles. Oracles are defined on a collection of containers of points in a space. For completing the rationals to real numbers, these containers were inclusive rational intervals which includes an interval of exactly one rational. In a general topological space, our containers will be the closed sets. For it to work out well, the topological space should be completely regular which, among other things, implies singletons are closed sets. For metric spaces, the containers will be closed balls with the data being the center point and the radius. Balls of radius 0 are allowed, producing the singletons. For Linear Structures, the containers will be closed sets, but the notion of being closed is distinctly different from that of topological structures. 
+
+For our purposes, singletons should be examples of containers. Non-empty pairwise intersections should either again be a container or contain containers. Containment of containers by other containers should make sense. 
+
+For all of these different kinds of containers, the definition of oracles is largely the same. The intuition is that an oracle says Yes to a container exactly when the desired point ought to be in the container. Since we are defining the desired point, we cannot actually do this. 
+
+We define an oracle to be a rule R which, given a container, says Yes or No (1 or 0) and satisfies the following conditions ($A$ and $B$ are containers, $q$ is a point in the space): 
+\begin{enumerate}
+    \item Consistency. If $A$ contains $B$ and $B$ is a Yes-container, then $A$ is a Yes-container.
+    \item Existence. There exists $A$ such that $A$ is a Yes-container.
+    \item Two Point Separating. Given a Yes-container $A$ and two points in it, then there is a Yes-container inside $A$ which does not contain at least one of the given points. 
+    \item Intersecting. If $A$ and $B$ are Yes-containers, then they have non-zero intersection and that intersection is either a Yes-container or contains a Yes-container if it is not a container. 
+    \item Closed. If $q$ is contained in all Yes-containers, then the singleton $q$ is a Yes-container. 
+\end{enumerate}
+
+
+\section{Real Oracles}
+
+We briefly review what was done with oracles generating the real numbers from the rationals. See \cite{taylor23main}.
+
+...
 
 \section{Metric Spaces}
 
@@ -92,7 +85,9 @@ An equivalent replacement for the Two Point Separating Property is the Narrowing
 Two oracles are equal if they agree on all intervals. If they are not equal, then there exists a Yes-ball for one of them which is a No-ball for the other one. Because of consistency, there can be no Yes-balls within the No-ball. 
 
 
-\subsection{The Closure of a Metric Space}
+\subsection{Completion of a Metric Space}
+
+
 
 The distance can be defined as follows. Let $x$ and $y$ be two oracles. Then $\overline{d}(x,y)$ is defined as the real number oracle which is the infimum of the set of distances $d(B, C)$ where $B$ is a $x$-Yes ball and $C$ is a $y$-Yes ball. The distance between two balls in the original space say with centers $q$ and $s$ and radii $r$ and $t$, respectively, is defined as $r + d(q,s) + t$. This should encompass the distance defined as the supremum over all the distances of the points within the ball. Indeed, let $q' \in B$ and $s'\in C$. Then $d(q', s') \leq d(q',q) + d(q,s') \leq d(q',q) + d(q,s) + d(s,s') = r + d(q,s) + t$ by two applications of the triangle inequality.  
 
@@ -121,7 +116,99 @@ The final step is to show that the new space is complete. This could follow larg
 
 We call the space of oracles with this induced metric $\overline{E}$, the \textbf{closure} of $E$.
 
-\subsection{Function oracles for metric spaces}
+
+\subsection{Fixed Point Theorem}
+
+We will establish the fixed point theorem. First, we need to define the natural extension of a map $f: E \to E$ to a map $\bar{f} : \bar{E} \to \bar{E}$. Here we will content ourselves with the classical continuous functions being extended; see the function oracle section for a slightly more generalized notion. 
+
+\begin{definition}
+    A function $f: E \to F$ satisfies $\varepsilon-\delta$ continuity if, for given $x \in E$ and $\varepsilon > 0$, there exists a $\delta > 0$ such that $f(B_{x} (\delta)) \subseteq B_{f(x)} (\varepsilon)$.
+\end{definition}
+
+\begin{definition}
+If a function $f:E \to F$ satisfies $\varepsilon-\delta$ continuity, then the \textbf{natural extension} of $f$ to $\bar{E}$ is the function $\bar{f}:\bar{E} \to \bar{F}$ defined by, for oracle $\alpha \in \bar{E}$, $\bar{f}(\alpha)$ is the unique oracle in $\bar{F}$ defined to be the collection of all containers in $F$ that contain images under $f$ of Yes containers of $\alpha$. 
+\end{definition}
+
+We need to establish that for a given $\alpha$, the images of its Yes containers does form an oracle in $\bar{F}$. 
+
+To do so, let $f$ and $\alpha$ be given. Then: 
+
+\begin{itemize}
+    \item Consistency. If a container $A$ contains a container $C$ that contains the image of a $\alpha$-Yes container, then it is contained in $C$ as well.
+    \item Existence. By existence applied to $\alpha$, there is a closed ball $B$ that is $\alpha$-Yes. Need to use continuity as a scrambling $f$ could disperse image of a ball across the space and not be contained in a ball. 
+    \item Two Point Separating.
+    \item Intersecting. The image of an image is contained in the image? 
+    \item Closed. 
+\end{itemize}
+
+\begin{proposition}
+    Given a function $f:E \to E$ that satisfies $d(f(x), f(y)) \leq q d(x, y)$ for all $x, y \in E$ and for a $0 \leq q < 1$, then there exists an oracle $\alpha$ such that the natural extension of $f$ to $\bar{E}$, called $\bar{f}$, has the property that $\bar{f}(\alpha) = \alpha$.
+\end{proposition}
+
+
+
+\section{Standard Topology}
+
+We now proceed onto general topological spaces. Given our Two Point Separation Property, we expect the Separation axioms to be important for developing useful, robust oracle structures. The containers in a standard topology setting will be closed sets. These are dramatically weaker in content than the closed balls and will require more assumptions. 
+
+One aspect of applying oracles in this context is the explicit requirement that the space itself should be contained after the application of the oracles. This is what drives our separation example. A completely regular space is one in which singletons are closed sets and that for every singleton and closed set not containing that singleton, there exists a continuous function on the interval $[0,1]$ such that the function is 1 on the singleton and 0 on the given closed set. This is almost what a rule demands (can we prove that it demands this? ) 
+
+The condition of complete regularity is what is needed for the embedding of the space into its Stone-Cech Compactification to be a homeomorphism. This can be proven by considering the product space of all continuous bounded functions from the space into the real numbers. We will produce the various compactifications directly using oracles. 
+
+In particular, given a continuous function from the space into a compact space, we define the oracles to be closed sets whose image contains a given point, narrowing down, need some more separation. 
+
+
+\subsection{Different Compactifications of the Open Unit Interval}
+
+circle, closed interval, topologist sine curve
+
+the toplogist sine curve. Fix a number u in [-1, 1]. The containers will be 
+
+for (0,1) maybe also sin(1/x) <= 1/2,  sin(1/1-x) >= 1/2. is continuous. Also (0,1) with one point on the end, sine curve on the other. 
+
+
+\subsection{One Point Compactification}
+
+We will assume the space is locally compact, Hausdorff, and completely regular, but not compact. We will call these simply \textbf{noncompact spaces}. 
+
+If we define the space of oracles on such a space, using closed sets as the containers, then we end up with the space itself again, under homeomorphism. To get something different, we consider the non-compact closed sets as another oracle. Then we define the oracle of $\infty$ to be the oracle whose containers are the complements to  compact sets. When included with the oracles of closed sets, we end up with the one point compactification using the topology of open sets being the open sets of the original space along with the open sets forming this oracle. 
+
+We need to verify that this is an oracle.  
+\begin{itemize}
+    \item Consistency. Any container of this type is a Yes implying that if contains another Yes container, then it says yes. 
+    \item Existence. The space itself is the complement of the compact empty set so the whole space is there. 
+    \item Two Point Separation. Given a point $q$ in the complement of a compact set, we can add its local compact neighborhood to the compact set and that complement will be contained in the original complement but not contain $q$. 
+    \item Disjoint. If we had two complements that were disjoint, then we would have $X-C$ and $X-B$ being disjoint. This means that $B \cup C = X$ (if $q$ is not in $B$ or $C$, then $q$ is in both of their complements). Since $C$ and $B$ are compact, their union is and therefore the space would be compact. We are assuming it is not.
+    \item Rooted. There is no point $q$ in every complement. 
+\end{itemize}
+
+So this is indeed an oracle. Now we need to show the new space is compact. 
+
+More or less, use the finite intersection property of collections. Let the collection be closed sets whose finite intersections are non-empty. Then we need to show that the full intersection is non-empty. Essentially, no new oracles, I guess. So either it contains infinity or it does not. If the union of the sets is compact, then we have the result. If it is not, is it the complement of a compact set? If so, then that means the oracle of infinity is a member? 
+
+\subsection{General Compactifications}
+
+Let $f$ be a continuous function from a non-compact space $X$ to a compact space $K$. 
+
+want to intersect the inverse images of compact sets with the complements above. Is it still compact? Does this work? Maybe use open pre-images? 
+
+\section{Theory of Linear Structures}
+
+so topological space allowed completion (metric space too of course since it is topological and the oracle is equivalent to complement of closed balls),  but is there a submetrical space which allows both to be done? 
+
+Also, would like to add finite / discrete space. Essentially, minimal resolution is the minimal neighborhood for the oracle. Need to modify the two point separation to exclude pairs of points that are in a designated minimal neighborhood. 
+
+\subsection{Brief Review of Linear Structures as Basis of Topoology}
+
+linear structures, directed linear structures, neighborhoods, open, closed, compact, continuous, 
+
+chain-continuous
+
+
+
+\section{Function oracles}
+
+
 
 The Function oracles we defined can be extended to the realm of the completed metric spaces. There is very little we need to change here. Instead of the sides of the ``rectangle'' being an interval, we use a ball. When we are considering the intersection of these function rectangles, we take the intersection of the sides to be the largest ball contained in them. 
 

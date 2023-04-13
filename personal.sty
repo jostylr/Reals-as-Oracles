@@ -1,0 +1,41 @@
+%%Identification
+%%The package identifies itself and the LaTeX version needed
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{personal}[2023/03/01 Commonly used stuff for papers]
+
+%%Requeiried packages and preliminary definitions, needed by the options
+\RequirePackage{amsfonts,amsmath,amssymb,mathrsfs,amsthm}
+\RequirePackage[hidelinks]{hyperref}
+\RequirePackage{xassoccnt}
+% \usepackage[pagewise]{lineno}\linenumbers   %AIMS Mathematics Recommendation
+\RequirePackage[backend=biber,style=alphabetic,sorting=ynt]{biblatex}
+\addbibresource{bib.bib}
+
+%Dangerous, possibly remove if weird
+\interfootnotelinepenalty=10000 
+
+\newcommand{\jtauthor}{\author{
+  James Taylor\footnote{Arts \& Ideas Sudbury School, 4915 Holder Ave, Baltumore, MD 21214, james@aisudbury.org \\
+  \hspace*{15px} Johns Hopkins University, Lecturer, Advanced Academic Programs, james.taylor@jhu.edu}
+}}
+
+\addtolength{\textwidth}{2.0cm}
+\addtolength{\hoffset}{-1.0cm}
+\addtolength{\textheight}{3.0cm}
+\addtolength{\voffset}{-1.5cm}
+
+
+\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem{lemma}{Lemma}[subsection]
+\newtheorem{corollary}{Corollary}[subsection]
+\newtheorem{proposition}{Proposition}[subsection]
+
+\DeclareCoupledCountersGroup{theorems}
+\DeclareCoupledCounters[name=theorems]{theorem,corollary,lemma,proposition }
+
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[subsection]
