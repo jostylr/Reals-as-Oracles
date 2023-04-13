@@ -283,7 +283,7 @@ The final function to consider in this section is that of logarithms. By conside
 
 \subsection{Function Oracles from Narrowing Operators}
 
-Many functions are not, of course, monotonic. We want to expand the realm of function combinations to include all rational functions of $x$ as well as various arithmetic combinations of functions. We can do this by using the rational interval operators that have the narrowing property. See \ref{sec:nrwint} for a refresher.
+Many functions are not, of course, monotonic. We want to expand the realm of function combinations to include all rational functions of $x$ as well as various arithmetic combinations of functions. We can do this by using the rational interval operators that have the narrowing property. See \cite{taylor23main} for a refresher.
 
 
 Let $\mathcal{O}$ be a rational interval operator with the narrowing property and let $n$ be the input tuple size. We will denote the associated oracle operator as $\bar{\mathcal{O}}$. Then given an $n$-tuple of function oracles, $\vec{f}$, we can define a new function oracle $g$ by applying $\mathcal{O}$ to the walls of the Yes-rectangles of the components, all with the same base, to create a new rectangle whose wall is the output of $\mathcal{O}$. 
@@ -544,7 +544,7 @@ Consider the set of rational points $q$ in $\base{R}$ such that there is no non-
 
 \appendix
 
-\section{Exponential and Logarithmic Functions}
+\section{Exponential and Logarithmic Functions}\label{app:e}
 
 We can use this framework to inform the function oracle construction for the base $e$ exponential and natural logarithm. We will cheat a little in our informal analysis and use some calculus. Specifically, we will use Taylor's theorem in the form $\ln(1+x) = x - \frac{x^2}{2} + \frac{2u^3}{6}$ for $x$ strictly contained in $-1:1$ and for some $u$ in $x:0$. We will also use some properties of the logarithm. 
 
