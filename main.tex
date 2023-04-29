@@ -26,7 +26,7 @@ Since this is a mechanism that provides answers to our questions, it seems reaso
 
 Informally, the Oracle of $r$ is a rule which, given two rational numbers, will return 1 (Yes) if $r$ ought to be in the closed interval defined by the two rational numbers and returns 0 (No) otherwise. If the answer was a 1, then we say the interval is an $r$-Yes interval; if the answer is a 0, then we say the interval is an $r$-No interval.  If we are just speaking of one oracle, we may simply say a Yes-interval or No-interval. 
 
-\subsection{Interval notation}
+\subsection{Interval Notation}
 
 We will define a rational interval $a:b$ as a binary rule that for a given rational $q$, yields $1$ (Yes) if $q$ is between $a$ and $b$, inclusive, and yields $0$ (No) if not. We say that $q$ is contained in $a:b$ if the interval rule yielded an affirmative answer.  We identify $b:a$ as the same rule. The interval $a:b$ contains the interval $c:d$ if being in the interval $c:d$ implies being in the interval $a:b$. We will write $a\lt b$ if we want to indicate the ordering relation between the rationals and they are strictly not equal; it is sometimes convenient to slip that into notation, but it is often not needed in which case we just use $a:b$. We may also require knowing the ordering, but still allow equality. In that case, we use the notation $a \lte b$ to indicate $a \leq b$.  We will also write $a:b < c:d$ to indicate the situation in which $a$ and $b$ are less than $c$ and $d$ which implies that all rationals $q$ in $a:b$ are less than all rationals $r$ in $c:d$.
 
@@ -751,7 +751,7 @@ For our final exploration of $e$, we would like to show that it is not a singlet
 
 It is instructive to compare this to Rudin's proof of $e$ being irrational. It is the same, except Rudin only concludes that $e$ is not rational. What we have naturally drawn out of that same work is that there can be no rational with denominator $q$ in the approximation intervals contained in $S_q$'s interval. That is, we have an explicit marker after which we know the denominators in the interval must be larger than $q$. 
 
-\subsubsection{Explicitly computing roots}
+\subsubsection{Explicitly Computing Roots}
 
 Section \ref{sec:roots} shows the existence of $n$-th roots, but it does not give a great way of finding an $n$-th root. 
 
@@ -1343,7 +1343,7 @@ We previously established the completeness properties:
 The ordered field of oracles satisfies the axioms of the real numbers and can be considered the real number field. 
 \end{theorem}
 
-\subsection{Exploring with oracles}
+\subsection{Exploring with Oracles}
 
 Here we do a few explorations using oracles directly. Since we have established that the set of oracles with the defined addition, multiplication, and ordering satisfies the axiomatic definition of the reals, we could simply import all of the content of real analysis at this point. 
 
@@ -1717,7 +1717,7 @@ They generally seem quite amenable to producing intervals in which the number ca
 
 The survey paper is an enjoyable and enlightening read for those interested in other constructions of the reals. 
 
-\subsection{Contrasting an actual computation}
+\subsection{Contrasting an Actual Computation}
 
 Earlier, we looked at $\sqrt{2} (e + \pi) $ as done out with oracles. It can be instructive to see how we might approach that computation in each of the different options. We will be brief with most of the options as there is not much to say on some of them. We will go in-depth into the decimal version and continued fraction version. 
 
@@ -1988,6 +1988,20 @@ Fundamentally, it feels that it is theoretically possible to have a rule that do
 
 Oracles avoid much in the way of irrelevant claims and choices.
 
+\subsection{Unique Representative of Equivalence Classes for Numbers}
+
+In constructing number systems, almost every kind of number can be thought of as an equivalence class often with a distinguished representative:
+
+\begin{enumerate}
+    \item For natural numbers, the equivalence class for a number is the class of sets with that number of objects in the set. The equivalence relation is that of bijection. The distinguished representative is ``inductively'' built as the set that contains the previous numbers. Thus $0$'s representative is the empty set, $1$ is $\{0\}$, $2$ is the $\{0,1\}$, and so forth. 
+    \item For integers, the fundamental object is a pair of natural numbers with the first element representing a positive amount while the second represents the negative amount. The equivalence relation is that of being related by the addition of the same quantity to both elements, i.e., $(a,b) ~ (c,d)$ exactly when $a+m = c+n$ and $b+m = d+n$ for some natural numbers $m$ and $n$. The unique representative is the one in which at least one of the elements is $0$. Thus, $0$'s representative  is $(0,0)$, $1$ is $(1,0)$ and $-1$ is $(0,1)$
+    \item For rationals, these are also pairs in which the first element is an integer, called the numerator, while the second is a positive natural number, called the denominator. The equivalence is related by a multiplication. In particular,  $(p,q) ~ (r,s)$ exactly when $p*m = r*n$ and $q*m = s*n$ for positive natural numbers $m$ and $n$. The unique representative is the one with the smallest denominator. This leads to $0$ being represented by $(0, 1)$. 
+\end{enumerate}
+
+The typical real number definitions lack this. Cauchy sequences are usually given as equivalence classes, but there is no canonical representative except for rational numbers for which the representative would be the constant Cauchy sequence of the rational. For Dedekind cuts, there are no equivalence classes. For many of the other representations, we can roll them up into a fonsi as we can with Cauchy sequences. For a fonsi, the equivalence relation is that two fonsis are equivalent if given any pair of intervals from the two fonsis, the intervals intersect. Alternatively, the union of the two fonsis needs to be a fonsi. The canonical representative for every real number in the realm of the fonsis is the maximal fonsi which is, of course, the set of Yes intervals for the associated oracle of the fonsis.
+
+Having equivalent representatives can be useful for flexibility in computations. Fonsis are very useful. But having a single well-defined representative also gives a clear way to communicate. The maximal fonsi serves this role, but it is most compactly described by the oracle presentation. 
+
 \subsection{Other Dense Sets}
 
 This setup also allows us to consider other foundational sets different from the rationals, but that are still dense in the real numbers. 
@@ -2086,7 +2100,7 @@ The trick here is to consider $(r-\tfrac{1}{N})^n$ instead.
 Define $a = r^n - q$. Define $N =  \max(1,\tfrac{3}{a}n r^{n-1}, \tfrac{3}{a}(r+1)^n$.  Take $s = r - \tfrac{1}{N}$. Then $s^n = (r- \tfrac{1}{N})^n = r^n - \tfrac{n r^{n-1}}{N} + \sum_{k=2}^{n} \binom{n}{k} \tfrac{ (-1)^{k} r^{n-k}}{N^{k}}$. We can factor out a $\tfrac{1}{N}$ in the sum and, since $N > 1$, we have $\tfrac{1}{N^i} < 1$ for any natural number $i$. Since we are looking to prove $s^n > q$, making the expression smaller is fine. If we replace any positive terms in the sum with negative terms, we will make it smaller. So $s^n > r^n - \tfrac{n r^{n-1}}{N} - \sum_{k=2}^{n} \binom{n}{k} \tfrac{r^{n-k}}{N^{k}}$. As before, $\sum_{k=2}^{n} \binom{n}{k} \tfrac{r^{n-k}}{N^{k}} < \tfrac{1}{N} \sum_{k=2}^{n} \binom{n}{k} r^{n-k}$.  But that sum is part of the expansion of $(r+1)^n$ and is therefore bounded by it since those are all positive terms thanks to $r$ being positive. Thus, we have $s^n > r^n - n \tfrac{r^{n-1}}{N} - \tfrac{ (r+1)^n }{N}$.  By definition, we have $N > \tfrac{3}{a} n r^{n-1}$ implying $ \tfrac{-n r^{n-1}}{N} > -\tfrac{a}{3}$. We also have $N > \tfrac{3}{a} (r+1)^n$ implying $ -\tfrac{(r+1)^n}{N} > -\tfrac{a}{3}$. Therefore $s^n > r^n - \tfrac{2 a}{3} > q$. Since $r>s$, we have shown our result. 
 \end{proof}
 
-\section{Detailed $e$ computations}\label{app:e}
+\section{Detailed $e$ Computations}\label{app:e}
 
 These are supporting computations for Section \ref{sec:e}. While not required in the sense that these computations exist elsewhere, it is nice to give the flavor of some of the work that can be involved in doing it in the more explicit fashion we favor here. 
 
@@ -2234,6 +2248,8 @@ In summary, the mediant process of approximating a real number given a starting 
 
 
 \medskip
+
+\normalem %restoring normal emphasis in bibliography 
 
 \printbibliography
 

@@ -578,6 +578,7 @@ The interesting part of this is for using this to define bounds for the logarith
 Using the representation of $ n (\sqrt[n]{x}-1)$, we can compute the derivative of that expression and confirm that it also approaches the derivative of the logarithm. Indeed, $\frac{ n (\sqrt[n]{x}-1) -  n (\sqrt[n]{y}-1)}{x-y} = n \frac{a-b}{a^n -b^n} = \frac{n}{\sum_{i=0}^{n-1} a^{n-1-i} b^i}$ where $x = a^n$ and $y = b^n$.  For $a$ and $b$ near each other, that sum is basically $n a^{n-1}$ leading to the derivative being $x^{-1+1/n}$ which does indeed converge to $\frac{1}{x}$. We also have to deal with the shifting to the interval. The difference quotient for the logarithm at $x = a\times 10^b$ and $y = c \times 10^b$ is $2 \frac{\ln(\sqrt{a}) - \ln(\sqrt{c})}{(a-c)10^b} = \frac{2}{10^b(\sqrt{a}+\sqrt{c})} \frac{\ln \sqrt{a} - \ln \sqrt{c} }{\sqrt{a}- \sqrt{c}} $. As $a$ and $c$ become close, we end up with approximately $\frac{2}{10^b 2 \sqrt{a}} \frac{1}{\sqrt{a}} = \frac{1}{a\times 10^b} = \frac{1}{x}$.
 
 
+\normalem %restoring normal emphasis in bibliography 
 \printbibliography
 
 \end{document}
