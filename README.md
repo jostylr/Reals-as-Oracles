@@ -1,9 +1,13 @@
 # Reals-as-Oracles
 This is a project exploring a new definition of real numbers, namely, viewing a real number as an oracle that affirms when a rational interval contains the real number. While that was the initial purpose and remains the primary one, explorations into its generalizations are also under taken in this project. 
 
+The following papers have been posted to the Arxiv:
+
+* [Rationally Querying the Reals](https://arxiv.org/abs/2305.00981) This is a very short teaser paper to start with.
+* [Defining Real Numbers as Oracles, an Overview](https://arxiv.org/abs/2305.04935) This is an excellent place to start. It gives a basic overview of what this is about and should be quite accessible. 
+
 The following papers are currently in a partial release:
 
-* [Defining Real Numbers as Oracles, an Overview](https://github.com/jostylr/Reals-as-Oracles/releases/download/v0.10/Overview.pdf) This is a good place to start. It gives a basic overview of what this is about and should be quite accessible. 
 * [Defining Real Numbers as Oracles](https://github.com/jostylr/Reals-as-Oracles/releases/download/v0.10/DefiningRealNumbersAsOracles.pdf) This is the main paper and should contain all proofs of all the assertions. While nothing in it is particularly difficult, doing it all out in detail is lengthy. We also discuss with examples some methdos that are strongly suggested by the oracle approach, such as the role of mediants and continued fractions in an intermediate value theorem style approach to generating better interval approximations to real numbers. 
 * [Toplogical Completions with Oracles](https://github.com/jostylr/Reals-as-Oracles/releases/download/v0.10/TopologicalCompletionsWithOracles.pdf) It is not just rational numbers that can be completed. We detail here a number of generalizations. 
 * [Elementary Analysis with Function Oracles](https://github.com/jostylr/Reals-as-Oracles/releases/download/v0.10/ElementaryAnalysisWithFunctionOracles.pdf) We use the notion of oracles as applied to functions to generate a more restrictive class, one which factors in the uncertain nature of the elements in the completed space using oracles. For real oracles, function oracles are oracles on rational rectangles that satisfy similar properties to oracles, but adapted to rectangles. The idea of the rectangle is that it should bound the function over that interval. This leads to functions that are continuous on the rationals and potentially discontinuous on the rationals. They are integrable. 
@@ -34,7 +38,7 @@ An oracle assigns a Yes or No to each rational interval and satisfies the follow
 
 If the singleton c is a Yes, then the oracle represents the rational number c. 
 
-## What's in the paper
+## What's in the main paper
 
 The paper explores this idea. It establishes a variety of deductions, such as two Yes intervals must intersect and their intersection must be a Yes interval. The paper gives explicit examples such as roots, pi, and e.  In sections 4 and 5, an arithmetic of oracles is defined. Basically, combine the intervals with the arithmetic operations applied to the endpoints. Since we can narrow the input representative intervals, we can get the output as narrowed as we want. The paper then establishes that the oracles are an ordered field with the rationals as a dense sub-field. It also establishes that the oracles are complete in the sense of Cauchy sequences always having limits as well as every set bounded above having a least upper bound. 
 
