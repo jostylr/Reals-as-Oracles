@@ -16,19 +16,21 @@ This paper gives a new definition of a real number based on the insight that a r
 
 \tableofcontents
 
-\section{The Oracle of $r$}\label{sec:ora}
+\section{The Oracle of \texorpdfstring{$r$}{r}}\label{sec:ora}
 
 Our goal is to give a new definition of real numbers. This definition strikes a balance between having a solid definition of a real number and being useful in computing. Most definitions of real numbers, such as decimal expansions and Cauchy sequences, seem to require explicit computations to even define the number. This is problematic given the infinite nature of real numbers. Other definitions, such as the Dedekind cut, do not require computations to state, but they seem to offer no useful guidance in computing the number. 
 
-What we want to provide is an object that can be defined without computation, but provides the underlying mechanism for computing the real number to any precision one wants. In some sense, we are producing the framework for producing approximations to real numbers given the particulars of a given real number.  This is analogous in functional programming to having a generic sorting algorithm that can be used in a variety of situations by supplying a comparison function to make a pairwise sorting decision while the framework handles the actual details of the global sorting.
+What we want to provide is an object that can be defined without computation, but provides the underlying mechanism for computing the real number to any precision one wants. In some sense, we are producing the framework for producing approximations to real numbers given the particulars of a given real number.  This is analogous to, in functional programming,  having a generic sorting algorithm that can be used in a variety of situations by supplying a comparison function to make a pairwise sorting decision while the framework handles the actual details of the global sorting.
 
 Since this is a mechanism that provides answers to our questions, it seems reasonable to call it an oracle. The idea is that a real number is an oracle that reveals itself by answering, under repeated questioning, whether it is in various rational intervals. 
 
-Informally, the Oracle of $r$ is a rule which, given two rational numbers, will return 1 (Yes) if $r$ ought to be in the inclusive rational interval defined by the two rational numbers and returns 0 (No) otherwise. If the answer was a 1, then we say the interval is an $r$-Yes interval; if the answer is a 0, then we say the interval is an $r$-No interval.  If we are just speaking of one oracle, we may simply say a Yes-interval or No-interval. 
+Informally, the Oracle of $r$ is a rule which, given two rational numbers, will return Yes if $r$ ought to be in the inclusive rational interval defined by the two rational numbers and returns No otherwise. If the answer was a Yes, then we say the interval is an $r$-Yes interval; if the answer is a No, then we say the interval is an $r$-No interval.  If we are just speaking of one oracle, we may simply say a Yes-interval or No-interval. 
+
+There is a very short teaser version of this paper \cite{taylor23teaser} as well as a short overview paper \cite{taylor23over}. They serve as a more gentle introduction into these ideas. 
 
 \subsection{Interval Notation}
 
-We will define a rational interval $a:b$ as a binary rule that, for a given rational $q$, yields $1$ (Yes) if $q$ is between $a$ and $b$, inclusive, and yields $0$ (No) if not. We say that $q$ is in $a:b$ if the interval rule yielded an affirmative answer.  We identify $b:a$ as the same rule. The interval $a:b$ contains the interval $c:d$ if being in the interval $c:d$ implies being in the interval $a:b$. We will write $a\lt b$ if we want to indicate the ordering relation between the rationals and that they are strictly not equal. We may also require knowing the ordering, but still allow equality. In that case, we use the notation $a \lte b$ to indicate $a \leq b$.  We will also write $a:b < c:d$ to indicate the situation in which $a$ and $b$ are less than $c$ and $d$ which implies that all rationals $q$ in $a:b$ are less than all rationals $r$ in $c:d$.
+We will define a \textbf{rational interval} $a:b$ as a binary rule that, for a given rational $q$, yields $1$ (Yes) if $q$ is between $a$ and $b$, inclusive, and yields $0$ (No) if not. We say that $q$ is in $a:b$ if the interval rule yielded an affirmative answer.  We identify $b:a$ as the same rule. The interval $a:b$ contains the interval $c:d$ if being in the interval $c:d$ implies being in the interval $a:b$. We will write $a\lt b$ if we want to indicate the ordering relation between the rationals and that they are strictly not equal. We may also require knowing the ordering, but still allow equality. In that case, we use the notation $a \lte b$ to indicate $a \leq b$.  We will also write $a:b < c:d$ to indicate the situation in which $a$ and $b$ are less than $c$ and $d$ which implies that all rationals $q$ in $a:b$ are less than all rationals $r$ in $c:d$.
 
 
 Please take note that the intervals not only have rational endpoints but they consist entirely of rational points as we do not have real numbers. Throughout, unless we say otherwise, intervals always include their endpoints. If we had the real numbers, these would be closed intervals with rational endpoints.  The symbol $:$ was chosen to represent the two endpoints with something in between. Being dotted is to be a reminder that it is just the discrete rational interval under discussion. 
@@ -387,7 +389,7 @@ Let $a:b$ be any $R$-Yes interval and $e:f$ be any $S$-Yes interval. To use the 
 This section concerns being able to narrow in on the value of an oracle. 
 
 \begin{proposition}\label{pr:short}
-For any rule $R$ that satisfies the Existence and Separation properties, we can produce a Yes interval shorter than any given positive rationa number. In particular, this holds for oracles. 
+For any rule $R$ that satisfies the Existence and Separation properties, we can produce a Yes interval shorter than any given positive rational number. In particular, this holds for oracles. 
 \end{proposition}
 
 \begin{proof}
@@ -531,7 +533,7 @@ We can verify the properties of the Oracle of $\sqrt[n]{q}$ as follows:
     
 \end{enumerate}
 
-Is this oracl the $n$-th root of $q$?
+Is this oracle the $n$-th root of $q$?
 
 While we have not done the arithmetic of oracles yet, the short version is that taking an oracle to the $n$-th power means the new oracle consists of intervals that are the result of applying the $n$-th power to the Yes-intervals of the original oracle. Since $q$ is in $a^n:b^n$ for every $0<a:b$ $\sqrt[n]{q}$-Yes interval, we have that $(\sqrt[n]{q})^n$ does equal the oracle $q$.\footnote{For $n$-th root Yes \-intervals of the form $a:0:b$, the $n$-th powering of that interval will still include $q$ even if $-a>b$. See Section \ref{containment}, item \ref{natpow}.} 
 
@@ -746,7 +748,7 @@ For constructing an oracle, a fonsi can be a very appealing pathway.  Here are a
 
 Another reason to favor fonsis is that they seem to be an infinite version of our idealized notion of taking measurements. A good measurement of a physical quantity is one in which the idealized actual value is always within the interval of the value plus or minus the error. A heuristic for that is that all measurements should overlap. A goal of measurement is to be able to reduce the error to any level that we please though that is never fully realized, of course. 
 
-It is in this sense that a fonsi is the infinte version of measurements. We can then go the other way and introduce a notion of $\varepsilon$-partial fonsis, namely, a set of intervals such that there is at least one interval which is as small or smaller than the given $\varepsilon$ and that they all intersect. In fact, we can simplify this by taking the common intersection of all the measurements to produce a measurement interval which is less than the single specified $\varepsilon$. 
+It is in this sense that a fonsi is the infinite version of measurements. We can then go the other way and introduce a notion of $\varepsilon$-partial fonsis, namely, a set of intervals such that there is at least one interval which is as small or smaller than the given $\varepsilon$ and that they all intersect. In fact, we can simplify this by taking the common intersection of all the measurements to produce a measurement interval which is less than the single specified $\varepsilon$. 
 
 This is essentially a finite fonsi version of the resolution of the compatibility of two oracles. Here, one oracle is the imagined actual true value that we are trying to measure and the other oracle is the oracle of all the measurement intervals. If we could carry out the infinite processes required, these would be the same. 
 
@@ -757,7 +759,7 @@ We can also view the oracle rule itself as being recast as a questioning of ``Is
 
 We now pause and give some explicit computations for computing out the three most widely known irrational numbers: $\pi$, $e$, and $\sqrt{2}$. The hope is to demonstrate how this framework interfaces with getting explicit bounds. The notion of a fonsi is very helpful here. 
 
-\subsubsection{Circles, $\pi$, and Sums}
+\subsubsection{Circles, \texorpdfstring{$\pi$}{pi}, and Sums}
 
 There are, of course, many ways of computing $\pi$, but here we will start with the classic approach of circumscribed and inscribed polygons and then separately proceed into the Bailey-Borwein-Plouffe formula which is entirely rational in the approximations. 
 
@@ -782,7 +784,7 @@ To apply our fonsi results, we need to show that that the sum is absolutely conv
 
 This formula for $\pi$ is entirely rational and the $p_n$ gives us interval estimates.
 
-\subsubsection{Products, $e$, and Sums}\label{sec:e}
+\subsubsection{Products, \texorpdfstring{$e$}{e}, and Sums}\label{sec:e}
 
 We define the Oracle of $e$ as follows. 
 
@@ -836,7 +838,7 @@ Since $a<b$ implies $\frac{q}{b^{n-1}} < \frac{q}{a^{n-1}}$, we can choose any r
 
 Newton's method suggests a different selection, namely, that we compute the weighted average of the guess and its partner, weighting the guess $n-1$ times in that average. Specifically, $\frac{1}{n} \big( (n-1) x + \frac{q}{x^{n-1}} \big)$. This will have a quadratic convergence once it gets close enough to the root.
 
-For the square root method, $n=2$ leads that formula to becoming a simple averaging of the guess and its partner, the same as bisecting the interval.  
+For the square root, $n=2$, the formula becomes a simple averaging of the guess and its partner, the same as bisecting the interval.  
 
 To begin the iteration, it is useful to first get close by considering a power of 10. For example, to compute the square root of $52400$, we can view that roughly as $5*10^4$ leading to a guess of $200$. The first interval would then be $200: \frac{52400}{200} = 262$ with the next guess being the average $231$ whose complement $\frac{52400}{231}$ is about $22 6$. It could iterate quite quickly from there. Note that one can be rather loose with the bounds as long as one is careful to round away from the partner.  
 
@@ -1096,7 +1098,7 @@ The associative and commutative rules of arithmetic apply to intervals. The dist
     \item There is no additive inverse for neighborly intervals since subtraction leads to the length of the new interval being the sum of the lengths of the two given intervals. The singleton intervals do have additive inverses, namely $a:a \oplus -a:-a = 0:0$. 
     \item Interval multiplication is closed, namely, the product of two intervals is another interval by definition. 
     \item Multiplication is Commutative. This follows from the product interval being defined in terms of the products of the boundaries and those individual products commute. 
-    \item Multiplication is Associative. If we are multiplying $a:b$, $c:d$, and $e:f$, then the product interval of the three is formed from the max and min of the the set $\{ace, acf, ade, adf, bce, bcf, bde, bdf\}$. Since those products are unchanged by reordering, we have multiplication is associative. In terms of the square approach to multiplication, we can imagine extending that to a cube of 27 entries and seeing that the ordering is nothing but an irrelevant reorientation of the cube. 
+    \item Multiplication is Associative. If we are multiplying $a:b$, $c:d$, and $e:f$, then the product interval of the three is formed from the max and min of the set $\{ace, acf, ade, adf, bce, bcf, bde, bdf\}$. Since those products are unchanged by reordering, we have multiplication is associative. In terms of the square approach to multiplication, we can imagine extending that to a cube of 27 entries and seeing that the ordering is nothing but an irrelevant reorientation of the cube. 
     \item $1:1$ is the multiplicative identity as $a:b \otimes 1:1$ has the form $\max(1*a, 1*b):\min(1*a, 1*b) = a:b$. 
     \item There is no multiplicative inverse as multiplication has a non-zero length for neighborly intervals. The non-zero singleton intervals do have multiplicative inverses, namely $c:c  \otimes  \frac{1}{c} : \frac{1}{c} = 1:1$.
 \end{enumerate}
@@ -1119,7 +1121,7 @@ The interval $J$ is the interval
 Since the boundaries of $I$ are contained in the possibilities of $J$, we do have $J$ containing $I$.
 \end{proof}
 
-Let us do an example demonstrating this. Consider $I = 2:3 \otimes ( 4:7 \oplus -6:-3)$ versus $J = (2:3 \otimes 4:7) \oplus (2:3 \otimes -6:-3)$. Computing out $I$, we have $2:3 \otimes -2:4 = -6:12$. For $J$, we have $8:21 \oplus -18:-6 = -10: 15$. We do indeed have $I$ contained in $J$.
+Let us do an example demonstrating this. Consider $I = 2:3 \otimes ( 4:7 \oplus -6:-3)$ versus $J = (2:3 \otimes 4:7) \oplus (2:3 \otimes -6:-3)$. Computing out $I$, we have $2:3 \otimes -2:4 = -6:12$. For $J$, we have $8:21 \oplus -18:-6 = -10: 15$. This is one example of $I$ being strictly contained in $J$. 
 
 As we have seen, the arithmetic of intervals has some common properties with normal number arithmetic, but it is not the same.
 
@@ -1131,29 +1133,33 @@ We will prove a general statement about creating an oracle out of other oracles 
 
 This shrinking is what allows us to go from the arithmetic of intervals, which does not have a mechanism to use this property, to an arithmetic of oracles, which can use it since we can shrink the intervals of interest for oracles. 
 
-A good example to keep in mind is that of multiplication. Let's assume, to avoid cases in this example, that  $0 < a < b < c < d \leq M$ and we are computing $a:b \otimes c:d$. Then we have that the length of that product interval is $bd-ac = bd-ad+ad - ac= (d(b-a) + a(d-c))< M ( ( b-a) + (d-c) )$. We can replace this with $2ML$ where $L = \max(b-a, d-c)$. If $e<f$ and $g<h$ are contained in the intervals $a:b$ and $c:d$ respectively, then the length of the product of the two intervals is bounded above by $2M\max(f-e, h-g)$. We can therefore see that the length of the product interval goes to 0 as the lengths of the subintervals go to 0. Notice that the bound for this does involve the original intervals, but once that initial choice is made, then we can bound the lengths down to 0. This is the key property we are abstracting out in what follows. 
+A good example to keep in mind is that of multiplication. Let's assume, to avoid cases in this example, that  $0 < a < b < c < d \leq M$ and we are computing $a:b \otimes c:d$. Then we have that the length of that product interval is $bd-ac = bd-ad+ad - ac= (d(b-a) + a(d-c))< M ( ( b-a) + (d-c) )$. We can replace this with $2ML$ where $L = \max(b-a, d-c)$. If $e\lt f$ and $g\lt h$ are contained in the intervals $a:b$ and $c:d$ respectively, then the length of the product of the two intervals is bounded above by $2M\max(f-e, h-g)$. We can therefore see that the length of the product interval goes to 0 as the lengths of the subintervals go to 0. Notice that the bound for this does involve the original intervals, but once that initial choice is made, then we can scale the product length down to 0. This is the key property we are abstracting out in what follows. 
 
 \subsection{Narrowing of Intervals}\label{sec:nrwint}
 
-A rational \textbf{interval operator} $f$ is a mapping that takes in a finite number of rational intervals and outputs a rational interval. An \textbf{oracle operator} $F$ is a mapping that takes in a finite number of oracles and produces another oracle.
+A \textbf{rational interval operator} $f$ is a mapping that operates on a finite number of rational intervals to produce a rational interval. An \textbf{oracle operator} $F$ is a mapping that operates on a finite number of oracles to produce an oracle.
 
 We will use $|I|$ to denote the length of the intervals which for the rational interval $a\lte b$ is $b-a$. We shall consider $n$-tuples of intervals by which we mean an ordered collection of $n$ rational intervals. The $n$-tuple $\vec{J}$ is contained in the $n$-tuple $\vec{I}$ if the $i$-th interval in $\vec{J}$ is contained in the $i$-th interval of $\vec{I}$ for each $1 \leq i \leq n$. For our purposes, we will define the length of the $n$-tuple $\vec{I}$ as $|\vec{I}| = \max_{i=1}^n (|I_i|)$.
 
-For an $n$-tuple $\vec{\alpha}$ of oracles, we say that the $n$-tuple $\vec{I}$ is an $\vec{\alpha}$-Yes tuple if for each of the $I_i$ intervals, we have $I_i$ is an $\alpha_i$-Yes interval. We say it is a neighborly $\vec{\alpha}$-Yes tuple if none of the endpoints are the roots of their respective $\alpha_i$ oracle. In particular, a neighborly tuple has no singletons. It has the property that there exists another $n$-tuple $\vec{J}$ that is an $\vec{alpha}$-Yes tuple such that each $J_i$ is strictly contained in $I_i$.
+For an $n$-tuple $\vec{\alpha}$ of oracles, we say that the $n$-tuple $\vec{I}$ is an $\vec{\alpha}$-Yes tuple if for each of the $I_i$ intervals, we have $I_i$ is an $\alpha_i$-Yes interval. We say it is a neighborly $\vec{\alpha}$-Yes tuple if none of the endpoints are the roots of their respective $\alpha_i$ oracle. In particular, a neighborly tuple has no singletons. It has the property that there exists another $n$-tuple $\vec{J}$ that is an $\vec{\alpha}$-Yes tuple such that each $J_i$ is strictly contained in $I_i$. 
 
-We use the terminology that $\vec{I}$ is in the domain of $f$ if $f(\vec{I})$ is defined. We say that $\vec{\alpha}$ is $f$-compatible if there exists an $\vec{\alpha}$-Yes $n$-tuple of rational intervals $\vec{I}$ in the domain of $f$. 
+A $\vec{\alpha}$ of oracles is neighborly if all of its elements are neighborly oracles. It is rooted if they are all rooted oracles. It is partially rooted if someone of them are rooted oracles and others are neighborly. 
 
-An interval operator has the \textbf{narrowing property} if the following holds. Let $\vec{I}$ be any $n$-tuple of intervals in the domain of $f$. The narrowing property then holds if both of the following hold true:
+We use the terminology that $\vec{I}$ is in the domain of $f$ if $f(\vec{I})$ is defined and, specifically, it is not the empty set. We say that $\vec{\alpha}$ is $f$-compatible if there exists an $\vec{\alpha}$-Yes $n$-tuple of rational intervals $\vec{I}$ in the domain of $f$. 
+
+An interval operator has the \textbf{narrowing property} if the following holds for all $n$ tuples $\vec{I}$ in the domain of $f$:
 \begin{itemize}
     \item Containment. If $\vec{J}$ is contained in $\vec{I}$, then $f(\vec{J})$ is contained in $f(\vec{I})$. In particular, $f$ is defined on all tuples of rational intervals contained in $\vec{I}$. By the containment, we have $|f(\vec{J})| \leq |f(\vec{I})|$
-    \item Notionally Shrinking. Given an $f$-compatible $\vec{\alpha}$, we can find, for any given $N>0$, an $\vec{\alpha}$-Yes neighborly $n$-tuple $\vec{J}$  such that $|f(\vec{J})| \leq \frac{1}{N}$.
+    \item Notionally Shrinking. Given an $f$-compatible $\vec{\alpha}$, we can find, for any given $N>0$, an $\vec{\alpha}$-Yes neighborly $n$-tuple $\vec{J}$  such that $|f(\vec{J})| \leq \frac{1}{N}$. 
 \end{itemize}
 
-We do allow singletons in the $n$-tuples and, if they are all singletons, then this implies the image of a singleton tuple is a singleton under an interval operator with the narrowing property. The Notionally Shrinking property, however, requires the existence of $n$-tuples satisfying those requirements that are not only not singletons, but also do not have interval endpoints that are roots of their respective oracles. This helps ensure appropriate continuity in various applications of this notion. 
+The Notionally Shrinking property requires the existence of neighborly $n$-tuples to help ensure appropriate continuity in various applications of this notion. This is a restriction on the rooted and partially rooted oracle tuples as the neighborly oracles automatically only have neighborly tuples. 
 
 If $f$ satisfies the narrowing property and $\vec{I}$ is not in its domain, then all $n$-tuples that contain $\vec{I}$ are not in the domain. 
 
-One common scenario where this holds is when the length of the image scales down with the length of the input. We will say that an interval operator $f$ has the \textbf{Lipschitz property} if it satisfies the Containment condition of the narrowing property and the additional fact that given an $\vec{I}$ such that $f(\vec{I})$ is defined, then there exists a constant $M_{\vec{I}}$ that satisfies for every $\vec{J}$ contained in $\vec{I}$, we have $|f(\vec{J})| \leq M_{\vec{I}} |\vec{J}|$ 
+One common scenario where this holds is when the length of the image scales down with the length of the input. We will say that an interval operator $f$ has the \textbf{Lipschitz property} if it satisfies the Containment condition of the narrowing property and the additional fact that given an $\vec{I}$ such that $f(\vec{I})$ is defined, then there exists a constant $M_{\vec{I}}$ that satisfies for every $\vec{J}$ contained in $\vec{I}$, we have $|f(\vec{J})| \leq M_{\vec{I}} |\vec{J}|$. We additionally require that any $f$-compatible $n$-tuple that contains a singleton is contained in an $f$  compatible neighborly $n$-tuple. 
+
+We do allow singletons in the $n$-tuples and, if they are all singletons, then the Lipschitz condition implies the image of a singleton tuple is a singleton as the length of a singleton is 0 and the length of the image is bounded by a multiple of the length. 
 
 \begin{proposition}
     Let the rational interval operator $f$ be Lipschitz. Then it also satisfies the narrowing property. 
@@ -1164,13 +1170,13 @@ The arithmetic operators are Lipschitz and this is how we will establish that th
 \begin{proof}
     By assumption, it satisfies containment. 
 
-    To establish the notionally shrinking condition, let a rational $N >0$ and an $f$-compatible $n$-tuple $\vec{\alpha}$ be given. Being $f$-compatible, there exists an $\vec{\alpha}$-Yes $n$-tuple of intervals $\vec{I}$ for which $f(\vec{I})$ is defined. By the Lipschitz condition, we have a constant $M_{\vec{I}}$, which we will just call $M$. Because each $\alpha_i$ is an oracle, we can find $\alpha_i$-Yes intervals $J_i$ whose length is less than $\frac{1}{MN}$ and $J_i \subseteq I_i$. Let $\vec{J}$ be the $n$-the tuple whose $i$-the component is $J_i$. This is an $\vec{\alpha}$-Yes interval by choice of $J_i$. By Lipschitz, $|f(\vec{J})| \leq M |\vec{J}| \leq M \frac{1}{MN} = \frac{1}{N}$ as was to be shown. 
+    To establish the notionally shrinking condition, let a rational $N >0$ and an $f$-compatible  $n$-tuple $\vec{\alpha}$ be given. Being $f$-compatible and Lipschitz, there exists a neighborly $\vec{\alpha}$-Yes $n$-tuple of intervals $\vec{I}$ for which $f(\vec{I})$ is defined. By the Lipschitz condition, we have a constant $M_{\vec{I}}$, which we will just call $M$. Because each $\alpha_i$ is an oracle, we can find, by the bisection algorithm of Proposition \ref{pr:short}, $\alpha_i$-Yes intervals $J_i$ whose length is less than $\frac{1}{MN}$ and $J_i \subseteq I_i$. Let $\vec{J}$ be the $n$-the tuple whose $i$-th component is $J_i$. This is an $\vec{\alpha}$-Yes interval by choice of $J_i$. By Lipschitz, $|f(\vec{J})| \leq M |\vec{J}| \leq M \frac{1}{MN} = \frac{1}{N}$ as was to be shown. 
 \end{proof}
 
 
 The intersection of two $n$-tuple intervals is the $n$-tuple formed by intersecting their respective components. They are disjoint if at least one of the intersecting components is disjoint. 
 
-We can now prove an essential property of narrowing operators. 
+We now prove an essential property of narrowing operators. 
 
 \begin{proposition} \label{pr:op-nrw}
 Let $f$ be an operator on $n$-tuples with the narrowing property. If $\vec{I}$ and $\vec{J}$ intersect, then $f(\vec{I})=K$ and $f(\vec{J}) = L$ intersect.
@@ -1179,7 +1185,7 @@ Let $f$ be an operator on $n$-tuples with the narrowing property. If $\vec{I}$ a
 This is equivalent to if $f(\vec{I})=K$ and $f(\vec{J}) = L$ are disjoint, then $\vec{I}$ and $\vec{J}$ are disjoint.
 
 \begin{proof}
-Assume $\vec{I}$ and $\vec{J}$ intersect. Let $\vec{A}$ be the intersection. Since $\vec{A}$ is contained in both, we have $f(\vec A)= B$ is contained in both $K$ and $L$. By assumption of the narrowing property, $B$ is not an empty interval and therefore the intersection of $K$ and $L$ is non-empty. 
+Assume $\vec{I}$ and $\vec{J}$ intersect. Let $\vec{A}$ be the intersection. Since $\vec{A}$ is contained in both, we have $f(\vec A)= B$ is contained in both $K$ and $L$ by the narrowing property. Therefore the intersection of $K$ and $L$ contains $B$ and is not empty.  
 \end{proof}
 
 
@@ -1192,7 +1198,7 @@ We could define an oracle directly, but the proof would mimic that which we did 
 
 For the relevance of domain, the operator to keep in mind is the reciprocal operator. It is undefined on the Oracle of 0 as any 0-Yes interval will contain 0 and thus the reciprocal interval operator is undefined on it. 
 
-Also note that because of the narrowing property, once there is an $\vec{\alpha}$-Yes tuple for which $f$ is defined on, then all contained ones are also defined. Again, the reciprocal is a good one to keep in mind as say the $2$-Yes interval $-2:5$ is not defined for the reciprocal, but $1:3$ is defined (and it is $1:\frac{1}{3}$) and all subintervals of $1:3$ are defined as well, leading to the Oracle of $\frac{1}{2}$. One should also note that, say, the interval $-1:1$ is also a $\frac{1}{2}$-Yes interval. That is, while the interval operator is exclusionary as one gets more expansive $n$-tuples, the oracle version is inclusionary of the larger intervals, being a maximalized fonsi. 
+Also note that because of the narrowing property, once there is an $\vec{\alpha}$-Yes tuple for which $f$ is defined on, then all contained ones are also defined. Again, the reciprocal is a good one to keep in mind as say the $2$-Yes interval $-2:5$ is not defined for the reciprocal, but $1:3$ is defined (and it is $1:\frac{1}{3}$) and all subintervals of $1:3$ are defined as well, leading to the Oracle of $\frac{1}{2}$. One should also note that, say, the interval $-1:1$ is also a $\frac{1}{2}$-Yes interval, but not produce through reciprocation. That is, while the interval operator is exclusionary as one gets more expansive $n$-tuples, the oracle version is inclusionary of the larger intervals, being a maximalized fonsi. 
 
 \begin{proof}
 To prove that the family of intervals is a fonsi, we need to demonstrate that any two such intervals intersect and that given a rational $\varepsilon > 0$, we can find an interval in the family smaller than that. 
@@ -1211,11 +1217,11 @@ We can now establish the arithmetic of oracles by defining the arithmetic operat
 
 The interval arithmetic operators all have the property that subintervals of inputs lead to subintervals of the output as we were motivated to make sure all rationals in an interval were mapped into the output interval by the given operation. 
 
-In what follows, $\alpha$ and $\beta$ are two oracles and we will use $A=a\lte b$ for a generic $\alpha$-Yes Interval and $B=c\lte d$ for  a $\beta$-Yes interval. For binary operators, we take $L = |A,B| = \max(b-a, d-c)$ while for a unary operator, we take $L = |A|$. 
+In what follows, $\alpha$ and $\beta$ are two oracles and we will use $A=a\lte b$ for a generic $\alpha$-Yes Interval and $B=c\lte d$ for  a $\beta$-Yes interval. For binary operators, we define $L = |A,B| = \max(b-a, d-c)$ while for a unary operator, we define $L = |A|$. 
 
 
 \begin{enumerate}
-    \item $\alpha+\beta$ is based on interval addition, namely $A \oplus B = a:b \oplus c:d = (a+c):(b+d)$ which has length $(b+d) - (a+c) = (b-a) + (d-c) \leq 2L$, establishing the narrowing property. 
+    \item $\alpha+\beta$ is based on the interval addition operator, namely $A \oplus B = a:b \oplus c:d = (a+c):(b+d)$ which has length $(b+d) - (a+c) = (b-a) + (d-c) \leq 2L$, establishing the narrowing property. 
     \item $\alpha * \beta$ is based on interval multiplication. If the interval endpoints are all the same sign, $a:b \otimes c:d$ is $|bd-ac| = |bd -bc + bc -ac| =  |b(d-c) + c(b-a)|$ though it is also equal to $|bd - ad + ad - ac| = |d(b-a) + a(d-c)|$. For mixed signs, we have the maximum of $|a(d-c)|$, $|b(d-c)|$, $|c(b-a)|$, $|d(b-a)|$, $|d(b-a)+a(d-c)| = |b(d-c) + c(b-a)|$. 
     
     For a simple bounding estimate on the multiplicative length, we can take the maximum $M$ of $|a|, |b|, |c|, |d|$ and multiply that by the maximum length $L$ of $b-a$ and $d-c$ and then double that. So $2*M*L$. This satisfies the narrowing property since this $M$ can bound all sub-interval length computations.
@@ -1227,64 +1233,47 @@ In what follows, $\alpha$ and $\beta$ are two oracles and we will use $A=a\lte b
     \item For negative powers, this is positive powers combined with reciprocity. Note that there is no 0 allowed which allows us to focus on the same sign cases. We start with $0 < a < b$ as the negative version changes only by a sign which vanishes in the computation of lengths.  Taking $a:b$ to be our enclosing $\alpha$ interval, then $\frac{1}{a^n} : \frac{1}{b^n}$ is our power interval and the difference is $\frac{b^n-a^n}{a^n b^n} \leq (b-a) \frac{n b^{n-1}}{a^n b^n} = \frac{n}{a^n b} L$. So taking $\frac{n}{a^n b}$ as our bounding constant $M$ gives us the narrowing property.  For raising an interval of negative numbers, we use absolute values noting that  $|a|>|b|$. The bound then becomes $\frac{nL}{|b|^n |a|}$.
 \end{enumerate}
 
-\subsubsection{$\sqrt{2} \sqrt{3} = \sqrt{6}$}
+\subsubsection{\texorpdfstring{$\sqrt{2} \sqrt{3} = \sqrt{6}$}{sqrt2sqrt3eqsqrt6}}
 
 We can prove arithmetic properties of square roots, for example. 
 
-Let's prove that $\sqrt[n]{u} \sqrt[n]{v} = \sqrt[n]{uv}$  for rational $u$ and $v$.
+Let's prove that $\sqrt[n]{u} \sqrt[n]{v} = \sqrt[n]{uv}$  for rational $u$ and $v$. 
 
 To do this, we need to multiply intervals representing the $n$-th roots and show that they become intervals of the $n$-th root of the product. This is almost self-evident. 
 
-Indeed, let $a\lte b$ be a Yes-interval of $\sqrt[n]{u}$. We will assume the boundaries are all positive which is fine as we are narrowing on the oracle in question; Consistency does the rest of the work. That is, we have $a^n:u:b^n$.  Similar, let $c \lte d$ satisfy $c^n : v : d^n$. When we multiply these intervals, since they are all positive, we have $a^n c^n : uv : b^n d^n$ and we also have $(ac:bd)^n$ is $a^n c^n : b^n d^n$. Thus, $ac:bd$, the product of the $n$-th root Yes-intervals, is a Yes-interval of the $n$-th root of $uv$. The family of such product intervals form a fonsi which leads to an oracle that coincides with the $\sqrt[n]{uv}$ as per Proposition \ref{pr:fonsi-inter}.
+Indeed, let $a\lte b$ be a Yes-interval of $\sqrt[n]{u}$. We will assume the boundaries are all positive which is fine as we are narrowing on the oracle in question; Consistency does the rest of the work. That is, we have $a^n:u:b^n$.  Similar, let $c \lte d$ satisfy $c^n : v : d^n$. When we multiply these intervals, since they are all positive, we have $a^n c^n : uv : b^n d^n$ and we also have $(ac:bd)^n$ is $a^n c^n : b^n d^n$. Thus, $ac:bd$, the product of the $n$-th root Yes-intervals, is a Yes-interval of the $n$-th root of $uv$. The family of such product intervals form a fonsi as we can use arbitrarily narrow $a:b$ and $c:d$ intervals and multiplication is a Lipschitz operator. Since those intervals are Yes-intervals of the $n$-th root of the product, Corollary \ref{cor:sub-fonsi} establishes that the fonsi is associated with $\sqrt[n]{uv}$, as we were to show. 
 
-\subsubsection{$\sqrt{2}*(e + \pi)$}
+For some mathematical history related to this, see \cite{fowler}.
+
+\subsubsection{\texorpdfstring{$\sqrt{2}*(e + \pi)$}{2epi}}
 
 Let us demonstrate this arithmetic by computing $x = \sqrt{2}(e + \pi)$. 
 
-What we are asserting that this computation yields is an oracle that says yes or no as to whether the number is contained in it. Let's show how we would compute that out given a few intervals:  $8:9$, $8.1:8.2$, and $8.286:8.288$.
+What we are asserting that this computation yields is an oracle that says yes or no as to whether the number is contained in a given interval. Let's show how we would compute that out given a few intervals:  $8:9$, $8.1:8.2$, and $8.286:8.288$.
 
-We start off with some simple bounds on the constants: $1 < \sqrt{2} < 2$, $2<e<3$, and $3 < \pi<4$. We do the indicated operations to get $1*(2+3) < x < 2*(3+4)$ or $5 < x< 14$. This fully includes our intervals and thus provides no answer about them. But it would rule out, $20 < x< 21$, for example. 
+We start off with some rather large interval computation: $(1 \lte 2) \otimes ( (2\lte  3) \oplus (3 \lte 4))$. We do the indicated operations to get the $x$-Yes interval $1*(2+3) \lte 2*(3+4) = 5 \lte 14$. This fully includes our intervals and thus provides no answer about them. But it would tell us, for example, that $20 \lte  21$ is a $x$-No interval. 
 
-We increase our inputs by a decimal place to get $1.4 < \sqrt{2} < 1.5$, $2.7<e<2.8$, and $3.1 < \pi<3.2$. This leads us to $8.12 < x < 9$ which tells us $8:9$ is an $x$-Yes interval, but does not give us enough clarity for the next one. 
+We increase our intervals by a decimal place to compute $1.4 \lte  1.5 \otimes ( 2.7\lte 2.8 \oplus 3.1 \lte 3.2)$. This leads us to the $x$-Yes interval $8.12 \lte 9$ which tells us $8:9$ is an $x$-Yes interval, but does not give us enough clarity for the next one. 
 
-For that one, we will continue onto the next decimal place: $1.41 < \sqrt{2} < 1.42$, $2.71<e<2.72$, and $3.14 < \pi<3.15$ leading to $8.2485 < 8.354$. This rules out $8.1:8.2$, so that is an $x$-No interval. But we still need to see about $8.286:8.288$.
+For that one, we will continue onto the next decimal place: $1.41 \lte 1.42 \otimes (2.71\lte 2.72 \oplus 3.14 \lte   3.15)$ leading to $8.2485 \lte  8.354$. This rules out $8.1:8.2$, so that is an $x$-No interval. But we still need to see about $8.286:8.288$.
 
-For that, we can use our formulas. For the square root of 2, we use Newton's method which here has the error bounded by $r(n) = 2\big(\frac{1}{4}\big)^{2^n-1}$. For $e$, we have that the sum error is $s(n) = \frac{1}{n!n}$. And for $\pi$, we have $t(n) = \frac{1}{15 * 16^n}$. We also have for addition, that the error is bounded by twice the largest error. For multiplication, we have that but also times the maximum of the endpoints of the intervals. We want to be less than $\frac{1}{1,000}$. 
+For that, we can use error formulas. For the square root of 2, we use Newton's method which will roughly have the error quadratically decrease.  For $e$, we have that the sum error is $s(n) = \frac{1}{n!n}$. And for $\pi$, we have $t(n) = \frac{1}{15 * 16^n}$. We also have for addition, that the error is bounded by twice the largest error. For multiplication, we have that but also times the maximum of the endpoints of the intervals. We want the interval length to be less than $\frac{1}{1,000}$. 
 
-Doing some computations, we have $r(5) < \frac{1}{130,000}$, $s(7) < \frac{1}{35,000}$, and $t(3) < \frac{1}{60,000}$. For multiplication, the bound $M$ can be taken as 6 since that is an upper bound on adding $e$ and $\pi$ and that addition is what dominates the endpoint estimates. So our error estimate is $2*6*\max(\frac{1}{130,000}, 2*\max(\frac{1}{35,000}\frac{1}{60,000})) \leq \frac{12}{17,000} \leq \frac{1}{1000}$. We now compute the intervals.  
+Doing some computations, we have $s(7) < \frac{1}{35,000}$, and $t(3) < \frac{1}{60,000}$. For the square root of 2, we start with $\frac{141}{100}$, and compute out $\frac{56400}{39881} \lte \frac{39881}{28200}$ whose difference is about $\frac{1}{130,000}$.
 
+For multiplication, the bound $M$ can be taken as 6 since that is an upper bound on adding $e$ and $\pi$ and that addition is what dominates the endpoint estimates. So our error estimate is $2*6*\max(\frac{1}{130,000}, 2*\max(\frac{1}{35,000}\frac{1}{60,000})) \leq \frac{12}{17,000} \leq \frac{1}{1000}$. We now compute the intervals.  
 \begin{itemize}
-    \item $\pi$ is between $3.141592:3.141609$
-    \item $e$ is between $2.71827:2.718294$
-    \item Their sum is therefore between $5.859862:5.859903$
-    \item $\sqrt{2}$ is between $1.414088:1.414214$
-    \item The product is therefore between $8.28636:8.287157$
+    \item $\pi$-Yes interval $3.141592:3.141609$
+    \item $e$-Yes interval $2.71827:2.718294$
+    \item $e + \pi$-Yes interval $5.859862:5.859903$
+    \item $\sqrt{2}$-Yes interval $1.41420:1.41422$
+    \item $\sqrt{2}(e + \pi)$-Yes interval  $8.2870:8.28719$
 \end{itemize}
 
-Since the interval is contained in $8.286:8.288$, we conclude from consistency that $8.286:8.288$ a Yes-interval. 
+Since the interval is contained in $8.286:8.288$, we conclude from consistency that $8.286:8.288$ is a $x$-Yes interval. 
 
-Admittedly, the exercise of asking if something is a Yes interval is less useful when answering that question involves computing other intervals. We typically would just compute the intervals directly in that case, looking for a given error tolerance. But this is an exercise in showing what the oracle definition does involve.
+Admittedly, the exercise of asking if something is a Yes interval is less useful when answering that question involves computing other intervals. We typically would just compute the intervals directly in that case, looking for a given error tolerance. But this is an exercise in showing what the oracle definition does involve. 
 
-\subsubsection{Rationally Continuous Operators}
-
-A uniformizable continuous rational function is a function such that for any given rational interval $a:b$ in its domain and any given positive integer $N$, we can find a positive integer $M$ such that $|f(q) - f(r)| < \frac{1}{N} $ whenever $|q-r| < \frac{1}{M}$ for any $a:q,r:b$. 
-
-Such a function defines a rational interval operator by mapping the interval $a:b$ to the range of $f$ restricted to the domain $a:b$. It is, unfortunately, not as easy as $f(a):f(b)$. For example, consider $f(x) = x^2$ which takes the interval $-1:1$ to $0:1$. Note that if we used the interval arithmetic for $x^2$, then the interval is $-1:1$. We might also have an undefined interval such as using $\frac{1}{x}$ on the interval $-1:1$.
-
-If we accept the notion that we can extract the range of $f$ applied to the interval $a:b$, then we can create an oracle operator as $f$ satisfies the narrowing property. Containment is obviously since a smaller interval in $a:b$ will map into the same interval. It may or may not be strictly contained, but it will be contained. 
-
-
-As for the notionally shrinking portion, this follows from the continuity condition. Indeed, let an oracle $\alpha$ and a positive integer $N$ be given. Let $a:b$ be an $\alpha$-Yes interval. Then let $M$ be the promised positive integer promised in the condition above. As we are able to find an arbitrarily small $\alpha$-Yes interval as $\alpha$ is an oracle, we can find an interval $c:d$ in $a:b$ whose size is less than $\frac{1}{M}$. This then implies that the length of $|f(a:b)| \leq \frac{1}{N}$.
-
-\subsubsection{Exponential Operator}
-
-We can attempt to define arbitrary exponentiation of positive oracles, namely $\alpha^{\beta}$ for $\alpha > 0$. Using the tools of this section, we are looking for a rational interval operator with the narrowing property. 
-
-Given intervals $a \lte b$ and $\frac{p}{q} \lte \frac{r}{s}$, we would like to define the interval result which is basically $a^{\frac{m}{M}} \lte b^{\frac{n}{N}}$. The issue is, of course, that the denominator portion leads to oracles. To get rationals, we would need to say something like we need to find $p \lte q$ and $r \lte s$ such that $p^M : a : q^M$ and $r^N : b : s^N$ hold true. We could then define the interval of interest to be $p^m \lte s^n$. 
-
-The main issue is that we have many choices for $p$ and $s$. We can choose them to be as close as we like to the roots, but this is arbitrary. That is to say, we cannot actually define a specific rational interval operator $f$ without making many arbitrary choices. 
-
-We will handle this issue in \cite{taylor23funora} with function oracles which mimics oracles in the way of dealing with choices by having all the permissible choices present and then observing that we can get as close as we like to the result of interest. 
 
 
 \subsection{Fielding the Oracles}
@@ -1296,11 +1285,11 @@ Now we can establish that this arithmetic of oracles is a field. We will mostly 
 
 
 \begin{proposition}
-Let $f$ and $g$ be interval functions with the narrowing property such that $f(\vec{I}) \supseteq g(\vec{I})$ for all $\vec{I}$, where we also assume they are mutually defined on the same intervals. Then the corresponding oracle functions, $F$ and $G$, are equal.  
+Let $f$ and $g$ be interval functions with the narrowing property such that $f(\vec{I}) \supseteq g(\vec{I})$ for all interval $n$-tuples $\vec{I}$ in the common domain, which we assume to be the same. Then the corresponding oracle functions, $F$ and $G$, are equal.  
 \end{proposition}
 
 \begin{proof}
-Let $\vec{\alpha}$ be given in the domain of $F$ and $G$; they have the same domain as they are defined on the same intervals by assumption. We need to show that $\beta = F(\vec{\alpha})$ is equal to $\gamma =  G(\vec{\alpha})$. Let $A$ and $B$ be $\beta$-Yes and $\gamma$-Yes intervals, respectively. Then there exists intervals $I \subseteq A$ and  $J \subseteq B$  such that $f(\vec{I}) = I$ and $g(\vec{J}) = J$ with both  $\vec{I}$ and $\vec{J}$ being $\vec{\alpha}$ $n$-tuples. As we have noted before, $\vec{\alpha}$ $n$-tuples have non-empty intersections leading to the existence of an $\vec{\alpha}$ $n$-tuple $\vec{K}$ contained in both $\vec{I}$ and $\vec{J}$ with the property that $f(\vec{K})$ and $g(\vec{K})$ are defined and contained in $I$ and $J$, respectively, by the narrowing property. By assumption, $I \supseteq f(\vec{K}) \supseteq g(\vec{K})$. Thus, the intersection of $I$ and $J$ contains the non-empty $g(\vec{K})$. Thus $A$ and $B$ have a non-empty intersection. Since $A$ and $B$ were arbitrary Yes intervals of the two oracles, Proposition \ref{pr:overlap} tells us that $\beta = \gamma$. Since $\vec{\alpha}$ was arbitrary, $F = G$, as was to be shown.
+Let $\vec{\alpha}$ be given in the domain of $F$ and $G$; they have the same domain as they are defined on the same intervals by assumption. We need to show that $\beta = F(\vec{\alpha})$ is equal to $\gamma =  G(\vec{\alpha})$. Let $A$ and $B$ be $\beta$-Yes and $\gamma$-Yes intervals, respectively. Then there exists intervals $I \subseteq A$ and  $J \subseteq B$  such that $f(\vec{I}) = I$ and $g(\vec{J}) = J$ with both  $\vec{I}$ and $\vec{J}$ being $\vec{\alpha}$-Yes $n$-tuple intervals. As we have noted before, $\vec{\alpha}$ $n$-tuples intersect with each other leading to the existence of an $\vec{\alpha}$-Yes $n$-tuple $\vec{K}$ contained in both $\vec{I}$ and $\vec{J}$ with the property that $f(\vec{K})$ and $g(\vec{K})$ are defined and contained in $I$ and $J$, respectively, by the narrowing property. By assumption, $I \supseteq f(\vec{K}) \supseteq g(\vec{K})$. Thus, the intersection of $I$ and $J$ contains the non-empty $g(\vec{K})$. Thus $A$ and $B$ have a non-empty intersection. Since $A$ and $B$ were arbitrary Yes intervals of the two oracles, Proposition \ref{pr:overlap} tells us that $\beta = \gamma$. Since $\vec{\alpha}$ was arbitrary, $F = G$, as was to be shown.
 \end{proof}
 
 We apply this proposition for five of the field properties and the conclusions from Section \ref{sec:rules} as follows: 
@@ -1330,25 +1319,25 @@ We need to now establish the identity and inverse properties.
         \item Closed. Assume $c$ is contained in all $R$-Yes intervals. Then $-c$ is contained in all $S$-Yes intervals. As $\alpha$ satisfies being closed, $S(-c:-c)=1$ which implies $R(c:c)=1$.
     \end{enumerate}
     
-    To see this is the inverse, we start by considering the general $\alpha$-Yes interval $a:b$ and $-\alpha$-Yes interval $c:d$. We need to add them together. The interval $a:b$ generates the $-\alpha$-Yes interval $-a:-b$. We can then take the intersection of $c:d$ and $-a:-b$ which exists and is a $-\alpha$-Yes interval; let's call it $e:f$. We also have $-e:-f$ is an $\alpha$-Yes interval with $-e:-f$ being an interval in $a:b$. When we add them, we get $f-e:e-f$ and $0$ is clearly contained in that interval. Since $e:f$ is contained in $c:d$ and $-e:-f$ is contained in $a:b$, then $0$ is also in the sum of $a:b$ with $-c:-d$, i.e.,  $0 \in e:f \oplus -e:-f \subseteq c:d \oplus a:b$. Since $a:b$ and $c:d$ were arbitrary Yes intervals of their respective oracles, we have that 0 is contained in every summed interval. As the sum is an oracle, this must be the Oracle of $0$.
+    To see this is the inverse, we start by considering the general $\alpha$-Yes interval $a:b$ and $-\alpha$-Yes interval $c:d$. We need to add them together. The interval $a:b$ generates the $-\alpha$-Yes interval $-a:-b$. We can then take the intersection of $c:d$ and $-a:-b$ which exists and is a $-\alpha$-Yes interval; let's call it $e:f$. We also have $-e:-f$ is an $\alpha$-Yes interval with $-e:-f$ being an interval in $a:b$. When we add them, we get $f-e:e-f$ and $0$ is clearly contained in that interval. Since $e:f$ is contained in $c:d$ and $-e:-f$ is contained in $a:b$, then $0$ is also in the sum of $a:b$ with $-c:-d$, i.e.,  $0 \in (e:f) \oplus (-e:-f) \subseteq c:d \oplus a:b$. Since $a:b$ and $c:d$ were arbitrary Yes intervals of their respective oracles, we have that 0 is contained in every summed interval. As the sum is an oracle, this must be the Oracle of $0$.
     
     \item The multiplicative inverse for an oracle $\alpha$ is similar, but has the complication that we can only consider reciprocating intervals that do not include 0. 
     
-    The multiplicative inverse for an oracle $\alpha$, denoted $\frac{1}{\alpha} = \alpha^{-1}$, is defined by the rule that $a:b$ is a $\frac{1}{\alpha}$-Yes interval if either 
+    The multiplicative inverse for an oracle $\alpha$, denoted $\frac{1}{\alpha} = \alpha^{-1}$, is defined, for $\alpha \neq 0$, by the rule that $a:b$ is a $\frac{1}{\alpha}$-Yes interval if either 
     
     \begin{enumerate}
         \item  $a*b > 0$  and $\frac{1}{a}:\frac{1}{b}$ is an $\alpha$-Yes interval; we call this a same-sign $\alpha$-Yes interval.
         \item If $a*b<0$, then it is only a $\frac{1}{\alpha}$-Yes interval if it contains a same-sign $\frac{1}{\alpha}$-Yes interval. 
     \end{enumerate}
     
-    We do have $\frac{1}{\frac{1}{\alpha}} = \alpha$ as $\frac{1}{(\frac{1}{a}: \frac{1}{b})} = a:b$ We need to establish that this is an oracle and that it does indeed satisfy $\alpha * \frac{1}{\alpha} = 1$.
+    We do have $\frac{1}{\frac{1}{\alpha}} = \alpha$ as $1\oslash (\frac{1}{a}: \frac{1}{b}) = a:b$ We need to establish that this is an oracle and that it does indeed satisfy $\alpha * \frac{1}{\alpha} = 1$.
     
      Let $R$ be the rule for $\frac{1}{\alpha}$ and $S$ be the rule for $\alpha$. Therefore, $R(a:b)=S(\frac{1}{a}:\frac{1}{b})$ and $S(a:b) = R(\frac{1}{a}:\frac{1}{b})$ for all same-sign intervals $a:b$.
     
-    In what follows, we will assume the intervals are the same-sign except for the few places where we need to remark on the alternative strategy. One key fact is that if $a<p<b$ and all three are the same sign, then $\frac{1}{a} > \frac{1}{p} > \frac{1}{b}$.\footnote{Since we are using rationals, a quick proof starts with the rational form $\frac{p}{q} < \frac{r}{s}$, multiplying by $qs$ to get $ps < qr$, and then dividing by $pr$ to get the reciprocated and flipped inequality $\frac{s}{r} < \frac{q}{p}$, assuming that $pr$ and $qs$ are positive, i.e., the rationals are of the same sign. If they are of opposite sign, then for the points in between, we have $a < p < 0< q< b$ leading to $\frac{1}{p} < \frac{1}{a} < 0 < \frac{1}{b} < \frac{1}{q}$ which means an interval gets mapped to two infinite intervals instead of one finite one.} That is, $a:p:b$ if and only if $\frac{1}{a}:\frac{1}{p}:\frac{1}{b}$.
+    In what follows, we will assume the intervals are the same-sign except for the few places where we need to remark on the alternative strategy. One key fact is that if $a<p<b$ and all three are the same sign, then $\frac{1}{a} > \frac{1}{p} > \frac{1}{b}$.\footnote{Since we are using rationals, a quick proof starts with the rational form $\frac{p}{q} < \frac{r}{s}$, $q, s > 0$, multiplying by $qs$ to get $ps < qr$, and then dividing by $pr$ to get the reciprocated and flipped inequality $\frac{s}{r} < \frac{q}{p}$, assuming that $pr$ is positive, i.e., the rationals are of the same sign. If they are of opposite sign, then for the points in between, we have $a < p < 0< q< b$ leading to $\frac{1}{p} < \frac{1}{a} < 0 < \frac{1}{b} < \frac{1}{q}$ which means an interval gets mapped to two infinite intervals instead of one finite one.} That is, $a\lte p\lte b$ if and only if $\frac{1}{b} \lte \frac{1}{p}\lte \frac{1}{a}$.
     
     \begin{enumerate}
-        \item Consistency. Given $c:d \supseteq a:b$, and $R(a:b)=1$. Therefore $S(\frac{1}{a}:\frac{1}{b}) = 1$ and $\frac{1}{c}:\frac{1}{d} \supseteq \frac{1}{a}:\frac{1}{b}$ so $S(\frac{1}{c}:\frac{1}{d})=1$ by consistency of $S$. Thus, $R(c:d) = 1$. If $a:b$ was an opposite signed interval which is an $\alpha$-Yes interval, then there is a same-sign interval $e:f$ contained in $a:b$ which is $\alpha$-Yes. Thus any interval $c:d$ that contains $a:b$ will also contain $e:f$ and and thus will also be $\alpha$-Yes by definition. 
+        \item Consistency. Assume $c: a: b: d $ with $R(a:b)=1$. Then $S(\frac{1}{a}:\frac{1}{b}) = 1$ and $\frac{1}{c}:\frac{1}{a}:\frac{1}{b}\frac{1}{d}$ so $S(\frac{1}{c}:\frac{1}{d})=1$ by consistency of $S$. Thus, $R(c:d) = 1$ by definition. If $a:b$ was an opposite signed interval which is an $\alpha$-Yes interval, then there is a same-sign interval $e:f$ contained in $a:b$ which is $\alpha$-Yes. Thus any interval $c:d$ that contains $a:b$ will also contain $e:f$ and and thus will also be $\alpha$-Yes by definition. 
         \item Existence. Since $\alpha$ is an oracle and not zero, there exists an interval $a:b$ such that $S(a:b)=1$ and 0 is not between $a$ and $b$; they are therefore the same sign. Thus, $R(\frac{1}{a}:\frac{1}{b})=1$ and we have existence. 
         \item Separating. Given $R(a:b)=1$ and $a:c:b$, then we have $S(\frac{1}{a}:\frac{1}{b})=1$ and $\frac{1}{a}:\frac{1}{c}:\frac{1}{b}$. If $S(\frac{1}{c}:\frac{1}{c})=1$, then $R(c:c)=1$ and we are done. If not, then, by the separating property for $\alpha$,  $S(\frac{1}{a}:\frac{1}{c}) \neq S(\frac{1}{c}:\frac{1}{b})$ which then implies $R(a:c)\neq R(c:b)$ as was to be shown. 
         
@@ -1357,21 +1346,21 @@ We need to now establish the identity and inverse properties.
         \item Closed. Assume $c$ is contained in all $R$-Yes intervals. Then $\frac{1}{c}$ is contained in all $S$-Yes intervals. As $\alpha$ satisfies being closed, $S(\frac{1}{c}:\frac{1}{c})=1$ which implies $R(c:c)=1$.
     \end{enumerate}
     
-    To see this is the multiplicative inverse, we start by considering the general $\alpha$-Yes interval $a:b$ and $\frac{1}{\alpha}$-Yes interval $c:d$ and assume both are same-signed since we can restrict our attention to subintervals and $\alpha$ is not the 0 oracle. We need to multiply them together. The interval $a:b$ generates the $\frac{1}{\alpha}$-Yes interval $\frac{1}{a}:\frac{1}{b}$. We can then take the intersection of $c:d$ and $\frac{1}{a}:\frac{1}{b}$ which exists and is a $\frac{1}{\alpha}$-Yes interval; let's call it $e:f$. We also have $\frac{1}{e}:\frac{1}{f}$ is an $\alpha$-Yes interval which is contained in $a:b$. When we multiply them, we get $\frac{f}{e}:\frac{e}{f}$ and $1$ is  contained in that interval.\footnote{If $\frac{e}{f} <1$, then multiplying by $\frac{f}{e}$ leads to $1 = \frac{fe}{ef} < \frac{f}{e}$. Similarly for $\frac{e}{f} > 1$. Note $e$ and $f$ are the same sign so that $\frac{f}{e}$ and $\frac{e}{f}$ are greater than 0. } Since $e:f$ is contained in $c:d$ and $\frac{1}{e}:\frac{1}{f}$ is contained in $a:b$, then $1$ is also in the product of $a:b$ with $\frac{1}{c}:\frac{1}{d}$. Since $a:b$ and $c:d$ were arbitrary same-signed Yes intervals of their respective oracles, we have that $1$ is contained in every multiplied interval; the cross-signed intervals will contain the same-signed ones which implies their products will also contain $1$. As the product is an oracle, this must be the Oracle of $1$. 
+    To see this is the multiplicative inverse, we start by considering the general $\alpha$-Yes interval $a:b$ and $\frac{1}{\alpha}$-Yes interval $c:d$ and assume both are same-signed since we can restrict our attention to subintervals and $\alpha$ is not the 0 oracle. We need to multiply them together. The interval $a:b$ generates the $\frac{1}{\alpha}$-Yes interval $\frac{1}{a}:\frac{1}{b}$. We can then take the intersection of $c:d$ and $\frac{1}{a}:\frac{1}{b}$ which exists and is a $\frac{1}{\alpha}$-Yes interval; let's call it $e\lte f$. We also have $\frac{1}{f} \lte \frac{1}{e}$ is an $\alpha$-Yes interval which is contained in $a:b$. When we multiply them, we get $\frac{e}{f}\lte \frac{f}{e}$ and $1$ is  contained in that interval.\footnote{If $\frac{e}{f} <1$, then multiplying by $\frac{f}{e}$ leads to $1 = \frac{fe}{ef} < \frac{f}{e}$. Similarly for $\frac{e}{f} > 1$. Note $e$ and $f$ are the same sign so that $\frac{f}{e}$ and $\frac{e}{f}$ are greater than 0. } Since $e:f$ is contained in $c:d$ and $\frac{1}{e}:\frac{1}{f}$ is contained in $a:b$, then $1$ is also in the product of $a:b$ with $\frac{1}{c}:\frac{1}{d}$. Since $a:b$ and $c:d$ were arbitrary same-signed Yes intervals of their respective oracles, we have that $1$ is contained in every multiplied interval; the cross-signed intervals will contain the same-signed ones which implies their products will also contain $1$. As the product is an oracle, this must be the Oracle of $1$. 
     
 \end{itemize}
 
 We have proven that
 
 \begin{theorem}
-The set of all oracles with the above defined arithmetic is a field. 
+The set of all oracles, with the above defined arithmetic, is a field. 
 \end{theorem}
 
 \subsection{Ordering the Field of Oracles}
 
-We now turn to how the ordering fits with the field. We have already defined the ordering, with the ordering largely coming down to $R < S$ if there are $R$ and $S$ Yes intervals $a<b$ and $c<d$, respectively, such that $b<c$. 
+We now turn to how the ordering fits with the field. We have already defined the ordering, with the ordering largely coming down to $R < S$ if there are $R$ and $S$ Yes intervals $a\lte b$ and $c\lte d$, respectively, such that $b<c$. 
 
-Is this a total ordering? As we discussed, there are oracles, such as the Collatz Oracle, that we cannot distinguish from 0 and yet also not establish that it is 0 at the current time. Further, there are oracles, such as the coin toss ones we described, that in principle we could only distinguish from all other oracles by engaging in an infinite process. This is true of all definitions of real numbers and it should be kept in mind at least as a practical consequence. We will, however,  ignore that and generally settle on that if we had sufficient abilities, then this would be a total ordering. We did establish that at most one of $<$, $>$, $=$ can hold true. 
+Is this a total ordering? As we discussed, there are oracles, such as the Collatz Oracle, that we cannot distinguish from 0 and yet also not establish that it is 0 at the current time. Further, there are oracles, such as the coin toss ones we described, that, in principle, we could only distinguish from all other oracles by engaging in an infinite process. This is true of all definitions of real numbers and it should be kept in mind at least as a practical consequence. We will, however, ignore that and generally settle on that if we had sufficient abilities, then this would be a total ordering. We did establish that at most one of $<$, $>$, $=$ can hold true. 
 
 We have that the inequality of oracles is transitive from Proposition \ref{pr:transitive} and we have already stated that equality of oracles is reflexive, symmetric, and transitive from Proposition \ref{pr:reflexive}. 
 
@@ -1427,13 +1416,13 @@ But that would seem to undercut the point of caring about this approach. We cont
 
 \subsubsection{Density of Rationals in the Oracles}
 
-Let us first establish the density of the rationals in the oracles. This is essentially immediate from the definition of being less than. Indeed, let two oracles be given such that $\alpha < \beta$. Then there exist intervals $a\lte b$ and $c\lte d$ which are $\alpha$ and $\beta$-Yes intervals, respectively and that satisfies $b < c$; this is the meaning of the inequality of oracles. Since $b < \frac{b+c}{2} < c$, the rational singleton $\gamma = \frac{b+c}{2}:\frac{b+c}{2}$ satisfies $\alpha < \gamma < \beta$. Thus, the rational oracles are dense in the real field of oracles. 
+Let us first establish the density of the rationals in the oracles. This is essentially immediate from the definition of being less than. Indeed, let two oracles be given such that $\alpha < \beta$. Then there exist intervals $a\lte b$ and $c\lte d$ which are $\alpha$ and $\beta$-Yes intervals, respectively, and that satisfies $b < c$; this is the meaning of the inequality of oracles. Since $b < \frac{b+c}{2} < c$, the rational singleton $\gamma = \frac{b+c}{2}:\frac{b+c}{2}$ satisfies $\alpha < \gamma < \beta$. Thus, the rational oracles are dense in the real field of oracles. 
 
 The irrationals are also dense in the rationals. Indeed, let $\frac{p}{q} <\frac{r}{s}$ be given. In the upcoming Section \ref{sec:mediant}, we define a process using mediants to choose subintervals to explore an oracle. Here, we use that process to define an irrational oracle. At each step, alternate which of the two mediant subintervals one chooses. Because we are using mediants and do not have a fixed endpoint on the intervals, this process will produce an irrational which is strictly between the two given rationals. 
 
 \subsubsection{Archimedean Property}
 
-Let us now establish the Archimedean property, namely, that for any oracle $\alpha > 0$ and for any oracle $\beta$, we have the existence of an integer $n$ such that $n * \alpha > \beta $. If $\alpha > \beta$, we are done. If $\alpha = \beta$, then $2 \alpha > \beta$. Otherwise, $\alpha < \beta$ and we can take $a\lte b$ be an $\alpha$-Yes interval and $c \lte d$ be a $\beta$-Yes interval such that $b < c$. Let $a = \frac{p}{q}$ and $d = \frac{r}{q}$, where we can take the same denominator by scaling to common denominators if necessary. Since we have $a<d$, we must have $p < r$. By the division algorithm, we know that there exists integers $r = n*p + t$ where $0 \leq  t<p$ and thus $(n+1)p > r$. So $(n+1)*a\lte b > c\lte d$ and thus $(n+1)*\alpha > \beta$.
+Let us now establish the Archimedean property, namely, that for any oracle $\alpha > 0$ and for any oracle $\beta$, we have the existence of an integer $n$ such that $n * \alpha > \beta $. If $\alpha > \beta$, we are done. If $\alpha = \beta$, then $2 \alpha > \beta$. Otherwise, $\alpha < \beta$ and we can take $a\lte b$ to be an $\alpha$-Yes interval and $c \lte d$ to be a $\beta$-Yes interval such that $b < c$. Let $a = \frac{p}{q}$ and $d = \frac{r}{q}$, where we can take the same denominator by scaling to common denominators if necessary. Since we have $a<d$, we must have $p < r$. By the division algorithm, we know that there exists integers $r = n*p + t$ where $0 \leq  t<p$ and thus $(n+1)p > r$. So $(n+1):(n+1) \otimes a\lte b > c\lte d$ establishing that $(n+1)*\alpha > \beta$.
 
 \subsubsection{Uncountability}
 
@@ -1451,13 +1440,13 @@ Now we repeat this, starting with $I_i$ to produce $I_{i+1}$. Let $L_i$ be the l
 By construction, every prior number is excluded from the interval. We do this up through $a_n$.
 \end{proof} 
 
-With that proposition established, let us move on to the infinite case. Given an infinite sequence of oracles, we construct a fonsi as above. Indeed, let $\{x_i\}_{i=0}^{\infty}$ and then define $\{I_i\}_{i=0}^{\infty}$ to be the $i$-th interval of $\{I_i\}_{i=0}^{n}$ as provided by Proposition \ref{pr:notlist}. As long as $i \leq n$, this will be defined and consistent across $n$. They all intersect and they get arbitrarily small. They thus define a fonsi which leads to an oracle as explained in Section \ref{sec:ni}. Since, by construction, each of the intervals is a No interval for its matching $a_i$, we have that the oracle cannot be any real number on the list. 
+With that proposition established, let us move on to the infinite case. Given an infinite sequence of oracles, we construct a fonsi as above. Indeed, let $\{a_i\}_{i=0}^{\infty}$ and then define $\{I_i\}_{i=0}^{\infty}$ to be the $i$-th interval of $\{I_i\}_{i=0}^{n}$ as provided by Proposition \ref{pr:notlist}. As long as $i \leq n$, this will be defined and consistent across $n$. They all intersect and they get arbitrarily small. They thus define a fonsi which leads to an oracle as explained in Section \ref{sec:ni}. Since, by construction, each of the intervals is a No interval for its matching $a_i$, we have that the oracle cannot be any real number on the list. 
 
 The key distinguishment from the rationals is that we are constructing a valid oracle. If we attempted something similar with rational numbers, we would end up with something which is not a rational number. One could apply this construction to the countable list of rationals provided by Cantor's argument. By necessity, this will turn out to not be a rational number. 
 
 \section{Approximations}\label{sec:mediant}
 
-This section is an exploration of what this framing of real numbers suggests for the computation of a real number. We will explore the use of mediants, continued fractions, Newton's method, geometric computation of $\sqrt{2}$, and finish by computing mediant approximations of $\pi$ with the oracle  rule associated with solving $\sin(x)=0$ on the interval $[3,4]$ per Section \ref{sec:ivt}.
+This section is an exploration of what this framing of real numbers suggests for the computation of a real number. We will explore the use of mediants, continued fractions, Newton's method, a geometric computation of $\sqrt{2}$, and finish by computing mediant approximations of $\pi$ with the oracle  rule associated with solving $\sin(x)=0$ on the interval $[3,4]$ per Section \ref{sec:ivt}.
 
 An alternative to the bisection method is the mediant method. Given a rational interval $\frac{a}{b} : \frac{c}{d}$, we divide the interval into two pieces by using the mediant $\frac{a+c}{b+d}$ as the ``middle''. This does depend on the particular fraction representative of the rational endpoints. Indeed, by scaling the two rational numbers, we can use the mediant operation to produce any rational number in the interval. If we repeatedly scale the fractions to have common denominators, then the mediant operation is the same as bisecting. 
 
@@ -1493,7 +1482,7 @@ There is a pattern of R,2L,2R,2L,2R,$\ldots$ which continues with alternating th
 
 For the square root of 11, we would find the pattern to be dictated by $[3;\overline{3,6}]$. So we would start with $[\tfrac{3}{1}, \tfrac{1}{0}]$ after choosing R 3 times from our starting 0 and $\infty$ representatives. So we then could do $[\tfrac{3}{1}, \tfrac{3*3 + 1}{3*1 + 0} = \tfrac{10}{3}]$. Then we use the 6 to compute a new endpoint:  $[\tfrac{3+6*10}{1+6*3} = \tfrac{63}{19}, \tfrac{10}{3}]$. Next we do 3 for the right:  $[\tfrac{63}{19}, \tfrac{3*63+10}{3*19+3} = \tfrac{199}{60}]$. The decimal value of $\tfrac{199}{60}$ is about $3.31667$ while the square root of 11 is about $3.31662$. If we know the pattern, this becomes quite easy to compute. 
 
-We should also add that one nice feature of the mediant approximation is that if the number being approximated is a rational number, then this procedure will produce it. The details may be found in Appendix \ref{app:med}. This is not true of other methods, such as the bisection method as the range of denominators produced is a multiple of the starting denominators and powers of 2. 
+We should also add that one nice feature of the mediant approximation is that if the number being approximated is a rational number, then this procedure will produce it. The details may be found in Appendix \ref{app:med}. This is not generally true of other methods. For example, the bisection method has the range of denominators being produced to be a multiple of the starting denominators and powers of 2. 
 
 As an example, let's consider the square root of $\frac{4}{9}$. The solution is obviously $\frac{2}{3}$. With our mediant method, the intervals becomes $\frac{0}{1}:\frac{1}{1}$, then $\frac{1}{2}:\frac{1}{1}$, $\frac{2}{3}:\frac{2}{3}$ and we are done. In contrast, the bisection method gives $0:1$, $\frac{1}{2}:1$, $\frac{1}{2}:\frac{3}{4}$, $\frac{5}{8}:\frac{3}{4}$, and so on down the powers of 2 approximations to $\frac{2}{3}$. 
 
@@ -1516,13 +1505,13 @@ The pattern is that of continued fractions. For square roots, the continued frac
 \item 88R: $[\frac{2671+88*25022}{1201+88*11251} = \frac{2204607}{991289}, \frac{25022}{11251}]$
 \end{enumerate}
 
-The last mediant computed already has exhausted a typical calculator precision for the cube root of 11, being about $3.7\times 10^{-13}$. It is tempting with this method to think that we could add 1 to the numerator to the more precise endpoint and get a better interval. That is not the case. For example, the quantity $\frac{25022}{11251} - 11^{1/3} \approx 8.9\times 10^{-11}$ while $\frac{2204608}{991289} - 11^{1/3} \approx 1\times10^{-6}$. The length of the interval is about $1\times10^{-11}$.\footnote{This process preserves $ad -bc$ and this is the numerator of the difference for any of the descendant intervals. The denominator for the difference is then grown roughly by the product of $b$ and $d$. Here the denominators are about a million and a hundred thousand leading to a factor of a hundred billion.} 
+The last mediant computed already has exhausted a typical calculator precision for the cube root of 11, being about $3.7\times 10^{-13}$. It is tempting with this method to think that we could add 1 to the numerator to the more precise endpoint and get a better interval. That is not the case. For example, the quantity $\frac{25022}{11251} - 11^{1/3} \approx 8.9\times 10^{-11}$ while $\frac{2204608}{991289} - 11^{1/3} \approx 1\times10^{-6}$. The length of the interval in the last step is about $1\times10^{-11}$.\footnote{This process preserves $ad -bc$ and this is the numerator of the difference for any of the descendant intervals. Here, that difference numerator is 1. The denominator for the difference is then grown roughly by the product of $b$ and $d$. Here the denominators are about a million and a hundred thousand leading to a difference on the order of a hundred billionth.} 
 
 If we have the continued fraction representation of a number, then we can produce as short of an interval as we please. If we have the oracle, but not the continued fraction, we can compute the continued fraction by doing the mediant process and keeping track of when we alternate from one side to the other. 
 
 The switching from replacing one side with the other corresponds to a switch of how good of an approximation it is. The next three paragraphs are based on the excellent ``Continued Fractions without Tears'' \cite{richards}, exact statements being in quotes.  
 
-We have the following theorem: ``Take any irrational number $\alpha$, with $0 < \alpha < 1$. The slow continued fraction algorithm ( the Farey process, zeroed in on $\alpha$) gives a sequence of best left and right approximations to $\alpha$. Every best left/right approximation arises in this way.'' The slow process is taking the mediant at each step, using the oracle to decide which interval applies. The best approximation up to a given denominator $n$ is defined as the rational number $\frac{p}{q}$, $q  \leq n$, that satisfies $|\frac{p}{q} - \alpha | < |\frac{r}{s} -\alpha|$ for all rational numbers $\frac{r}{s}$ such that $s \leq n$. This can be shifted to other intervals of the form $n:n+1$ for integer $n$.
+We have the following theorem: ``Take any irrational number $\alpha$, with $0 < \alpha < 1$. The slow continued fraction algorithm (the Farey process, zeroed in on $\alpha$) gives a sequence of best left and right approximations to $\alpha$. Every best left/right approximation arises in this way.'' The slow process is taking the mediant at each step, using the oracle to decide which interval applies. The best approximation up to a given denominator $n$ is defined as the rational number $\frac{p}{q}$, $q  \leq n$, that satisfies $|\frac{p}{q} - \alpha | < |\frac{r}{s} -\alpha|$ for all rational numbers $\frac{r}{s}$ such that $s \leq n$. While this is stated for $0 < \alpha < 1$, the entire setup can be shifted to $n < \alpha < n+1 $ for any integer $n$. 
 
 The fast process is what we did in computing the cube root of 11. It corresponds to minimizing the ultra-distance which is $q|(\frac{p}{q})-\alpha|$. It scales the normal distance by the denominator and is an attempt to counterbalance the basic advantage of larger denominated rationals for being able to get close to $\alpha$.  ``We call $\frac{p}{q}$ an \textbf{ultra-close approximation} to $\alpha$ if, among all fractions $\frac{x}{y}$ with denominators $y < q$, $\frac{p}{q}$ has the least ultra-distance to $\alpha$.''
 
@@ -1530,10 +1519,21 @@ The paper then establishes the following theorem: ``Take any irrational number $
 
 The construction of numbers using these mediants is referred to as the Farey process. The tree of descendants from this process is called the Stern-Brocot Tree. Matt Baker wrote a nice reference for viewing real numbers as paths in the Stern-Brocot tree.\footnote{{\href{https://mattbaker.blog/2019/01/28/the-stern-brocot-tree-hurwitzs-theorem-and-the-markoff-uniqueness-conjecture/}{https://mattbaker.blog/2019/01/28/the-stern-brocot-tree-hurwitzs-theorem-and-the-markoff} \\ \hspace*{10px}  \href{https://mattbaker.blog/2019/01/28/the-stern-brocot-tree-hurwitzs-theorem-and-the-markoff-uniqueness-conjecture/}{-uniqueness-conjecture/} }} The tree, restricted inclusively to the interval $0:1$, is a convenient way of constructing a list, without redundancies, of rationals between $0$ and $1$. 
 
-We can create an analogous process to that of Proposition \ref{pr:notlist} where instead of bisection, we use the mediant. If we start with a Farey pair\footnote{$\frac{a}{b} < \frac{c}{d}$ are Farey pairs if $bc-ad=1$ which implies $\frac{c}{d} - \frac{a}{b} = \frac{1}{ab}$. The interval of a Farey pair is a Farey interval. The two intervals created by the mediant process are also Farey intervals. We can also reverse the mediant process to get the Farey partner. For any integer $n$, the interval $n:n+1$ is a Farey interval and is an excellent place to start the process.}, then we can apply the above theorems. In particular, if we are given an interval $\frac{a}{b} : \frac{c}{d}$ for the oracle to evaluate and do the mediant process starting with a Farey interval, then we have computed a Farey interval whose endpoint denominators are greater than that of $b$ and $d$. This, of course, only works if we can also determine the result on any given singleton. We have no guarantee of when other methods, such as the bisection method, will have decided on a given interval. Even if we have one mediant for which we cannot decide between two intervals meeting at that mediant, we can still do a double mediant process, to shrink the other endpoints, by presumably finding the rejection of the intervals that do not contain that mediant. An example of this is doing the mediant process on the squaring of $\sqrt{2}$. The answer is $2$, but a naive approach to this will not be able to decide that $2$ is a Yes singleton. So instead we end up doing a mediant process with intervals whose endpoint is $2$, rejecting the interval that does not include $2$, i.e.,  if we were looking at $\frac{3}{2}:\frac{2}{1}$ then we would be checking $\frac{3}{2}:\frac{5}{3}$ and $\frac{5}{3}:\frac{2}{1}$. The first is a No while the second is a Yes. The process would then narrow down to $2$. 
+We can create an analogous process to that of Proposition \ref{pr:notlist} where instead of bisection, we use the mediant. If we start with a Farey pair\footnote{$\frac{a}{b} < \frac{c}{d}$ are Farey pairs if $bc-ad=1$ which implies $\frac{c}{d} - \frac{a}{b} = \frac{1}{ab}$. The interval of a Farey pair is a Farey interval. The two intervals created by the mediant process are also Farey intervals. We can also reverse the mediant process to get the Farey partner. For any integer $n$, the interval $n:n+1$ is a Farey interval and is an excellent place to start the process.}, then we can apply the above theorems. In particular, if we are given an interval $\frac{a}{b} : \frac{c}{d}$ for the oracle to evaluate and do the mediant process starting with a Farey interval, then we can compute Farey intervals until we reach one whose endpoint denominators are greater than that of $b$ and $d$ at which point we have generate an answer to the given interval. This, of course, only works if we can also determine the result on any given singleton. We have no guarantee of when other methods, such as the bisection method, will have decided on a given interval. Even if we have one mediant for which we cannot decide between two intervals meeting at that mediant, we can still do a double mediant process, to shrink the other endpoints, by presumably finding the rejection of the intervals that do not contain that mediant. An example of this is doing the mediant process on the squaring of $\sqrt{2}$. The answer is $2$, but a naive approach to this will not be able to decide that $2$ is a Yes singleton. So instead we end up doing a mediant process with intervals whose endpoint is $2$, rejecting the interval that does not include $2$, i.e.,  if we were looking at $\frac{3}{2}:\frac{2}{1}$ then we would be checking $\frac{3}{2}:\frac{5}{3}$ and $\frac{5}{3}:\frac{2}{1}$. The first is a No while the second is a Yes. The process would then narrow down to $2$. 
 
 Note that the pattern of selecting the intervals also corresponds to selecting which descendant of the mediant we will be selecting. Given an interval, we compute the mediant without choice. But then after that computation, the oracle selects whether to use the left subinterval or right subinterval, corresponding to taking the left or right path in the Stern-Brocot tree.
 
+\subsubsection{Mediant Interval Representatives, an Aside}
+
+If we wanted to, we could view a given rational number $m$ as the result of this process whose parents in the process are $p < q$. Then, if we have an interval $a:b$ such that $p : a : m : b : q$, we could say that $m$ represents $a:b$. For a given $a:b$, there will be a unique representative. For uniqueness, this follows because if there was $n$ such that $r : a: n: b : s$ with $n$ being the mediant of the Farey interval $r:s$, then let's assume that $p:m:q$ is earlier in the tree then $r:n:s$. Because of it being further down the tree, we would need to have $r:n:s$ either in $p:m$ or $m:q$ which would imply that $a:b$ could not be contained in it. If neither were descendants of the other, then, one of them would not be able to contain either $a$ or $b$. 
+
+As for existence, both $a$ and $b$ appear somewhere in the Stern-Brocot tree. They will have a common ancestor $m$ in the tree as all numbers do. That would be the mediant. The mediant's immediate parents then would contain the interval $a:b$ with $m$ in $a:b$.
+
+For mixed sign intervals, this process would lead to $0$ being the mediant coming from the pseudo-rationals $\frac{-1}{0}$ and $\frac{1}{0}$. For an interval spanning an integer, say $1.5:4.3$, the mediant would be the integer just above the lower one,  here being $2$ with the interval $\frac{1}{1}: \frac{1}{0}$.
+
+From this perspective, we could have a canonical Cauchy sequence for any real number being the mediants from this process which is, of course, just the partial continued fraction representatives. 
+
+This is an aside because while this seems interesting and related, it is not clear what the actual use of this observation is. 
 
 \subsection{Newton's Method}
 
@@ -1550,54 +1550,54 @@ Let's take an interval $I$ which represents where we expect to be close to the r
   & = (\frac{M}{2N})^3 |\alpha-x_{n-1}|^4 & \\
   & \leq (\frac{M}{2N})^7 |\alpha-x_{n-2}|^8  \\ 
   & \leq ... \\
-  &  \leq \frac{2N}{M} [ \frac{M}{2N} |\alpha - x_1|]^{2n} \\
-  & < \frac{2N}{M} [ \frac{M}{2N} (b-a) ]^{2n}
+  &  \leq \bigg(\frac{M}{2N}\bigg)^{2n-1} |\alpha - x_1|^{2n} \\
+  & \leq \bigg(\frac{M}{2N}\bigg)^{2n-1} (b-a) ^{2n}
 \end{flalign*}
 The error gets quadratically smaller and smaller assuming $\frac{M}{2N} (b-a) < 1$. To avoid assuming knowledge of the root, one can use Kantorovich's Theorem. 
 
-Since we did the cube root of 11 above in detail with the mediants, let's try it with Newton's Method. We will start with an initial guess of $x=2$ and we know that the cube root of 11 is between 2 and 2.25. For Newton's method, we need a function which we will take to be $f(x) = x^3 - 11$. If it is 0, we have found a cube root of 11. $f'(x) = 3x^2$ and $f''(x) = 6x$. To keep our bounds simple, we will bound the derivatives on the interval $[2,3]$ which yields $M = 18$ and $N = 12$. So the factor in front can be bounded by $\frac{3}{4}$. The initial interval has length less than $1/4$ and we know the $0$ is in $(2, 2.25)$ by the Intermediate Value Theorem. We therefore have error estimates for the first few guesses of $\frac{3}{4}(\frac{1}{4})^2 < .047$, $(\frac{3}{4})^3(\frac{1}{4})^4 < .00165$, $(\frac{3}{4})^7(\frac{1}{4})^8 < 2.04\times 10^{-6}$, and $(\frac{4}{4})^{15}(\frac{1}{4})^{16} < 3.12 \times 10^{-12}$. That is, we will have exhausted a typical calculator precision in four guesses. 
+Since we did the cube root of 11 above in detail with the mediants, let's try it with Newton's Method. We will start with an initial guess of $x=2$ and we know that the cube root of 11 is between 2 and 2.25. For Newton's method, we need a function which we will take to be $f(x) = x^3 - 11$. If $f(\alpha)= 0$, then $\alpha$ is a cube root of 11. $f'(x) = 3x^2$ and $f''(x) = 6x$. To keep our bounds simple, we will bound the derivatives on the interval $[2,3]$ which yields $M = 18$ and $N = 12$. So the factor in front can be bounded by $\frac{18}{24}=\frac{3}{4}$. The initial interval has length less than $1/4$ and we know the $0$ is in $(2, 2.25)$ by the Intermediate Value Theorem. We therefore have error estimates for the first few guesses of $\frac{3}{4}(\frac{1}{4})^2 < .047$, $(\frac{3}{4})^3(\frac{1}{4})^4 < .00165$, $(\frac{3}{4})^7(\frac{1}{4})^8 < 2.04\times 10^{-6}$, and $(\frac{3}{4})^{15}(\frac{1}{4})^{16} < 3.12 \times 10^{-12}$. That is, we will have exhausted a typical calculator precision after four iterations. 
 
-Let's do it. Our iteration is $x_{n+1} = x_n - \frac{x_n^3 -11}{3 x_n^2}$ 
+Let's do it. Our iteration formula is $x_{n+1} = x_n - \frac{x_n^3 -11}{3 x_n^2}$ 
 \begin{enumerate}
-\item $x_0 = 2 \pm \frac{1}{4}$
-\item $x_1 = 2 - \frac{8- 11}{12} = \frac{9}{4} \pm .047$
-\item $x_2 = \frac{9}{4} - \frac{ 729/64 - 11 }{243/16} = \frac{2162}{972}\approx 2.2243 \pm .00165$
-\item $x_3 = \frac{1894566349}{851880969} \approx 2.2239801 \pm 2.04\times 10^{-6}$
-\item $x_4 = \frac{20400964697239818757748038397}{9173177756288897151620391507} \approx 2.22398009056931625 \pm 3.12 \times 10^{-12}$
+\item $x_0 = 2$, $|\alpha - x_0| < \frac{1}{4}$
+\item $x_1 = 2 - \frac{8- 11}{12} = \frac{9}{4}$, $|\alpha - x_1| < .047$
+\item $x_2 = \frac{9}{4} - \frac{ 729/64 - 11 }{243/16} = \frac{2162}{972}\approx 2.2243 $, $|\alpha - x_2| < .00165$
+\item $x_3 = \frac{1894566349}{851880969} \approx 2.2239801 $, $|\alpha - x_3| < 2.04\times 10^{-6}$
+\item $x_4 = \frac{20400964697239818757748038397}{9173177756288897151620391507} \approx 2.22398009056931625 $, $|\alpha - x_4| < 3.12 \times 10^{-12}$
 \end{enumerate}
 
 
 The last two computations were done with WolframAlpha.  WolframAlpha also reports the cube root of 11 as approximately 2.22398009056931552. 
 
-As one can see, Newton's Method converges quickly, but the fractions are quite complex. With the mediant method, the fraction $25022/11251$ is a closer approximation than $x_3$ above while being far smaller in the digits. One should also keep in mind that the computations for the mediant method requires nothing more than multiplication and addition with the added bonus that the fractions are always in reduced form. It is also worth mentioning that this iteration did start with an interval in common with the mediant method. 
+As one can see, Newton's Method converges quickly, but the fractions are quite complex. With the mediant method, the fraction $25022/11251$ is a closer approximation than $x_3$ above while using far fewer digits. One should also keep in mind that the computations for the mediant method requires nothing more than multiplication and addition with the added bonus that the fractions are always in reduced form. It is also worth mentioning that this iteration did start with an interval in common with the mediant method that we did previously. 
 
-\subsection{Geometrically Computing $\sqrt{2}$}
+\subsection{Geometrically Computing \texorpdfstring{$\sqrt{2}$}{sqrt2}}
 
 In this section, we are going to explore computing the square root of 2 with right triangles whose sides are Pythagorean triples and whose legs are almost identical. This will allow us to get rational intervals that bound the square root of 2. 
 
 As a simple and not great example, consider the classic $3-4-5$ right triangle. By dividing the sides by 3, we get a $1-\frac{4}{3}-\frac{5}{3}$ right triangle whose hypotenuse has length $\frac{5}{3} = 1 \frac{2}{3}$. Dividing by 4 leads us to a $\frac{3}{4}-1-\frac{5}{4}$ with hypotenuse  length $\frac{5}{4} = 1.25$. Notice that $1.25 < \sqrt{2} < 1.\bar{6}$.  The ordering occurs in this way because we can imagine lining up the $1-1-\sqrt{2}$ triangle with the other two that have a side whose length is 1. One of the triangles is taller and the other is shorter than a height of 1. The hypotenuse lengths correspond to that height ordering. 
 
-How do we find good Pythagorean triples for this? It just so happens that a well known rational parametrization of the unit circle is  $r(t) = (\frac{1-t^2}{1+t^2}, \frac{2t}{1+t^2})$.  If we have a rational $t$ such that those two coordinates are nearly equal, then we will end up with triangles that will be good approximations for the square root of 2. The interval is $\frac{1+t^2}{1-t^2}:\frac{1+t^2}{2t}$. The ordering of that interval will change based on whether $t$ is greater than or less than the $t$ which provides equality of the two coordinates. 
+How do we find good Pythagorean triples for this? It just so happens that a well known rational parametrization of the unit circle is  $r(t) = (\frac{1-t^2}{1+t^2}, \frac{2t}{1+t^2})$.  If we have a rational $t$ such that those two coordinates are nearly equal, then we will end up with triangles that will be good approximations for the square root of 2. The $\sqrt{2}$-Yes interval generated by a given $t$ is $\frac{1+t^2}{1-t^2}:\frac{1+t^2}{2t}$. The ordering of that interval will change based on whether $t$ is greater than or less than the $t$ which provides equality of the two coordinates. 
 
-Let's call the $t$ that does that $T$. If $T$ were rational, would then provide a singleton solution to it. It is, of course, not rational. We can use Newton's method to produce good rational approximations of $T$ by using the function $f(t) = 1-t^2 - 2t$, but we will demonstrate using mediants and the intermediate value theorem procedure. To start off with, $f(0) = 1 > -2 = f(1)$. The mediant between them is $\frac{1}{2}$ and $f(\frac{1}{2}) = -\frac{1}{4}$. So we select $\frac{0}{1}:\frac{1}{2}$ for our next interval. By the way, $r(\frac{1}{2}) = (\frac{3}{4}, 1) / \frac{5}{4} = (\frac{3}{5}, \frac{4}{5})$ which leads to the $3-4-5$ right triangle we discussed above.  The next interval has mediant $\frac{1}{3}$ and $f(\frac{1}{3}) = \frac{2}{9}$ leading to selecting $\frac{1}{3}:\frac{1}{2}$. We also have $r(\frac{1}{3}) = ( \frac{8}{9}, \frac{2}{3}) / \frac{10}{9} = (\frac{8}{10}, \frac{3}{5})$ which is the same triangle again. Notice how we shifted the direction of the interval selection and the legs flipped the ordering as well.
+Let's call the $t$ that does that $T$. If $T$ were rational, the mediant process would then provide a singleton solution to it. It is, of course, not rational. We can use Newton's method to produce good rational approximations of $T$ by using the function $f(t) = 1-t^2 - 2t$, but we will demonstrate using mediants and the intermediate value theorem procedure. To start off with, $f(0) = 1 > -2 = f(1)$. The mediant between them is $\frac{1}{2}$ and $f(\frac{1}{2}) = -\frac{1}{4}$. So we select $\frac{0}{1}:\frac{1}{2}$ for our next interval. By the way, $r(\frac{1}{2}) = (\frac{3}{4}, 1) / \frac{5}{4} = (\frac{3}{5}, \frac{4}{5})$ which leads to the $3-4-5$ right triangle we discussed above.  The next interval has mediant $\frac{1}{3}$ and $f(\frac{1}{3}) = \frac{2}{9}$ leading to selecting $\frac{1}{3}:\frac{1}{2}$. We also have $r(\frac{1}{3}) = ( \frac{8}{9}, \frac{2}{3}) / \frac{10}{9} = (\frac{8}{10}, \frac{3}{5})$ which is the same triangle again. Notice how we shifted the direction of the interval selection and the legs flipped the ordering as well.
 
-Our next interval's mediant is $\frac{2}{5}$ with $f(\frac{2}{5}) = \frac{1}{25}$ which tells us to select the interval $\frac{2}{5}:\frac{1}{2}$. And then $r(\frac{2}{5}) = (\frac{21}{25}, \frac{4}{5})/\frac{29}{25} = (\frac{21}{29}, \frac{20}{29})$ leading to $\frac{29}{21}:\frac{29}{20}$ as the interval approximation for the square root of 2 using the right triangle $20-21-29$. The next mediant is $\frac{3}{7}$ and we would select the interval $\frac{2}{5}:\frac{3}{7}$ leading to a mediant of $\frac{5}{12}$.  Note that because we switched directions, we end up with the a scaled version of the same right triangle; here it is $40-42-58$. 
+Our next interval's mediant is $\frac{2}{5}$ with $f(\frac{2}{5}) = \frac{1}{25}$ which tells us to select the interval $\frac{2}{5}:\frac{1}{2}$. And then $r(\frac{2}{5}) = (\frac{21}{25}, \frac{4}{5})/\frac{29}{25} = (\frac{21}{29}, \frac{20}{29})$ leading to $\frac{29}{21}:\frac{29}{20} \approx 1.38: 1.45$ as the interval approximation for the square root of 2 using the right triangle $20-21-29$. The next mediant is $\frac{3}{7}$ and we would select the interval $\frac{2}{5}:\frac{3}{7}$ leading to a mediant of $\frac{5}{12}$.  Note that because we switched directions, we end up with the a scaled version of the same right triangle; here it is $40-42-58$. 
 
 We can continue in this fashion, alternating the interval selection every two times as the positive solution to $1 - t^2 - 2t = 0$ is $\sqrt{2}-1$ with continued fraction $[0;\bar{2}]$ which does tell us to flip the selection direction every two selections. It also tells us that adding $1$ to the $t$ values gives us direct approximations to the square root of 2. 
 
 If we did want to use Newton's method on this to quicken the pace, we would be computing the formula $x_{n+1} = x_n - \frac{ t^2  + 2t -1}{2t + 2}$. If we started with $\frac{2}{5}$, then the next one would be $\frac{29}{70}$. Computing out its right triangle, we get $4059-4060-5741$ with estimates $\frac{5741}{4059}\approx 1.4143: \frac{5741}{4060} \approx 1.41403$. 
 
-\subsection{The Continued Fraction of $\pi$}
+\subsection{The Continued Fraction of \texorpdfstring{$\pi$}{pi}}
 
 We can do the mediant method using the intermediate value process for computing out the continued fraction of $\pi$. Let us assume that we can compute the sign of $\sin(x)$ for any rational $x$ and also assume that we know that $\sin(x)$ has exactly one zero in the interval $3:4$. This zero is, of course, $\pi$. Then the oracle of $\pi$ restricted to intervals in $3:4$ is the set of intervals $a:b$ such that $\sin(a):0:\sin(b)$ is true. That is, we can compute the Yes or No of intervals by testing out the sign of sine. 
 
-If we start out with the interval  $3:4$ and use the mediant process, we will be working with a Farey pair. The first mediant is $\frac{7}{2}$. Note the signs of sine are  $\sin(3) \col +$, $\sin(4) \col -$, $\sin(7/2) \col -$. So our next interval is $3:\frac{7}{2}$ with mediant $\frac{10}{3}$ whose sine value is negative. As we proceed, we generate the mediants $\frac{13}{4}$, $\frac{16}{5}$, $\frac{19}{6}$, and finally $\frac{22}{7}$. All of these had negative sine values and thus we were choosing the left sub-intervals. We did this 7 times so the continued fraction before the switch is $[3;7]$. The mediant where we are making the switch is $\frac{25}{8}$. It is represented by both $[3; 7, 1]$ and $[3, 8]$.  Because the $\sin(\frac{25}{8}) > 0$, we choose the right subinterval represented by $[3; 7, 1]$. We will now select the right subintervals, namely those with $\frac{22}{7}$ as the endpoint. As we proceed, we will find we do this 15 times before switching to left subintervals. This leads to $[3; 7, 15] = \frac{333}{106}$ and $\frac{333}{106}:\frac{22}{7}$ is the interval of containment before we start selecting the left subintervals again.
+If we start out with the interval  $3:4$ and use the mediant process, we will be working with a Farey pair. The first mediant is $\frac{7}{2}$. Note the signs of sine are  $\sin(3) \col +$, $\sin(4) \col -$, $\sin(7/2) \col -$. So our next interval is $3:\frac{7}{2}$ with mediant $\frac{10}{3}$ whose sine value is negative. As we proceed, we generate the mediants $\frac{13}{4}$, $\frac{16}{5}$, $\frac{19}{6}$, and finally $\frac{22}{7}$. All of these had negative sine values and thus we were choosing the left sub-intervals. We did this 7 times so the continued fraction before the switch is $[3;7]$. The mediant where we are making the switch is $\frac{25}{8}$. It is represented by both $[3; 7, 1]$ and $[3, 8]$.  Because $\sin(\frac{25}{8}) > 0$, we choose the right subinterval represented by $[3; 7, 1]$. We will now select the right subintervals, namely those with $\frac{22}{7}$ as the endpoint. As we proceed, we will find we do this 15 times before switching to left subintervals. This leads to $[3; 7, 15] = \frac{333}{106}$ and $\frac{333}{106}:\frac{22}{7}$ is the interval of containment before we start selecting the left subintervals again.
 
-This is a method, perhaps a slow one, which allows one to compute the continued fraction of any solution to an equation of the form of $f(x) =0$ where the sign of $f$ changes near the solution. For an alternative direct method of computation using a variant of Newton's Method, see \cite{shiu95}.\footnote{I found this reference at an excellent MathStackExchange overview of computing out continued fractions: \url{https://math.stackexchange.com/questions/716944/}.  It also gives some references for doing arithmetic with continued fractions.} 
+This is a method, perhaps a slow one, which allows one to compute the continued fraction of any solution to an equation of the form of $f(x) =0$ where the sign of $f$ changes near the solution. For an alternative direct method of computation using a variant of Newton's Method, see \cite{shiu95}.\footnote{I found this reference at an excellent MathStackExchange overview of computing out continued fractions: \url{https://math.stackexchange.com/questions/716944/}.  It also gives some references for doing arithmetic with continued fractions which we demonstrate in Section \ref{sec:con-frac}.} 
 
 We could do something similar for $e$, where we look at whether the function $\ln(x)$ is greater or less than 1 to determine if we switch the intervals. The basic starting point will be $2:3$ leading to a sequence of mediants being $\frac{5}{2}, \frac{8}{3}, \frac{11}{4}, \frac{19}{7}$ where the last one is accurate to within $0.004$ with the bounding interval giving a bound of $0.036$. 
 
-The viewpoint of oracles seems naturally to lead into mediants which then leads into continued fractions. 
+The viewpoint of oracles seems naturally to lead into mediants and continued fractions. 
 
 
 \section{Alternative Definitions}\label{sec:others}
@@ -1635,7 +1635,7 @@ Let us run through our criteria.
 
 \begin{itemize}
     \item Uniqueness. It has the issue of trailing 9's. Otherwise, there is only one representative. 
-    \item Reactive. This can be viewed as answering the question of ``What is a decimal approximation up to the $n$-th place?'' where $n$ is some given natural number. It is even possible for some approximations to just produce the desired $n$-th place decimal value. The standard presentation, however, is misleading. As an example, $\sqrt{2} = 1.4142...$ gets presented as if the whole decimal epxansion is there but is hidden due to space limitations. 
+    \item Reactive. This can be viewed as answering the question of ``What is a decimal approximation up to the $n$-th place?'' where $n$ is some given natural number. It is even possible for some approximations to just produce the desired $n$-th place decimal value. The standard presentation, however, is misleading. As an example, $\sqrt{2} = 1.4142...$ gets presented as if the whole decimal expansion is there but is hidden due to space limitations. 
     \item Rational-friendly. Sort of. Rationals are the ones with repeating decimal expansions and can therefore be spotted. Those that terminate, however, should technically have 0's appended which is just odd. The arithmetic is not tenable. Compare multiplying $\tfrac{1}{9}*\tfrac{1}{9} = 0.\bar{1} * 0.\bar{1}$. Actually try that multiplication in decimal form. As one continues on, one has to carry (modify) digits many places away. Even multiplying 1 by itself in the form of $.\bar{9}*.\bar{9}$ takes a bit of effort. 
     \item Supportive. We certainly use numbers in decimal form to do computations. But we need to have error bars added, that is, we need to write these as decimal intervals. 
     \item Delayed Computability. This is a definition that requires computing it out, impossibly so. 
@@ -1745,7 +1745,7 @@ The oracle framework handles this with ease in contrast to the Dedekind cuts.
 
 \subsection{Minimal Cauchy Filters}
 
-I obtained this from a paper which does not seem to be published but can be found on the arxiv under the title ``The reals as rational Cauchy filters''.\footnote{\url{https://arxiv.org/abs/1503.04348v3}} A filter is very similar to what we have used here. It is a collection of sets with pairwise intersections being a part of the collection and that any set that contains a set in the filter is also in the filter. A minimal filter is one which does not contain any other filter. A Cauchy filter is one which has arbitrarily small intervals in it. The paper goes through constructing the real numbers as the collection of all minimal Cauchy rational filters. 
+I obtained this from \cite{weiss2015reals} which does not seem to be officially published but can be found on the arXiv under the title ``The reals as rational Cauchy filters''.\footnote{\url{https://arxiv.org/abs/1503.04348v3}} A filter is very similar to what we have used here. It is a collection of sets with pairwise intersections being a part of the collection and that any set that contains a set in the filter is also in the filter. A minimal filter is one which does not contain any other filter. A Cauchy filter is one which has arbitrarily small intervals in it. The paper goes through constructing the real numbers as the collection of all minimal Cauchy rational filters. 
 
 A useful case to focus on is that of a rational number in this viewpoint. The maximal filter of $q$ is the one consisting of all sets that contain $q$. The minimal Cauchy filter is generated by the base of $q_{\varepsilon}$ intervals, namely, the intervals centered at $q$ with a length of rational $\varepsilon>0$.
 
@@ -1856,7 +1856,7 @@ This is how we extract the continued fraction of our result. We do the extractio
 
 Implementing this for $\sqrt{2}(e + \pi)$, we start with the addition.\footnote{Unfortunately, I ended up using $e$ in the formulas as a variable and here we use it for the special symbol $e$. There does not seem any real danger of confusion, however, so we will leave them both.} We should note here that $e = [2; 1, 2, 1, 1, 4, 1, 1, 6, ...]$, $\pi = [3; 7, 15, 1, 292, 1, 1, 1, 2, \ldots]$, and $\sqrt{2} = [1; \bar{2}]$. We use a notation of subscripts to indicate the remainder up to that term. For example, $\pi = 3 + \frac{1}{\pi_1} =  3 + \frac{1}{7 + \frac{1}{\pi_2}}$. 
 
-Addition starts with $z = e + \pi =  (2 + \frac{1}{e_1} ) + (3 + \frac{1}{\pi_1}) = \frac{e_1 + \pi_1 + 5 e_1 \pi_1}{e_1 \pi_1}$. Switching to a more compact version for the coefficents with the third row being the corners, i.e., 
+Addition starts with $z = e + \pi =  (2 + \frac{1}{e_1} ) + (3 + \frac{1}{\pi_1}) = \frac{e_1 + \pi_1 + 5 e_1 \pi_1}{e_1 \pi_1}$. Switching to a more compact version for the coefficients with the third row being the corners, i.e., 
 $$\bigg\langle\begin{smallmatrix}
   a & b & c & d\\
   e & f & g & h \\
@@ -2020,7 +2020,7 @@ Let us apply our subjective criteria to our oracle definition.
     \item Resolvability. The interval nature of an oracle is giving exactly how well we have resolved a number. 
 \end{itemize}
 
-If we think of real numbers as something that we can never hold in our hands, but can only tell bits about based on their shadows, it feels that the oracle approach has the most complete and direct shadow.\footnote{This is reminiscent of the ancient parable trying to describe an elephant from localized touching. The oracle is roughly the equivalent of having a mental model of what an elephant is to guide the interpretation of the localized touching.} Dedekind cuts can be thought of as taking the lower endpoints of Yes intervals. It feels as if they are minimizing the information needed.  Nested sequence of intervals can be thought of the result of taking a particular pathway through an oracle line of questioning. Cauchy sequences can be very roughly thought of as taking centers from the Yes-intervals along that pathway. Infinite decimals can be thought of in a similar way, but with a much more constrained pathway. Continued fractions are also a pathway, but they are a distinguished pathway generated by the mediant process. Other approaches with representing the numbers as sums can be seen in a  similar light. Filters can be thought of as dressing up the intervals with extra elements.
+If we think of real numbers as something that we can never hold in our hands, but can only tell bits about based on their shadows, it feels that the oracle approach has the most complete and direct shadow.\footnote{This is reminiscent of the ancient parable trying to describe an elephant from localized touching. The oracle is roughly the equivalent of having a mental model of what an elephant is to guide the interpretation and integration of the localized touching.} Dedekind cuts can be thought of as taking the lower endpoints of Yes intervals. It feels as if they are minimizing the information needed.  Nested sequence of intervals can be thought of the result of taking a particular pathway through an oracle line of questioning. Cauchy sequences can be very roughly thought of as taking centers from the Yes-intervals along that pathway. Infinite decimals can be thought of in a similar way, but with a much more constrained pathway. Continued fractions are also a pathway, but they are a distinguished pathway generated by the mediant process. Other approaches with representing the numbers as sums can be seen in a  similar light. Filters can be thought of as dressing up the intervals with extra elements.
 
 Oracles do provide easy ways of discussing the completion properties. For Dedekind cuts, the least upper bound is trivial to define while the Cauchy sequences having a limit is rather more difficult to specify with the cuts. For the Cauchy sequence approach, Cauchy sequences are trivially part of the definition while the least upper bound requires coming up with a sequence, probably through an in-between process such as bisection. For oracles, both end up being very easy to understand. The least upper bound Yes-interval is one with an upper endpoint on the interval which is also an upper bound of the given set while the lower endpoint of the interval is a number less than or equal to an element of the set. The rule for defining the limit of the Cauchy sequence is to say Yes to intervals that contain the tail of the sequence, possibly adding in a singleton.  
 
@@ -2134,13 +2134,13 @@ Oracles avoid the ambiguity and work of choosing which representative to use for
 
 The specific approach advocated here emphasizes a dynamic approach to the number. The person asking about the number ought to have a particular purpose that can then be met by the tools available. The other approaches often have a shadow of that in the definition, such as the $\varepsilon$ in a nested interval sequence, but the presentation pushes that aside. This approach, by centering the activity of asking, highlights the dynamism even while we acknowledge the equivalence to a more static view via the maximal fonsi.  
 
-Finally, this approach highlights the core difficulty of a real number, namely, that it is an indirect way of knowing a number. We are seeking information about a real number, but we can never have it precisely in our hands as we do with rational numbers. We just know what neighborhood it is in. It is as if we are looking for a person and we know enough details to rule out billions of people, but we cannot narrow it down to just a single person. It is a merit of this approach that it brings this out as the central issue of dealing with real numbers as well as giving us the tools to do the asking. 
+Finally, this approach highlights the core difficulty of a real number, namely, that we do not have a direct way of knowing an irrational number. We are seeking information about a real number, but we can never have it all precisely in our hands as we do with rational numbers. We just know what neighborhood it is in. It is as if we are looking for a person and we know enough details to rule out billions of people, but we cannot narrow it down to just a single person. It is a merit of this approach that it brings this out as the central issue of dealing with real numbers as well as giving us the tools to do the asking. 
 
 Oracles facilitate computation without requiring it. It is a map to the real number, one which goes beyond asserting existence, allowing us to travel towards it, but not suggesting that we could ever reach it. 
 
 \appendix
 
-\section{$n$-th Power Inequality Facts}\label{app:A}
+\section{\texorpdfstring{$n$}{n}-th Power Inequality Facts}\label{app:A}
 
 This is a place to collect some technical facts that are commonly known about $n$-th powers, but that we would like to have collected proofs of for completeness.
 
@@ -2178,7 +2178,7 @@ The trick here is to consider $(r-\tfrac{1}{N})^n$ instead.
 Define $a = r^n - q$. Define $N =  \max(1,\tfrac{3}{a}n r^{n-1}, \tfrac{3}{a}(r+1)^n)$.  Take $s = r - \tfrac{1}{N}$. Then $s^n = (r- \tfrac{1}{N})^n = r^n - \tfrac{n r^{n-1}}{N} + \sum_{k=2}^{n} \binom{n}{k} \tfrac{ (-1)^{k} r^{n-k}}{N^{k}}$. We can factor out a $\tfrac{1}{N}$ in the sum and, since $N \geq 1$, we have $\tfrac{1}{N^i} \leq 1$ for any natural number $i$. Since we are looking to prove $s^n > q$, making the expression smaller is fine. If we replace any positive terms in the sum with negative terms, we will make it smaller. So $s^n > r^n - \tfrac{n r^{n-1}}{N} - \sum_{k=2}^{n} \binom{n}{k} \tfrac{r^{n-k}}{N^{k}}$. As before, $\sum_{k=2}^{n} \binom{n}{k} \tfrac{r^{n-k}}{N^{k}} < \tfrac{1}{N} \sum_{k=2}^{n} \binom{n}{k} r^{n-k}$.  But that sum is part of the expansion of $(r+1)^n$ and is therefore bounded by it since those are all positive terms thanks to $r$ being positive. Thus, we have $s^n > r^n - n \tfrac{r^{n-1}}{N} - \tfrac{ (r+1)^n }{N}$.  By definition, we have $N > \tfrac{3}{a} n r^{n-1}$ implying $ \tfrac{-n r^{n-1}}{N} > -\tfrac{a}{3}$. We also have $N > \tfrac{3}{a} (r+1)^n$ implying $ -\tfrac{(r+1)^n}{N} > -\tfrac{a}{3}$. Therefore $s^n > r^n - \tfrac{2 a}{3} > q$. Since $r> r - \frac{1}{N} = s$, we have shown our result. 
 \end{proof}
 
-\section{Detailed $e$ Computations}\label{app:e}
+\section{Detailed \texorpdfstring{$e$}{e} Computations}\label{app:e}
 
 These are supporting computations for Section \ref{sec:e}. While not required in the sense that these computations exist elsewhere, it is nice to give the flavor of some of the work that can be involved in doing it in the more explicit fashion we favor here. 
 

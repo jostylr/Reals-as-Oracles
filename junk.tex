@@ -8,3 +8,29 @@ One of the salient features that comes from this point of view is that rational 
 We have given a suggestion for a function definition that goes along with the oracle notions. It very much embraces this difference, emphasizing the separate roles of rational and irrational. The rational can take on any values independent of those around them while the irrational can only take on the values compatible with those around them. This is largely because we can directly use a rational number in a computation while the irrationals we cannot except in symbolic form. 
 
 Whether these ideas have any practical import is not clear to me. To the extent that they do, it is presumably already being used in applied areas. This approach may simply provide a clean and useful language to describe what is being done. It may also inspire new perspectives and uses of important theorems, such as perhaps giving rise to a more prescriptive Fundamental Theorem of Algebra. 
+
+
+
+\subsubsection{Rationally Continuous Operators}
+
+A uniformizable continuous rational function is a function such that for any given rational interval $a:b$ in its domain and any given positive integer $N$, we can find a positive integer $M$ such that $|f(q) - f(r)| < \frac{1}{N} $ whenever $|q-r| < \frac{1}{M}$ for any $a:q,r:b$. 
+
+Such a function defines a rational interval operator by mapping the interval $a:b$ to the range of $f$ restricted to the domain $a:b$. It is, unfortunately, not as easy as $f(a):f(b)$. For example, consider $f(x) = x^2$ which takes the interval $-1:1$ to $0:1$. Note that if we used the interval arithmetic for $x^2$, then the interval is $-1:1$. We might also have an undefined interval such as using $\frac{1}{x}$ on the interval $-1:1$.
+
+If we accept the notion that we can extract the range of $f$ applied to the interval $a:b$, then we can create an oracle operator as $f$ satisfies the narrowing property. Containment is obviously since a smaller interval in $a:b$ will map into the same interval. It may or may not be strictly contained, but it will be contained. 
+
+
+As for the notionally shrinking portion, this follows from the continuity condition. Indeed, let an oracle $\alpha$ and a positive integer $N$ be given. Let $a:b$ be an $\alpha$-Yes interval. Then let $M$ be the promised positive integer promised in the condition above. As we are able to find an arbitrarily small $\alpha$-Yes interval as $\alpha$ is an oracle, we can find an interval $c:d$ in $a:b$ whose size is less than $\frac{1}{M}$. This then implies that the length of $|f(a:b)| \leq \frac{1}{N}$.
+
+\subsubsection{Exponential Operator}
+
+We can attempt to define arbitrary exponentiation of positive oracles, namely $\alpha^{\beta}$ for $\alpha > 0$. Using the tools of this section, we are looking for a rational interval operator with the narrowing property. 
+
+Given intervals $a \lte b$ and $\frac{p}{q} \lte \frac{r}{s}$, we would like to define the interval result which is basically $a^{\frac{m}{M}} \lte b^{\frac{n}{N}}$. The issue is, of course, that the denominator portion leads to oracles. To get rationals, we would need to say something like we need to find $p \lte q$ and $r \lte s$ such that $p^M : a : q^M$ and $r^N : b : s^N$ hold true. We could then define the interval of interest to be $p^m \lte s^n$. 
+
+The main issue is that we have many choices for $p$ and $s$. We can choose them to be as close as we like to the roots, but this is arbitrary. That is to say, we cannot actually define a specific rational interval operator $f$ without making many arbitrary choices. 
+
+We will handle this issue in \cite{taylor23funora} with function oracles which mimics oracles in the way of dealing with choices by having all the permissible choices present and then observing that we can get as close as we like to the result of interest. 
+
+
+
