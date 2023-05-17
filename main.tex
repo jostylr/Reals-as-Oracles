@@ -22,7 +22,7 @@ Our goal is to give a new definition of real numbers. This definition strikes a 
 
 What we want to provide is an object that can be defined without computation, but provides the underlying mechanism for computing the real number to any precision one wants. In some sense, we are producing the framework for producing approximations to real numbers given the particulars of a given real number.  This is analogous to, in functional programming,  having a generic sorting algorithm that can be used in a variety of situations by supplying a comparison function to make a pairwise sorting decision while the framework handles the actual details of the global sorting.
 
-Since this is a mechanism that provides answers to our questions, it seems reasonable to call it an oracle. The idea is that a real number is an oracle that reveals itself by answering, under repeated questioning, whether it is in various rational intervals. 
+Since this is a mechanism that provides answers to our questions, it seems reasonable to call it an oracle. We assert that the best way to understand a real number is that it is an oracle that reveals itself by answering, under repeated questioning, whether it is in various rational intervals. 
 
 Informally, the Oracle of $r$ is a rule which, given two rational numbers, will return Yes if $r$ ought to be in the inclusive rational interval defined by the two rational numbers and returns No otherwise. If the answer was a Yes, then we say the interval is an $r$-Yes interval; if the answer is a No, then we say the interval is an $r$-No interval.  If we are just speaking of one oracle, we may simply say a Yes-interval or No-interval. 
 
