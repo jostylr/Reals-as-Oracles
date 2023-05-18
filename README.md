@@ -5,7 +5,7 @@ The following papers have been posted to the Arxiv:
 
 * [Rationally Querying the Reals](https://arxiv.org/abs/2305.00981) This is a very short teaser paper to start with.
 * [Defining Real Numbers as Oracles, an Overview](https://arxiv.org/abs/2305.04935v1) This is an excellent place to start. It gives a basic overview of what this is about and should be quite accessible. 
-* * [Defining Real Numbers as Oracles]([https://github.com/jostylr/Reals-as-Oracles/releases/download/v1.0/defining-real-numbers-as-oracles.pdf](https://arxiv.org/abs/2305.04935)) This is the main paper and should contain all proofs of all the assertions. While nothing in it is particularly difficult, doing it all out in detail is lengthy. We also discuss with examples some methdos that are strongly suggested by the oracle approach, such as the role of mediants and continued fractions in an intermediate value theorem style approach to generating better interval approximations to real numbers. 
+* [Defining Real Numbers as Oracles](https://arxiv.org/abs/2305.04935) This is the main paper and should contain all proofs of all the assertions. While nothing in it is particularly difficult, doing it all out in detail is lengthy. We also discuss with examples some methdos that are strongly suggested by the oracle approach, such as the role of mediants and continued fractions in an intermediate value theorem style approach to generating better interval approximations to real numbers. 
 
 The following papers are currently in a partial release:
 
