@@ -14,7 +14,7 @@
     \end{frame} }
 
 \title[Oracles]{Real Numbers as Oracles}
-\subtitle{Is $x$ in $a:b$}
+\subtitle{Is $x$ in $a:b$?}
 \author{James Taylor}
 \institute{ratmath.com}
 \date{May 2023}
@@ -32,10 +32,10 @@
 
 \begin{enumerate}
 \item Natural Numbers (Counting Numbers)
-\item Integers (Credits and Debits)
+\item Integers (Assets and Debts)
 \item Rational Numbers (Break a whole up into pieces)
-\item Real Numbers (General solutions to problems)
-\item Complex Numbers ($i^2 = -1$)
+\item Real Numbers (General solutions to many problems)
+\item Complex Numbers (Make sense of a number whose square is -1)
 \end{enumerate}
 
 \end{frame}
@@ -114,7 +114,7 @@ Inspired by assets and debts:  $(5, 7) \simeq -2$. The idea is we have $\$5$ and
 
 This is the same wealth as $(4,6)$ or $(0,2)$.
 
-Two wealth amounts $(a,b)$ and $(c,d)$ are equivalent if $a+d = b+c$. Notice no negatives because we put the "negatives" on the other side.
+Two wealth amounts $(a,b)$ and $(c,d)$ are equivalent if $a+d = b+c$. Notice no negatives because we put the ``negatives'' on the other side.
 
 For example $5+6 = 4+7$ though we are actually thinking $5-7 = 4-6$ but we added $6+7$ to both sides and got something equivalent. 
 
@@ -141,7 +141,7 @@ The canonical representative is the one with at least one 0 in one of the slots.
 
 Addition comes from just adding assets and debts together. Think of two people marrying and combining their previous assets and debts into a new household. 
 
-Negation is defined as wanting to cancel all assets and debts. So if we have $(3,4)$ then the negative is $(4,3)$ so that $(3,4) + (4,3) = (7,7) = (0,0)$
+Negation is defined as wanting to cancel all assets and debts. So if we have $(3,4)$ then the negative is $(4,3)$ so that $(3,4) + (4,3) = (7,7) \simeq (0,0) \simeq 0$
 
 We define multiplication based on how we would combine expressions with subtraction, using the distributive property: 
 
@@ -261,6 +261,8 @@ Example: $\frac{2}{3}$ has multiplicative inverse $\frac{3}{2}$ as $\frac{2}{3} 
 
 Can also solve for $x$ in $a*x = b$ as $x = b/a$. Always exists for any rational numbers $a$ and $b$ as long as $a \neq 0$.
 
+With rationals and integers, we can solve any linear equation: $5 = 3x + 7$ has solution $x = \frac{5-7}{3}= \frac{-2}{3}$. 
+
 \end{frame}
 
 \begin{frame}{Inequality of Rational Numbers}
@@ -282,7 +284,7 @@ Can also solve for $x$ in $a*x = b$ as $x = b/a$. Always exists for any rational
 
     And $\pi$ which gives us the area of a circle of radius $r$ as $\pi r^2$; the circumference is $2 \pi r$. $\pi = 3.14159265....$
 
-    What are those $\ldots$ saying?  What are these numbers?  
+    What are those $\ldots$ saying?  What are these numbers? How do we combine infinite strings of digits? How does using base 10 matter? 
     
 \end{frame}
 
@@ -292,7 +294,7 @@ Can also solve for $x$ in $a*x = b$ as $x = b/a$. Always exists for any rational
 
 Trying to solve $x^2 + 1 = 0$. Doesn't make sense since $x^2$ is never negative for real numbers and 1 is certainly not negative. So how can this be solved? 
 
-Introduce a new thing, $\sqrt{-1}$ which has the property that $\sqrt{2}^2 = -1$. 
+Introduce a new thing, $\sqrt{-1}$ which has the property that $\sqrt{-1}^2 = -1$. 
 
 The usual notation is $\mathrm{i}$ for imaginary (also $\mathrm{j}$ is used by engineers).
 
@@ -316,7 +318,7 @@ We can view these as ordered tuples.
     \item $27.4 -57 \mathrm{i}$ would be $(27.4, -57)$
 \end{itemize}
 
-There is only one version of this number. This makes the number system 2 dimensional. The others had an aspect of two dimensionality that would get collapsed into one dimension. Here we have two dimensions. 
+There is only one version of this number. This makes the number system two dimensional. The others had an aspect of two dimensionality that would get collapsed into one dimension. Here we have two dimensions. 
 
 
 \end{frame}
@@ -341,9 +343,9 @@ $(a,b)$ is the same as $a + b \mathrm{i}$
 \item Negation. $-(a,b) = (-a, -b)$
 \item Subtraction. Negate and add:  $(a,b) - (c,d) = (a-c, b-d)$
 \item Multiplication.  $(a,b)*(c,d) = (ac - bd, ad + bc)$
-\item Reciprocation. $\frac{1}{(a,b)} = \frac{1}{a+b \mathrm{i}} \frac{a-b\mathrm{i}}{a - b \mathrm{i}} =  \frac{a - b \mathrm{i}}{a^2 + b^2}$.
+\item Reciprocation. $\frac{1}{(a,b)} = \frac{1}{a+b \mathrm{i}} \frac{a-b\mathrm{i}}{a - b \mathrm{i}} =  \frac{a - b \mathrm{i}}{a^2 + b^2} = (\frac{a}{a^2+b^2}, \frac{-b}{a^2+b^2})$.
 \item Division. Reciprocate and multiply. 
-\item Exponentiation. For positive exponents, this is still repeated multiplication. $n$ distinct solutions to $x^n = 1$. For complex exponents, this gets complicated. 
+\item Exponentiation. For positive exponents, this is still repeated multiplication. $n$ distinct solutions to $x^n = 1$. For complex exponents, this gets complicated.  $x^4 = 1$ has solutions $x=1, i, -1, -i$.
 \end{itemize} 
 
 \end{frame}
@@ -359,7 +361,7 @@ This is the Fundamental Theorem of Algebra. It has many proofs, none of which ar
 \end{frame}
 
 \begin{frame}{Inequality of Complex Numbers}
-    There is no ordering of the complex numbers that respects addition. 
+    There is no ordering of the complex numbers that respects arithmetic. 
 
     This is 2 dimensions and ordering is basically one dimensional. 
 
@@ -400,13 +402,13 @@ Real numbers, however, are very different. They are an entirely different kind o
 
     From the nice predictable decimals, a natural question is, what about the others? What if we had a decimal that kept changing, going on forever? 
 
-    The square root of 2 is not rational and so it has to be nonperiodic if we write down its deimals. 
+    The square root of 2 is not rational and so it has to be nonperiodic if we write down its decimals. 
 
     In fact, WolframAlpha tells us
 
     $\sqrt{2} = 1.414213562373095048801688724209698078569671875376948073\ldots$
 
-    That is why more numbers than we need, but why short of what is required to say what it is. 
+    That is way more digits than we need, but way short of what is required to say what it is. 
     
 \end{frame}
 
@@ -443,7 +445,7 @@ Real numbers, however, are very different. They are an entirely different kind o
     \begin{itemize}
         \item Decimals. Take the infinite string of decimals as defining real numbers. We have seen some of the issues. 
         \item Cauchy Sequences. Define a real number as a sequence of numbers that are trapped in ever smaller intervals. Not unique, notice the shadow of the intervals.   
-        \item Dedekind Cuts. Truncation of decimals gives us numbers always less than or target, but they creep up to it. So take the number as the set of all numbers less than it. Not very helpful but common.
+        \item Dedekind Cuts. Truncation of decimals gives us numbers always less than the target, but they creep up to it. So take the number as the set of all numbers less than it. Not very helpful but common.
         \item Family of Overlapping, Notionally Shrinking Intervals (fonsis). A collection of intervals that have as small an interval as we want in them, but they all overlap. The core of the overlap is the real number. 
     \end{itemize}
 
@@ -472,7 +474,7 @@ What are some good properties of a definition of real numbers?
 
 \begin{frame}{Oracle Rules}
 
-    An oracle is a rule that, given to rational numbers, say Yes or No. It says Yes if the real number ought to be inclusively between the two rational numbers and No otherwise. The two rational numbers can be equal (singleton). 
+    An oracle is a rule that, given two rational numbers, say Yes or No. It says Yes if the real number ought to be inclusively between the two rational numbers and No otherwise. The two rational numbers can be equal (singleton). 
 
     We write $a:b$ to represent the inclusive interval between $a$ and $b$. There is no implied ordering. If $a \leq b$, we can write $a \lte b$ to denote that. 
 
@@ -484,9 +486,13 @@ What are some good properties of a definition of real numbers?
 
 \begin{enumerate}
     \item Consistency. If an interval contains a Yes interval, then it is a Yes interval. This maintains the illusion of the real number being in the Yes intervals and also leads to this being a unique representative of a real number. 
+    \pause
     \item Existence. There should be a Yes interval, i.e., there is something there. 
+    \pause
     \item Closed. If a rational number is in every Yes interval, then its singleton should also be a Yes interval. 
+    \pause
     \item Rooted. There is at most one Yes singleton.  This helps ensure that the oracle is narrowed in on a single number. 
+    \pause
     \item Interval Separation. This is the key property. For a given Yes interval, a point $c$ inside that interval creates two subintervals in addition to its own singleton. The requirement is that exactly one of those intervals is Yes unless $c:c$ is a Yes singleton, in which case all three are Yes since $c$ is in all three.  
 \end{enumerate}
 
@@ -494,6 +500,8 @@ What are some good properties of a definition of real numbers?
 
 \begin{frame}{Rationals as Oracles}
     If we have a rational $\frac{p}{q}$, what is the oracle that represents it? 
+
+    \pause
 
     Easy: An interval is a Yes interval if $\frac{p}{q}$ is contained in it. 
 
@@ -547,7 +555,7 @@ What are some good properties of a definition of real numbers?
 
     If we guess $x$ for the answer, then $\frac{2}{x}$ is its partner and we have $x : \sqrt{2} : \frac{2}{x}$.  
 
-    Example: $x=\frac{3}{2}$ has partner $\frac{2}{3/2} = \frac{4}{3}$. So $\frac{4}{3} : \sqrt{2} \frac{3}{2}$.
+    Example: $x=\frac{3}{2}$ has partner $\frac{2}{3/2} = \frac{4}{3}$. So $\frac{4}{3} : \sqrt{2} : \frac{3}{2}$.
 
     To get a next guess, pick anywhere in the interval and repeat. The middle is reasonable: 
 
@@ -567,7 +575,7 @@ What are some good properties of a definition of real numbers?
 
     Find the cube root of 17. Since $2^3 = 8 : 17 : 27=3^3$ we could guess $\frac{5}{2}$. Then $\frac{17}{ (5/2)^2 }  = \frac{68}{25} \approx 2.72$  So $2.5:\sqrt[3]{17}:2.72$.
 
-    Next guess is a weighted average, weighting the guess: $\frac{1}{n} ((n-1) x + \frac{q}{x^{n-1}})$
+    Next guess is a weighted average, weighting the guess more: $\frac{1}{n} ((n-1) x + \frac{q}{x^{n-1}})$
 
     Here that is $\frac{1}{3} ( 5 + \frac{68}{25}) = \frac{193}{75} \approx 2.573$
 
@@ -586,7 +594,7 @@ What are some good properties of a definition of real numbers?
 
     What does that mean? 
 
-    Clarity comes from proving (not here) that $(1+\frac{1}{n})^n : \mathrm{e} : (1+\frac{1}{n+1})^{n+1}$
+    Clarity comes from proving (not here) that $(1+\frac{1}{n})^n : \mathrm{e} : (1+\frac{1}{n})^{n+1}$
     
 \end{frame}
 
@@ -691,7 +699,7 @@ The Solution Oracle:  An interval $a:b$ contained in $I$ is a Yes interval if $(
 \section{Arithmetic}
 
 \begin{frame}{Oracle Arithmetic}
-    A core part of the difficult of real numbers is dealing with arithmetic. 
+    A core part of the difficulty of real numbers is dealing with arithmetic. 
 
     We approach it by first doing arithmetic with intervals. 
 
@@ -784,7 +792,7 @@ $D \subset 0.4140: 0.4154$. Since $0.41:0.42$ contains this Yes interval, it is 
     The oracles are the real numbers. We have:
 
     \begin{enumerate}
-        \item The arithmetic operators defined.
+        \item The arithmetic operators are defined.
         \item All the arithmetic properties work.
         \item Inequality is defined and work well with the arithmetic operators.
         \item We have the completeness properties. 
@@ -818,7 +826,7 @@ $D \subset 0.4140: 0.4154$. Since $0.41:0.42$ contains this Yes interval, it is 
 
     If we use the midpoint (average of the two endpoints), then we cut the interval in half repeatedly. 
 
-    The root algorithms using a weighted average (just an average for square roots). These are from Newton's method which will typically quadratically reduce the lengths, i.e., double the number of accurate digits after each iteration. 
+    The root algorithms use a weighted average (just an average for square roots). These are from Newton's method which will typically quadratically reduce the lengths, i.e., double the number of accurate digits after each iteration. 
 
     The mediant algorithm has a different purpose. It comes up with the simplest approximation for a real number in terms of keeping the denominators small. 
 \end{frame}
@@ -856,7 +864,7 @@ $1 + \frac{1}{2 + \frac{1}{2 + \frac{1}{2 + \frac{1}{2 + \ldots}}}}$
 
 Notice that $1 + \frac{1}{2 + \frac{1}{2 + \frac{1}{2}}} = \frac{17}{12}$  which is a number we saw before. 
 
-The mediants give great approximations. The ones where the switch occurs gives super awesome approximation. 
+The mediants give great approximations. The ones where the switch occurs give super awesome approximation. 
 
 \end{frame}
 
@@ -869,8 +877,8 @@ The mediants give great approximations. The ones where the switch occurs gives s
         \item $3:\pi:4$ is a Yes interval as $\sin(4) \lte  0 \lte \sin(3)$. (3R, 1L)
         \item Mediant $\frac{7}{2}$, $\sin(\frac{7}{2}) < 0$ so $3:\pi:\frac{7}{2}$ (L)
         \item Mediant $\frac{10}{3}$, $\sin(\frac{10}{3}) < 0$ so $3:\pi:\frac{10}{3}$ (L)
-        \item Same story for: $\frac{13}{4}$, $\frac{16}{5}$, $\frac{19}{6}$, until we reach $\frac{22}{7}$. $3:\pi\frac{22}{7}$(4L)
-        \item Mediant $\frac{25}{8}$ and $\sin(\frac{25}{8} > 0$ so we now do $\frac{25}{8}:\pi:\frac{22}{7}$.
+        \item Same story for: $\frac{13}{4}$, $\frac{16}{5}$, $\frac{19}{6}$, until we reach $\frac{22}{7}$. $3:\pi:\frac{22}{7}$(4L)
+        \item Mediant $\frac{25}{8}$ and $\sin(\frac{25}{8}) > 0$ so we now do $\frac{25}{8}:\pi:\frac{22}{7}$.
         \item This continues now selecting the right subintervals 15 times until $\frac{333}{106}:\pi:\frac{22}{7}$ 
     \end{enumerate}
 
@@ -897,7 +905,7 @@ Let's use the interval $D$ we computed to get mediant approximations. The interv
 
 \begin{frame}{Revisited Concluding}
     
-Mediant $M = \frac{17}{41}$, $a < M < b$: $41*1421-17*3432 = -83$ and $41*64183-17*154512 = 2368836 >0$. $D$ is not contained in either $\frac{12}{29}: \frac{17}{41}$ or $\frac{12}{29}:\frac{17}{41}$. To proceed further, a more narrow Yes interval must be computed to replace $D$. 
+Mediant $M = \frac{17}{41}$, $a < M < b$: $41*1421-17*3432 = -83$ and $41*64183-17*154512 = 2368836 >0$. $D$ is not contained in either $\frac{12}{29}: \frac{17}{41}$ or $\frac{17}{41}:\frac{5}{12}$. To proceed further, a more narrow Yes interval must be computed to replace $D$. 
 
 The conclusion so far is that $\frac{12}{29}: \frac{5}{12}$ is an $\frac{e-\sqrt{2}}{\pi}$-Yes interval,  imprecision of $.0029$.  The imprecision in interval $D$ is $.0013$, but much more complicated fractions. 
 
