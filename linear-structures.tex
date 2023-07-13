@@ -1,0 +1,237 @@
+\documentclass[12pt]{article}
+\usepackage{personal}
+\usepackage{realoracles}
+
+\title{Linear Structures and Oracles}
+\jtauthor
+\date{July 1, 2023}
+
+
+
+
+%\sloppy%\openup-.1\jot
+\begin{document}\maketitle
+\begin{abstract}
+A real number can be defined as an oracle that responds Yes or No depending on if that real number ought to be considered to be in the given rational interval or not. This idea can be extended to more general settings. This paper investigates oracles in the context of the relatively new topological theory of linear structures. The concept of being between is essential and allows for a full translation of the real oracle approach to more generalized spaces. The oracle framework provides a connection between discrete spaces and dense spaces in addition to completing dense spaces. 
+\end{abstract}
+
+\section{Introduction}
+
+Physical space may be a continuum, an incomplete dense space, or a discrete space, possibly even finite. Many of our mathematical tools come from the continuum perspective, particularly calculus and, ultimately, real numbers. And yet all of our numerical work is done not only in the context of a discrete space, but an actual finite space. When we look at a continuous curve on the screen, it is not continuous at all, not even close. 
+
+The question is how do we make that connection between a finite space and an uncountable space. The proposal here is to extend the work of defining the reals as oracles, as explicated in \cite{taylor23main}, to a more general space. While it may seem natural to look at standard topology, this author does not see how to do that. One needs a useful notion of containment and separating. One direction is to use metric spaces which is a fairly straightforward approach, as shown in \cite{taylor23metric}. This does entail a different property than was used with the reals, but it is very similar in spirit. 
+
+The other direction is the one we will take here. We use the Theory of Linear Structures, as explored in \cite{maudlin}. In that theory, topological notions are built not out of choosing open sets (or closed sets or neighborhoods), but rather from choosing the lines of the space. The lines then give rise to the neighborhoods and thus into the open sets. The closed sets are directly defined in terms of sets where all lines that start in the set and leave the set have a last point in the set. Open sets are those in which there is no last point for any of the lines that leave the set. Open and closed sets need not be complements of each other. 
+
+Of crucial importance is defining what constitutes a line. Maudlin uses the existence of a linear order structure on it. I have chosen to  modify that slightly to be the requirement of having a betweenness operation on the points on a line. It is this which is of crucial importance in allowing oracles to insert points in between. 
+
+After reviewing and adjusting the relevant details, we then will move on to define what an oracle is and give some examples. We show how the oracles create a new space, which includes the old one, and how to extend the linear structures to this new space. We demonstrate how to build up from a discrete space up to a dense space and then a complete space using a staging of oracles. 
+
+\section{Spreading Linear Structures}
+
+We will deviate from Maudlin's presentation in a few ways. We start by adding in a betweenness relation. It lurks in Maudlin's approach, but it is not explicitly part of the undirected linear structure. We will use the term trail instead of line for the point-splice lines; it helps indicate that it is can be any shape and that it is about going from one point to the next. The largest change is that we present the axioms in a different fashion and with slightly different content. 
+
+A \textbf{betweenness} rule $L$ on a set of points $L$ is a rule that takes in 3 points, $p, q, r$, and returns a 1 (Yes) or 0 (No) if the point $q$ should be between $p$ and $r$. If a Yes is returned, then it is said to satisfy the betweenness relation. We will write $p:q:r$ for any set of three points that satisfy the betweenness relation; we may use $p:_L q:_L r$ to denote the betweenness relation $L$ is being used though it may simply be easier to write $L(p,q,r)$ in that instance. This relation is symmetric in the first and last position, that is,  $p:q:r$ if and only if $r:q:p$.  It also has a transitive condition in that if $p:q:r$ and $q:r:s$, then we have $p:q:s$ and $p:r:s$. We only consider triples of distinct points. 
+
+An \textbf{interval} of a betweenness relation is a subset of the points such that for any $p$ and $q$ in the interval, any point $r$ in the original set which is between them is included in the subset.  A point $p$ is an endpoint of an interval if $p$ is not between any two points on the interval.
+
+Such a structure is a \textbf{loop free} relation if $p:q:r$ implies that $p$ is not between $q$ and $r$. If $p:q:r$ implies $q:p:r$ for all of the points, then this is a \textbf{loop} betweenness relation.  We can also have betweenness relations that contain loops but are not a full loop relation; we call them $\textbf{loopy}$.  A betweenness relation is \textbf{total} if given any three points in $L$ at least one (two because of symmetry) of the possible orderings of the three points satisfy the betweenness relation. 
+
+Given a space $S$, a trail $\tau$ on $S$ constitutes a subset $T$ of $S$ paired with a total betweenness rule, $\beta$, defined on $T^3_{\neq}$. Which pairs do constitute a trail is a choice that will define the trail network structure on the space. 
+
+A segment of a trail is a subset of the trail which is an interval of the betweenness relation. A segment is closed if it has two endpoints, open if it has none, and half-open / half-closed if it has exactly one endpoint. There can be at most two endpoints because these are total betweenness relations. 
+
+A Trail Network Structure is a choice of trails (point set plus total betweenness relation) that satisfies    
+\begin{enumerate}
+    \item All trails are loop free. 
+    \item A trail consists of at least two points. 
+    \item Two closed trails with identical point sets must have identical betweenness relations. 
+    \item Given a trail, any closed segment of that trail is also a trail. 
+    \item Point-Splicing. If two closed trails intersect at an endpoint and nowhere else, then the point set union augmented with the natural extension of the betweenness relation (the common endpoint is between any pair of points, one from each of the two trails, extend from there) is a trail. 
+    \item Completion.  Any point set plus betweenness relation such that all of its closed intervals are trails, is a trail itself. 
+\end{enumerate}
+
+
+A \textbf{minimal} trail is one with exactly two points. These are trivial betweenness relations, but they have enough structure to be able to say whether a third point added is between the given two or on one side or the other of the two points. 
+
+It is an open trail if it is an open betweenness relation and a closed trail if a closed betweenness. The empty set, one point sets, and two points sets are somewhat trivial trails. The first two are essentially useless while the two point trails do have utility in being the minimal trails to build up a betweenness relation. 
+
+
+
+\subsection{Nearly a Circle}
+
+The point-splicing axiom in Maudlin's approach is different from above. Maudlin excludes splicings when there is a trail contained in the union minus the intersecting point that contains elements of both adjoining trails. Maudlin argues for this exclusion based on wanting to exclude the unit circle point set that could be formed by joining the closed top half of the unit circle with the half-open bottom circle. Namely, in a radian parametrization, they have a common endpoint at $\theta=\pi$, the top half contains the point $\theta=0$ while the lower half goes up to, but excludes, $\theta = 2\pi$. 
+
+Maudlin indicated a desire to avoid having this be, what we call, a trail.  The reason is that the point set is what we would take to be the unit circle. It would then seem to be a loop.  
+
+\subsection{Brief Review of Trail Structures as Basis of Topoology}
+
+linear structures, directed linear structures, neighborhoods, open, closed, compact, continuous, 
+
+chain-continuous
+
+\section{Extending Oracles}
+
+
+
+
+\section{Expanding Between}
+
+
+
+\section{Closing Compactifications}
+
+Here we are choosing to add points outside of the betweenness. For a 1-point compactification, it is a point $P$ which becomes the endpoint of each trail. That is, $P:q:r$ and $q:r:P$ holds for each pair $q,r$ that are on a trail together. 
+
+Two point compactification can be $P$ and $S$ such that $P:q:r$ and $q:r:S$ hold true. 
+
+Perhaps some generalizations to get all the compactifications? 
+
+\section{Conclusion}
+
+
+Our task is to explore how to complete various spaces using the notion of oracles. Oracles are defined on a collection of containers of points in a space. For completing the rationals to real numbers, these containers were inclusive rational intervals which includes an interval of exactly one rational. In a general topological space, our containers will be the closed sets. For it to work out well, the topological space should be completely regular which, among other things, implies singletons are closed sets. For metric spaces, the containers will be closed balls with the data being the center point and the radius. Balls of radius 0 are allowed, producing the singletons. For Linear Structures, the containers will be closed sets, but the notion of being closed is distinctly different from that of topological structures. 
+
+For our purposes, singletons should be examples of containers. Non-empty pairwise intersections should either again be a container or contain containers. Containment of containers by other containers should make sense. 
+
+For all of these different kinds of containers, the definition of oracles is largely the same. The intuition is that an oracle says Yes to a container exactly when the desired point ought to be in the container. Since we are defining the desired point, we cannot actually do this. 
+
+We define an oracle to be a rule R which, given a container, says Yes or No (1 or 0) and satisfies the following conditions ($A$ and $B$ are containers, $q$ is a point in the space): 
+\begin{enumerate}
+    \item Consistency. If $A$ contains $B$ and $B$ is a Yes-container, then $A$ is a Yes-container.
+    \item Existence. There exists $A$ such that $A$ is a Yes-container.
+    \item Two Point Separating. Given a Yes-container $A$ and two points in it, then there is a Yes-container inside $A$ which does not contain at least one of the given points. 
+    \item Intersecting. If $A$ and $B$ are Yes-containers, then they have non-zero intersection and that intersection is either a Yes-container or contains a Yes-container if it is not a container. 
+    \item Closed. If $q$ is contained in all Yes-containers, then the singleton $q$ is a Yes-container. 
+\end{enumerate}
+
+
+\section{Real Oracles}
+
+We briefly review what was done with oracles generating the real numbers from the rationals. See \cite{taylor23main}.
+
+...
+
+
+
+\subsection{Oracles in a Metric Space}
+
+We can now give our definition of an oracle for a metric space $E$. The Oracle of $\alpha$ is a rule defined on balls that decides on whether they are a Yes ball or No ball and satisfies ($B$ and $C$ are balls in what follows, $p$ and $q$ are points in the original metric space ): 
+\begin{enumerate}
+    \item Consistency. If $B$ contains $C$ and $C$ is a Yes-ball, then $B$ is a Yes ball.
+    \item Existence. There exists $B$ such that $B$ is a Yes-ball.
+    \item Two Point Separating. Given a Yes-ball $B$ and two points in it, then there is a Yes-ball inside $B$ which does not contain at least one of the given points. 
+    \item Intersecting. If $B$ and $C$ are Yes balls, then they must intersect and their intersection must contain an Yes ball.
+    \item Closed. If $q$ is contained in all Yes-balls, then the ball containing $q$ of radius 0 is a Yes-ball. 
+\end{enumerate}
+
+Similar to before, this is equivalent to looking at a maximal family of overlapping, notionally shrinking balls. And, as before, the oracle is preferred to emphasize the algorithmic nature of it all. 
+
+One would need to establish that the singletons represent themselves in this new space, that the metric extends to these new creations, and that it is complete as a metric space.
+
+
+
+
+\subsection{Different Compactifications of the Open Unit Interval}
+
+circle, closed interval, topologist sine curve
+
+the toplogist sine curve. Fix a number u in [-1, 1]. The containers will be 
+
+for (0,1) maybe also sin(1/x) <= 1/2,  sin(1/1-x) >= 1/2. is continuous. Also (0,1) with one point on the end, sine curve on the other. 
+
+
+\subsection{One Point Compactification}
+
+We will assume the space is locally compact, Hausdorff, and completely regular, but not compact. We will call these simply \textbf{noncompact spaces}. 
+
+If we define the space of oracles on such a space, using closed sets as the containers, then we end up with the space itself again, under homeomorphism. To get something different, we consider the non-compact closed sets as another oracle. Then we define the oracle of $\infty$ to be the oracle whose containers are the complements to  compact sets. When included with the oracles of closed sets, we end up with the one point compactification using the topology of open sets being the open sets of the original space along with the open sets forming this oracle. 
+
+We need to verify that this is an oracle.  
+\begin{itemize}
+    \item Consistency. Any container of this type is a Yes implying that if contains another Yes container, then it says yes. 
+    \item Existence. The space itself is the complement of the compact empty set so the whole space is there. 
+    \item Two Point Separation. Given a point $q$ in the complement of a compact set, we can add its local compact neighborhood to the compact set and that complement will be contained in the original complement but not contain $q$. 
+    \item Disjoint. If we had two complements that were disjoint, then we would have $X-C$ and $X-B$ being disjoint. This means that $B \cup C = X$ (if $q$ is not in $B$ or $C$, then $q$ is in both of their complements). Since $C$ and $B$ are compact, their union is and therefore the space would be compact. We are assuming it is not.
+    \item Rooted. There is no point $q$ in every complement. 
+\end{itemize}
+
+So this is indeed an oracle. Now we need to show the new space is compact. 
+
+More or less, use the finite intersection property of collections. Let the collection be closed sets whose finite intersections are non-empty. Then we need to show that the full intersection is non-empty. Essentially, no new oracles, I guess. So either it contains infinity or it does not. If the union of the sets is compact, then we have the result. If it is not, is it the complement of a compact set? If so, then that means the oracle of infinity is a member? 
+
+\subsection{General Compactifications}
+
+Let $f$ be a continuous function from a non-compact space $X$ to a compact space $K$. 
+
+want to intersect the inverse images of compact sets with the complements above. Is it still compact? Does this work? Maybe use open pre-images? 
+
+\section{Theory of Linear Structures}
+
+so topological space allowed completion (metric space too of course since it is topological and the oracle is equivalent to complement of closed balls),  but is there a submetrical space which allows both to be done? 
+
+Also, would like to add finite / discrete space. Essentially, minimal resolution is the minimal neighborhood for the oracle. Need to modify the two point separation to exclude pairs of points that are in a designated minimal neighborhood. 
+
+
+
+
+
+\section{Function oracles}
+
+
+
+The Function oracles we defined can be extended to the realm of the completed metric spaces. There is very little we need to change here. Instead of the sides of the ``rectangle'' being an interval, we use a ball. When we are considering the intersection of these function rectangles, we take the intersection of the sides to be the largest ball contained in them. 
+
+We expect to find again that such functions are continuous at all the new points and potentially discontinuous at the old points. 
+
+
+A \textbf{function oracle} $f$ over the metric space $E$ and into the metric space $E'$ is a rule that, given any rectangle $R= A \times B$ with $A$ a ball in $E$ and $B$ a ball in  $E'$, either says Yes or No and satisfies: 
+\begin{enumerate}
+    \item Elongating Consistency. If the wall of rectangle $M$ contains the wall of rectangle $N$ with $N$ and $M$ having the same base,  then $M$ is a $f$-Yes rectangle if $N$  is an $f$-Yes Rectangle. 
+    \item Narrowing Consistency. If the base of rectangle $M$ contains rectangle $N$ with $N$ and $M$ having the same wall, then $N$ is a $f$-Yes rectangle if $M$ is. 
+    \item Intersection. If two $f$-Yes rectangles intersect, then there is an $f$-Yes rectangle contained in the intersection. 
+    \item Single-valued. Given two disjoint rectangles $M$ and $N$ with the same base, at most one of them can be a Yes-rectangle for $f$. 
+    \item Separating. Given an $f$-Yes rectangle $M$, an oracle $\alpha$ contained in the base of $M$, and two points $r$ and $s$ contained in the wall of $M$, then there exists an $f$-Yes rectangle whose wall does not contain at least one of those points and whose base contains $\alpha$.
+\end{enumerate} 
+
+The development of this is almost identical to what was done before. We start with establishing the Narrowing Property: 
+
+\begin{proposition}\label{pr:metricfshrink}
+Given a function oracle $f$ over the metric space $E$ to the metric space $E'$, an oracle $\alpha$ in the $f$-Yes rectangle $M$, and an $\varepsilon > 0$, then we can find an $f$-Yes rectangle contained in $M$ whose base contains $\alpha$ such that its wall has diameter less than $\varepsilon$.
+\end{proposition}
+
+The distance function that appears below is that of $E'$ as the Separating property handles the $E$ part. 
+
+\begin{proof}
+    Let $f$, $\alpha$, and $\varepsilon$ be given. Define $B[c_0, r_0]$ to be the wall of $M_0 =M $. Assume $M_i$ is defined with $B[c_i, r_i]$ being the wall of $M_i$. If $2r_i$ is less than $\varepsilon$, then we are done. If not, by the density of the metric space, there exists $p$ in $B[c_i, \frac{r_i}{3}]$. By the separating property, there exists a rectangle $M_{i+1}$ whose wall, $B[c_{i+1}, r_{i+1}]$, excludes either $ p$ or $c_i$. We wish to argue that $r_{i+1} < \frac{2r_i}{3}$. Let $q$ be in $B[c_i, r_i]$. Then $d(q, c_i) \leq r_i$ by definition of the ball.  By the triangle inequality, $d(q, p) \leq d(q,c_i) + d(p, c_i) \leq r_i + \frac{r_i}{3}= \frac{4 r_i}{3}$. Thus, the diameter must be less than $\frac{4r_i}{3}$ if $p$ is excluded while it must be less than $r_i$ if $c$ is excluded. Therefore, the radius $r_{i+1} < \frac{2r_i}{3}$. 
+
+    We repeat this at most until $i$ satisfies $(\frac{2}{3})^i r_0 < \varepsilon$. 
+\end{proof}
+
+The Narrowing Property also will imply the separating property by taking $\varepsilon$ to be less than the distance between the two points. We favor the separating property as it usually does not require more than two steps to establish, but the narrowing property is crucial in establishing a variety of important properties. The separating property can be viewed as the foundation for the powerful machinery of the narrowing property. 
+
+We can now establish the classical existence of the function value.
+
+\begin{proposition}
+Let $E$ and $E'$ be metric spaces with $f$ being a function oracle from $E$ to $E'$. If an oracle $\alpha$ in $\overline{E}$ has a Yes-interval which is the base of a $f$-Yes rectangle, then $f(\alpha)$ is defined as the unique oracle $\beta$ in $\overline{E'}$ associated with the family of overlapping notionally shrinking balls given by the walls of the $f$-Yes rectangles that contain $\alpha$. 
+\end{proposition}
+
+\begin{proof}
+We need to show that the set of walls is a fonsb. Given two such walls, their bases intersect and we can restrict them to the same base by the Narrowing property. By the Single-valued property, the walls must intersect. By the Intersection property, that intersection must contain an $f$-Yes rectangle whose wall will be contained in the wall of the original two rectangles. Thus, that wall is in the fonshb. As for notionally shrinking, that is directly the narrowing property. 
+
+By the fonshb proposition, we have a unique oracle associated with it. 
+\end{proof}
+
+The main addition that the fonshb does is to add in the singleton if it is missing. 
+
+We say that an oracle $\alpha$ is in the domain of the function oracle $f$ if there is at least one $f$-Yes rectangle $M$ whose base is a $\alpha$-Yes interval. By the proposition above, being in the domain does imply that the function will have a value at $\alpha$ in the classical sense. 
+
+
+
+
+\medskip
+
+\normalem %restoring normal emphasis in bibliography 
+\printbibliography
+
+\end{document}
