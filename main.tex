@@ -2,6 +2,13 @@
 \usepackage{personal}
 \usepackage{realoracles}
 
+
+\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem{lemma}{Lemma}[subsection]
+\newtheorem{corollary}{Corollary}[subsection]
+\newtheorem{proposition}{Proposition}[subsection]
+
+
 \title{Defining Real Numbers as Oracles}
 \jtauthor
 \date{July 10, 2023}
@@ -2347,6 +2354,9 @@ What we have just established is that we can start with any interval $\frac{a}{b
 Let us consider the simple interval $[1, 2]$ with target $\frac{3}{2}$. For this, the target is $m=1, n=1$ and happens after the first step. But now let's change the endpoint $2$ to $\frac{6}{3}$. This is the same rational, but it changes the $m$ and $n$ for the target. In particular, since $6*1-3*1 = 3$, we expect the target to be $\frac{9}{6}$ with $m=3, n=1$, generating the intervals $\frac{1}{1} :\frac{6}{3}$,  $\frac{1}{1} :\frac{7}{4}$, $\frac{1}{1} :\frac{8}{5}$, $\frac{1}{1} :\frac{9}{6}$. We can view this as we initially weighted the right endpoint more and so we start farther to the right and thus we need to go left a few times to compensate. 
 
 In summary, the mediant process of approximating a real number given a starting interval will always terminate when the real number is a rational in the rational interval. There is no condition on what the interval is or the form of the endpoints. All we require is that the target rational number is in the initial interval and then the process will terminate.\footnote{This is assuming that we have also tested the endpoints. If we did not and start with the mediant and the endpoint is the target, then the process will converge towards it, never switching. For example, $[0; n]$ is $\frac{1}{n}$ and is the sequence of approximations to $0$ if we start with $0:1$ and compare only the mediant intervals of $0:\frac{1}{2}$ and $\frac{1}{2}:1$. As $n$ goes to infinity, we get ever better approximations of $0$, but we never reach $0$.}
+
+
+
 
 
 
