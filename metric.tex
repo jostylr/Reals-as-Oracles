@@ -27,130 +27,141 @@ Completing a metric space using equivalence classes of Cauchy sequences is a sta
 
 Our primary task is to explore how to complete metric spaces using the notion of oracles. Oracles are defined on a collection of containers of points in a space. For completing the rationals to real numbers, these containers were inclusive rational intervals, including singleton intervals consisting of exactly one rational. For metric spaces, the containers will essentially be open balls with the data being the center point and the radius. For more general topological spaces, these ideas lead to the well-trodden theory of ultrafilters \cite{samuel}. But metric spaces allow for slightly simpler structures to consider. 
 
-This idea is based on, but not dependent on, the idea of viewing real numbers as oracles. Namely, that a real number is an object that identifies whether a real number is between two given rational numbers or not. See \cite{taylor23main} for the full details and \cite{taylor23teaser} for a very brief discussion of it. 
+This idea is based on, but not dependent on, the idea of viewing real numbers as oracles. Namely, that a real number is an object that identifies whether a real number is between two given rational numbers or not. See \cite{taylor23main} for the full details and \cite{taylor23teaser} for a very brief overview of it. 
  
-In a separate work, \cite{taylor23maudlin}, these ideas will be pursued in the context of the theory of Linear Structures, a recent alternative topological framework put forth by Tim Maudlin \cite{maudlin}. The idea of Linear Structures is that lines are fundamental to physical spaces and can be a better unifying notion across finite, discrete, dense, and complete spaces. The concept of betweenness is essential in that work and this makes the ideas of oracles a natural fit. 
+In a separate work, \cite{taylor23maudlin}, these ideas will be pursued in the context of the theory of Linear Structures, a recent alternative topological framework put forth by Tim Maudlin \cite{maudlin}. The idea of Linear Structures is that lines are fundamental to physical spaces and can be a better unifying notion across finite, discrete, dense, and complete spaces than the standard notion of open sets. The concept of betweenness is essential in that work and this makes the ideas of oracles a natural fit. 
 
 \section{Metric Spaces}
 
-Given a dense metric space, we can complete it by considering containment in open balls. In completing the real numbers, we used the Interval Separation property, namely, that given a point in a Yes interval, the divided interval would generally find one subinterval to be Yes and the other No. The exception was exactly when the point chosen was the root of the oracle, in which case both subintervals would be Yes as well as the singleton interval. 
+Given a dense metric space, we can complete it by considering containment in open balls. In completing the real numbers, we used the Interval Separation property, namely, that in splitting a Yes interval, one would generally find one subinterval to be Yes and the other No. The exception was exactly when the partitioning rational was the root of the oracle, in which case both subintervals would be Yes as well as the singleton interval. 
 
-For a general metric space, that property does not seem to have an analog. But an alternative property is the Two Point Separation Property which is roughly that given two points, we can find a Yes ball that does not include one of those points. This is a way of expressing that the oracle is converging on just one point. The downside of this property is that it is a little less constructive than the Interval Separation Property in that it just wills the existence of a Yes ball rather than being presented with definite options to cover it. 
+For a general metric space, that property does not seem to have an analog. But an alternative property is the Two Point Separation Property which is roughly that given two points, we can find a Yes-ball that does not include one of those points. This is a way of expressing that the oracle is converging on just one point. The downside of this property is that it is a little less constructive than the Interval Separation Property in that it just wills the existence of a Yes-ball rather than being presented with choices to check.
 
-We will use $E$ and primes on that to denote different metric spaces. A metric space is a set $E$ equipped with a distance function, $d$, which takes in pairs of points from $E$ and returns a non-negative number. We will use $d_E$ if we need to distinguish different distance functions for different metric spaces. A distance function must be symmetric, non-negative, and is zero exactly when computing the distance from a point to itself. In addition, it must satisfy the triangle inequality $d(x,y) \leq d(x,y) + d(y,z)$. 
+A metric space is a set $E$ equipped with a distance function, $d$, which takes in pairs of points from $E$ and returns a non-negative number. We will use $d_E$ if we need to distinguish different distance functions for different metric spaces. A distance function must be symmetric, non-negative, and is zero exactly when computing the distance from a point to itself. In addition, it must satisfy the triangle inequality $d(x,y) \leq d(x,y) + d(y,z)$. 
 
-A ball is specified by a point $c$ (the center) and a radius $r$ and is a rule $B[c,r]$ such that $B[c,r](q) = 1$ if and only if the distance $d(c,q) < r$; we say that $q$ is contained in $B[c,r]$ and may write $q \in B[c,r]$ to indicate that. The radius is generally taken to be real numbers though rationals would be sufficient for our purposes.  We do allow singletons; a singleton is taken to be the ball of radius 0 with center $p$. It has the property that only $p$ is in it. Two balls $B$ and $C$ are disjoint if there does not exist any point $q$ that is contained in both $B$ and $C$.
+A ball is specified by a point $c$ (the center) and a radius $r$. It is a rule $B[c,r]$ such that $B[c,r](q) = 1$ if and only if the distance $d(c,q) < r$; we say that $q$ is contained in $B[c,r]$ and may write $q \in B[c,r]$ to indicate that. The radius is generally taken to be real numbers though rationals would be sufficient for most of our purposes.  Two balls $B$ and $C$ are disjoint if there does not exist any point $q$ that is contained in both $B$ and $C$. They are separated if there exists $s> 0$ such that for every pair of $b \in B$ and $c \in C$, we have $d(c,b) > s$; the separation $s_{B,C}$ is, using real numbers, the greatest lower bound of those distances.
 
-The intuition of one ball $B= B[b,s]$ being inside another ball $A= B[a, r]$ is that  $B(p) = 1$ implies $A(p) = 1$. We will not use that as the definition, however. Instead, when we say ``$B$ is inside $A$'' or that $B$ is strictly contained in $A$, it will mean that $d(a,b) + s < r$. This does imply our intuitive condition since if $p$ is in $B$, then $d(a, p) \leq d(a, b) + d(b, p) < d(a,b) + s < r$. This condition prevents us from having to worry about something like our space being the interval $[0, 1]$ and having balls of radius, say, 100 being included in a ball of radius 2 because both are the entire space. Since our primary concern is with making balls smaller, this condition should not impact any conclusion. We also stipulate that the slightly weaker statement of $B$ being contained in $A$ does allow the possibility of $B$ being $A$. 
+The intuition of one ball $B= B[b,s]$ being inside another ball $A= B[a, r]$ is that  $B(p) = 1$ implies $A(p) = 1$. We will say $A$ contains $B$ in that case. But when we say that $B$ is strictly contained in $A$ or $A$ strictly contains $B$, it will mean that $d(a,b) + s < r$. This does imply that if $p$ is in $B$, then $p$ is in $A$ as $d(a, p) \leq d(a, b) + d(b, p) < d(a,b) + s < r$. It does not imply, however, that all balls that satisfy the set containment are strictly contained in $A$ by the distance condition. We are essentially demanding a gap between the contained ball and the boundary of the containing ball. In particular, $m = r - d(a,b) - s > 0$ is the \textbf{moat} of $B$ in $A$. Any two balls which have the same center but different radii will have the property that the smaller has a moat in the larger one. 
 
-Note that our balls may have boundary points despite being open balls. As an example, consider again $[0,1]$ and a ball of radius $\frac{2}{3}$ centered at $\frac{1}{3}$. This ball will extend past the endpoint of the interval, $0$, and thus gets clipped there. These are perfectly acceptable in our setup. 
+Our first primary interest will be with dense regions in a metric space. A region is \textbf{dense} if for any given point $c$ in the region, and any radius $r>0$, there exists a point $q \in E$ such that $q \neq c$ and $q$ is in $B[c,r]$. An \textbf{isolated point $c$} is a point in which there exists an \textbf{isolating} ball $B[c, r]$, $r > 0$, with the property that $c$ is the only point in the ball. Necessarily, if $0 < s < r$, then $B[c, s]$ is also an isolating ball and identical as a point set to $B[c,r]$. 
 
-We should also note that when defining real numbers as oracles, we used inclusive rational intervals, not exclusive ones. The difference is that the interval definition could always have its endpoints. With this approach using balls, if we were to have inclusive balls, there could be gaps on the boundary and the oracle may be modelling a such a gap as a new point. That would then lead to possible lack of overlapping balls modelling that same gap. We want to demand that other Yes balls overlap. The counterexample to keep in mind is two sets of disks in the rational plane who have on their boundary the point $(0, \sqrt{2})$. These sets could be part of oracles using closed balls for $(0, \sqrt{2})$, but they would have no overlaps, losing the uniqueness that we seek from oracles. We handle this by prohibiting considering these ``closed'' disks. If we wanted to model this point, we would need to use open disks that surround where that point should be. 
+\subsection{Why the Moat?}
 
-Our metric spaces will be dense metric spaces which we take to mean that in any given ball $B[c,r]$, there exists $q \in E$ such that $q \neq c$ and $q$ is in $B[c,r]$.
+Our goal is to produce a mechanism that singles out a point, or desired point, in a space in a unique way. We do this by considering the balls that contain a point. Since we are trying to model situations where the point being contained does not exist in the given space, we need to use properties to describe that without actually requiring containment. But if we are not careful, we could end up allowing a set of containers that do not contain an existing point, but nevertheless are zooming in on that point. 
 
-\section{Oracles in a Metric Space}
+An example of this is the set of circles $(x-b)^2 + y^2 = (1-b)^2$ for $b < 1$. These are all attached to the point $(0,1)$ though they do not contain it. If we did not insist on moated containment, then these would be a perfectly fine base for describing $(0,1)$. The circles of that form with $b > 1$ would be a distinct base also attached to and describing $(0,1)$. These two bases never overlap and must therefore give rise to distinct filters. This is where the insistence on strictly contained comes from in the oracle definition. To be clear, strictly contained is the insistence on a moat around the contained set. 
 
-We can now give our definition of an oracle for a metric space $E$. The Oracle of $\alpha$ is a rule defined on balls that decides on whether they are a Yes ball or No ball and satisfies: 
+We phrased containment using distances. This allows a space with a boundary to recover its boundary. For example, if the space is  the interval $[0, 1]$, then a ball of radius, say, 100 is equal to a ball of radius 2 in terms of set containment because both are the entire space. But in our definition, the larger ball strictly contains the smaller one as the moat condition is satisfied. Since our primary concern is with making balls smaller, this condition should not impact any conclusion. 
+
+Related to this, our balls may have boundary points despite being open balls. As an example, consider again $[0,1]$ and a ball of radius $\frac{2}{3}$ centered at $\frac{1}{3}$. This ball will extend past the endpoint of the interval, $0$, and thus gets clipped there. These are perfectly acceptable in our setup. A ball of radius $\frac{1}{2}$ centered at $\frac{1}{3}$ will be strictly contained in the larger ball even though at the point $0$, there is no moat separating. This is not a problem with what we need. 
+
+We should also note that when defining real numbers as oracles, we used inclusive rational intervals, not exclusive ones. The difference is that the interval definition could always have its endpoints. With this approach using balls, if we were to have inclusive balls, there could be gaps on the boundary and the oracle may be modelling such a gap as a new point. That would then lead to a possible lack of overlapping balls modelling that same gap. We want to demand that other Yes-balls overlap. The counterexample to keep in mind is two sets of disks in the rational plane who have on their boundary the point $(0, \sqrt{2})$. These sets could be part of oracles using closed balls for $(0, \sqrt{2})$, but they would have no overlaps, losing the uniqueness that we seek from oracles. We handle this by prohibiting considering these ``closed'' disks. If we wanted to model this point, we would need to use open disks that surround where that point should be. 
+
+
+\section{Neighborly Oracles in a Metric Space}
+
+We can now give our definition of a neighborly oracle for a metric space $E$. The Oracle of $\alpha$ is a rule defined on (open) balls that decides on whether they are a Yes-ball or No-ball and satisfies: 
 \begin{enumerate}
     \item Consistency. If ball $B$ contains $C$ and $C$ is a Yes-ball, then $B$ is a Yes-ball.
     \item Existence. There exists $B$ such that $B$ is a Yes-ball.
-    \item Intersecting. If $B$ and $C$ are Yes balls, then there is a Yes ball $D$ that is contained in both of them. 
-    \item Two Point Separation. Given a Yes-ball $B$ and two points in $B$, then there is a Yes-ball inside $B$ which does not contain at least one of the given points. 
-    \item Centering. Given a Yes-ball $B$, it contains a Yes-ball $C$ which is moated in $B$.
-    \item DELETE Closed. If $q \in E$ is contained in all Yes-balls, then $B[q, 0]$, which contains only $q$, is a Yes-ball. 
+    \item Intersecting. If $B$ and $C$ are Yes-balls, then there is a Yes-ball $D$ that is strictly contained in both $B$ and $C$. 
+    \item Two Point Separation. Given a Yes-ball $B$ and two points in $B$, then there is a Yes-ball strictly contained in $B$ which does not contain at least one of the given points. 
 \end{enumerate}
 
-As we will later explain, this is equivalent to looking at a maximal family of overlapping, notionally shrinking balls (fonsbs). The oracle presentation is preferred to emphasize the querying nature of it, but the fonsbs often naturally arise and are sufficient to know what oracle is being discussed. 
+The first three items are ensuring that this is a filter. The last item is what ensures it is maximal and unique as we will eventually demonstrate. 
+
+As a reminder, strictly contained means that, formally, there is a distance separation between the balls. In actuality, the two balls could be identical in terms of the points contained in them. What we need, however, is the ability to have the distance relation be used. In large part, this is because we are concerned with smaller and smaller balls. Also, if we are at an edge of some kind, then overlapping the edge ensures that it will be a part of it and ensures uniqueness. 
+
+As we will later explain, the oracle presentation is equivalent to looking at a maximal family of overlapping, notionally shrinking balls (fonsbs). The oracle presentation is preferred to emphasize the querying nature of it, but the fonsbs often naturally arise and are sufficient to know what oracle is being discussed. 
 
 \subsection{Rooted Oracles}
 
-The first example of an oracle is that of the oracles that contain a singleton. Namely, let $p \in E$. Then the Oracle of $p$ is defined as the set of all balls that contain $p$. We can quickly establish that it is an oracle. Let $B_p$ be the ball of radius 0 and center $p$.
+The first example of an oracle is that of the oracles that contain an existing point. Namely, let $p \in E$. Then the Oracle of $p$ is defined as the set of all balls that contain $p$. We can quickly establish that it is an oracle.
 
 \begin{enumerate}
-    \item Consistency. If a ball $B$ contains a ball $C$ and $C$ is a Yes-ball, then $C$ contains $p$. Thus, $B$ contains $p$ and is therefore a Yes ball. 
-    \item Existence. $B[p, r]$ for any $r \geq 0$ is an example. 
-    \item Intersecting. $B_p$ is contained in all of the Yes balls. We can also construct a Yes ball centered at $p$ whose radius is such that it is included in both of the given balls. The radius would be any number less than the $\min\{r_1 - d(c_1, p), r_2 - d(c_2, p)\}$ for the given balls of $B[c_1, r_1]$ and $B[c_2, r_2]$. 
-    \item Two Point Separation. $B_p$ excludes all points other than $p$ and is included in all Yes balls. Thus, given any two points, we can always choose $B_p$. We could also choose a ball containing $p$ whose radius is smaller than half the distance between the two points and it will exclude at least one of them. This property vacuously holds for $B_p$ since there is only one point in it.
-    \item Centering. 
-    
-    \item DELETE Closed. $p$ is contained in all of them and $B_p$ is a Yes ball. The Two Point Separating Property demonstrates that there is no other point contained in all of the other balls. 
+    \item Consistency. If a ball $B$ contains a ball $C$ and $C$ is a Yes-ball, then $C$ contains $p$. Thus, $B$ contains $p$ and is therefore a Yes-ball. 
+    \item Existence. $B[p, r]$ for any $r \geq 0$ is an example. Such balls are not empty as they contain $p$. 
+    \item Intersecting. Given two Yes-balls, we can construct a Yes-ball $A$ centered at $p$ whose radius is such that it is included in both of the given balls with a moat around them. Take the radius to be $r_A = \frac{1}{2}\min\{r_1 - d(c_1, p), r_2 - d(c_2, p)\}$ for the given balls of $B_1 = B[c_1, r_1]$ and $B_2 = B[c_2, r_2]$. We need to show that $A$ is strictly contained in $B_1$ and $B_2$. The condition to show is that $d(c_i, p) + r_A < r_i$. But we have $r_A \leq \frac{r_i - d(c_i, p)}{2}$ and so $d(c_i, p) + r_A \leq \frac{d(c_i, p) + r_i}{2} < \frac{2 r_i}{2} = r_i$. We thus have strict containment. 
+    \item Two Point Separation. Let $A = B[c_A, r_A]$ be a Yes-ball. Let $q_1$ and $q_2$ be two points in $A$. We need to find a ball in $A$ which excludes at least one of those points. Let $m = \frac{ r_A - d(c_A, p)}{2}$. Any ball centered at $p$ with radius less than $m$ will be a Yes ball with a moat in $A$. If one of the two points is $p$, say $q_1 = p$, then we choose $B[p, \min(m, d(p, q_2))]$ which will be a Yes-ball as it contains $p$, it does exclude $q_2$, and it is moated inside of $A$. If neither of the points is $p$, then we can use $B[p, \min(m, d(p, q_1), d(p, q_2)]$ which will exclude both of the points and be a Yes-ball moated in $A$. 
 \end{enumerate}
 
 We have established that there is a natural injection from $E$ into the space of Oracles of $E$, namely, $p$ is mapped to the Oracle of $p$. 
 
-We say an oracle $\alpha$ is \textbf{rooted} at $p$ if $\alpha$ is the Oracle of $p$. 
+We say an oracle $\alpha$ is \textbf{rooted} at $p$ if $\alpha$ is the Oracle of $p$. If an isolating ball of $p$ is a Yes-ball for an oracle, then it is the Oracle of $p$. This follows from the intersecting property and the fact that the only balls contained in an isolating ball are balls with the same center.\footnote{Just to be clear, these would be the same point set, namely the set consisting exactly of $p$, but they would be balls of different radii. Hence, in our viewpoint, they are distinct.} 
 
 We should also establish that if $p$ is contained in all of the Yes-balls of an oracle, then it is the Oracle of $p$. This will follow from the Narrowing Property which we establish from the Two Point Separation Property. 
 
 
 \subsection{The Narrowing Property}
 
-An equivalent replacement for the Two Point Separation Property is the Narrowing Property: Given any Yes-ball $B$ for the oracle $\alpha$ and real number $\varepsilon >0$, we can find a Yes-ball whose diameter is less than $\varepsilon$ inside $B$.
+An equivalent replacement for the Two Point Separation Property is the Narrowing Property: Given any Yes-ball $B$ for the oracle $\alpha$ and real number $\varepsilon >0$, we can find a Yes-ball whose diameter is less than $\varepsilon$ and is strictly contained in $B$.
 
 \begin{proposition}
-    The Two Point Separating Property and the Narrowing Property are equivalent.
+    The Two Point Separation Property and the Narrowing Property are equivalent.
 \end{proposition}
 
 \begin{proof}
 
-If we have the narrowing property, then we can choose a Yes ball whose radius is less than half the distance between the two points. This ball will not be able to contain both points since the distance between any two points $p, q$ in a ball $B[c, r]$ is $d(p,q) \leq d(p, c) + d(q,c) < 2r$.
+If we have the Narrowing Property, then we can choose a Yes-ball strictly contained in the given ball whose radius is less than half the distance between the two points. This ball will not be able to contain both points since the distance between any two points $p, q$ in a ball $B[c, r]$ is $d(p,q) \leq d(p, c) + d(q,c) < 2r$. Thus, if $ r \leq \frac{d(q,p)}{2}$, then the previous fact implies that if $p$ and $q$ were in the ball $B[c, r]$, then $d(p,q) < 2 r \leq 2\frac{d(p,q)}{2} = d(p,q)$ which is not possible. 
 
-For the other direction, let $B_0 = B[c_0, r_0]$ be the initial Yes ball. Assume $B_i = B[c_i, r_i]$ is defined and a Yes ball. We proceed as follows. If $r_i < \varepsilon$, we are done. If not, we choose a point $p$ in $B[c_i, \frac{r_i}{3}]$ which is not $c_i$; this exists by the presumed density of the metric space. 
+For the other direction, let $B_0 = B[c_0, r_0]$ be the initial Yes-ball. Assume $B_i = B[c_i, r_i]$ is defined and a Yes-ball. We proceed as follows. 
 
-Apply the Two Point Separation Property to $c_i$ and $p$. Let $B_{i+1} = B[c_{i+1}, r_{i+1}]$  be the Yes ball that excludes at least one of them.
+If $B[c_i, \frac{r_i}{3}]$ is an isolating ball, then $B[c_i, \min(\frac{\epsilon}{2}, \frac{r_i}{3})]$ works as the desired ball. 
 
-We wish to argue that $r_{i +1} \leq \frac{2r_i}{3}$. Let $a = d(c_{i+1}, c_i)$. If $a \geq \frac{r}{3}$ then as the ball is
-inside $B_i$, our presumption on what that means implies that $r_{i+1} + a < r_i$ implying $ r_{i+1} \leq \frac{2 r_i}{3}$. In this
-case, we are done. 
+If it is not an isolating ball, then we choose a point $p$ in $B[c_i, \frac{r_i}{3}]$ which is not $c_i$; the existence of such a point is what it means to not be isolating.
+
+Apply the Two Point Separation Property to $c_i$ and $p$. Let $B_{i+1} = B[c_{i+1}, r_{i+1}]$  be the Yes-ball that excludes at least one of them and is strictly contained in $B_i$.
+
+We wish to argue that $r_{i +1} < \frac{2r_i}{3}$. Let $a = d(c_{i+1}, c_i)$. If $a \geq \frac{r_i}{3}$ then as the ball is
+strictly contained in $B_i$, our presumption on what that means implies that $r_{i+1} + a < r_i$ implying $ r_{i+1} \leq \frac{2 r_i}{3}$. In this case, we are done. 
 
 So we can assume $a < \frac{r_i}{3}$ for the rest of this argument. If $c_i$ is excluded from $B_{i+1}$, then $r_{i+1} \leq a < \frac{r_i}{3} < \frac{2 r_i}{3}$ and we are again done.
 
-The remaining case is that $c_i$ is included, but $p$ is excluded. This implies that $r_{i+1} < d(p, c_{i+1}$. Using the triangle inequality, we have $d(p, c_{i+1} \leq d(p, c_i) + d(c_i, c_i+1) < \frac{r_i}{3} + \frac{r_i}{3} = \frac{2r_i}{3}$ 
+The remaining case is that $c_i$ is included, but $p$ is excluded. This implies that $r_{i+1} < d(p, c_{i+1})$. Using the triangle inequality, we have $d(p, c_{i+1}) \leq d(p, c_i) + d(c_i, c_{i+1}) < \frac{r_i}{3} + \frac{r_i}{3} = \frac{2r_i}{3}$ 
 
-Inductively, we have that $r_i < \frac{2}{3}^i r_0$. Thus, given any $\varepsilon$, we can choose $I$ such that $I \geq \frac{\ln(\varepsilon) - \ln(r_0)}{\ln(2) - \ln(3)}$ which will guarantee that $B_I$ has a radius smaller than $\varepsilon$.
+Inductively, we have that $r_i < \frac{2}{3}^i r_0$. Thus, given any $\varepsilon$, we can choose $n$ such that $n \geq \frac{\ln(\varepsilon) - \ln(r_0)}{\ln(2) - \ln(3)}$ which will guarantee that $B_n$ has a radius smaller than $\varepsilon$ and is strictly contained in $B_0$.
 \end{proof}
 
 \begin{corollary}
-If $p \in E$ is contained in all Yes balls of the oracle $\alpha$, then $\alpha$ is the Oracle of $p$. 
+If $p \in E$ is contained in all Yes-balls of the oracle $\alpha$, then $\alpha$ is the Oracle of $p$. 
 \end{corollary}
 
 \begin{proof}
-We need to establish that all balls that contain $p$ are Yes balls of the Oracle of $p$. By assumption, if a ball does not contain $p$, then it is a No ball. 
+We need to establish that all balls that contain $p$ are Yes-balls of the Oracle of $p$. By assumption, if a ball does not contain $p$, then it is a No-ball. 
 
-Let $A = B[a, r_A]$ be a ball that contains $p$. Let $m = r_A - d(a,p)$. By the existence property, there is a Yes ball and by the Narrowing property, we have a Yes ball $B = B[b, r_B]$, $r_B \leq \frac{m}{2}$, contained in that ball. By the hypothesis, $p$ is contained in every Yes ball and so $p \in B$. We want to show that $B$ is contained in $A$. 
+Let $A = B[a, r_A]$ be a ball that contains $p$. Let $m = r_A - d(a,p)$. By the existence property, there is a Yes-ball and by the Narrowing property, we have a Yes-ball $B = B[b, r_B]$, $r_B \leq \frac{m}{2}$, contained in that ball. By the hypothesis, $p$ is contained in every Yes-ball and so $p \in B$. We want to show that $B$ is contained in $A$. 
 
 Let $q \in B$. Then by the triangle inequality, we have $d(q, a) \leq d(q, b) + d(b, p) +  d(p,a) < r_B + r_B + d(a,p) \leq m + d(a,p) = r_A$. So $q \in A$. 
 
-By consistency, since $A$ contains the Yes ball $B$, we have that $A$ is a Yes ball as well. Therefore, the Yes balls contain all the balls that contain $p$ and no others. This is the Oracle of $p$. 
+By consistency, since $A$ contains the Yes-ball $B$, we have that $A$ is a Yes-ball as well. Therefore, the Yes-balls contain all the balls that contain $p$ and no others. This is the Oracle of $p$. 
 \end{proof}
 
 
 
-There is a strong sense in which each Yes ball of an oracle contains all the much smaller Yes balls. 
+There is a strong sense in which each Yes-ball of an oracle contains all the much smaller Yes-balls. 
 
 \begin{proposition}
-    Given an oracle $\alpha$ and a Yes ball $A$ of that oracle, there exists a radius $z$ such that all Yes balls of radius $z$ or less are contained in $A$. 
+    Given an oracle $\alpha$ and a Yes-ball $A$ of that oracle, there exists a radius $z$ such that all Yes-balls of radius $z$ or less are contained in $A$. 
 \end{proposition}
 
 \begin{proof}
-Let $A = B[a, r_A]$. Pick a point in $A$ which is not equal to $c$. Then there exists a Yes ball $B = B[b,r_B]$ which excludes one of these points and is strictly contained in $A$. Let $m = r_A - (d(a,b) + r_B)$; this is essentially the distance from the closest point in $B$ to the edge of $A$. It is positive because $B$ is strictly contained in $A$.  Any ball of radius $z \leq \frac{m}{2}$ that intersects $B$ will be entirely contained in $A$. Indeed, let $p \in B[c, z]$. Then $d(p, a) \leq d(p, c) + d(c, b) + d(b, a) < \frac{m}{2} + \frac{m}{2}+ r_B + d(a,b) = r_A$. Since every Yes ball must intersect the Yes ball $B$, any Yes ball whose radius is less than or equal to $\frac{m}{2}$ is contained in $A$. 
+Let $A = B[a, r_A]$. Pick a point $c$ in $A$ which is not equal to $a$. Then there exists a Yes-ball $B = B[b,r_B]$ which excludes one of these points and is strictly contained in $A$. Let $m = r_A - (d(a,b) + r_B)$; this is essentially the distance from the closest point in $B$ to the edge of $A$. It is positive because $B$ is strictly contained in $A$.  Any ball of radius $z \leq \frac{m}{2}$ that intersects $B$ will be entirely contained in $A$. Indeed, let $p \in B[c, z]$. Then $d(p, a) \leq d(p, c) + d(c, b) + d(b, a) < \frac{m}{2} + \frac{m}{2}+ r_B + d(a,b) = r_A$. Since every Yes-ball must intersect the Yes-ball $B$, any Yes-ball whose radius is less than or equal to $\frac{m}{2}$ is contained in $A$. 
 \end{proof}
 
 
-We also have that if an oracle $\alpha$ has the property that all of the balls that contain $p$ are Yes balls, then this is the Oracle of $p$. This follows from the more general statement: 
+We also have that if an oracle $\alpha$ has the property that all of the balls that contain $p$ are Yes-balls, then this is the Oracle of $p$. This follows from the more general statement: 
 
 
 \begin{corollary}
-    If $\alpha$ and $\beta$ are oracles, then the Yes balls of $\alpha$ cannot be wholly contained in the Yes balls of $\beta$ unless $\alpha=\beta$.
+    If $\alpha$ and $\beta$ are oracles, then the Yes-balls of $\alpha$ cannot be wholly contained in the Yes-balls of $\beta$ unless $\alpha=\beta$.
 \end{corollary}
 
 \begin{proof}
-    Assume that every Yes ball of $\alpha$ is a Yes ball for $\beta$.
+    Assume that every Yes-ball of $\alpha$ is a Yes-ball for $\beta$.
 
-    Let $A$ be any Yes ball of $\beta$. We are done if we can show that $A$ is also a Yes ball for $\alpha$.
+    Let $A$ be any Yes-ball of $\beta$. We are done if we can show that $A$ is also a Yes-ball for $\alpha$.
     
-    By the proposition, there exists a radius $z$ such that all Yes balls of $\beta$ whose radius is no more than $z$ are contained in $A$. By the Narrowing Property, there exists Yes balls of $\alpha$ whose radius is less than $z$. As all Yes balls of $\alpha$ are also Yes balls of $\beta$, these balls are contained in $A$. But then by consistency, $A$ is a Yes ball for $\alpha$.
+    By the proposition, there exists a radius $z$ such that all Yes-balls of $\beta$ whose radius is no more than $z$ are contained in $A$. By the Narrowing Property, there exists Yes-balls of $\alpha$ whose radius is less than $z$. As all Yes-balls of $\alpha$ are also Yes-balls of $\beta$, these balls are contained in $A$. But then by consistency, $A$ is a Yes-ball for $\alpha$.
 
     Since $A$ was arbitrary, we have that the two oracles are identical. 
     
@@ -160,7 +171,17 @@ We also have that if an oracle $\alpha$ has the property that all of the balls t
     If $\alpha$ and $\beta$ are oracles and there exists a ball $A$ which is Yes for $\alpha$ and No for $\beta$, then there exists a ball $B$ which is Yes for $\beta$ and No for $\alpha$. 
 \end{corollary}
 
-Thus, if we have an oracle which contains all the Yes balls of the Oracle of $p$, then there cannot be any additional Yes balls for that oracle. 
+Thus, if we have an oracle which contains all the Yes-balls of the Oracle of $p$, then there cannot be any additional Yes-balls for that oracle. 
+
+A filter-rule will be a Yes-No rule which satisfies the first three properties. 
+
+\begin{proposition}
+    If $\alpha$ is an oracle, and $\beta$ is a filter-rule which agrees with all of the Yes-balls of $\alpha$, then $\beta$ is $\alpha$.
+\end{proposition}
+
+\begin{proof}
+    Let $B$ be a Yes-ball of $\beta$ which is not a Yes ball of $\alpha$. Let $A$ be any Yes-ball of $\alpha$. By the filter properties, $A$ and $B$ both strictly contain  Yes-ball of 
+\end{proof}
 
 
 \section{Distance Between Oracles}
@@ -194,7 +215,7 @@ We need to check the properties.
 \item Non-negativity. We need to show that $\underline{d}(\alpha, \beta) \geq 0$. This is trivial as this quantity is the greatest lower bound of a set of numbers bounded below by 0. 
 \item Symmetry. We need to show that $\underline{d}(\alpha,\beta) = \underline{d}(\beta,\alpha)$.The function $\underline{d}$ is symmetric. This follows as $d(A,B) = d(B,A)$ due to $d(c_A, c_B) = d(c_B, c_A$ and addition is commutative. Thus, the set of distances for the greatest lower bound of $\underline{d}(\alpha,\beta)$ is the same as the set of distances for $\underline{d}(\beta,\alpha)$.
 \item Equality. We need to show $\underline{d}(\alpha,\beta) = 0$ exactly when $\alpha=\beta$. If $\alpha=\beta$, then we can consider the set of distances $d(B,B)= 2r$ of balls that contain $\alpha$ to itself. Since we can take the balls to be arbitrarily small, we have the greatest lower bound is 0. If $\alpha \neq \beta$, then there exists disjoint balls $B$ and $C$ with $\alpha \in B$ and $\beta \in C$. The greatest lower bound is then bounded below by the $\inf\{d(q,p) | q \in B, p \in C\}$ since contained balls in them will have distances of their centers at least as large as that infimum. 
-\item Triangle Inequality. We need to show $\underline{d}(\alpha,\gamma) \leq \underline{d}(\alpha,\beta) + \underline{d}(\beta,\gamma)$. Let $A$, $B$, and $C$ be Yes-balls for $\alpha$, $\beta$, and $\gamma$, respectively. Let $(q_A,c_A, r_A)$, $(q_B,c_B, r_B)$, and $(q_C,c_C, r_C)$ be points in, centers and radii for, respectively, the similarly their named balls. Then $r_A + d(c_A, c_C) + r_C$ is the quantity that represents an element of the distance set whose infimum is $\underline{d}(\alpha,\gamma)$. We need to compare it to the representatives of the other two distances summed. Well, $d(c_A,c_C) \leq d(c_A,c_B) + d(c_B, c_C)$ by the triangle inequality. Using that, we have  $d(A, C) = r_A + d(c_A, c_C) + r_C \leq r_A +  d(c_A,c_B) + d(c_B, c_C) + r_C <  r_A +  d(c_A,c_B) + r_B + r_B + d(c_B, c_C) + r_ C = d(A,B) + d(B, C)$. As this inequality is true for all of the respective Yes balls of the oracles, we have that it is true of the infimum so that $d(\alpha, \gamma) \leq \underline{d}(\alpha,\beta) + \underline{d}(\beta,\gamma)$. When we take the infimum, the inequality is preserved. 
+\item Triangle Inequality. We need to show $\underline{d}(\alpha,\gamma) \leq \underline{d}(\alpha,\beta) + \underline{d}(\beta,\gamma)$. Let $A$, $B$, and $C$ be Yes-balls for $\alpha$, $\beta$, and $\gamma$, respectively. Let $(q_A,c_A, r_A)$, $(q_B,c_B, r_B)$, and $(q_C,c_C, r_C)$ be points in, centers and radii for, respectively, the similarly their named balls. Then $r_A + d(c_A, c_C) + r_C$ is the quantity that represents an element of the distance set whose infimum is $\underline{d}(\alpha,\gamma)$. We need to compare it to the representatives of the other two distances summed. Well, $d(c_A,c_C) \leq d(c_A,c_B) + d(c_B, c_C)$ by the triangle inequality. Using that, we have  $d(A, C) = r_A + d(c_A, c_C) + r_C \leq r_A +  d(c_A,c_B) + d(c_B, c_C) + r_C <  r_A +  d(c_A,c_B) + r_B + r_B + d(c_B, c_C) + r_ C = d(A,B) + d(B, C)$. As this inequality is true for all of the respective Yes-balls of the oracles, we have that it is true of the infimum so that $d(\alpha, \gamma) \leq \underline{d}(\alpha,\beta) + \underline{d}(\beta,\gamma)$. When we take the infimum, the inequality is preserved. 
 \end{enumerate}
 \end{proof}
 
@@ -209,7 +230,7 @@ We need to check the properties.
 
 To establish the original space is still in there, we identify the singletons as their own representatives and note that the distance as defined above for oracles immediately gives us that the distance between the singletons is unchanged from the original space. 
 
-The final step is to show that the new space is complete. This could follow largely on how we did Cauchy sequences. Define a Cauchy sequence as a sequence of points such that we have a sequence of nested balls that contain the tail of the sequence and the size can be taken as small as we like. A Yes-ball is then any ball which contains one of these nesting balls. Consistency and existence are immediate from the definitions. Intersection is easy to see since the nesting balls contain one another and thus there must be a common nested ball inside any ball which contains a nested ball. The Closed property, as we did before, is simply postulated as part of the definition of the balls. As for the two point separation property, given two points, there exists a small enough ball that cannot contain them both due to the non-zero distance between them. At that point, we should have a nested Yes ball that does not contain at least one of them. 
+The final step is to show that the new space is complete. This could follow largely on how we did Cauchy sequences. Define a Cauchy sequence as a sequence of points such that we have a sequence of nested balls that contain the tail of the sequence and the size can be taken as small as we like. A Yes-ball is then any ball which contains one of these nesting balls. Consistency and existence are immediate from the definitions. Intersection is easy to see since the nesting balls contain one another and thus there must be a common nested ball inside any ball which contains a nested ball. The Closed property, as we did before, is simply postulated as part of the definition of the balls. As for the two point separation property, given two points, there exists a small enough ball that cannot contain them both due to the non-zero distance between them. At that point, we should have a nested Yes-ball that does not contain at least one of them. 
 
 We call the space of oracles with this induced metric $\overline{E}$, the \textbf{closure} of $E$.
 
@@ -225,25 +246,25 @@ We can use this in establishing a notion of separation of oracles and a criteria
 Two oracles are \textbf{separated} if there exists a length $s$ and a radius $r$ such that any two balls, one from each of the two oracles, of radius $r$ or less, has a distance from each other of at least $s$. Intuitively, the distance between two balls is the distance of the two closest points of the balls. As $d(c_1, c_2) - r_1 - r_2$ is an upper bound for the distance of two balls with centers $c_1$ and $c_2$ and radii $r_1$ and $r_2$, respectively, we will take that as our distance criteria here. 
 
 \begin{proposition}
-If a Yes ball $A = B[c_A, r_A]$ of oracle $\alpha$ and Yes ball $B=[c_B, r_B]$ of oracle $\beta$ are disjoint with distance $s$, then the two oracles are separated by any amount $s-\varepsilon$.
+If a Yes-ball $A = B[c_A, r_A]$ of oracle $\alpha$ and Yes-ball $B=[c_B, r_B]$ of oracle $\beta$ are disjoint with distance $s$, then the two oracles are separated by any amount $s-\varepsilon$.
 \end{proposition}
 
 By considering the closest points on the balls as the root of the oracles, we see that anything less than $s$ is not guaranteed. By considering a situation in which the ``closest point'' does not exist by is what the oracles are converging to in a neighborly fashion, we see that we cannot guarantee $s$ itself as being realizable though it can get as close as we like. 
 
 \begin{proof}
-    By the narrowing property, we can find balls of any radius that we desire as Yes balls and they must intersect all the other Yes balls. Let $C = B[c_C, r_C]$ be a Yes ball of $\alpha$. Then as it must intersect $A$, the farthest point from $A$ for $C$ is $2r_C$. If we choose $r_C$ such that $r_C < \frac{\varepsilon}{4}$ and similarly for a small ball of $\beta$, then we can guarantee, by the intersection with $A$ and $B$, respectively, that their closest distance is $s - \varepsilon$. 
+    By the narrowing property, we can find balls of any radius that we desire as Yes-balls and they must intersect all the other Yes-balls. Let $C = B[c_C, r_C]$ be a Yes-ball of $\alpha$. Then as it must intersect $A$, the farthest point from $A$ for $C$ is $2r_C$. If we choose $r_C$ such that $r_C < \frac{\varepsilon}{4}$ and similarly for a small ball of $\beta$, then we can guarantee, by the intersection with $A$ and $B$, respectively, that their closest distance is $s - \varepsilon$. 
 \end{proof}
 
-If two oracles have separation 0, then all of their Yes balls intersect
+If two oracles have separation 0, then all of their Yes-balls intersect
 
 \begin{proposition}
-    Two oracles $\alpha$ and $\beta$ are equal if and only if all of their Yes balls intersect. 
+    Two oracles $\alpha$ and $\beta$ are equal if and only if all of their Yes-balls intersect. 
 \end{proposition}
 
 \begin{proof}
-    Let Yes ball $A$ of oracle $\alpha$ and Yes ball $B$ of oracle $\beta$, not intersect. 
+    Let Yes-ball $A$ of oracle $\alpha$ and Yes-ball $B$ of oracle $\beta$, not intersect. 
     Now for the other direction. 
-    Given a Yes ball $A$ of $\alpha$, we will show that it is a Yes ball of $\beta$. 
+    Given a Yes-ball $A$ of $\alpha$, we will show that it is a Yes-ball of $\beta$. 
 \end{proof}
 
 
@@ -251,7 +272,7 @@ If two oracles have separation 0, then all of their Yes balls intersect
 
 \section{Family of Overlapping Notionally Shrinking Balls}
 
-A Family of Overlapping, Notionally Shrinking Balls (fonsb) is a family of balls for which 1) every pair of balls in the family contain a common ball that is in the family, 2) there is at least one ball in the family, and 3) the Narrowing Property holds for the family (replace the word oracle with fonsb). Any such family can be uniquely completed to a maximal family, one which is equivalent to the Yes balls of an oracle, as we will now demonstrate. 
+A Family of Overlapping, Notionally Shrinking Balls (fonsb) is a family of balls for which 1) every pair of balls in the family contain a common ball that is in the family, 2) there is at least one ball in the family, and 3) the Narrowing Property holds for the family (replace the word oracle with fonsb). Any such family can be uniquely completed to a maximal family, one which is equivalent to the Yes-balls of an oracle, as we will now demonstrate. 
 
 We will proceed in a similar fashion to how fonsis were dealt with in \cite{taylor23main}, in Section 3.4. The pathway here is easier since we have assumed the existence of a ball in the fonsb for every pair rather simply assuming them to not be disjoint. 
 
@@ -266,7 +287,7 @@ We will proceed in a similar fashion to how fonsis were dealt with in \cite{tayl
 A \textbf{community of balls} in a fonsb is a collection of balls in the fonsb such that their intersection is non-empty. Any finite collection of balls in a fonsb is a community as we just demonstrated. For infinite collections, the intersection may be empty. 
 
 \begin{proposition}
-Let $U$ be the intersection of a community of balls $\mathcal{C}$ for the fonsb $\mathcal{B}$. If the intersection contains at least two points, say, $a_1$ and $a_2$, then the intersection contains a Yes ball of $\mathcal{B}$.
+Let $U$ be the intersection of a community of balls $\mathcal{C}$ for the fonsb $\mathcal{B}$. If the intersection contains at least two points, say, $a_1$ and $a_2$, then the intersection contains a Yes-ball of $\mathcal{B}$.
 \end{proposition}
 
 We need at least two points as the fonsb could be representing a singleton oracle with a single point common to all, but a fonsb does not need to contain that singleton, unlike the oracle. But with two points, we then have a distance we can use. 
@@ -279,35 +300,35 @@ Let $B = B[c,r]$ be a ball in the community $\mathcal{C}$. By assumption, both $
 
 
 \begin{theorem}
-    Given a fonsb $\mathcal{B}$, there exists a unique oracle $\alpha$ such that all of the elements of the fonsb are Yes balls of $\alpha$.
+    Given a fonsb $\mathcal{B}$, there exists a unique oracle $\alpha$ such that all of the elements of the fonsb are Yes-balls of $\alpha$.
 \end{theorem}
 
 \begin{proof}
-    There are two cases. The first case is that there is a point $p$ contained in all of the balls in the fonsb. Then the oracle is the Oracle of $p$. It is immediate that all of the elements of the fonsb are Yes balls of this oracle since they all contain $p$ by assumption. We 
+    There are two cases. The first case is that there is a point $p$ contained in all of the balls in the fonsb. Then the oracle is the Oracle of $p$. It is immediate that all of the elements of the fonsb are Yes-balls of this oracle since they all contain $p$ by assumption. We 
     also need to show that no other oracle could contain this fonsb.
 
-    Assume there was a different oracle that did contain this fonsb. Then there would exist a Yes ball $B[c,r]$ of that oracle which does not contain $p$. This means that $d(c,p) > r$; let's say that the distance is $r +s$. Then, by the narrowing property, there exists a ball in the fonsb such that its radius is less than $s/3$. Since it contains $p$ by assumption, the farthest point, say $q$, of the ball from $p$ has distance no more than $\frac{2s}{3}$. If $q$ was contained in the Yes ball, then $d(c,q)  \leq r$ and so $d(c, p) \leq d(c, q) + d(q,p) \leq r + \frac{2s}{3} < r + s$ and that contradicts the assumption that $p$ is not in the Yes ball. Thus there is only one oracle that contains this fonsb. 
+    Assume there was a different oracle that did contain this fonsb. Then there would exist a Yes-ball $B[c,r]$ of that oracle which does not contain $p$. This means that $d(c,p) > r$; let's say that the distance is $r +s$. Then, by the narrowing property, there exists a ball in the fonsb such that its radius is less than $s/3$. Since it contains $p$ by assumption, the farthest point, say $q$, of the ball from $p$ has distance no more than $\frac{2s}{3}$. If $q$ was contained in the Yes-ball, then $d(c,q)  \leq r$ and so $d(c, p) \leq d(c, q) + d(q,p) \leq r + \frac{2s}{3} < r + s$ and that contradicts the assumption that $p$ is not in the Yes-ball. Thus there is only one oracle that contains this fonsb. 
 
     The other case is that there is no point that is in common to all of the elements of the fonsb. That is, if $p$ is given, then we can find a ball $B_p$ in $\mathcal{B}$ which does not contain $p$. 
 
     In this case, we define the oracle as the rule that says Yes if a ball contains a ball of the fonsb. We now argue that this is an oracle. Note that since a ball contains itself, this oracle does say Yes to all the balls in the fonsb.
 
     \begin{enumerate}
-        \item Consistency. If $B$ contains $C$ and $C$ is a Yes ball, then $C$ contains a fonsb ball $A$ which is then also contained in $B$. So $B$ is a Yes ball.
-        \item Existence. There is a ball in the fonsb by assumption so that is a Yes ball. 
-        \item Two Point Separation. Given the Yes ball $C$ and two points $p$ and $q$ in $C$, we need to show that there is a Yes ball that excludes one of those points. Since $C$ is a Yes ball, there exists a fonsb ball $A$ inside of $C$ by definition of the Yes rule. Because of the fonsb satisfies the Narrowing Property, there exists a fonsb ball $B$ in $A$ whose radius is smaller than half the distance between $p$ and $q$. Thus, it must exclude one of them. 
-        \item Intersection. Let $C_1$ and $C_2$ be two Yes balls. Then there exists two fonsb balls $B_1$ and $B_2$ that are contained in $C_1$ and $C_2$, respectively. By assumption of a fonsb, there exists a fonsb ball $A$ contained in $B_1$ and $B_2$. $A$ is a Yes ball as it is in the fonsb and thus $C_1$ and $C_2$ both contain the Yes ball $A$.
-        \item Closed. Since there is no point contained in all of the elements of the fonsb and they are all Yes balls, there is no point contained in all of the Yes balls of this oracle. 
+        \item Consistency. If $B$ contains $C$ and $C$ is a Yes-ball, then $C$ contains a fonsb ball $A$ which is then also contained in $B$. So $B$ is a Yes-ball.
+        \item Existence. There is a ball in the fonsb by assumption so that is a Yes-ball. 
+        \item Two Point Separation. Given the Yes-ball $C$ and two points $p$ and $q$ in $C$, we need to show that there is a Yes-ball that excludes one of those points. Since $C$ is a Yes-ball, there exists a fonsb ball $A$ inside of $C$ by definition of the Yes rule. Because of the fonsb satisfies the Narrowing Property, there exists a fonsb ball $B$ in $A$ whose radius is smaller than half the distance between $p$ and $q$. Thus, it must exclude one of them. 
+        \item Intersection. Let $C_1$ and $C_2$ be two Yes-balls. Then there exists two fonsb balls $B_1$ and $B_2$ that are contained in $C_1$ and $C_2$, respectively. By assumption of a fonsb, there exists a fonsb ball $A$ contained in $B_1$ and $B_2$. $A$ is a Yes-ball as it is in the fonsb and thus $C_1$ and $C_2$ both contain the Yes-ball $A$.
+        \item Closed. Since there is no point contained in all of the elements of the fonsb and they are all Yes-balls, there is no point contained in all of the Yes-balls of this oracle. 
     \end{enumerate}
 
-    What we have defined is therefore an oracle and it contains the given fonsb. To finish the proof, we need to show that there is no other oracle that can contain this fonsb. By consistency, we know that all of the Yes balls must contain elements of the fonsb. Thus, an oracle can only differ from this one by having additional Yes balls. Let $C$ be a Yes ball that contains the 
+    What we have defined is therefore an oracle and it contains the given fonsb. To finish the proof, we need to show that there is no other oracle that can contain this fonsb. By consistency, we know that all of the Yes-balls must contain elements of the fonsb. Thus, an oracle can only differ from this one by having additional Yes-balls. Let $C$ be a Yes-ball that contains the 
     
 \end{proof}
 
 
 
 
-Fonsb $\mathcal{A}$ is compatible with fonsb $\mathcal{B}$ if given any ball $A$ in $\mathcal{A}$, there exists a ball $B$ in $\mathcal{B}$ such that $B$ is contained in $A$. This is clearly reflexive thanks to the Narrowing Property. We will show that it is symmetric and transitive. This will lead us to the conclusion that the union of compatible fonsbs is a fonsb and that the union over all of the fonsbs compatible to a given fonsb is a maximal fonsb equivalent to the Yes balls of an oracle.  
+Fonsb $\mathcal{A}$ is compatible with fonsb $\mathcal{B}$ if given any ball $A$ in $\mathcal{A}$, there exists a ball $B$ in $\mathcal{B}$ such that $B$ is contained in $A$. This is clearly reflexive thanks to the Narrowing Property. We will show that it is symmetric and transitive. This will lead us to the conclusion that the union of compatible fonsbs is a fonsb and that the union over all of the fonsbs compatible to a given fonsb is a maximal fonsb equivalent to the Yes-balls of an oracle.  
 
 \begin{proposition}
  Fonsb compatibility is symmetric.
@@ -371,7 +392,7 @@ To do so, let $f$ and $\alpha$ be given. Then:
 While the basic calculation is the same as in the proof of a fixed point using Cauchy sequences, the emphasis is quite different. 
 
 \begin{proof}
-    Because $f$ is a contractive mapping, $f$ has the property that it maps balls into smaller balls. Thus, the image of an oracle is another oracle. Specifically, $f(\alpha) = \beta$ is the oracle such that its Yes balls are those balls that contain the image of a Yes ball of $\alpha$. This is the same argument as extending continuous maps, which a contractive map is, so we will not redo that argument. 
+    Because $f$ is a contractive mapping, $f$ has the property that it maps balls into smaller balls. Thus, the image of an oracle is another oracle. Specifically, $f(\alpha) = \beta$ is the oracle such that its Yes-balls are those balls that contain the image of a Yes-ball of $\alpha$. This is the same argument as extending continuous maps, which a contractive map is, so we will not redo that argument. 
 
     Pick a point $p \in E$. Then let $m = d(p, f(p) )$. By the contraction property, $d(f(p), f(f(p)) = km$. Repeating this, we have $d(f^n(p), f^{n+1}(p) )  = k^n m$. Using the triangle inequality we have $d(p, f^n(p)) \leq d(p, f(p)) + d(f(p), f^2(p)) + \cdots + d(f^n(p), f^(p) ) = \sum_{i=0}^{n-1} k^i m = \frac{1-k^{n}}{1-k} m  < \frac{m}{1-k}$. It is possible that the fixed point is exactly at that distance\footnote{Consider $f(x) = \frac{x}{2}$. This is a contraction mapping with fixed point $0$. If one starts with $x=1$, then $m=\frac{1}{2}$ and $\frac{m}{1-k} = \frac{1/2}{1 - 1/2} = 1$. The fixed point is therefore the maximal distance and is not include in the open ball centered at $1$ with radius $1$.} Thus, we can conclude, that the repeated application of $f$, when starting with $p$, will remain in the ball $B[p, \frac{m}{1-k}]$. As those balls are slightly too small, we double the radius and define $B_{f,p} = B[p, \frac{2m}{1-k}]$. Note that $B_{f,f^n(p)}$ has a radius less than $\frac{2 m k^n}{1-k}$. This can be made arbitrarily small thanks to $k < 1$.
     
@@ -423,7 +444,18 @@ One can easily recognize that the house oracle space is a quotient space where t
 This also suggests that given a space and an equivalence relation, we can define a space of oracles based on the open sets that contain elements of that equivalence class. We would use the same definition of an open set as above for the houses. This leads to the same topology as the usual quotient topology. Indeed, if you look at the quotient map from an element $x$ to an equivalence class oracle, then the inverse image of a set is  
 
 
+\subsection{Neighborly Oracles}
 
+
+
+\begin{enumerate}
+    \item Consistency. If ball $B$ contains $C$ and $C$ is a Yes-ball, then $B$ is a Yes-ball.
+    \item Existence. There exists $B$ such that $B$ is a Yes-ball.
+    \item Intersecting. If $B$ and $C$ are Yes-balls, then there is a Yes-ball $D$ that is strictly contained in both of them. 
+    \item Two Point Separation. Given a Yes-ball $B$ and two points in $B$, then there is a Yes-ball strictly contained in $B$ which does not contain at least one of the given points. 
+\end{enumerate}
+
+\subsection{Outlying Oracles}
 
 ---
 
@@ -443,7 +475,7 @@ Two point compactification of R: Complement of a compact set intersected with th
 
 For anitpodal identification of the open disk, the criteria would be for a given line through the origin, complement of compact set intersected with open sets that contain the end segments of the line. 
 
-$f: X -> K$ a compact space, f continuous and onto. The oracles are then defined as $\alpha_k$ as the oracle such that it consists of $f^-1(V_k) \cap A^C$ where $A$ is compact, $A^C$ is its complement, $k$ is a point in $K$, and $V_k$ is an arbitrary open set in $K$ containing little $k$. That is, the open yes balls for $\alpha_k$ are the inverse images of neighborhoods of $k$ with a compact set in X removed. 
+$f: X -> K$ a compact space, f continuous and onto. The oracles are then defined as $\alpha_k$ as the oracle such that it consists of $f^-1(V_k) \cap A^C$ where $A$ is compact, $A^C$ is its complement, $k$ is a point in $K$, and $V_k$ is an arbitrary open set in $K$ containing little $k$. That is, the open Yes-balls for $\alpha_k$ are the inverse images of neighborhoods of $k$ with a compact set in X removed. 
 
 Claim is that these oracles based on $f$ will form a compact space in addition to an already completed space. 
 
