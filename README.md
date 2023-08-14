@@ -15,6 +15,8 @@ The following papers are currently in a partial release and very far from done o
 * [Elementary Analysis with Function Oracles](https://github.com/jostylr/Reals-as-Oracles/blob/main/articles/reals-as-oracles-functions.pdf) We use the notion of oracles as applied to functions to generate a more restrictive class, one which factors in the uncertain nature of the elements in the completed space using oracles. For real oracles, function oracles are oracles on rational rectangles that satisfy similar properties to oracles, but adapted to rectangles. The idea of the rectangle is that it should bound the function over that interval. This leads to functions that are continuous on the irrationals and potentially discontinuous on the rationals. They are integrable. 
 * [Rational Mathematics Education](https://github.com/jostylr/Reals-as-Oracles/blob/main/articles/reals-as-oracles-education.pdf) Aspirational at this point, the idea is to explain how best to teach real numbers from an oracle point of view. 
 
+There is also a slideshow presentation: [Introduction to Oracles](https://github.com/jostylr/Reals-as-Oracles/blob/main/articles/reals-as-oracles-slides-intro.pdf) 
+
 
 ## Why
 
