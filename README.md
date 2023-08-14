@@ -1,18 +1,19 @@
 # Reals-as-Oracles
 This is a project exploring a new definition of real numbers, namely, viewing a real number as an oracle that affirms when a rational interval contains the real number. While that was the initial purpose and remains the primary one, explorations into its generalizations are also under taken in this project. 
 
-The following papers have been posted to the Arxiv:
+The following papers have been posted to the arXiv:
 
-* [Rationally Querying the Reals](https://arxiv.org/abs/2305.00981) This is a very short teaser paper to start with.
-* [Defining Real Numbers as Oracles, an Overview](https://arxiv.org/abs/2305.04935v1) This is an excellent place to start. It gives a basic overview of what this is about and should be quite accessible. 
-* [Defining Real Numbers as Oracles](https://arxiv.org/abs/2305.04935) This is the main paper and should contain all proofs of all the assertions. While nothing in it is particularly difficult, doing it all out in detail is lengthy. We also discuss with examples some methdos that are strongly suggested by the oracle approach, such as the role of mediants and continued fractions in an intermediate value theorem style approach to generating better interval approximations to real numbers. 
+* [Rationally Querying the Reals](https://github.com/jostylr/Reals-as-Oracles/blob/main/articles/reals-as-oracles-teaser.pdf)  This is a very short teaser paper to start with.  [arXiv](https://arxiv.org/abs/2305.00981)
+* [Defining Real Numbers as Oracles, an Overview](https://github.com/jostylr/Reals-as-Oracles/blob/main/articles/reals-as-oracles-overview.pdf)  This is an excellent place to start. It gives a basic overview of what this is about and should be quite accessible. [arXiv](https://arxiv.org/abs/2305.04935v1)
+* [Defining Real Numbers as Oracles](https://github.com/jostylr/Reals-as-Oracles/blob/main/articles/reals-as-oracles-main.pdf)  This is the main paper and should contain all proofs of all the assertions. While nothing in it is particularly difficult, doing it all out in detail is lengthy. We also discuss with examples some methdos that are strongly suggested by the oracle approach, such as the role of mediants and continued fractions in an intermediate value theorem style approach to generating better interval approximations to real numbers. [arXiv](https://arxiv.org/abs/2305.04935)
 
 The following papers are currently in a partial release:
 
 
-* [Toplogical Completions with Oracles](https://github.com/jostylr/Reals-as-Oracles/releases/download/v1.0/topological-completions-with-oracles.pdf) It is not just rational numbers that can be completed. We detail here a number of generalizations. 
-* [Elementary Analysis with Function Oracles](https://github.com/jostylr/Reals-as-Oracles/releases/download/v1.0/elementary-analysis-with-function-oracles.pdf) We use the notion of oracles as applied to functions to generate a more restrictive class, one which factors in the uncertain nature of the elements in the completed space using oracles. For real oracles, function oracles are oracles on rational rectangles that satisfy similar properties to oracles, but adapted to rectangles. The idea of the rectangle is that it should bound the function over that interval. This leads to functions that are continuous on the rationals and potentially discontinuous on the rationals. They are integrable. 
-* [Rational Mathematics Education](https://github.com/jostylr/Reals-as-Oracles/releases/download/v1.0/rational-mathematcs-education.pdf) Aspirational at this point, the idea is to explain how best to teach real numbers from an oracle point of view. 
+* [Toplogical Completions with Oracles](https://github.com/jostylr/Reals-as-Oracles/blob/main/articles/reals-as-oracles-metric.pdf) It is not just rational numbers that can be completed. We detail here a number of generalizations.
+* [Linear Structures ad Oracles](https://github.com/jostylr/Reals-as-Oracles/blob/main/articles/reals-as-oracles-education.pdf) This is applying the oracle notion to the the Theory of Linear Structures as developed by Tim Maudlin. 
+* [Elementary Analysis with Function Oracles](https://github.com/jostylr/Reals-as-Oracles/blob/main/articles/reals-as-oracles-functions.pdf) We use the notion of oracles as applied to functions to generate a more restrictive class, one which factors in the uncertain nature of the elements in the completed space using oracles. For real oracles, function oracles are oracles on rational rectangles that satisfy similar properties to oracles, but adapted to rectangles. The idea of the rectangle is that it should bound the function over that interval. This leads to functions that are continuous on the rationals and potentially discontinuous on the rationals. They are integrable. 
+* [Rational Mathematics Education](https://github.com/jostylr/Reals-as-Oracles/blob/main/articles/reals-as-oracles-education.pdf) Aspirational at this point, the idea is to explain how best to teach real numbers from an oracle point of view. 
 
 
 ## Why
