@@ -17,7 +17,7 @@
 \subtitle{Is $x$ in $a:b$?}
 \author{James Taylor}
 \institute{ratmath.com}
-\date{May 2023}
+\date{August 2023}
 
 \begin{document}
 
@@ -46,7 +46,7 @@
 
 Number as a one-to-one matching
 
-Three fingers, three sticks, three stones, three milenia
+Three fingers, three sticks, three stones, three millennia
 
 Canonical representative?
 
@@ -90,7 +90,7 @@ Various properties can be proved:
 \item Distributive:  $a*(b+c) = (a*b) + (a*c) = ab + ac$
 \end{itemize}
     
-Also order of operations is defined that multiplications happen before additions unless there is parentheses involved. 
+Also order of operations is defined that multiplications happen before additions unless there are parentheses involved. 
 
 \end{frame}
 
@@ -428,7 +428,7 @@ Real numbers, however, are very different. They are an entirely different kind o
 
 \begin{frame}{Loss of Precision}
 
-    A crucial issue is that if approximate infinite decimals and then do arithmetic, the precision generally gets worse. 
+    A crucial issue is that if we approximate infinite decimals and then do arithmetic, the precision generally gets worse. 
 
     For example, approximating $\sqrt{2}^2$ as $1.41*1.41 = 1.9881$. If we viewed our approximation as truncation, then 1.41 represents the interval $1.41:1.42$.  Applying that to $1.9881$, we would present it as $1.98$ representing $1.98:1.99$. Even if we round up first, we get $1.99:2.0$ which just barely includes $2$.
 
@@ -584,6 +584,16 @@ What are some good properties of a definition of real numbers?
     The cube root of $17$ is about $2.57128$. 
 \end{frame}
 
+\begin{frame}{Newton's Method}
+    The previous feature is an example of Newton's Method. 
+
+    Most presentations seem to focus on generating the sequence of $x$'s and only touch on $\frac{q}{x^{n-1}}$ as part of that computation. 
+
+    The oracle framework naturally demands the partner as completing the statement for each step. 
+
+    
+\end{frame}
+
 
 \begin{frame}{Compound Interest}
     Interest at nominal $100\%$ rate, compounded over a year, say daily, is $(1+\frac{1}{365})^{365}$ is about $2.7145$.
@@ -595,6 +605,10 @@ What are some good properties of a definition of real numbers?
     What does that mean? 
 
     Clarity comes from proving (not here) that $(1+\frac{1}{n})^n : \mathrm{e} : (1+\frac{1}{n})^{n+1}$
+
+    The proof uses the Arithmetic-Geometric Mean inequality applied to 1 and $n$ copies of $1 + \frac{1}{n}$ as well as applying it to 1 and $n$ copies of $1 - \frac{1}{n}$.
+ 
+    Most presentations only use the lower bound and omit the more accurate upper bound despite it being an easy number to compute. 
     
 \end{frame}
 
@@ -667,7 +681,7 @@ What are some good properties of a definition of real numbers?
 
 Claim: Any sequence of numbers such that the tail can be contained in any arbitrarily small interval does have a limit. 
 
-Example: The geometric sums $s_n = \sum_{k=0}^n (\frac{1}{2})^n$. For any $m \geq n$, we have\footnote{$(1-\frac{1}{2} ) s_n = s_n - \frac{s_n}{2} = 1 + \frac{1}{2} + \cdots \frac{1}{2^n} - \frac{1}{2} - \cdots -\frac{1}{2^n} - \frac{1}{2^{n+1} } = 1 - \frac{1}{2^{n+1}}$ } $\frac{1 - (\frac{1}{2})^{n+1}}{1 - \frac{1}{2}}= 2 (1 - (\frac{1}{2})^{n+1}):s(n):2$. Since the only number common to all of them is $2$, we have $\sum_{k=0}^{\infty} (\frac{1}{2})^n = 2$
+Example: The geometric sums $s_n = \sum_{k=0}^n (\frac{1}{2})^n$. For any $m \geq n$, we have\footnote{$(1-\frac{1}{2} ) s_n = s_n - \frac{s_n}{2} = 1 + \frac{1}{2} + \cdots \frac{1}{2^n} - \frac{1}{2} - \cdots -\frac{1}{2^n} - \frac{1}{2^{n+1} } = 1 - \frac{1}{2^{n+1}}$ } $\frac{1 - (\frac{1}{2})^{n+1}}{1 - \frac{1}{2}}= 2 (1 - (\frac{1}{2})^{n+1}):s_m:2$. Since the only number common to all of them is $2$, we have $\sum_{k=0}^{\infty} (\frac{1}{2})^n = 2$
 
 The limit oracle says exactly Yes to any interval that contains the tail of the sequence. 
 
@@ -687,11 +701,13 @@ The Least Upper Bound Oracle:  The least upper bound oracle says Yes to an inter
 
 \begin{frame}{Intermediate Value Theorem}
 
-Claim: If a function $f$ is nice and going in one direction in a given interval, say $I$, and it is negative at one endpoint of $I$, but positive at the other endpoint, then there is an input at which it is $0$.
+Claim: If a function $f$ is continuous and going in one direction in a given interval, say $I = a:b$, then given $y$ in $f(a):f(b)$, there exists a unique oracle in $I$ such that $f(x) = y$. 
 
-Example: $x^2 -2$ on $0:\infty$,  $\ln(x) = 1$, $\sin(x) = 0$ on $3:4$
+Example: $x^2 -2$ on $0:\infty$,  $\ln(x) = 1$ on its domain, $\sin(x) = 0$ on $3:4$
 
-The Solution Oracle:  An interval $a:b$ contained in $I$ is a Yes interval if $( f(a) - y)(f(b) - y) < 0$. Intervals not contained in $I$ are decided on by Consistency. 
+The Solution Oracle:  An interval $c:d$ contained in $a:b$ is a Yes interval if $( f(c) - y)(f(d) - y) \leq 0$. Intervals not contained in $I$ are decided on by Consistency. 
+
+There are various generalizations of this. 
     
 \end{frame}
 
@@ -777,7 +793,7 @@ $D \subset 0.4140: 0.4154$. Since $0.41:0.42$ contains this Yes interval, it is 
 
 
 \begin{frame}{Oracle Inequality}
-    Two intervals are disjoint if there endpoints are apart.  $1:2$ is disjoint from $3:4$ but $1:2$ overlaps with $1.5:2.2$.
+    Two intervals are disjoint if their endpoints are apart.  $1:2$ is disjoint from $3:4$ but $1:2$ overlaps with $1.5:2.2$.
 
     For disjoint intervals, we can say one interval is less than another by checking the endpoints. $a\lte b < c \lte d$ if $b<c$.
 
