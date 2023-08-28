@@ -10,7 +10,7 @@
 
 \title{Topological Completions with Oracles}
 \jtauthor
-\date{March 1, 2023}
+\date{August 14, 2023}
 
 
 
@@ -25,13 +25,38 @@ Completing a metric space using equivalence classes of Cauchy sequences is a sta
 
 \section{Introduction}
 
-Our primary task is to explore how to complete metric spaces using the notion of oracles. Oracles are defined on a collection of containers of points in a space. For completing the rationals to real numbers, these containers were inclusive rational intervals, including singleton intervals consisting of exactly one rational. For metric spaces, the containers will essentially be open balls with the data being the center point and the radius. For more general topological spaces, these ideas lead to the well-trodden theory of ultrafilters \cite{samuel}. But metric spaces allow for slightly simpler structures to consider. 
+Our primary task is to explore how to complete metric spaces using the notion of oracles. Oracles are defined on a collection of containers of points in a space. For completing the rationals to real numbers, these containers were inclusive rational intervals, including singleton intervals consisting of exactly one rational. For metric spaces, the containers will be nominally closed balls with the data being the center point and the radius. For more general topological spaces, these ideas lead to the well-trodden theory of ultrafilters \cite{samuel}. But metric spaces allow for slightly simpler structures to consider. 
 
 This idea is based on, but not dependent on, the idea of viewing real numbers as oracles. Namely, that a real number is an object that identifies whether a real number is between two given rational numbers or not. See \cite{taylor23main} for the full details and \cite{taylor23teaser} for a very brief overview of it. 
  
 In a separate work, \cite{taylor23maudlin}, these ideas will be pursued in the context of the theory of Linear Structures, a recent alternative topological framework put forth by Tim Maudlin \cite{maudlin}. The idea of Linear Structures is that lines are fundamental to physical spaces and can be a better unifying notion across finite, discrete, dense, and complete spaces than the standard notion of open sets. The concept of betweenness is essential in that work and this makes the ideas of oracles a natural fit. 
 
+\section{Filters}
+
+Here we briefly define what a filter will be for us and useful filter related definitions. Filters are generally presented as a collection of sets that satisfy a set of properties to allow for a partial ordering. We will present a slightly different view of this though, at base, it is the same. 
+
+A realm of containers is a defined set of objects that have an ability to say when there is overlap between the two objects and also have the ability to say when one object contains another. Set containment and set intersection are the foundations of this idea, but we often try to formulate it more on the level of rules rather than set element checking. 
+
+A rule on a realm of containers is a function which takes in a container and returns Yes or No, also coded as 1 or 0, respectively. A Yes-container is a container for which the rule says Yes on it. A No-container is one which the rule says No.
+
+A filter-rule is a rule on a realm of containers which satisfies:
+
+\begin{enumerate}
+    \item Consistency. If $A$ contains $B$ and $B$ is a Yes-container, then $A$ is a Yes-container. 
+    \item Existence. There exists a container $A$ which is a Yes-container. 
+    \item Overlapping. If $A$ and $B$ are Yes-containers, then $A$ and $B$ overlap as containers. 
+\end{enumerate}
+
+A filter-rule is proper if there exists at least one No container. All of the filter-rules we consider will be proper. 
+
+A filter-rule $R$ extends the filter-rule $S$ if a container being Yes for $S$ implies it is Yes for $R$. A filter is a maximal filter if it cannot be extended by any proper filter-rule. 
+
+The idea of a filter is that one is trying to filter out irrelevant bits and zoom in on the object of concern. A rooted maximal filter is one in which there is a single container that is contained in all the other containers. A neighborly maximal filter is one which has no root, that is, there is no Yes-container contained in all the other Yes containers.\footnote{A maximal filter is essentially an ultra-filter, a rooted maximal filter is essentially a principal ultra-filter, and a neighborly maximal filter is essentially a free ultra-filter. We use different terms as the standard terms generally represent set constructs and we are focusing on rule-based concepts.  }
+
+ 
 \section{Metric Spaces}
+
+PROBABLY NEED TO CHANGE BACK TO INCLUSIVE BALLS to allow for the inclusion of the point for rooted oracles. 
 
 Given a dense metric space, we can complete it by considering containment in open balls. In completing the real numbers, we used the Interval Separation property, namely, that in splitting a Yes interval, one would generally find one subinterval to be Yes and the other No. The exception was exactly when the partitioning rational was the root of the oracle, in which case both subintervals would be Yes as well as the singleton interval. 
 
@@ -39,7 +64,9 @@ For a general metric space, that property does not seem to have an analog. But a
 
 A metric space is a set $E$ equipped with a distance function, $d$, which takes in pairs of points from $E$ and returns a non-negative number. We will use $d_E$ if we need to distinguish different distance functions for different metric spaces. A distance function must be symmetric, non-negative, and is zero exactly when computing the distance from a point to itself. In addition, it must satisfy the triangle inequality $d(x,y) \leq d(x,y) + d(y,z)$. 
 
-A ball is specified by a point $c$ (the center) and a radius $r$. It is a rule $B[c,r]$ such that $B[c,r](q) = 1$ if and only if the distance $d(c,q) < r$; we say that $q$ is contained in $B[c,r]$ and may write $q \in B[c,r]$ to indicate that. The radius is generally taken to be real numbers though rationals would be sufficient for most of our purposes.  Two balls $B$ and $C$ are disjoint if there does not exist any point $q$ that is contained in both $B$ and $C$. They are separated if there exists $s> 0$ such that for every pair of $b \in B$ and $c \in C$, we have $d(c,b) > s$; the separation $s_{B,C}$ is, using real numbers, the greatest lower bound of those distances.
+A ball is specified by a point $c$ (the center) and a radius $r$. It is a rule $B[c,r]$ such that $B[c,r](q) = 1$ if and only if the distance $d(c,q) < r$; we say that $q$ is contained in $B[c,r]$ and may write $q \in B[c,r]$ to indicate that. The radius is generally taken to be non-negative real numbers though non-negative rationals would be sufficient for most of our purposes.  Two balls $B$ and $C$ are disjoint if there does not exist any point $q$ that is contained in both $B$ and $C$. They are separated if there exists $s> 0$ such that for every pair of $b \in B$ and $c \in C$, we have $d(c,b) > s$; the separation $s_{B,C}$ is, using real numbers, the greatest lower bound of those distances.
+
+We do consider balls of the form $B[p, 0]$. As a point set, these are all empty sets since these are open balls. But we use these as containers that represent $p$. 
 
 The intuition of one ball $B= B[b,s]$ being inside another ball $A= B[a, r]$ is that  $B(p) = 1$ implies $A(p) = 1$. We will say $A$ contains $B$ in that case. But when we say that $B$ is strictly contained in $A$ or $A$ strictly contains $B$, it will mean that $d(a,b) + s < r$. This does imply that if $p$ is in $B$, then $p$ is in $A$ as $d(a, p) \leq d(a, b) + d(b, p) < d(a,b) + s < r$. It does not imply, however, that all balls that satisfy the set containment are strictly contained in $A$ by the distance condition. We are essentially demanding a gap between the contained ball and the boundary of the containing ball. In particular, $m = r - d(a,b) - s > 0$ is the \textbf{moat} of $B$ in $A$. Any two balls which have the same center but different radii will have the property that the smaller has a moat in the larger one. 
 
@@ -56,7 +83,6 @@ We phrased containment using distances. This allows a space with a boundary to r
 Related to this, our balls may have boundary points despite being open balls. As an example, consider again $[0,1]$ and a ball of radius $\frac{2}{3}$ centered at $\frac{1}{3}$. This ball will extend past the endpoint of the interval, $0$, and thus gets clipped there. These are perfectly acceptable in our setup. A ball of radius $\frac{1}{2}$ centered at $\frac{1}{3}$ will be strictly contained in the larger ball even though at the point $0$, there is no moat separating. This is not a problem with what we need. 
 
 We should also note that when defining real numbers as oracles, we used inclusive rational intervals, not exclusive ones. The difference is that the interval definition could always have its endpoints. With this approach using balls, if we were to have inclusive balls, there could be gaps on the boundary and the oracle may be modelling such a gap as a new point. That would then lead to a possible lack of overlapping balls modelling that same gap. We want to demand that other Yes-balls overlap. The counterexample to keep in mind is two sets of disks in the rational plane who have on their boundary the point $(0, \sqrt{2})$. These sets could be part of oracles using closed balls for $(0, \sqrt{2})$, but they would have no overlaps, losing the uniqueness that we seek from oracles. We handle this by prohibiting considering these ``closed'' disks. If we wanted to model this point, we would need to use open disks that surround where that point should be. 
-
 
 \section{Neighborly Oracles in a Metric Space}
 

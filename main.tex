@@ -11,7 +11,7 @@
 
 \title{Defining Real Numbers as Oracles}
 \jtauthor
-\date{July 10, 2023}
+\date{August 14, 2023}
 
 
 
@@ -55,7 +55,9 @@ Note that we do have transitivity of interval inequality, that is, if $a:b < c:d
 
 \subsection{Defining the Oracle}
 
-The Oracle of $r$ is a rule $R$ defined on all rational intervals, including singletons, that returns values of 1 and 0, and satisfies: 
+
+
+The Oracle of $r$ is a rule $R$ defined on all rational intervals, including singletons, that returns values of 1 and 0, and satisfies\footnote{Set theoretically, an oracle is a function $R \col \ \mathbb{Q}^2 \to \{0,1\}$ where each pair $(a,b)$ is identified with the inclusive rational interval $a:b$. This viewpoint is suppressed here as the goal is to provide a framework for just-in-time determination. Another way of viewing the rule is that it is the characteristic function of the set of intervals that contain the real number, a viewpoint which is also not adopted here.}: 
 \begin{enumerate}
     \item Consistency. If $c:d$ contains $a:b$ and $R(a:b) = 1$, then $R(c:d) = 1$.
     \item Existence. $R(a:b) = 1$ for some rational interval $a:b$.
