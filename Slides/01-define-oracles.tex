@@ -29,9 +29,9 @@
 
 
 \begin{frame}{What is a real number?}
-    A real number is an object that tells us whether or not it is between any given two rational numbers. 
+    Proposal: A real number is an object that tells us whether or not it is between any given two rational numbers. 
 
-    It is a rule which, when given $a \leq b$, says Yes (1) if the real number $x$ satisfies $a \leq x \leq b$ and No (0) otherwise. 
+    It is a rule which, when given $a \leq b$, says Yes (1) if the real number $x$ ought to satisfy $a \leq x \leq b$ and No (0) otherwise. 
 
     Since we are defining $x$, this is aspirational. What we need are properties that will tell us whether we are talking about such an object. 
 
@@ -45,19 +45,21 @@
 
     Most of the time, the ordering of $a$ and $b$ does not matter. We use $a : b$ in that case. $q \in a:b$ iff $a \leq q \leq b$ or $b \leq q \leq a$. This is the suborder property of betweenness. 
 
-    $a:a$ is the singleton, namely $q \in a:a$ iff $q = a$. 
+    $a:a$ is a singleton. It has the property that $q \in a:a$ iff $q = a$. 
 
-    $a:b$ is a neighborly interval if $a \neq b$.
+    $a:b$ is neighborly if $a \neq b$.
 
-    $c: a:b :d$ means if $q \in a:b$ then $q \in c:d$.
+    $c: (a:b) :d$ means if $q \in a:b$ then $q \in c:d$.
+
+    Generally, lowercase letters will be rational numbers and should be assumed so unless otherwise noted. 
     
 \end{frame}
 
 
 \begin{frame}{Oracle Properties}
-    An oracle is a rule $R$ that, when given the rational $a:b$, answers either $0$ or $1$ and satisfies:
+    An oracle is a rule $R$ that, when given $a:b$, answers either $0$ or $1$ and satisfies:
     \begin{enumerate}
-    \item Consistency. If  $c: a:b : d$ and $R(a:b) = 1$, then $R(c:d) = 1$.
+    \item Consistency. If  $c: (a:b) : d$ and $R(a:b) = 1$, then $R(c:d) = 1$.
     \pause
     \item Existence. There exists $a:b$ such that $R(a:b) = 1$.
     \pause
@@ -95,18 +97,18 @@
     The oracle of the cube root of 2 is the rule such that $a:b$ is a Yes interval exactly when $a^3 : 2 : b^3$.
 
     \begin{enumerate}
-    \item Consistency. Follows from monotonicity since if $c:a:b:d$ and $a:b$ is Yes, then  $c^3 : a^3 : 2 : b^3 : d^3$
+    \item Consistency. Follows from monotonicity since if $c \lte a \lte b \lte d$ and $a:b$ is Yes, then  $c^3 \lte a^3  \lte 2 \lte b^3 \lte d^3$
     \pause
     \item Existence. $1:2$ satisfies $1^3 : 2 : 2^3 = 1:2:8$. 
     \pause
-    \item Closed. Given any rational $q$, we can find rational $a:b$ such that $q^3 : a^3 : 2 :b^3$. This requires a bit of a technical argument.
+    \item Closed. Given any rational $q$, we can find rational $a:b$ such that $q^3 : ( a^3 : 2 :b^3)$. This requires a bit of a technical argument.
     \pause
     \item Rooted. There are no rationals such that $q^3 : 2 : q^3$.
     \pause
-    \item Interval Separation. If $a^3 : 2 : b^3$ and $a\lte c \lte b$, then if $c^3 > 2$, we have $a^3 : 2 : c^3 :b^3$ and so $a:c$ is Yes while $b:c$ is No. It is reversed if $c^3 < 2$. 
+    \item Interval Separation. If $a^3 : 2 : b^3$ and $a\lte c \lte b$, then if $c^3 > 2$, we have $a^3 \lte 2 \lte c^3  \lte b^3$ and so $a:c$ is Yes while $b:c$ is No. If $c^3 < 2$, then $c:b$ is Yes while $a:c$ is No. 
     \end{enumerate}
 
-    As explained elsewhere, the cube is more or less cubing the endpoints of the interval. So this is the positive cube root of 2. 
+    As explained in a later video, the cube is more or less cubing the endpoints of the interval. So this is the positive cube root of 2. 
     
 \end{frame}
 
@@ -119,7 +121,7 @@
 
     This is to help ensure maximality and uniqueness. The need for it can be seen by saying that $a:b$ is Yes exactly when $-1 : a: 0 : b: 1$. 
 
-    This breaks the upwards Yes consistency but otherwise picks out 0 as the root of the oracle. There is nothing wrong with this from a practical consideration, but breaks uniqueness. 
+    This breaks the upwards Yes consistency but otherwise picks out 0 as the root of the oracle. There is nothing wrong with this from a practical consideration, but it does break uniqueness. 
     
 \end{frame}
 
@@ -143,7 +145,7 @@
 
     It satisfies Rooted since there are no Yes singletons. 
 
-    It satisfies Separation since if we choose $0$, then $a \leq 0$ is Yes while $0 < b$ is No and $0:0$ is No. For other partition points, the subinterval containing $0$ is Yes. 
+    It satisfies Separation since if we choose $0$, then $a < 0$ is Yes while $0 \leq b$ is No and $0:0$ is No. For other partition points, the subinterval containing $0$ is Yes. 
 
     Note $S(a \leq 0 < b )= 1$ would be a different rule which would work the same way. Thus, two different pseudo oracles for representing 0. 
     
@@ -168,13 +170,15 @@
 
     The rest do not force this. For example, $a<b$ is Yes if either $1:a:b:2$ or $3:a:b:4$ or contains such an interval. All singletons are No.
 
-    Consistency is ensured by that last bit. 
+    Consistency is ensured by ``contains such an interval''.
     
-    Existence is given by $1:2$. 
+    Existence is given by $1:2$ being Yes.
 
     Rooted is satisfied since there are no Yes singletons. 
     
     It is closed since there are disjoint Yes intervals. 
+
+    Separation fails as try $1:4$ which is Yes, take $c = 3$. Then both $1:3$ and $3:4$ is Yes, but $3:3$ is No. Notice that here Separation needs the No. 
     
 \end{frame}
 

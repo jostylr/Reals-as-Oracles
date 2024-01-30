@@ -10,17 +10,35 @@
 
 \title{Elementary Analysis with Function Oracles}
 \jtauthor
-\date{August 14, 2023}
+\date{December 19, 2023}
 
 
 
 %\sloppy%\openup-.1\jot
 \begin{document}\maketitle
 \begin{abstract}
-Real numbers can be viewed as oracles that say Yes to an interval which contains the real number and No otherwise. Other topological spaces can also benefit from this oracle point of view.  Both were detailed elsewhere. Having obtained new spaces from oracles, a natural next step is a new definition of a function, called function oracles. These are oracles that give affirmation for rational rectangles whose walls contain the image of the base under the function it is modeling. These turn out to be equivalent to functions that are continuous everywhere except possibly on the rationals. This paper explores elementary analysis using function oracles based on rules as well as exploring a more general context for function oracles. 
+Real numbers can be viewed as oracles that say Yes to an interval which contains the real number and No otherwise. Other topological spaces can also benefit from this oracle point of view.  Both were detailed elsewhere. Having obtained new spaces from oracles, a natural next step is a new definition of a function, called function oracles. These are oracles that give affirmation for rational rectangles whose walls contain the image of the base under the function it is modeling. These turn out to be equivalent to functions that are continuous everywhere except possibly on the rationals or, more generally, the points of the original space. This paper explores function oracles and some aspects applied to elementary analysis. 
 \end{abstract}
 
 \tableofcontents
+
+
+\section{Pointwise Oracles}
+
+In previous work \cite{taylor23main}, we explored the notion of considering real numbers as objects which indicate whether the real number ought to be contained in a given, inclusive, rational interval or not; it is a Yes interval if it contains the number, a No interval if not. Since we are defining the real number, we have to abstract out a set of properties to use to determine whether such an object can faithfully represent what we want from a real number. Any object that satisfies the following properties is an oracle which can be taken to be a real number:
+
+\begin{enumerate}
+    \item Consistency. Intervals that contain Yes intervals are Yes, those contained in No intervals are No. 
+    \item Existence. There should be at least one Yes interval. 
+    \item Closed. If a rational number is in every Yes interval, then the real number is that rational number. 
+    \item Rooted. There is at most one rational number in every Yes interval. 
+    \item Interval Separation. If we divide a Yes interval into two pieces, one interval is Yes, the other is No unless the real number happens to be the partitioning rational number in which case both intervals are Yes. 
+\end{enumerate}
+
+From these properties, an ordered arithmetic of oracles can be developed. It can be shown that this space satisfies all the real number axioms including completeness. In many ways, the oracles can be shown to be the foundation which is underlying the usual different notions of real numbers. The idea of interval approximation of real numbers is central to their use. Oracles present this in a fashion with unique representatives and in conformance with how real numbers are actually used. It promotes a healthy appreciation for interval bounding of real numbers in a precise fashion. 
+
+The idea of an oracle naturally extends to metric spaces \cite{taylor23metric}. The f
+
 
 
 \section{Function Oracles as Families of Narrowing Rational Rectangles}\label{sec:funora}
@@ -371,6 +389,21 @@ As for intersecting bases, we can take the narrowed examples and  construct a co
 
 We have sketched how the exponential operator, $\alpha^\beta$, is a $2\closeto 1$ function oracle. This completes the standard arithmetic operations we typically use with elementary functions. This also highlights how we can expand our usage of function oracles to arbitrary dimensional mappings. 
 
+\subsection{Rational Uniform Continuity}
+
+Another way of defining function oracles is to have a function that is defined on rational numbers which satisfies a local uniform continuity condition. The simplest case is where this is a function from rationals to rationals, but this can also work with rationals to oracles. When we have uniform continuity, we can easily see what the values ought to be in the rational numbers. 
+
+....
+This can also extend to uniform differentiability which also has many useful benefits, such as described in cite bridges. 
+
+
+Lipschitz conditions, monotonic functions, inverse function theorem. 
+
+Lipschitz below is a minimal Yes rectangle relative size (ratio of length to width) while from above is confirming that there does exist a rectangle of that relative size. 
+
+Derivative is the idea of saying the rectangle relative size is converging on it. So rectangles can be used for areas, but they are also the constraints that derivatives are talking about. No idea if this leads to something useful. 
+
+
 \section{The Calculus of Function Oracles}
 
 We now investigate various properties of function oracles and how they compare to standard calculus topics. 
@@ -505,6 +538,9 @@ $c$ exists by the above theorem. Let's assume $d(f(c), v) = L > 0$. By being mas
 We should note that all neighborly oracles $c$ will automatically be mass-free. 
 
 \subsection{Derivatives}
+
+Limits use notation $a:\cancel{0}:b$ to indicate an interval without, say $0$. Use something like $f_{a:\cancel{0}:b}$ to indicate the function image of the interval. 
+
 
 This viewpoint does not seem to offer anything particularly novel about derivatives, but it is useful to point out how it can go. 
 

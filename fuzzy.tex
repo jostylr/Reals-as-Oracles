@@ -1,0 +1,95 @@
+\documentclass[12pt]{article}
+\usepackage{personal}
+\usepackage{realoracles}
+
+
+\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem{lemma}{Lemma}[subsection]
+\newtheorem{corollary}{Corollary}[subsection]
+\newtheorem{proposition}{Proposition}[subsection]
+
+
+\title{Fuzzy Oracles as Real Numbers}
+\jtauthor
+\date{\today}
+
+
+
+%\sloppy%\openup-.1\jot
+\begin{document}\maketitle
+\begin{abstract}
+In previous work, a real number was defined as a rule that ought to respond Yes or No depending on whether the real number is in the given rational interval or not. To say whether something satisfies being such a rule, certain properties were required. The key property was the Separating property which says that given a Yes interval and a rational number in that interval, the number either creates one Yes and one No subinterval or the oracle represents that rational number. The issue with this is that it can be hard to prove that the rational number is the root of the oracle. This paper explores making it a slightly fuzzier version of this rule. Namely, the fuzzy separation property is that given a Yes interval, a rational in that interval and a positive rational tolerance, the rule either gives a Yes-No split of the two subintervals created by the given rational number or there is a Yes interval containing the rational point whose length is the tolerance and the complement intervals within the original Yes interval are No intervals. This is more in line with what can often be accomplished. This paper will lightly redo the development of oracles using this new notion. 
+\end{abstract}
+
+\tableofcontents
+
+\section{Constructivism}\label{sec:ora}
+
+The philosophy of this paper is more aligned with constructivists and even finitists. It is an attempt to explore a version of real numbers which is as practical as possible.
+
+The core idea is to explore what can actually be proven to be true. If something exists, there should be some concrete method for producing it. This desire is nuanced. At the starting point, there is the rejection of contradiction as establishing existence as expressed succinctly in \cite{bridger}, page ix: "In particular, existence is never established by showing that the assumption of non-existence leads to a contradiction." The contradiction technique is a particularly alluring one for many as it avoids quite a bit of finickiness. 
+
+The next level of something to reject is that requiring infinitely many choices. This is the axiom of choice debate which is much more familiar to most mathematicians. This is something which can be easy to overlook in proofs and is often required in establishing general statements. The idea in rejecting it is that if there are infinitely many choices to be made, then one can never be certain that two such objects would be the same. I am unsure if there is an example in which the Axiom of Choice is required, but the result is unique. I would suspect that if it was the case, then an alternative way could be found since the choice must be constrained in order to lead to uniqueness. 
+
+For constructivists, it seems that they settle on requiring existence to be shown based on how to produce the object. This is something which in theory ought to be doable or the result to be verifiable. This is the level that this paper's fuzzy oracles is attempting to target. 
+
+There is yet another level one could consider, which is limiting theoretically but not in practice. That is to consider that not only is infinity to be largely rejected, but even arbitrarily large numbers. For example, try writing the explicit, base-10 digit expansion of $72^{10^{62}} - 86^{10^{61}}$. In theory, this is trivial. In practice, this is quite beyond our capabilities. We will not explore having that constraint in place. 
+
+
+
+\section{The Fuzzy Oracle of \texorpdfstring{$r$}{r}}\label{sec:ora}
+
+I have already discussed one version of the oracles at length in \cite{taylor23main}. The main issue with that version is that it, ultimately, hinges on being able to decide whether a given rational is the root of the oracle or not. This is often not possible. The approach here removes that requirement. 
+
+As a brief review, an oracle of a real number is a rule that takes in a rational interval and says Yes or No depending on whether the real number ought to be in that rational interval. It is immediate from this description that any interval which contains a Yes interval is a Yes interval (Consistency) and that any interval contained in a No interval is a No interval. 
+
+Another property which is reasonable is that there ought to exist at least one Yes interval. This is a starting point. 
+
+For the oracles introduced in \cite{taylor23main}, which we will call idealized oracles, the intervals were inclusive rational intervals and an interval of a single rational number (singleton) was allowed.  There were three other properties: 1) Closed, which says that if a rational number $q$ is contained in all Yes intervals, then the singleton $[q]$ is a Yes interval and $q$ is the root of the oracle; 2) Rooted, which says that there is at most one Yes singleton; and 3) Separation, which says that given a Yes interval $a:b$ and a rational number $c$ between $a$ and $b$, then either $a:c$ and $c:b$ receive different answers from the oracle or $c$ is the root of the oracle.  
+
+These seem like very reasonable properties from a standard perspective. But those additional properties require being able to affirm that a rational number is in all the Yes intervals. This can be possible in many cases, such as establishing that $2$ is the root of the oracle formed by squaring the square root of 2. But in other cases, it is not possible without proving a theorem. In \cite{taylor23main}, I used the Collatz conjecture to generate such a number. In \cite{bridger}, the author uses the Goldbach conjecture to construct a number whose ultimate value is unknown until that conjecture is proven one way or the other. 
+
+The idealized oracles use inclusive intervals. This seemed reasonable when dealing with rooted oracles so that we could have singletons. This was conceptually nice as it allowed for a clear distinction between rational and irrational numbers. But as we move away from having roots, the exclusive intervals will be better suited. For this paper, $a:b$ will represent the rational numbers $q$ that are between, but not equal to, $a$ and $b$. There is no assumption as to which of $a$ or $b$ is greater than the other, but there is an assumption that they are distinct rational numbers. If we wish to use the inclusive intervals, we will use $\underline{a:b}$. 
+
+To formulate a theory of real numbers which embraces this unknowability, we will define a fuzzy oracle as the following properties for defining a fuzzy oracle: 
+
+\begin{enumerate}
+    \item Consistency. If $c:a:b:d$ with $a:b$ being a Yes interval, then $c:d$ is a Yes interval. 
+    \item Existence. There exists a Yes interval $a:b$.
+    \item $\delta$-Separation. Let $a:b$ be a Yes interval, $c$ a rational number in $a:b$, and a rational $\delta > 0$ be given. Then one of the following three statements is true: 
+    \begin{enumerate}
+        \item $a:c$ is a Yes interval and $c:b$ is a No interval,
+        \item $c:b$ is a Yes interval and $a:c$ is a No interval, 
+        \item $c-\delta:c+\delta$ is a Yes interval while its complementary intervals in $a:b$ are No intervals. If $a\lt b$, then this translates into $a:c-\delta$ and $c+\delta:b$ being No intervals. 
+    \end{enumerate}
+\end{enumerate}
+
+
+
+\section{Basic Properties of Fuzzy Oracles}
+
+include epsilon-tricohotomy
+
+\section{Applications of Fuzzy Oracles}
+
+include inverse function theorem
+
+
+\section{Fuzzy Oracle Arithmetic}
+
+See ... for a discussion on interval arithmetic.
+
+\section{Approximations and Fuzzy Oracles}
+
+
+
+\section{Comparisons}
+
+
+\medskip
+
+\normalem %restoring normal emphasis in bibliography 
+
+\printbibliography
+
+\end{document}
