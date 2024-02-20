@@ -1,7 +1,12 @@
 # Reals-as-Oracles
 This is a project exploring a new definition of real numbers, namely, viewing a real number as an oracle that affirms when a rational interval contains the real number. While that was the initial purpose and remains the primary one, explorations into its generalizations are also being housed in this project. 
 
-The following papers have been posted to the arXiv and are donish. The arXiv versions are provided, but they tend to be older than the primary link which is a link to the pdf hosted in this repository under articles. 
+This project is currently being revised to have a slightly refined core property which allows for more practical considerations. The current version of the main paper is revised through section 3.4 and has an updated section on mediant approximations of section 6.2.1. I consider it 80% revised: 
+
+[Defining Real Numbers as Oracles, v2 alpha](https://github.com/jostylr/Reals-as-Oracles/blob/main/articles/Reals_as_Oracles_v2_alpha.pdf) 
+
+
+The following papers have been posted to the arXiv and were donish though I consider them outdated at this point. The arXiv versions are provided, but they tend to be older than the primary link which is a link to the pdf hosted in this repository under articles. 
 
 * [Rationally Querying the Reals](https://github.com/jostylr/Reals-as-Oracles/blob/main/articles/reals-as-oracles-teaser.pdf)  This is a very short teaser paper to start with.  [arXiv](https://arxiv.org/abs/2305.00981)
 * [Defining Real Numbers as Oracles, an Overview](https://github.com/jostylr/Reals-as-Oracles/blob/main/articles/reals-as-oracles-overview.pdf)  This is an excellent place to start. It gives a basic overview of what this is about and should be quite accessible. [arXiv](https://arxiv.org/abs/2305.04935v1)
@@ -30,9 +35,16 @@ It is hoped that oracles feel less abstract and more to the point.
 
 ## Definition
 
-We consider rational intervals whose endpoints are included. A singleton is a rational interval where the endpoints are equal. 
+We consider rational intervals whose endpoints are included. We write a:b to indicate the rational interval bounded by a and b. A singleton is a rational interval where the endpoints are equal. The notion of the delta-spark of c is the closed interval bounded by c-delta and c+delta, namely, c-delta:c+delta. 
 
 An oracle assigns a Yes or No to each rational interval and satisfies the following properties: 
+
+1. Existence. There is a Yes interval.
+2. Interval Separation. If you take a Yes interval a:b and a rational c in it and provide a delta > 0, then there exists an interval e:f in the delta-spark of c such that exactly one of a:e, e:f, or f:b is a Yes interval with the others being known to be No. 
+3. Consistency. If an interval contains a Yes interval, then it is a Yes interval too. If an interval is contained in a No interval, then it is a No interval.
+4. Closed. If the delta spark of c is a Yes interval for all delta>0, then the singleton c:c is a Yes interval. If c:c is a No interval, then there exists a delta>0 such that the delta spark of C is a No interval.
+
+Here are the properties of the original version. These work assuming one can get answers about a singleton, which is not always possible. 
 
 1. Consistency. If an interval contains a Yes interval, then it is a Yes interval too. 
 2. Existence. There is a Yes interval. 
