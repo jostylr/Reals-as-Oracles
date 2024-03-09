@@ -352,11 +352,11 @@ Let $a < c_1 < c_2 < c_3 < \cdots < c_n < b$ be a given rational partition of th
 
 We start with looking at $a:c_1:b$. By the Separation property using a halo of $\delta_h$, we have the existence of $e_1$ and $f_1$ such that exactly one of $a:e_1$, $e_1:f_1$, or $f_1:b$ is Yes. 
 
-If either of the first two is a Yes, then we are done. If not, we iterate by applying Separation to $f_1:b$ using $c_2$ which is in $f_1:b$ due to the choice of $\delta_h$. 
+If $a:e_1$ is Yes, then so is $a:c_1$ and we are done. If $e_1:f_1$ is Yes, then $(c_1)_\delta$ is Yes and we are done. If not, we iterate by applying Separation to $f_1:b$ using $c_2$ which is in $f_1:b$ due to the choice of $\delta_h$. 
 
-Let us then assume that we have $f_{i-1}:b$ is a Yes interval, where $f_{i-1} < c_i$.  Then Separation using $c_i$ and $\delta_h$ leads to the existence of $e_i:f_i$ containing $c_i$ such that exactly one of $f_{i-1}:e_i$, $e_i:f_i$, or $f_i:b$. If either of the first two are Yes, we are done. If the last is the Yes interval, then iterate again using $f_i:b$ and Separation. 
+Let us then assume that we have $f_{i-1}:b$ is a Yes interval, where $f_{i-1} < c_i$.  Then Separation using $c_i$ and $\delta_h$ leads to the existence of $e_i:f_i$ containing $c_i$ such that exactly one of $f_{i-1}:e_i$, $e_i:f_i$, or $f_i:b$. If either of the first two are Yes, we are done as $f_{i-1}:e_i$ is contained in $c_{i-1}:c_i$ and $e_i:f_i$ is contained in $(c_i)_\delta$. If the last is the Yes interval, then iterate again using $f_i:b$ and Separation. 
 
-We do this until we are at $f_n:b$. At that point, we have established that $a:f_n$ is No interval by being a union of overlapping No intervals and $f_n:b$ is Yes and of the form desired. 
+We do this until we are at $f_n:b$. At that point, we have established that $a:f_n$ is a No interval by being a union of overlapping No intervals and $f_n:b$, contained in $c_n:b$, is Yes, as desired.
 \end{proof}
 
 
@@ -447,7 +447,7 @@ Now we look to prove that $R>S$ cannot also be true. If $R > S$, then we have in
 Let $e= \min(a,c)$ and $f = \max(b,d)$. Then, we have $e:a:b:f$ and $e:c:d:f$. Since $e:f$ contains both $a:b$ and $c:d$, it is a Yes interval for both $\alpha$ and $\beta$. We therefore have $e:\alpha?\beta:f$.
 \end{proof}
 
-\begin{proposition}[$\varepsilon$-Trichotomy]
+\begin{proposition}[$\varepsilon$-Trichotomy]\label{pr:tri}
 Either $\alpha < \beta$,  $\alpha > \beta$, or there exists a mutual Yes interval $e:f$ of length less than $\varepsilon$ such that $e: \alpha ? \beta : f$.
 \end{proposition}
 
@@ -1191,10 +1191,12 @@ The harder case is to show that $\sup E \leq \alpha$ for all upper bounds $\alph
 We have established
 
 \begin{theorem}\label{th:lub}
-Any set $E$ of oracles bounded from above has a least upper bound if it is always possible to find, for a given $\alpha$ and a $\delta > 0$, oracles $\beta$ and $\gamma$ in $\alpha_\delta$ such that $\beta$ and $\gamma$ can be determined, separately but consistently, to be either bounded above by $E$ or an upper bound of $E$. 
+Any set $F$ of oracles bounded from above has a least upper bound if it is always possible to find, for a given $\alpha$ and a $\delta > 0$, oracles $\beta$ and $\gamma$ in $\alpha_\delta$ such that $\beta$ and $\gamma$ can be determined, separately but consistently, to be either bounded above by $F$ or is an upper bound of $F$. 
 \end{theorem}
 
-An alternate approach is to say that $a:b$ is a Yes interval if $a$ is a lower endpoint of a Yes interval of an oracle in $F$ and $b$ is an upper endpoint of a Yes interval of an oracle which is an upper bound of F. This may be closer in spirit to the oracle notion than the above treatment. We do so in Appendix \ref{app:sup}. 
+An alternate approach is to say that $a:b$ is a Yes interval if $a$ is a lower endpoint of a Yes interval of an oracle in $F$ and $b$ is an upper endpoint of a Yes interval of an oracle which is an upper bound of $F$. This may be closer in spirit to the oracle notion than the above treatment. We do so in Appendix \ref{app:sup}. 
+
+
 
 \subsubsection{The Distance Function}
 
@@ -1221,6 +1223,74 @@ The distance function also satisfies $d(r,t) = d(r,s) + d(s,t)$ whenever $r < s 
 We have not yet covered arithmetic, but narrowing on interval addition is how we define adding oracles. What we have shown here is that the interval $(e-b + (c-d)): (f-a + (d-c)$ is a $[d(r,s) + d(s,t)]$-Yes interval. Since $c-d$ is negative and $d-c$ is positive, the $d(r,t)$-Yes interval $(e-b):(f-a)$ is contained in it. Since we can narrow the intervals arbitrarily,\footnote{Let $f = e + \delta_1$ and $b = a + \delta_2$. Then $f-a = e-b:e-b + \delta_1 + \delta_2$. We can take $\delta_1$ and $\delta_2$ as small as we like by the Bisection Approximation.} by Proposition \ref{pr:fonsi-inter}, we know their oracles are the same. 
 
 From this, we also get the triangle inequality. For any oracles $r, s, t$, we have $d(r,t) \leq d(r,s) + d(s,t)$.  To argue for this, if $s = r$ or $s=t$, then we have equality. If $r=t$, then we have $0 \leq 2 d(r,s)$ which is true. We can assume, without loss of generality, that $r < t$. We then have three cases: $r< s< t$, $s < r < t$, and $r< t  < s$. If $r < s< t$, then we have equality as above. If $s < r < t$, then $d(s,t) = d(s,r) + d(r,t)$ as above and thus $d(r,t) = d(s,t) - d(s,r) < d(s,t) + d(s,r)$. The same can be said for $r < t < s$. Indeed,  we have $d(s,r) = d(r,t) + d(t,s)$ which leads to $d(r,t) \leq d(s,t) + d(s,r)$.
+
+\subsubsection{The Cut Property}
+
+Another completeness property that is closely related to the least upper bound property but is a bit more symmetrically defined, is the Cut property. 
+
+\begin{theorem}\label{th:cut}
+    Let $A$ and $B$ be two disjoint, nonempty sets of oracles such that either $A \cup B$ is the entire set of oracles.  Additionally, all oracles in $A$ are strictly less than all oracles in $B$. Then there exists an oracle $\kappa$ such that for all $x < \kappa$ we have $x \in A$ and, for all $x > \kappa$, we have $x \in B$.
+\end{theorem}
+
+James Propp uses the Cut property in \cite{propp} to establish whether various cherished theorems in real analysis are equivalent to the completeness properties or not. It is a worthwhile read. 
+
+\begin{proof}
+    We need to define the oracle $\kappa$. The rule $R$ will be such that $a \lt b$ is a Yes interval exactly when $a\in A$ and $b \in B$. Additionally, $c:c$ is a Yes singleton exactly when $c$ is not less than any element of $A$ and not more than any element of $B$. 
+
+    We need to show that $c$ is an oracle and satisfies the desired property. Let us show that the desired property holds first. 
+
+    The main implication of the relation of $A \cup B$ is that if $x < y$ and $y \in A$, then $x \in A$. Similarly, if $x \in B$, then $y \in B$. The proof of this is simply that because of the union being the whole set of oracles, each of $x$ and $y$ has to be in $A$ or $B$ and cannot be in both. Furthermore, if $y \in A$ and $x \in B$, but $x < y$, then we do not have the property holding that all oracles in $A$ are strictly less than all oracles are in $B$. Thus if we know that $y \in A$, then $x \in A$. And if we know that $x \in B$, then $y \in B$.
+
+    As a result of that implication, if $\alpha \in A$ and $\beta \in B$ with $a:b$ an $\alpha$-Yes interval and $c:d$ a $\beta$-Yes interval, then $a:d$ is a Yes interval of $\kappa$ because $a \leq \alpha$ and $\beta \leq d$ implying $a \in A$ and $d \in B$. 
+
+    Let $ x < c$. Then there exists $x$ Yes interval $u\lte v$ and $c$ Yes interval $e\lte f$ such that $v < e$. That is what that inequality means. By definition, $e$ is a lower endpoint for a Yes interval for some element $\alpha \in A$; let's say that is the interval $e\lte g$. We clearly have $ u \lte v < e \lte g$ and thus $\alpha > x$. As $\alpha \in A$, we therefore have $x \in A$ from above. 
+
+    If $x > c$, we can do the same argument except reversing the inequalities leading to $\beta \in B$ which is less than $x$ implying $x \in B$.
+
+    As for $c$ being an oracle, we do our usual going through of the properties: 
+    \begin{enumerate}
+        \item Existence. By the non-emptiness, there exists oracles $\alpha \in A$ and $\beta \in B$ with Yes intervals $a:b$ for $\alpha$ and $c:d$ for $\beta$. Thus, $a:d$ is a Yes interval for $\kappa$. 
+        \item Separating. Let $a\lte b$ be a Yes interval, $a:c:b$, and $\delta >0 $ given.  By assumption, $c$ is in $A$ or $B$. 
+        
+        If $c \in A$, then we know $c-\delta$ is in $A$ and we can ask about $c+\delta$. If $c+\delta$ is in $A$, then we know that $a:c+\delta$, and all its subintervals, are No intervals as well as $c+\delta:b$ being a Yes interval. If $c+\delta$ is in $B$, then $c_\delta$ is a Yes interval with $a:c-\delta$ and $c+\delta:b$ being No intervals. 
+
+        Similarly, if $c$ is in $B$, then $c+\delta \in B$ and we can ask about $c-\delta$. If $c-\delta \in B$, then $a:c-\delta$ is Yes while $c-\delta:b$ and all its subintervals are No intervals. If $c-\delta \in A$, then $a:c-\delta$ is No as is $c+\delta:b$. The interval $c_\delta$, however, is a Yes interval. 
+        
+        \item Consistency. If $c:d$ contains $a:b$ and $a:b$ is a Yes interval, then there are oracles $\alpha \in A$ and $\beta \in B$ and $\alpha$-Yes interval $a \lte e$ and $\beta$-Yes interval $f \lte b$. Since $c:e$ contains $a:e$, $c:e$ is a Yes interval of $\alpha$ and, similarly, $f:d$ is a Yes interval of $\beta$. Thus, $c:d$ satisfies the property of this oracle for being a Yes interval. 
+
+        If $c:d$ is a No interval, then there exists an $x$ such that either $x < c:d$ and $x \in B$ or $c:d < x$ and $x\in A$. In either case, $a:b$, being a subinterval of $c:d$, will satisfy the same relation. 
+        \item Closed. Assume $c_\delta$ is a Yes interval for all $\delta > 0$. Then given any element $\alpha \in A$ not equal to $c$, let $l = \frac{d(\alpha, c)}{2}$. Since $c_l$ is a Yes interval, we have that $c+l \in B$ and thus $\alpha < c+l$. But since $\alpha \notin c_l$, we must have $\alpha < c$. Thus, $c$ is not less than any element of $A$. 
+        
+        Similarly, if $\beta \in B$ with $\beta \neq c$, then we let $l = \frac{d(\beta,c)}{2}$ so that $c_l$ is a Yes interval that excludes $\beta$. Since $c_l$ is a Yes interval, $c-l \in A$ and we have that $\beta > c$. Thus, $c$ is not more than any element of $B$.
+
+        By the definition of our rule, $c:c$ is a Yes singleton. 
+
+        For the other direction, assume $a:a$ is a No singleton. This means that there is an oracle $\gamma$  which either is greater than $a$ and in $A$ or less than $a$ and in $B$. Let $\delta = \frac{d(\gamma, a)}{2}$. Then $\gamma$ has the same relation to all of the elements of $a_\delta$ and thus it is also a No interval.  
+    \end{enumerate}
+    
+\end{proof}
+
+\begin{corollary}
+    If we have two sets of rationals, $A$ and $B$ such that $A \cup B = \mathbb{Q}$ and all of the rationals in $A$ are strictly less than all of the rationals in $B$, then there exists an oracle $\kappa$ such that for all $q < \kappa$ we have $q \in A$ and for all $q > \kappa$, we have $q \in B$.
+\end{corollary}
+
+We could prove this by using the above proof almost verbatim. In particular, the oracle is defined the same way. We will, instead, augment the sets to satisfy the hypothesis of the theorem.
+
+\begin{proof}
+    Define $\bar{A}$ as the set of all oracles such that an upper endpoint of a Yes interval of the oracle is in $A$. And define $\bar{B}$ as the set of all oracles such that a lower endpoint of a Yes interval is in $B$. 
+
+    Let $x \in \bar{A}$ and $y \in \bar{B}$. We need to establish that $x < y$. Let $c\lte a$ be the $x$-Yes interval such that $a \in A$ and $b\lte d$ be the $y$-Yes interval such that $b \in B$. These exist by definition of being in the sets. By the defining assumption of $A$ and $B$, we have $a < b$. This translates directly into their oracles having the same relation, that is, $x < y$. 
+
+    The other fact that we need to establish is that $\bar{A} \cup \bar{B}$. This is not actually generally true as it is possible to have an oracle which is excluded from these two sets. There is, however, just one of those and it is entirely greater than $A$ and less than $B$. In fact, it would be the $\kappa$ we are looking for. 
+
+    Let $\gamma$ be an oracle that is not in $\bar{A}$ and not in $\bar{B}$. Let $a\lte b$ be any $\gamma$-Yes interval. Since $\gamma$ is not in those sets, we have that $b \notin A$ and $a \notin B$. Thus, since $A \cup B$ is all of the rationals, we have $a \in A$ and $b \in B$. Let $\tau$ be any other oracle distinct from $\gamma$. If $\tau > \gamma$ then there exists $\tau$-Yes interval $u\lte v$ and $a \lte b$ $\gamma$-Yes interval such that $b < u$. This means $u \in B$ and $\tau \in \bar{B}$. Alternatively, if $\tau < \gamma$, we would have $v < a$ and $\tau \in \bar{A}$.
+
+    We have shown that $\gamma$ is uniquely not in either of these and that it is greater than all elements of $\bar{A}$ while being less than all elements of $\bar{B}$. This allows us to append it to either $\bar{A}$ or $\bar{B}$ and then invoke the theorem. Of course, $\gamma$ satisfies the property of $\kappa$ as we just showed, so invoking the theorem here is not necessary in this case. 
+    
+\end{proof}
+
+The Cut property is formulated in a way with a strong presumption of knowledge of whether something was in a set or not and whether two oracles were equal or not. It may be possible to formulate it with a fuzzier version though it is not clear to me how one does that without introducing a shrinking region that yields $\kappa$ almost by assumption. 
+
 
 \subsection{Cauchy Sequences}\label{sec:cauchy}
 
@@ -1468,13 +1538,13 @@ A good example to keep in mind is that of multiplication. Let's assume, to avoid
 
 A \textbf{rational interval operator} $f$ is a mapping that operates on a finite number of rational intervals to produce a rational interval. An \textbf{oracle operator} $F$ is a mapping that operates on a finite number of oracles to produce an oracle.
 
-We will use $|I|$ to denote the length of the intervals which for the rational interval $a\lte b$ is $b-a$. We shall consider $n$-tuples of intervals by which we mean an ordered collection of $n$ rational intervals. The $n$-tuple $\vec{J}$ is contained in the $n$-tuple $\vec{I}$ if the $i$-th interval in $\vec{J}$ is contained in the $i$-th interval of $\vec{I}$ for each $1 \leq i \leq n$. For our purposes, we will define the length of the $n$-tuple $\vec{I}$ as $|\vec{I}| = \max_{i=1}^n (|I_i|)$.
+We will use $|I|$ to denote the length of the intervals which for the rational interval $a\lte b$ is $b-a$. We shall consider $n$-tuples of intervals by which we mean an ordered collection of $n$ rational intervals; likewise $n$-tuples of oracles will be an ordered collection of $n$ oracles. The $n$-tuple $\vec{J}$ is contained in the $n$-tuple $\vec{I}$ if the $i$-th interval in $\vec{J}$ is contained in the $i$-th interval of $\vec{I}$ for each $1 \leq i \leq n$. For our purposes, we will define the length of the $n$-tuple $\vec{I}$ as $|\vec{I}| = \max_{i=1}^n (|I_i|)$.
 
 For an $n$-tuple $\vec{\alpha}$ of oracles, we say that the $n$-tuple $\vec{I}$ is an $\vec{\alpha}$-Yes tuple if for each of the $I_i$ intervals, we have $I_i$ is an $\alpha_i$-Yes interval. We say it is a neighborly $\vec{\alpha}$-Yes tuple if none of the endpoints are the roots of their respective $\alpha_i$ oracle. In particular, a neighborly tuple has no singletons. It has the property that there exists another $n$-tuple $\vec{J}$ that is an $\vec{\alpha}$-Yes tuple such that each $J_i$ is strictly contained in $I_i$. 
 
-A $\vec{\alpha}$ of oracles is neighborly if all of its elements are neighborly oracles. It is rooted if they are all rooted oracles. It is partially rooted if someone of them are rooted oracles and others are neighborly. 
+A $n$-tuple $\vec{\alpha}$ of oracles is neighborly if all of its elements are neighborly oracles. It is rooted if they are all rooted oracles. It is partially rooted if someone of them are rooted oracles and others are neighborly. 
 
-We use the terminology that $\vec{I}$ is in the domain of $f$ if $f(\vec{I})$ is defined and, specifically, it is not the empty set. We say that $\vec{\alpha}$ is $f$-compatible if there exists an $\vec{\alpha}$-Yes $n$-tuple of rational intervals $\vec{I}$ in the domain of $f$. 
+We use the terminology that $\vec{I}$ is in the domain of $f$ if $f(\vec{I})$ is defined and, specifically, it is not the empty set. We say that $\vec{\alpha}$ is \textbf{$f$-compatible} if there exists an $\vec{\alpha}$-Yes $n$-tuple of rational intervals $\vec{I}$ in the domain of $f$. 
 
 An interval operator has the \textbf{narrowing property} if the following holds for all $n$ tuples $\vec{I}$ in the domain of $f$:
 \begin{itemize}
@@ -1503,7 +1573,7 @@ The arithmetic operators are Lipschitz and this is how we will establish that th
 \end{proof}
 
 
-The intersection of two $n$-tuple intervals is the $n$-tuple formed by intersecting their respective components. They are disjoint if at least one of the intersecting components is disjoint. 
+The intersection of two $n$-tuple intervals is the $n$-tuple formed by intersecting their respective components. They are disjoint if at least one of the components is disjoint. 
 
 We now prove an essential property of narrowing operators. 
 
@@ -1519,8 +1589,7 @@ Assume $\vec{I}$ and $\vec{J}$ intersect. Let $\vec{A}$ be the intersection. Sin
 
 
 \begin{theorem}\label{th:intop}
-If $f$ is an interval operator with the narrowing property, then there is an associated oracle operator $F$. For any $\vec{\alpha}$ such that there is an $\vec{\alpha}$-Yes interval tuple $\vec{I}$ that is in the domain of 
-$f$, then $\vec{\alpha}$ is considered to be in the domain of $F$ and the family of intervals of the form $f(\vec{I})$ for all $\vec{\alpha}$-Yes intervals $\vec{I}$ in the domain of $f$ is a fonsi. We write $F(\vec{\alpha})$ to denote the unique oracle associated with that fonsi. 
+If $f$ is an interval operator with the narrowing property, then there is an associated oracle operator $F$. If $\vec{\alpha}$ is $f$-compatible, then $\vec{\alpha}$ is considered to be in the domain of $F$ and the family of intervals of the form $f(\vec{I})$ for all $\vec{\alpha}$-Yes intervals $\vec{I}$ in the domain of $f$ is a fonsi. We write $F(\vec{\alpha})$ to denote the unique oracle associated with that fonsi. 
 \end{theorem}
 
 We could define an oracle directly, but the proof would mimic that which we did in establishing the oracle of a fonsi. Arithmetic operators inherently produce fonsis and only secondarily produce oracles. This seems to be an essential part of the difficulty of doing arithmetic with real numbers. 
@@ -1532,11 +1601,11 @@ Also note that because of the narrowing property, once there is an $\vec{\alpha}
 \begin{proof}
 To prove that the family of intervals is a fonsi, we need to demonstrate that any two such intervals intersect and that given a rational $\varepsilon > 0$, we can find an interval in the family smaller than that. 
 
-By Proposition \ref{pr:op-nrw}, since any pair of $\vec{\alpha}$-Yes tuples intersect, we must have that their images intersect. Thus, we do have that the family is an overlapping family. 
+Since any pair of $\vec{\alpha}$-Yes tuples intersect, we can apply Proposition \ref{pr:op-nrw} to conclude that their images intersect. Thus, we do have that the family is an overlapping family. 
 
 For the other part, the narrowing property's notionally shrinking condition is exactly what we need. Note that the $\varepsilon > 0$ is equivalent to requiring being smaller than $\frac{1}{N}$ for a given $N$.
 
-For a given $\vec{\alpha}$ in the domain of $F$, we have a fonsi and, therefore, an associated oracle.
+For a given $\vec{\alpha}$ in the domain of $F$, we have a fonsi and, therefore, by Proposition \ref{pr:fon-oracle-exists}, an associated oracle.
 \end{proof}
 
 
@@ -1643,11 +1712,12 @@ We need to now establish the identity and inverse properties.
     Let $R$ be the rule for $-\alpha$ and $S$ be the rule for $\alpha$. Therefore, $R(a:b)=S(-a:-b)$ and $S(a:b) = R(-a:-b)$ for all intervals $a:b$.
     
     \begin{enumerate}
-        \item Consistency. Let $c:d \supseteq a:b$ and $R(a:b)=1$ be given. Therefore $S(-a:-b) = 1$ and $-c:-d \supseteq -a:-b$ so $S(-c:-d)=1$ by consistency of $S$ implying $R(c:d) = 1$
         \item Existence. By the existence property for the oracle $\alpha$, there exists $a:b$ such that $S(a:b)=1$. Thus, $R(-a:-b)=1$ and we have existence. 
-        \item Separating. Given $R(a:b)=1$ and $a:c:b$, then we have $S(-a:-b)=1$ and $-a:-c:-b$. If $S(-c:-c)=1$, then $R(c:c)=1$ and we are done. If not, then by the separating property for $\alpha$, $S(-a:-c) \neq S(-c:-b)$ which then implies $R(a:c)\neq R(c:b)$ as was to be shown. 
-        \item Rooted. Assume $c$ and $d$ satisfy $R(c:c)=R(d:d)=1$. Then $S(-c:-c)=S(-d:-d)=1$. By the rooted property for $\alpha$, $-c = -d$ and thus $c=d$ as was to be shown. 
-        \item Closed. Assume $c$ is contained in all $R$-Yes intervals. Then $-c$ is contained in all $S$-Yes intervals. As $\alpha$ satisfies being closed, $S(-c:-c)=1$ which implies $R(c:c)=1$.
+        \item Separating. Given $R(a:b)=1$, $a:c:b$, and $\delta > 0$, then we have $S(-a:-b)=1$ and $-a:-c:-b$. By the Separating property for $\alpha$, we have the existence of $-a:e:-c:f:-b$ with $e, f \in c_\delta$ such that exactly one of $-a:e$, $e:f$, or $f:-b$ is a Yes interval with the other two No. Then their negatives are Yes and No correspondingly for $R$. Thus, the Separating property is satisfied for $R$.
+        \item Consistency. Let $c:d \supseteq a:b$ and $R(a:b)=1$ be given. Therefore $S(-a:-b) = 1$ and $-c:-d \supseteq -a:-b$ so $S(-c:-d)=1$ by consistency of $S$ implying $R(c:d) = 1$. Similarly, if $c:d$ is No for $R$, then $-c:-d$ is No for $S$ implying $-a:-b$ is No. This in turn implies $a:b$ is No, which we were to have shown. 
+        \item Closed. Assume $c_\delta$ is a $R$-Yes interval for all rational $\delta > 0$. Then $(-c)_\delta$ is a $S$-Yes interval for all rational $\delta$ implying $-c:-c$ is an $S$-Yes interval. This implies $c:c$ is a $R$-Yes interval. 
+
+        If $R(a:a)=0$, then $S(-a:-a)=0$. This implies the existence of $\delta > 0$ such that $(-a)_\delta$ is a No interval for $S$. This in turn implies $R(a_\delta)$ is No.         
     \end{enumerate}
     
     To see this is the inverse, we start by considering the general $\alpha$-Yes interval $a:b$ and $-\alpha$-Yes interval $c:d$. We need to add them together. The interval $a:b$ generates the $-\alpha$-Yes interval $-a:-b$. We can then take the intersection of $c:d$ and $-a:-b$ which exists and is a $-\alpha$-Yes interval; let's call it $e:f$. We also have $-e:-f$ is an $\alpha$-Yes interval with $-e:-f$ being an interval in $a:b$. When we add them, we get $f-e:e-f$ and $0$ is clearly contained in that interval. Since $e:f$ is contained in $c:d$ and $-e:-f$ is contained in $a:b$, then $0$ is also in the sum of $a:b$ with $-c:-d$, i.e.,  $0 \in (e:f) \oplus (-e:-f) \subseteq c:d \oplus a:b$. Since $a:b$ and $c:d$ were arbitrary Yes intervals of their respective oracles, we have that 0 is contained in every summed interval. As the sum is an oracle, this must be the Oracle of $0$.
@@ -1668,16 +1738,24 @@ We need to now establish the identity and inverse properties.
     In what follows, we will assume the intervals are the same-sign except for the few places where we need to remark on the alternative strategy. One key fact is that if $a<p<b$ and all three are the same sign, then $\frac{1}{a} > \frac{1}{p} > \frac{1}{b}$.\footnote{Since we are using rationals, a quick proof starts with the rational form $\frac{p}{q} < \frac{r}{s}$, $q, s > 0$, multiplying by $qs$ to get $ps < qr$, and then dividing by $pr$ to get the reciprocated and flipped inequality $\frac{s}{r} < \frac{q}{p}$, assuming that $pr$ is positive, i.e., the rationals are of the same sign. If they are of opposite sign, then for the points in between, we have $a < p < 0< q< b$ leading to $\frac{1}{p} < \frac{1}{a} < 0 < \frac{1}{b} < \frac{1}{q}$ which means an interval gets mapped to two infinite intervals instead of one finite one.} That is, $a\lte p\lte b$ if and only if $\frac{1}{b} \lte \frac{1}{p}\lte \frac{1}{a}$.
     
     \begin{enumerate}
-        \item Consistency. Assume $c: a: b: d $ with $R(a:b)=1$. Then $S(\frac{1}{a}:\frac{1}{b}) = 1$ and $\frac{1}{c}:\frac{1}{a}:\frac{1}{b}\frac{1}{d}$ so $S(\frac{1}{c}:\frac{1}{d})=1$ by consistency of $S$. Thus, $R(c:d) = 1$ by definition. If $a:b$ was an opposite signed interval which is an $\alpha$-Yes interval, then there is a same-sign interval $e:f$ contained in $a:b$ which is $\alpha$-Yes. Thus any interval $c:d$ that contains $a:b$ will also contain $e:f$ and and thus will also be $\alpha$-Yes by definition. 
-        \item Existence. Since $\alpha$ is an oracle and not zero, there exists an interval $a:b$ such that $S(a:b)=1$ and 0 is not between $a$ and $b$; they are therefore the same sign. Thus, $R(\frac{1}{a}:\frac{1}{b})=1$ and we have existence. 
-        \item Separating. Given $R(a:b)=1$ and $a:c:b$, then we have $S(\frac{1}{a}:\frac{1}{b})=1$ and $\frac{1}{a}:\frac{1}{c}:\frac{1}{b}$. If $S(\frac{1}{c}:\frac{1}{c})=1$, then $R(c:c)=1$ and we are done. If not, then, by the separating property for $\alpha$,  $S(\frac{1}{a}:\frac{1}{c}) \neq S(\frac{1}{c}:\frac{1}{b})$ which then implies $R(a:c)\neq R(c:b)$ as was to be shown. 
         
-        The above was in the case of $a:b$ being of the same sign. If $a:b$ was not a same sign interval, then it contains a same sign Yes-interval, say, $a:e:f:b$. If $c$ is outside $e:f$, then it divides $a:b$ into $a:c$ and $c:b$ and whichever one contains $e:f$ is a Yes interval while the other is a No interval. The other case is that $e:c:f$. In the same-sign case that we established above, we have that $c$ separates $e:f$ implying that we can then extend that up to $a:e:c$ and $c:f:b$.
-        \item Rooted. Assume $c$ and $d$ satisfy $R(c:c)=R(d:d)=1$. Then $S(\frac{1}{c}:\frac{1}{c})=S(\frac{1}{d}:\frac{1}{d})=1$. By the rooted property for $\alpha$, $\frac{1}{c} = \frac{1}{d}$ and thus $c=d$ as was to be shown. 
-        \item Closed. Assume $c$ is contained in all $R$-Yes intervals. Then $\frac{1}{c}$ is contained in all $S$-Yes intervals. As $\alpha$ satisfies being closed, $S(\frac{1}{c}:\frac{1}{c})=1$ which implies $R(c:c)=1$.
+        \item Existence. Since $\alpha$ is an oracle and not zero, there exists an interval $a:b$ such that $S(a:b)=1$ and 0 is not between $a$ and $b$; they are therefore the same sign. Thus, $R(\frac{1}{a}:\frac{1}{b})=1$ and we have existence. 
+        \item Separating. Given $R(a:b)=1$, $a:c:b$ and $\delta > 0$, then we have $S(\frac{1}{a}:\frac{1}{b})=1$ and the existence of $e:\frac{1}{c}:f \in (\frac{1}{c})_\delta$ such that $\frac{1}{a}:e:f:\frac{1}{b}$ has the property that exactly one of the intervals is a $S$-Yes interval. That directly translates into $a:\frac{1}{e}:\frac{1}{f}:b$ having exaclty one $R$ Yes interval. 
+        
+        The above was in the case of $a:b$ being of the same sign. If $a:b$ was not a same sign interval, then it contains a same sign Yes-interval, say, $a:u:v:b$. If $c$ is outside $u:v$, then it divides $a:b$ into $a:c$ and $c:b$ and whichever one contains $u:v$ is a Yes interval while the other is a No interval. The other case is that $u:c:v$. Using the same-sign case that we established above, we have that $c$ separates $u:v$ implying that we can then extend that up to $a:u:c$ and $c:v:b$.
+        \item Consistency. Assume $c: a: b: d $ with $R(a:b)=1$. Then $S(\frac{1}{a}:\frac{1}{b}) = 1$ and $\frac{1}{c}:\frac{1}{a}:\frac{1}{b}\frac{1}{d}$ so $S(\frac{1}{c}:\frac{1}{d})=1$ by consistency of $S$. Thus, $R(c:d) = 1$ by definition. If $a:b$ was an opposite signed interval which is an $\frac{1}{\alpha}$-Yes interval, then there is a same-sign interval $e:f$ contained in $a:b$ which is $\frac{1}{\alpha}$-Yes. Thus any interval $c:d$ that contains $a:b$ will also contain $e:f$ and and thus will also be $\frac{1}{\alpha}$-Yes by definition. 
+
+        For same-sign intervals, if we know that $R(c:d) = 0$, then $S(\frac{1}{c}:\frac{1}{d}) = 0$ as well. Since $\frac{1}{c}:\frac{1}{a}:\frac{1}{b}:\frac{1}{d}$, we have that $S(\frac{1}{a}:\frac{1}{b}) = 0$ as well. But this implies $R(a:b) = 0$. 
+
+        For mixed-sign intervals, if $R(c:d) = 0$, then there is no same-sign interval in it which is Yes. This implies there is also no such interval in $a:b$ and thus $R(a:b) = 0$.
+        
+        \item Closed. If $R(c_\delta) = 1$ for all $\delta > 0$, then $S((\frac{1}{c})_\delta) = 1$ for all $\delta > 0$. By the Closed property for $S$, we have that $\frac{1}{c}:\frac{1}{c}$ is an $S$-Yes interval. This implies $c:c$ is an $R$-Yes interval. 
+
+        On the other hand, if $R(a:a)=0$, then $S(\frac{1}{a}:\frac{1}{a})=0$ implying the existence of $\delta>0$ such that $(\frac{1}{a})_\delta$ is a No interval for $S$. This implies $a:a$ is $R$-No. 
+        
     \end{enumerate}
     
-    To see this is the multiplicative inverse, we start by considering the general $\alpha$-Yes interval $a:b$ and $\frac{1}{\alpha}$-Yes interval $c:d$ and assume both are same-signed since we can restrict our attention to subintervals and $\alpha$ is not the 0 oracle. We need to multiply them together. The interval $a:b$ generates the $\frac{1}{\alpha}$-Yes interval $\frac{1}{a}:\frac{1}{b}$. We can then take the intersection of $c:d$ and $\frac{1}{a}:\frac{1}{b}$ which exists and is a $\frac{1}{\alpha}$-Yes interval; let's call it $e\lte f$. We also have $\frac{1}{f} \lte \frac{1}{e}$ is an $\alpha$-Yes interval which is contained in $a:b$. When we multiply them, we get $\frac{e}{f}\lte \frac{f}{e}$ and $1$ is  contained in that interval.\footnote{If $\frac{e}{f} <1$, then multiplying by $\frac{f}{e}$ leads to $1 = \frac{fe}{ef} < \frac{f}{e}$. Similarly for $\frac{e}{f} > 1$. Note $e$ and $f$ are the same sign so that $\frac{f}{e}$ and $\frac{e}{f}$ are greater than 0. } Since $e:f$ is contained in $c:d$ and $\frac{1}{e}:\frac{1}{f}$ is contained in $a:b$, then $1$ is also in the product of $a:b$ with $\frac{1}{c}:\frac{1}{d}$. Since $a:b$ and $c:d$ were arbitrary same-signed Yes intervals of their respective oracles, we have that $1$ is contained in every multiplied interval; the cross-signed intervals will contain the same-signed ones which implies their products will also contain $1$. As the product is an oracle, this must be the Oracle of $1$. 
+    To see this is the multiplicative inverse, we start by considering the general $\alpha$-Yes interval $a:b$ and $\frac{1}{\alpha}$-Yes interval $c:d$ and assume both are same-signed since we can restrict our attention to subintervals and $\alpha$ is not the 0 oracle. We need to multiply them together. The interval $a:b$ generates the $\frac{1}{\alpha}$-Yes interval $\frac{1}{a}:\frac{1}{b}$. We can then take the intersection of $c:d$ and $\frac{1}{a}:\frac{1}{b}$ which exists and is a $\frac{1}{\alpha}$-Yes interval; let's call it $e\lte f$. We also have $\frac{1}{f} : \frac{1}{e}$ is an $\alpha$-Yes interval which is contained in $a:b$. When we multiply them, we get $\frac{e}{f} : 1 : \frac{f}{e}$.\footnote{We have $e$ and $f$ being the same-sign implying both $\frac{e}{f}$ and $\frac{f}{e}$ are positive. If $\frac{e}{f} \leq 1$, then multiplying by $\frac{f}{e}$ leads to $1 = \frac{fe}{ef} \leq \frac{f}{e}$. Similarly for $\frac{e}{f} > 1$, we have $1 = \frac{fe}{ef} > \frac{f}{e}$.} Since $e:f$ is contained in $c:d$ and $\frac{1}{e}:\frac{1}{f}$ is contained in $a:b$, then $1$ is also in the product of $a:b$ with $\frac{1}{c}:\frac{1}{d}$. Since $a:b$ and $c:d$ were arbitrary same-signed Yes intervals of their respective oracles, we have that $1$ is contained in every multiplied interval; the cross-signed intervals will contain the same-signed ones which implies their products will also contain $1$. As the product is an oracle, this must be the Oracle of $1$. 
     
 \end{itemize}
 
@@ -1691,7 +1769,7 @@ The set of all oracles, with the above defined arithmetic, is a field.
 
 We now turn to how the ordering fits with the field. We have already defined the ordering, with the ordering largely coming down to $R < S$ if there are $R$ and $S$ Yes intervals $a\lte b$ and $c\lte d$, respectively, such that $b<c$. 
 
-Is this a total ordering? As we discussed, there are oracles, such as the Collatz Oracle, that we cannot distinguish from 0 and yet also not establish that it is 0 at the current time. Further, there are oracles, such as the coin toss ones we described, that, in principle, we could only distinguish from all other oracles by engaging in an infinite process. This is true of all definitions of real numbers and it should be kept in mind at least as a practical consequence. We will, however, ignore that and generally settle on that if we had sufficient abilities, then this would be a total ordering. We did establish that at most one of $<$, $>$, $=$ can hold true. 
+Is this a total ordering? As we discussed, there are oracles, such as the Collatz Oracle, that we cannot distinguish from 0 and yet we can also not establish that it is 0 at the current time. Further, there are oracles, such as the coin toss ones we described, that, in principle, we could only distinguish from all other oracles by engaging in an infinite process. This is true of all definitions of real numbers and it should be kept in mind at least as a practical consequence.  We did establish that at most one of $<$, $>$, $=$ can hold true and that we do have that the $\varepsilon$-Trichotomy principle applies per Proposition \ref{pr:tri}.
 
 We have that the inequality of oracles is transitive from Proposition \ref{pr:transitive} and we have already stated that equality of oracles is reflexive, symmetric, and transitive from Proposition \ref{pr:reflexive}. 
 
@@ -1728,12 +1806,7 @@ The rationals are an embedded field inside of the field of oracles. The embeddin
 The ordered field of oracles contains the rationals as a subfield. 
 \end{theorem}
 
-We previously established the completeness properties:
-
-\begin{itemize}
-    \item  Theorem \ref{th:lub}: All sets of oracles with an upper bound have a least upper bound. 
-    \item Theorem \ref{th:cauchy}: All Cauchy sequences of oracles converge to an oracle. 
-\end{itemize}
+We previously established the completeness properties such as the existence of the least upper bound as in Theorem \ref{th:lub}, the Cut property from Theorem \ref{th:cut}, and the convergence of Cauchy sequences demonstrated in Theorem \ref{th:cauchy}.
 
 \begin{theorem}
 The ordered field of oracles satisfies the axioms of the real numbers and can be considered the real number field. 
@@ -1760,15 +1833,32 @@ Let us now establish the Archimedean property, namely, that for any oracle $\alp
 A famous part of the lore of real numbers is that they are uncountable unlike the rationals. We will first establish a result on finite collections of reals, namely, that we can always find an oracle distinct from any given finite collection of them. With that established, one can then use the machinery of infinity and contradiction to establish the uncountability of the reals. 
 
 \begin{proposition}\label{pr:notlist}
-Given a finite indexed collection of oracles, say $\{a_i\}_{i=0}^n$, we can produce an indexed collection of nested intervals, $\{I_i\}_{i=0}^n$ such that each $a_j$ is not an element of of $I_i$ whenever $j \leq i$.
+Given a finite indexed collection of oracles, say $(a_i)_{i=0}^n$, we have an algorithm that produces an indexed collection of nested intervals, $(I_i)_{i=0}^n$ such that each $a_j$ is not an element of of $I_i$ whenever $j \leq i$ and that any sequence of oracles which extends the given sequence $a_i$ will have the same intervals up to $n$. 
 \end{proposition}
 
+We need a little algorithm that does the interval selection for us. Given an interval $I$ and an oracle $\alpha$, we produce an interval that is $\alpha$-No by the following procedure, using $J$ for the output interval: 
+
+\begin{enumerate}
+    \item Let $I = a\lte b$. Define $l = b-a$, $\delta = \frac{l}{8}$, $m = \frac{b+a}{2}$, $q = \frac{3a +b}{4}$, and $r = \frac{a+3b}{4}$. 
+    \item If $I$ is an $\alpha$-No interval, then $J=a:q$.
+    \item Otherwise, $I$ is an $\alpha$-Yes interval and we can use the Partition Proposition \ref{pr:multi} which tells us that one of the following is a Yes interval: $a:q$, $q:m$, $m:r$, $r:b$, $q_\delta$, $m_\delta$, or $r_\delta$.
+    \item If $a:q$, $q_\delta$, or $q:m$ is a Yes interval, then $r:b$, being a disjoint interval, is a No interval and we choose $J = r:b$.
+    \item Otherwise, $a:q$ is disjoint from the Yes interval and we choose $a:q$ as $J$. 
+\end{enumerate}
+
+Note that given $I$ and $\alpha$, $J$ is defined without any unspecified choice in this procedure. That is, the algorithm is definite in its output given the same interval and oracle. 
+
+We can now prove the proposition.
+
 \begin{proof}
-Start with $0:1$. If $0:1$ is an $a_0$-No interval, then $a_0$ is not in the interval and we define $I_0 = 0:1$. If $0:1$ is an $a_0$-Yes interval, then consider the intervals $L= 0:\tfrac{1}{2}$ and $R = \tfrac{1}{2}:1$. By separation, either $L$ is $a_0$-No or $R$ is $a_0$-No or $a_0 = \tfrac{1}{2}$. In the first two cases, we take $I_0=L$ or $I_0=R$, respectively. In the third case, we take $I_0 = 0:\tfrac{1}{4}$ which does not contain $\tfrac{1}{2}$ and thus is a No interval for $a_0$.
+Start with $0:1$ and $a_0$. Apply the algorithm above and call that interval $I_0$. Note that $I_0$ is a No interval for $a_0$. 
 
-Now we repeat this, starting with $I_i$ to produce $I_{i+1}$. Let $L_i$ be the left bisection of $I_i$ and let $R_i$ be the right bisection of $I_i$. Let $b_i$ be the bisection point. The one difference is that if $I_i$ is an $a_{i+1}$ No interval, then we take $I_{i+1} = L_i$ as we do want to make sure the intervals narrow. If $I_i$ is an $a_{i+1}$ Yes interval, then we use separation and either $L_i$ or $R_i$ is a No interval, in which case we set $I_{i+1} = L_i $ or $I_{i+1} = R_{i+1}$, respectively. If both are yes, then $a_{i+1} = b_i$ and we then bisect $L_i$ and take the left interval to be $I_{i+1}$ which will be an $a_{i+1}$ No interval. 
+Given $I_i$, pair that with $a_{i+1}$ and use the above algorithm to obtain $I_{i+1}$. Since $I_{i+1}$ is a subinterval of $I_i$, if $I_i$ is a No interval of an oracle, then $I_{i+1}$ is as well. Thus, $I_{i+1}$ is a No interval for all of the $a_j$, $j \leq i+1$.
 
-By construction, every prior number is excluded from the interval. We do this up through $a_n$.
+By construction, every prior oracle is excluded from the interval. We do this up through $a_n$, producing the sequence of intervals $(I_i)_{i=0}^n$. 
+
+Given any sequence ${b_i}_{i=0}^m$ that extends the $a_i$, i.e., $m>n$ and $a_i = b_i$ for all $i \leq n$, then the sequence of intervals formed above for $(b_i)$, say $J_i$, will automatically have $I_i = J_i$ for $i \leq n$. 
+
 \end{proof} 
 
 With that proposition established, let us move on to the infinite case. Given an infinite sequence of oracles, we construct a fonsi as above. Indeed, let $\{a_i\}_{i=0}^{\infty}$ and then define $\{I_i\}_{i=0}^{\infty}$ to be the $i$-th interval of $\{I_i\}_{i=0}^{n}$ as provided by Proposition \ref{pr:notlist}. As long as $i \leq n$, this will be defined and consistent across $n$. They all intersect and they get arbitrarily small. They thus define a fonsi which leads to an oracle as explained in Section \ref{sec:ni}. Since, by construction, each of the intervals is a No interval for its matching $a_i$, we have that the oracle cannot be any real number on the list. 
@@ -2076,6 +2166,8 @@ To align it more with our approach of Oracles, we would recast the set aspect in
 To convert to intervals, we see that below the cut is the set of lower endpoints of intervals that contain the real number while above the cut is set of the upper endpoints. Given a lower and upper bound on the cut, we can proceed with the algorithms we have already discussed and use $T$ to decide whether the new middle point is a lower bound, the number itself, or an upper bound. 
 
 We can also view the Separation Property as being very similar to the $T$ function. If we had a $T$ function, then we could use it to answer whether to accept the left interval ($T(c) = -1$), the right interval ($T(c)=1)$, or accept the singleton $(T(c) = 0$). We could also use the existence of an interval and the Separation property to construct the $T$ function.
+
+To handle the $\delta$-halo, we have to admit that the $T(c)=0$ may not be doable. So this would be essentially saying that $T$ restricted to $c_\delta$ may be unknowable. The Dedekind cut perspective also is a little bit difficult to describe in the context of a $\delta$-halo problem. 
 
 The arithmetic for our version is fairly straightforward. The new rule for the sum  $z = x+y$ is that a given rational $s$ is less than $z$ if $s$ can be written as $p+q$ for two rationals that are less than $x$ and $y$, respectively. It is greater if we can find two rationals summing to it that are respectively greater. Equality is a little tricky unless we are actually adding two known rationals. Otherwise, we need to work to find a gap one way or the other. 
 
@@ -2556,7 +2648,7 @@ Define $a = r^n - q$. Define $N =  \max(1,\tfrac{3}{a}n r^{n-1}, \tfrac{3}{a}(r+
 
 These are supporting computations for Section \ref{sec:e}. While not required in the sense that these computations exist elsewhere, it is nice to give the flavor of some of the work that can be involved in doing it in the more explicit fashion we favor here. 
 
-For this section, let $S_n = \sum_{i=0}^n \frac{1}{i!}$, $a_n = (1+\frac{1}{n})^{n}  $, and $b_n = (1+\frac{1}{n})^{n+1}$
+For this section, let $S_n = \sum_{i=0}^n \frac{1}{i!}$, $a_n = (1+\frac{1}{n})^{n}  $, and $b_n = (1+\frac{1}{n})^{n+1}$.
 
 We will use the Arithmetic-Geometric Mean Inequality in the form that states that the $n$-power of the average of the sum of $n$ numbers is greater than the product of those $n$ numbers, assuming at least one of the numbers is different from the others. 
 
@@ -2621,6 +2713,8 @@ For a given $m$, there exists an $n$ such that $S_m < a_n$.
 
 We are given a non-empty set of oracles $E$ with an upper bound $M$, meaning that if $x \in E$ then $x$ has the property $x < M$. We define the set $U$ to be the set of oracles that are upper bounds of $E$, namely, $y \in U$ if $y \geq x$ for every $x$ in $E$.  Thus, $M \in U$.
 
+We will assume here that given an $x$, we can get an affirmative answer as to whether $x$ is an upper bound or not. 
+
 We want to create the oracle for the least upper bound of $E$. We define the rule $R$ such that $a\lt b$ is to be a Yes interval exactly when $a$ is a lower endpoint for a Yes-interval of an oracle in $E$ and $b$ is an upper endpoint for a Yes-interval of an oracle which is an upper bound of $E$. We also include $c:c$ as a Yes singleton if $c \geq x$ for all $x \in E$ and $c \leq y$ for all $y\in U$.
 
 We claim that this satisfies the properties of an oracle and we call this the Oracle of $\mathrm{sup} E$, the supremum of $E$ or least upper bound. This oracle is also the greatest lower bound of $U$.
@@ -2628,22 +2722,31 @@ We claim that this satisfies the properties of an oracle and we call this the Or
 Let us establish the properties: 
 
 \begin{enumerate}
-    \item Consistency. Assume $R(a \lte b)=1$ and $c\lte d$ contains $a\lte b$. Then there exist oracles $x \in E$ and $y \in U$ with $x$-Yes interval $a\lte A$ and $y$-Yes interval $B\lte b$. By consistency of $x$ and $y$ being oracles, $c\lte A$ is an $x$-Yes interval and $B\lte d$ is a $y$-Yes interval. Thus, $R(c\lte d) = 1$.
     \item Existence. By assumption, there is an $x \in E$ and an upper bound $M$ in $U$. Let $a\lte b$ be an $x$-Yes interval and $c\lte d$ be an $M$-Yes interval. Then $R(a\lte d) = 1$ by definition.  
-    \item Separating. Let $R(a\lt b)=1$ and $a < c< b$. We need to show that either $R(c:c)=1$ or $R(a:c) \neq R(c:b)$. 
+
+
+    \item Separating. Let $R(a\lt b)=1$ and $a < c< b$ and a $\delta > 0$ be given. We need to show that there exists $e\lte f$ being $c_\delta$ compatible such that exactly one of the following intervals is Yes: $a:e$, $e:f$, or $f:b$.
 
     We proceed by cases.
     \begin{enumerate}
-    \item There exists an oracle $y$ in $U$ such that $c > y$. Namely, there exists an $m \lte n$ $y$-Yes interval such that $c > n$.  This implies $c$ is an upper endpoint of a Yes-interval of $y$, specifically $m \lte c$. Thus, $R(a \lte c) = 1$ by definition. Also, $c$ cannot be a lower endpoint of a Yes interval for an  $x \in E$ since $y \geq x$ for all $x \in E$ implying all the lower endpoints of such $x$ are less than or equal to $y$'s upper endpoints and $c$ is strictly greater than them. Thus, $R(c \lte b) = 0$. 
+    \item There exists an oracle $y$ in $U$ such that $c > y$. Namely, there exists an $m \lte n$ $y$-Yes interval such that $c > n$. We then have $R(a \lte n) = 1$ and $R(n\lte b) = 0$. Thus, let $e = \max(c-\delta, n)$ and $f = c+\delta$. Then $e:f$ and $f:b$ are No intervals, as needed to be shown. 
 
-    \item There exists an oracle $x$ in $E$ such that $c < x$. Namely, there exists an $m \lte n$ $y$-Yes interval such that $c < m$. This implies $c$ is a lower endpoint of a Yes-interval of $x$, specifically $c \lte n$. Thus, $R(c \lte b) = 1$ by definition. Also, $c$ cannot be an upper endpoint of a Yes interval for a $y \in U$ since $x \leq y$ for all $y \in U$ implying all the upper endpoints of such $y$ are greater than or equal to $x$'s lower endpoints and $c$ is strictly greater than them. Thus, $R(a \lte c) = 0$.
+    \item There exists an oracle $x$ in $E$ such that $c < x$. Namely, there exists an $m \lte n$ $x$-Yes interval such that $c < m$. Then $R(m\lte b) = 1$ and $R(a:m) = 0$. Let $f = \min(m, c+\delta)$ and $e = c-\delta$. Then $a:e$ and $e:f$ are No intervals. 
 
-    \item $c \geq x$ for all $x \in E$ and $c \leq y$ for all $y \in E$. Then $R(c:c) = 1$ by the definition. 
+    \item The alternative is that there exist oracles $x, y$ such that $c-\delta : x: c: y: c+\delta$ where $x \in E$ and $y \in U$. This implies that $c-\delta$ is a lower endpoint of a $x$-Yes interval and $c+\delta$ is an upper endpoint of a $y$-Yes interval. Therefore, $c_\delta$ is a Yes interval while $a:c-\delta$ and $c+\delta:b$ are No intervals. 
 
      \end{enumerate}
+
+    \item Consistency.  Let $c\lte d$ contain $a\lte b$. 
     
-    \item Rooted. For $R(c:c)=1$, we would need to have that $c \leq y$ for all $y$ in $U$ and $c \geq x$ for all $x$ in $E$. Assume we had another rational such that $R(d:d) = 1$. Then we also have $d \geq x$ for all $x$ in $E$ and $d \leq y$ for all $y$ in $E$. Since both $c$ and $d$ are upper bounds of $E$, we have that each are in $U$. So $c \leq d$ and $d \leq c$. This implies that $c = d$. 
-    \item Closed. Assume $c$ is in all Yes intervals. By the definition, $R(c:c) = 1$ unless either there exists an $x \in E$ such that $x> c$ or there exists a $y \in U$ such that $y < c$. If there is such an $x$, then let $a\lte b$ be an $x$ Yes-interval such that $c < a$; this exists by the definition of oracle inequality. Therefore, $a:B$ is a Yes-interval of $\mathrm{sup} E$, where $B$ is an upper endpoint of any $M$-Yes interval. This is a Yes-interval which does not contain $c$. So we have ruled out this case. The other case goes similarly.
+    If $R(a \lte b)=1$, then there exist oracles $x \in E$ and $y \in U$ with $x$-Yes interval $a\lte A$ and $y$-Yes interval $B\lte b$. By consistency of $x$ and $y$ being oracles, $c\lte A$ is an $x$-Yes interval and $B\lte d$ is a $y$-Yes interval. Thus, $R(c\lte d) = 1$.
+
+    If $R(c\lte d) = 0$, then either $c$ is above all of the lower endpoints of elements of $E$ or $d$ is below all of the lower endpoints of $U$. But then the same can be said of $a$ and $b$, respectively. Thus, $R(a\lte b) = 0$.
+
+    \item Closed. Assume $c_\delta$ is a Yes interval for all $\delta > 0$. Let $x \in E$, $y \in U$, and assume neither are equal to $c$. Then we need to show that $y > c > x$. Let $\delta$ be half of the minimum of the distances from $x$ to $c$ and from $y$ to $c$. Consider $c_\delta$. This is a Yes interval and does not include $x$ or $y$. $y$ certainly cannot be less than $c-\delta$ as there is an element in $E$ above it. $x$ cannot be more than $c+\delta$ since there is an upper bound below $c+\delta$. Thus, $x \leq c-\delta < c <  c+\delta \leq y$ and we have established that, for arbitrary $x \in E$ and $y \in U$, we have $x \leq  c \leq y$. Thus, $R(c:c)=1$ by definition. 
+
+    Assume now that $R(a:a)=0$. This implies there is an $x \in E$ such that $x > a$ or $y \in U$ such that $y < a$. Let $\delta$ be half the distance\footnote{Technically, we defined distance using this result. To avoid that, take a Yes interval small enough to stay away from $a$ which exists by the assumption of the inequality. Then let the distance be replaced with the rational distance from the closest endpoint to $a$.} from $a$ to the existing oracle. Then $a_\delta$ has the same relation to $x$ or $y$ as $a$. Thus, its endpoints are entirely to one side and it must be a No interval. 
+
 \end{enumerate}
 
 We also have to establish that for every $x \in E$ and $y \in U$, we have $x \leq \mathrm{sup} E \leq y$. Let us assume this is not true. Then either there exists $x > \mathrm{sup} E$ or $y < \mathrm{sup} E$. Both cases proceed similarly. Let us 
