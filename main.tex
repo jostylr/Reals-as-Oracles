@@ -18,14 +18,14 @@
 %\sloppy%\openup-.1\jot
 \begin{document}\maketitle
 \begin{abstract}
-A real number is a rule that, when provided with a rational interval, answers Yes or No depending on if the real number ought to be considered to be in the given interval. Since the goal is to define the real numbers, this can only motivate the definition of which rules should be considered a real number. The rule must satisfy five properties and any rule that does so we call an oracle. Three of the properties ensure that we do not have multiple oracles representing the same real number. The other two properties ensure that the oracle does narrow down to a single real number. The most important property is the Separating property which ensures that if we divide a Yes interval into two parts, then one part is a Yes interval while the other is a No interval; the exception is if the division point, which is a rational number, could be the desired real number in which case we have a small Yes interval around the division point. We explore various examples and algorithms in using oracles in addition to establishing that the oracles do, in fact, form the field of real numbers. The concept of a Family of Overlapping, Notionally Shrinking Intervals is defined and found to be an essential tool in working with oracle arithmetic. Mediant approximations, which are related to continued fraction representations, naturally arise from an oracle perspective. We also compare and contrast with other common definitions of real numbers, such as Cauchy sequences and Dedekind cuts, in which the conclusion is that the oracle perspective is somewhat of a master map to the other definitions. We do an explicit example to contrast oracle arithmetic with decimal arithmetic and continued fraction arithmetic.
+A real number is a rule that, when provided with a rational interval, answers Yes or No depending on if the real number ought to be considered to be in the given interval. Since the goal is to define the real numbers, this can only motivate the definition of which rules should be considered a real number. The rule must satisfy four properties and any rule that does is an oracle. Two of the properties are primarily maximizing the number of Yes intervals which ensures a unique oracle for each real number. One property ensures that the existence of a real number by ensuring the existence of a Yes interval. The more important property, the Separating property, ensures that the oracle is representing a unique real number. This property basically asserts that if a Yes interval is divided into two parts, then one part is a Yes interval while the other is a No interval; the exception is if the division point, which is a rational number, could be the desired real number in which case there is a small Yes interval around the division point with the smallness controlled by the questioner. After the definition and basic properties are established, various examples and algorithms in using oracles are explored in addition to establishing that the oracles do, in fact, form the field of real numbers. The concept of a Family of Overlapping, Notionally Shrinking Intervals is defined and found to be an essential tool in working with oracle arithmetic. Mediant approximations, which are related to continued fraction representations, naturally arise from an oracle perspective. One of the final sections compares and contrast with other common definitions of real numbers, such as Cauchy sequences and Dedekind cuts, in which the conclusion is that the oracle perspective is a master map to the other definitions. 
 \end{abstract}
 
 \tableofcontents
 
 \section{The Oracle of \texorpdfstring{$r$}{r}}\label{sec:ora}
 
-Our goal is to give a new definition of real numbers. This definition strikes a balance between having a solid definition of a real number and being useful in computing. Most definitions of real numbers, such as decimal expansions and Cauchy sequences, seem to require explicit computations to even define the number. This is problematic given the infinite nature of real numbers. Other definitions, such as Dedekind cuts, do not require computations to state, but they seem to offer, in their usual formulations, no useful guidance in computing the number. 
+Our goal is to give a new definition of real numbers. This definition strikes a balance between having a solid definition of a real number and being useful in computing. Most definitions of real numbers, such as decimal expansions and Cauchy sequences, seem to require explicit computations to even define the number. This is problematic given the infinite nature of real numbers. Other definitions, such as Dedekind cuts, do not require computations to state the number, but they seem to offer, in their usual formulations, no useful guidance in computing the number. 
 
 What we want to provide is an object that can be defined without computation, but provides the underlying mechanism for computing the real number to any precision one wants. In some sense, we are producing the framework for producing approximations to real numbers given the particulars of a given real number.  This is analogous to, in functional programming,  having a generic sorting algorithm that can be used in a variety of situations by supplying a comparison function to make a pairwise sorting decision while the framework handles the actual details of the global sorting.
 
@@ -35,7 +35,7 @@ Informally, the Oracle of $r$ is a rule which, given two rational numbers, will 
 
 Much like oracles of old, there is also the potential for intervals which we cannot answer definitively Yes or No. This framework allows for that ambiguity, but nevertheless provides a mechanism for making progress towards less uncertainty. 
 
-There is a very short teaser version of this paper \cite{taylor23teaser} as well as a short overview paper \cite{taylor23over}. They serve as a more gentle introduction into these ideas. 
+There is a short introduction to oracles in \cite{taylor23teaser} whose primary goal is to link oracles to the constructivist version of real numbers. There is also a short overview paper \cite{taylor23over} which tries to present the ideas rather than the details. 
 
 \subsection{Interval Notation}
 
@@ -44,11 +44,11 @@ We will define a \textbf{rational interval} $a:b$ as a binary rule that, for a g
 
 Please take note that the intervals not only have rational endpoints but they consist entirely of rational points as we do not have real numbers. Throughout, unless we say otherwise, intervals always include their endpoints. If we had the real numbers, these would be closed intervals with rational endpoints.  The symbol $:$ was chosen to represent the two endpoints with something in between. Being dotted is to be a reminder that it is just the discrete rational interval under discussion. 
 
-We also adopt an extension of this notation as $a_0:a_1:\cdots:a_{n-1}:a_n$ which suggests an interval perspective, but whose content is largely conveying the same information as $a_0 \leq a_1 \leq \cdots \leq a_{n-1} \leq a_n$. We can also put in the symbols $\lt$ and $\lte$ in that sequence as appropriate. We might also write something like $a:b,c:d$ which would indicate that both $b$ and $c$ are between $a$ and $d$, but the relative ordering of $b$ and $c$ is unknown. 
+We also adopt an extension of this notation as $a_0:a_1:\cdots:a_{n-1}:a_n$ which suggests an interval perspective, but whose content is largely conveying the same information as $a_0 \leq a_1 \leq \cdots \leq a_{n-1} \leq a_n$ though the order could be reversed with the vertical dots. We can also put in the symbols $\lt$ and $\lte$ in that sequence as appropriate which would cement the ordering. We might also write something like $a:(b,c):d$ which would indicate that both $b$ and $c$ are between $a$ and $d$, but the relative ordering of $b$ and $c$ is unknown. 
 
-We define the term \textbf{singleton} to be intervals of the form $a:a$, namely the only number in the interval is the rational $a$. We also define the term \textbf{rational neighborhood} or a \textbf{neighborly interval} to be intervals which are not singletons, that is, $a \lt b$ is its form. When we write $a:b$, we do allow for $a=b$. 
+We define the term \textbf{singleton} to be intervals of the form $a:a$, namely the only number in the interval is the rational $a$. We also define the term \textbf{neighborly interval} to be intervals which are not singletons, that is, $a \lt b$ is its form. When we write $a:b$, we do allow for $a=b$. 
 
-The\textbf{ $\delta$-spark at $c$}, denoted $c_{\delta}$ is the interval $c-\delta:c+\delta$, where $\delta>0$ is a rational number. A $c_{\delta}$-compatible interval is an interval that is contained in $c_{\delta}$ and strictly contains $c$, i.e., if $e \lt f$ is $c_{\delta}$ compatible then $c-\delta:e\lt c \lt f:c+\delta$. 
+The\textbf{ $\delta$-halo at $c$}, denoted $c_{\delta}$ is the interval $c-\delta:c+\delta$, where $\delta>0$ is a rational number. We may say the halo $\delta$ implying that $\delta$ is a positive rational and we intend to use it as part of a halo. A \textbf{$c_{\delta}$-compatible interval} is an interval that is contained in $c_{\delta}$ and strictly contains $c$, i.e., if $e \lt f$ is $c_{\delta}$ compatible then $c-\delta:e\lt c \lt f:c+\delta$. 
 
 A rational $q$ is \textbf{strictly contained} in $a\lt b$ if $a < q < b$. An interval $c:d$ is \textbf{strictly contained} in $a\lt b$ if both $c$ and $d$ are strictly contained in $a \lt b$. We say that $c \lte d$ is \textbf{nested in} $a\lte b$ if $a \leq c \leq d \leq b$; $a \lte b$ then is also said to \textbf{contain} $c \lte d$. 
 
@@ -63,18 +63,18 @@ Note that we do have transitivity of interval inequality, that is, if $a:b < c:d
 
 
 
-The Oracle of $r$ is a rule $R$ defined on almost all rational intervals, including singletons, that returns values of 1 and 0, and satisfies the properties listed below.\footnote{Set theoretically, an oracle is a function $R \col \ \mathbb{Q}^2 \to \{0,1\}$ where each pair $(a,b)$ is identified with the inclusive rational interval $a:b$. This viewpoint is suppressed here as the goal is to provide a framework for just-in-time determination. In particular, there may be a rational number $c$ for which the rule has no answer on any interval that has an endpoint of $c$. Another way of viewing the rule is that it is the characteristic function of the set of intervals that contain the real number, a viewpoint which is also not adopted here.} 
+The Oracle of $r$ is a rule $R$ defined on almost all rational intervals\footnote{We allow for the possibility that there may be a rational number $c$ for which the rule has no answer on any interval that has an endpoint of $c$.}, including singletons, that returns values of 1 and 0, and satisfies the properties listed below.\footnote{Set theoretically, an oracle is a function $R \col \ \mathbb{Q}^2 \to \{0,1\}$ where each pair $(a,b)$ is identified with the inclusive rational interval $a:b$. This viewpoint is suppressed here as the goal is to provide a framework for just-in-time determination.  Another way of viewing the rule is that it is the characteristic function of the set of intervals that contain the real number, a viewpoint which is also not adopted here.} 
 \begin{enumerate}
     \item Existence. $R(a:b) = 1$ for some rational interval $a:b$.
-    \item Separating. If $R(a\lt b)=1$, then for a given $c \neq a, b$ in $a:b$ and given a halo $\delta > 0$, there exists a $c_{\delta}$ compatible interval $e \lt f$ such that exactly one of the intervals $a:e$, $e:f$, and $f:b$ is a Yes interval and the other two are No intervals. 
+    \item Separating. If $R(a\lt b)=1$, then for a given $c \neq a, b$ in $a:b$ and given a halo $\delta$, there exists a $c_{\delta}$ compatible interval $e \lt f$ such that exactly one of the intervals $a:e$, $e:f$, and $f:b$ is a Yes interval and the other two are No intervals. 
     \item Consistency. Assume $c:d$ contains $a:b$. If $R(a:b) = 1$, then $R(c:d) = 1$. If $R(c:d)=0$, then $R(a:b) = 0$. 
-    \item Closed. If $c_{\delta}$ is a Yes interval for all rational $\delta>0$, then $R(c:c) = 1$. Additionally, if $R(a:a)=0$, then there exists $\delta > 0$ such that $R(a_\delta) = 0$.
+    \item Closed. If the $\delta$-halo of $c$ is a Yes interval for all rational $\delta>0$, then $R(c:c) = 1$. Additionally, if $R(a:a)=0$, then there exists a $\delta$-halo of $a$ which such that $R(a_\delta) = 0$.
 \end{enumerate}
 
 Note that in the above $a$, $b$, $c$, $d$, $e$, and $f$ are all rationals; we do not apply this to irrationals since we are defining them here. We generally obey the convention that $r$ represents naming the oracle as a number and $R$ is the rule. There is not a distinction, in fact, between $r$ and $R$, but the notation helps make the connection to how we customarily think of real numbers versus the oracle version.\footnote{As it becomes increasingly clear that the oracles do fit a model of the real numbers, we will move away from this distinction and also start to use Greek letters, such as $\alpha$, to denote oracles.}
 
 
-The Existence and Separating properties are both essential ingredients in algorithmically refining the knowledge about the real number. The Consistency and Closed properties are more about filling in the blanks and are a bit more atmospheric than algorithmic. In other words, specifying a starting Yes interval and the rule how to do the separating property allows us to develop the real number. The other two properties are there to make both the oracle rule unique and its algorithmic target unique, but are not generally involved in directly producing better approximations. 
+The Existence and Separating properties are both essential ingredients in algorithmically refining the knowledge about the real number. The Consistency and Closed properties are more about filling in the blanks and are a bit more atmospheric than algorithmic. In other words, specifying a starting Yes interval and the rule how to do the separating property allows us to develop the real number. The other two properties are there to make the oracle rule unique, but are not generally involved in directly producing better approximations. 
 
 For further elaboration on what each of these properties means:
 
@@ -96,16 +96,16 @@ For further elaboration on what each of these properties means:
 
     One particular example of needing to impose this is in finding the roots of a function using the intermediate value theorem. Let's say we are looking at $f(x) = (x-1)(x-2)$. The roots are 1 and 2, of course, but let's say we define the oracle rule as saying Yes to any interval $a:b$ for which the signs of $f(a)$ and $f(b)$ are not equal or one of the values is 0. This would represent both the roots 1 and 2. We would need to essentially restrict ourselves to the interval $0.5:1.5$ and require that any interval disjoint from that to be a No interval. We can then operate within that interval according to the sign rule. 
 
-Because of Consistency, the interval $e:f$ being Yes implies $c_{\delta}$ is a Yes interval. In addition, its complements in $a:b$ are sub-intervals of the complements of $e:f$ so Consistency implies that the No property gets transmitted to the sub-intervals. Thus, we will generally simplify our lives and treat the Separation property for oracles as being about $c_{\delta}$.
+Because of Consistency, the interval $e:f$ being Yes implies $c_{\delta}$ is a Yes interval. In addition, its complements in $a:b$ are sub-intervals of the complements of $e:f$ so Consistency implies that the No property gets transmitted to the sub-intervals. Thus, we may simplify the use of the Separation property for oracles as saying either $c_{\delta}$ is a Yes interval or $R(a:c) \neq R(c:b)$.
 
     \item Consistency says that Yes propagates upwards to larger intervals while No propagates downwards to smaller intervals. The Oracle never contradicts itself. 
     
     In our examples, this is usually imposed by definition of the rule, corresponding to this not revealing anything of practical use. In some sense, this property is here to ensure that there is a single oracle for a given real number.
 
 
-    Without Consistency, we could have a rule which has multiple refinement targets. For example, the rule $R(a \lt b) = 1$ if there exists an integer $n$ such that $n-\frac{1}{4} \leq a < n < b \leq n + \frac{1}{4}$ and No otherwise satisfies existence, separating, and closed. The closed is satisfied since there is nothing which is common to all these intervals. Existence is clear. Separating is pretty easy to establish, noting that there are no Yes intervals covering two integers. It is only consistency which rules this out. 
+    Without Consistency, we could have a rule which has multiple refinement targets. Consider, as an example, the rule which is Yes for all integer $n:n$ intervals and neighborly intervals are Yes exactly when they are $n_{\frac{1}{4}}$ compatible for some integer $n$. This satisfies Existence, Separating, and Closed. The closed is satisfied since we include $n:n$ though because of, say $n_1$ being a No interval, the Closed statement holds regardless. Existence is clear. Separating is pretty easy to establish, noting that there are no Yes intervals covering the two integers. It is only consistency which forces the joining of disjoint Yes intervals into a combined interval that Separation can then force a contradiction out of.  
 
-    The second part of Consistency is asserting that we can fill in the blanks when we know that only one value is consistent with what we know. For example, if $a:b$ contains $c:d$ and $a:b$ is a No interval, then if $R(c:d) = 1$, we would have a contradiction. Consistency says that we therefore must define $R(c:d)=0$. That is, sub-intervals of No intervals are No intervals. When we use this, we will state as Consistency. 
+    The second part of Consistency is asserting that we can fill in the blanks when we know that only one value is consistent with what we know. For example, if $a:b$ contains $c:d$ and $a:b$ is a No interval, then if $R(c:d) = 1$, we would have a contradiction. Consistency says that we therefore must define $R(c:d)=0$. We have included in the property to be explicit about the requirement.
     
     \item An important benefit of the Closed property is that the arithmetic of rationals is unchanged. As we shall see, oracle arithmetic involves interval arithmetic. With the presence of the singletons, we can do arithmetic with them as we do with fractions. 
     
@@ -113,7 +113,7 @@ Because of Consistency, the interval $e:f$ being Yes implies $c_{\delta}$ is a Y
     
     Most representations of real numbers have this issue with rationals. Decimals have the issue of repeating 9s. Dedekind cuts have the question of whether to include the rational or not in its own cut. Continued fraction representations are unique on irrational numbers, but they have two representatives for rationals. Other approaches, such as Cauchy sequences and fonsis, have an abundance of non-unique representations. 
     
-    In our constructions, we often need to add this in explicitly. Establishing that a rational real is rational can be difficult, possibly impossible. This seems to be one of the essential difficulties with real numbers, to varying degrees. Our two algorithmic properties do not care about this thanks to the $\delta$ smearing in the Separating property. 
+    In our constructions, we often need to add this in explicitly. Establishing that a rational real is rational can be difficult, possibly impossible. This seems to be one of the essential difficulties with real numbers, to varying degrees. We handle this by using the $\delta$ smearing in the Separating property. 
 
     In the Closed property, we have also included the fact that $R(a:a)=0$ implies the existence of a $\delta > 0$ such that $R(a_\delta) = 0$. One can argue, non-constructively, that the first statement in the Closed property implies this. Indeed, if there was no such $\delta$, then every $R(a_\delta)=1$ and this implies by the Closed property, that $R(a:a)=1$. I have decided to include this in the property as an explicit declaration that we expect this to be constructively doable in the rule.  
 
@@ -125,11 +125,9 @@ Because of Consistency, the interval $e:f$ being Yes implies $c_{\delta}$ is a Y
 This definition does not avoid all of the common downsides of the other definitions of real numbers, but it does reduce them to a context that reflects how real numbers get used in practice. It illustrates those downsides as fundamental to the nature of real numbers while avoiding inessential downsides that other approaches have. See Section \ref{sec:others} for a discussion of other approaches.  
 
 
-A \textbf{singleton oracle }is an oracle whose Yes intervals includes a singleton. We may also refer to them as \textbf{rooted} oracles with the root being the singleton which we can also refer to as the unique rational that is an element of that singleton. These will eventually be identified with the rationals. A \textbf{neighborly oracle} is an oracle whose Yes intervals do not include a singleton. These are the irrationals. 
+A \textbf{singleton oracle }is an oracle whose Yes intervals includes a singleton. We may also refer to them as \textbf{rooted} oracles with the root being the singleton which we can also refer to as the unique rational that is an element of that singleton. These will eventually be identified with the rationals. A \textbf{neighborly oracle} is an oracle whose Yes intervals do not include a singleton. These are the irrationals.\footnote{For a picturesque language, we could call a \textbf{$\delta$-spark}, for a rational $\delta > 0$, of an oracle to be a rational number $q$ such that the $\delta$-halo of $q$ is a Yes interval. A \textbf{star} of an oracle is a rational number $q$ such that $R(q:q) = 1$ and this would be a stellar oracle. Stars, if they exist, are unique for a given oracle. A \textbf{galactic} oracle is one which has no star of an oracle. The idea is that we are looking at a number from afar and it looks like a point of light in the sky. That point could be a star in our own galaxy (a rational) or it could be a whole new galaxy, and those stars are generally related to one another by rational arithmetic (algebraic extension).}
 
-For a picturesque language, we define a \textbf{$\delta$-spark} of an oracle to be a rational number $q$ such that $R(q_{\delta})= 1$ for the given positive, rational $\delta>0$. The interval $q_{\delta}$ may be called the $\delta$-halo of $q$. A \textbf{star} of an oracle is a rational number $q$ such that $R(q:q) = 1$ and this would be a stellar oracle. Stars, if they exist, are unique for a given oracle. A \textbf{galactic} oracle is one which has no star of an oracle. The idea is that we are looking at a number from afar and it looks like a point of light in the sky. That point could be a star in our own galaxy (a rational) or it could be a whole new galaxy, and those stars are generally related to one another by rational arithmetic (algebraic extension). As I said, this is just a picturesque way of viewing it and may be good for having interesting language, if one wants that kind of thing. 
-
-We also define the term \textbf{finished oracle} to mean an oracle in which all rational intervals under the oracle rule have a defined answer. For such an oracle, we can almost replace the $\delta$ option in Separation with the option that $R(c:c)=1$. This was the original version of the oracle rule and makes for a simpler presentation when it can be established. 
+We also define the term \textbf{resolvable oracle} to mean an oracle in which all rational intervals have a defined answer to the oracle question. For such an oracle, we can ask about $c:c$ for any singleton and get an answer. This will allow any rational in a Yes interval to divide the interval into two pieces, with exactly one of being a Yes interval, assuming the singleton is a No interval. This was the original version of the oracle rule and makes for a simpler presentation when it can be established. With Existence and Consistency, what makes a resolvable oracle is the ability to answer the question for every singleton. 
 
 \begin{proposition}[Rooted]\label{pr:rooted}
     For an oracle $R$, there is at most one rational number $c$ such that $R(c:c)=1$.
@@ -158,7 +156,7 @@ We first establish a bisection lemma.
 \end{lemma}
 
 \begin{proof}
- Let $L = b-a$ be the interval's length. Then we take the average of the endpoints: $c = \frac{a+b}{2}$ and use $\delta = \frac{L}{4}$. Since $R$ is Separating, there exists $c_{\delta}$ compatible interval $e \lt f$ such that one of the following holds true:
+ Let $L = b-a$ be the interval's length. Then we take the average of the endpoints: $c = \frac{a+b}{2}$ and use $\delta = \frac{L}{4}$. Since $R$ is Separating, there exists a $c_{\delta}$-compatible interval $e \lt f$ such that one of the following holds true:
 \begin{enumerate}
     \item $R(a:e)=1$, $R(e:f) = R(f:b) = 0$. The interval $a:e$ is the desired subinterval with length at most $\frac{L}{2}$.
     \item $R(f:b)=1$, $R(a:e) = R(e:f) = 0$. The interval $f:b$ is the desired subinterval with length at most $\frac{L}{2}$.
@@ -167,16 +165,18 @@ We first establish a bisection lemma.
 Since each of the possibilities leads to a length at most half the length of the given interval, we have established the result. 
     \end{proof}
 
+If one prefers to have a definite outcome, then item 1 implies $a:c$ is Yes, item 2 implies $c:b$ is Yes, and item 3 implies $c_{L/4}$ is Yes. Each of those intervals is exactly half the length of $b:a$.
+
 We can now prove the bisection approximation. 
 
 \begin{proof}
     The existence property of $R$ gives us a starting Yes interval. If the interval is of the form $a:a$, then the length is $0 < \varepsilon$.
     
-    Otherwise, we can take $a \lt b$. Choose $n > \max(\log_2 (\frac{L}{\varepsilon}), 1)$ which implies $2^n > \frac{L}{\varepsilon}$ as well as $2^{-n} < \frac{\varepsilon}{L}$.\footnote{We are using a logarithm here for convenience and explicitness. Since we are developing the real numbers, this is a bit out of order. But there should be no doubt that one can keep halving a positive number until it is less than any specified positive number.} Apply the bisection lemma $n$ times, starting with $a \lt b$ and then use the produced Yes subinterval for the next iteration. This leads to at least halving the length each time. Thus, the length of the final interval is at most $2^{-n} * L < \frac{\varepsilon}{L} L = \varepsilon$.
+    Otherwise, we can take $a \lt b$ with $L = b-a$. Choose $n > \max(\log_2 (\frac{L}{\varepsilon}), 1)$ which implies $2^n > \frac{L}{\varepsilon}$ as well as $2^{-n} < \frac{\varepsilon}{L}$.\footnote{We are using a logarithm here for convenience and explicitness. Since we are developing the real numbers, this is a bit out of order. But there should be no doubt that one can keep halving a positive number until it is less than any specified positive number.} Apply the bisection lemma $n$ times, starting with $a \lt b$ and, at each step, use the lemma's produced Yes subinterval for the next iteration. This leads to at least halving the length each time. Thus, the length of the final interval is at most $2^{-n} * L < \frac{\varepsilon}{L} L = \varepsilon$.
 
 \end{proof}
 
-This is helpful in establishing the arithmetic properties. In Section \ref{sec:mediant}, we will discuss the mediant approximation which is generally a pretty pleasant computational method to employ with a nice relationship to continued fractions. 
+This is helpful in establishing the arithmetic properties. In Section \ref{sec:mediant}, we will discuss the mediant approximation which is generally a pretty pleasant computational method to employ that can also generate the continued fraction representation of the real number. 
 
 Note that the bisection method will not usually produce the singleton if $r$ is a singleton. The mediant approximation generally does if one can test singletons. 
 
@@ -196,7 +196,7 @@ We can now establish alternative conditions for applying the Closed property.
 \end{corollary}
 
 \begin{proof}
-    Apply the proposition to establish 
+    Apply the proposition to establish that all $c_\delta$ are Yes intervals. The Closed property then says $c:c$ is a Yes interval. Thus, $R$ is an oracle of $c$.
 \end{proof}
 
 We will hence forward use the Closed property to also apply whenever $c$ is contained in all Yes intervals. A closer inspection of this argument also shows that what we need is a set of Yes intervals containing $c$ of arbitrarily small size. We will return to this when we speak of fonsis in \ref{sec:ni}
@@ -221,19 +221,21 @@ The relation $r ? s$ means that they have not been established to be equal, but 
 
 \subsection{Intersections and Unions}
 
-Let $a \leq b \leq c \leq d$ with all of them being rationals. The intersection of $a\lte c$ and $b\lte d$ is $b\lte c$ while the union is $a\lte d$. The two intervals $a\lte b$ and $c\lte d$ are disjoint if $b < c$. 
+Let $a \leq b \leq c \leq d$ with all of them being rationals. The intersection of $a\lte c$ and $b\lte d$ is $b\lte c$ while the union is $a\lte d$. The two intervals $a\lte b$ and $c\lte d$ are disjoint if $b < c$ and they have no intersection nor union, as defined here.\footnote{We could define some kind of intervalized union in that situation by taking $a \lte d$ as the intervalized union. The usual set definition of union in this situation would produce a non-interval.}
 
 One can either take those as statements from the usual set definitions or take these as the definitions of those terms. It is immediate from the Consistency property that Yes-intervals are closed under unions and that No-intervals are closed under intersection. We will prove that Yes (No) intervals are closed under pairwise intersections (unions). 
 
-We start with establishing two $R$-Yes intervals basically intersect in an $R$-Yes interval.
+We start with establishing two $R$-Yes intervals intersect in an $R$-Yes interval.
 
 \begin{proposition}\label{pr:inter}
-Let $R$ be an oracle, $a, b, c, d$ be rational numbers such that $a$ is the least and $c \leq d$. If $R(a:b) = 1 = R(c:d)$, then $b \geq c$ and $R(b:c) = 1$.
+Let $R$ be an oracle with $I$ and $J$ two $R$-Yes intervals. Then $I$ and $J$ intersect with that intersection being itself a Yes interval. 
 \end{proposition}
 
-\begin{proof}
 
-By Consistency, $R(a:d) = 1$ since either $b \leq d$ in which case the Yes interval $a:b$ is contained in $a:d$ or $b > d$ in which case the Yes interval $c:d$ is contained in $a:d$. 
+\begin{proof}
+Let $I = a \lte b$, $J = c \lte d$ and assume, without loss of generality due to relabeling, that $ a\leq c$. Then we need to show that $b \geq c$ and $c \lte b$ is a Yes interval. 
+
+Since $c \lte d$ is contained in $a \lte d$, Consistency implies $a \lte d$ is a Yes interval. 
 
 If $b < c$, then we pick $m = \frac{b + c}{2}$ and $\delta = \frac{c-b}{4}$ for the Separating property. Let $e:f$ be the $m_\delta$ compatible interval in that property. Then one of the following holds true but each leads to a contradiction:
 \begin{enumerate}
@@ -243,11 +245,13 @@ If $b < c$, then we pick $m = \frac{b + c}{2}$ and $\delta = \frac{c-b}{4}$ for 
 \end{enumerate}
 Therefore, $b \geq c$ and we have established that Yes intervals intersect. 
 
-We now want to establish that $b:c$ is a Yes interval. If $a=c$, then $c:b$ is $a:b$ and is already Yes. If $b=d$, then $c:b$ is $c:d$ and is a Yes interval. We may therefore assume $a<c$ and $b<d$.
+We now want to establish that $c\lte b$ is a Yes interval. If $a=c$, then $c:b$ is $a:b$ and is already Yes. If $b=d$, then $c:b$ is $c:d$ and is a Yes interval. If $b > d$, then $c \lte b$ contains $c \lte d$ and, by Consistency, is a Yes interval. 
 
-We need to separate into two cases. The first case is if $b=c$. Then for any $\delta > 0$ such that $b_\delta$ is strictly contained in $a:d$, the Separating property applies to give use $a:e:b:f:d$. Since we just established that Yes intervals intersect and $a:e$ does not intersect the Yes interval $b:d$, it must be a No interval. Similarly, $f:d$ is a No interval being disjoint from $a:b$. Thus, $e:f$ is a Yes interval. Since this holds for arbitrarily small $\delta$, we have that $b:b$ is a Yes interval by being Closed and thus this is a rooted oracle at $b$. 
+The case that remains, which is the interesting one, is $a < c$ and $ b < d$. 
 
-Our final case is now $a:c\lt b :d$. Choose $\delta > 0$ such that $b_\delta$ and $c_\delta$ are strictly contained in $a:d$ and disjoint.\footnote{Let $\delta = \min(b-a, d-b, c-a, d-c, c-b)/3$. This should keep the $\delta$ sparks away from the endpoints and $\frac{c-b}{3}$ prevents them from overlapping. This is a footnote as we just need to know that this can be done.} Then Separation tells that there exists intervals $c_\delta$-compatible $e:f$ and $b_\delta$-compatible $g:h$ such that $a:e:f:b$ and $c:g:h:d$ partitions the interval into exactly one Yes interval for each. The following may be helpful to keep in mind which is true by the case we are in and our choices: $a < e < c < f< g < b < h < d$.
+We need to separate into two cases. The first case is if $b=c$. Then for any $\delta > 0$ such that $b_\delta$ is strictly contained in $a:d$, the Separating property applies to give us $a:e:b:f:d$. Since we just established that Yes intervals intersect and $a:e$ does not intersect the Yes interval $b:d$, it must be a No interval. Similarly, $f:d$ is a No interval being disjoint from $a:b$. Thus, $e:f$ is a Yes interval. Since this holds for arbitrarily small $\delta$, we have that $b:b$ is a Yes interval by being Closed and thus this is a rooted oracle at $b$. 
+
+Our final case is now $a:c\lt b :d$. Choose $\delta > 0$ such that $b_\delta$ and $c_\delta$ are strictly contained in $a:d$ and disjoint.\footnote{Let $\delta = \min(b-a, d-b, c-a, d-c, c-b)/3$. This should keep the $\delta$-halos away from the endpoints and $\frac{c-b}{3}$ prevents them from overlapping. This is a footnote as we just need to know that this can be done.} Then Separation tells that there exists intervals $c_\delta$-compatible $e:f$ and $b_\delta$-compatible $g:h$ such that $a:e:f:b$ and $c:g:h:d$ partitions the interval into exactly one Yes interval for each. The following may be helpful to keep in mind which is true by the case we are in and our choices: $a < e < c < f< g < b < h < d$.
 
 Since $a:e$ and $h:d$ are disjoint from the Yes intervals $c:d$ and $a:b$, respectively, they cannot be Yes intervals as we just proved that they need to intersect. 
 
@@ -257,31 +261,40 @@ If $e:f$ is a Yes interval, then this implies $g:h$ is a No interval and therefo
 
 Similarly, if $g:h$ is Yes, then $e:f$ is No implying $f:b$ is Yes. This is contained in $c:b$ so $c:b$ is Yes. 
 
-If both $e:f$ and $g:h$ are No, then $f:b$ is Yes and $c:g$ are Yes. This implies $c:b$ is Yes and, in fact, $f:g$ would be a Yes interval. 
+If both $e:f$ and $g:h$ are No, then $f:b$ is Yes and $c:g$ are Yes. This implies $c:b$ is Yes\footnote{Having proved this result, we can say in this case that the interval $f:g$ would also be a Yes interval as it is the intersection of two Yes intervals.} 
 
 That concludes the analysis of the cases. In all cases, $c:b$ is a Yes interval. 
 
-Thus, we have the intersection is a Yes interval. 
+Thus, we have the intersection of two Yes intervals is a Yes interval. 
 
 \end{proof}
 
 We have further shown that if we have two Yes intervals, one of whose lower endpoint is the same as the upper endpoint of the other, then the common endpoint as a singleton is a Yes interval and this is a rooted oracle. 
 
 \begin{corollary}\label{cor:kissing}
-    If $R$ is an oracle, $a < b < c$, and $R(a:b)=R(b:c) = 1$, then $R(b:b)=1$. 
+    If $R$ is an oracle and $R(a\lte b)=R(b \lte c) = 1$, then $R(b:b)=1$. 
 \end{corollary}
 
-This follows from the proof above. 
+This follows from the proof above as well as the the proposition statement that the intersection of two Yes intervals is a Yes interval, noting the intersection here is $b:b$. 
 
 \begin{corollary}\label{cor:finite-inter}
-    For a given oracle, a finite collection of its Yes intervals will have a non-empty intersection which is a Yes interval. 
+    For a given oracle, a finite collection of its Yes intervals will have a non-empty intersection which is itself a Yes interval. 
 \end{corollary}
 
 \begin{proof}
-We have already established it for pairs. We can thus reduce any finite collection. Indeed, given a collection $\{A_i\}_{i=1}^n$ of Yes intervals, we can define $B_1 = A_1$, $B_i = B_{i-1} \cap A_i$ for $i > 1$. If $B_{i-1}$ is a Yes interval, then the interval $B_i$ exists and is a Yes interval. $B_n$ will then be the intersection of all of the $A_i$ and is a Yes interval.  
+We have already established it for pairs. Let  $\{A_i\}_{i=1}^n$ be a collection of Yes intervals. Define $B_1 = A_1$, $B_i = B_{i-1} \cap A_i$ for $i > 1$. From having $B_{i-1}$ is a Yes interval, we have that the interval $B_i$ exists and is a Yes interval by the proposition. Starting with $B_1$ being a Yes interval, we can then use a finite number of iterations to reach $B_n$ with the conclusion that it is non-empty and is a Yes interval. It is obviously the intersection of all of the $A_i$.
 \end{proof}
 
-For infinite collections of intervals, the intersection can be empty. It can also fail to be an inclusive rational interval. For examples and related discussions, see Section \ref{sec:ni}. 
+For infinite collections of intervals, the intersection can be empty such as all of the Yes intervals for the Oracle of the $\sqrt{2}$ as discussed later. It can also fail to be an inclusive rational interval. For examples and related discussions, see Section \ref{sec:ni}. 
+
+\begin{corollary}
+    If $R$ is an oracle, $I$ is a Yes interval and $J$ is an interval disjoint from $I$, then $J$ is a No interval. 
+\end{corollary}
+
+\begin{proof}
+We can prove this in two ways. The first is that if $J$ was a Yes interval, it would have to intersect $I$. This is fine except it assumes $J$ has a Yes / No answer. To definitively have a conclusion, we can instead use the unionized interval of $I= a\lte b$ and $J = c\lte d$, namely $K = a \lte d$. This is a Yes interval by Consistency. Disjointness tells us that $b < c$. We can then apply Separation using $m$ and $\delta$ as in the proof of the proposition. This time, however, we conclude that $m+\delta:d$, which contains $c:d$, is a No interval since the interval $a:e$, containing $a:b$, must be a Yes interval and the Separation property affirmatively concludes the other two intervals are No intervals. 
+\end{proof}
+
 
 When establishing that disjoint intervals cannot both be Yes intervals, we can be explicit. 
 
@@ -290,7 +303,7 @@ When establishing that disjoint intervals cannot both be Yes intervals, we can b
 \end{proposition}
 
 \begin{proof}
-    Let $L = c-b$. By the bisection approximation, we can find a Yes interval whose length is less than $L$. This interval cannot intersect both $a:b$ and $c:d$ since that would require a length greater than $L$. The interval not intersected by the Yes interval is a No interval. 
+    Let $l = c-b$. By the bisection approximation, we can find a Yes interval $I$ whose length is less than $l$. This interval cannot intersect both $a:b$ and $c:d$ due to its length, i.e., for two points to be in $I$, then their difference must be less than or equal to the length of the interval. If $I$ overlaps both $a:b$ and $c:d$, then $b$ and $c$ both must be in it but they cannot be as that would require $b-c < l$ contradicting the length of $l$. Any interval not intersecting the Yes interval $I$ is a No interval, as we showed above. At least one of the two given intervals is disjoint from $I$ and thus is a No interval. 
 \end{proof}
 
 \begin{corollary}\label{cor:disjoint}
@@ -298,14 +311,18 @@ When establishing that disjoint intervals cannot both be Yes intervals, we can b
 \end{corollary}
 
 
-Let us now establish that two overlapping No-intervals are closed under union. 
+Let us now establish that the union two overlapping No-intervals is a No interval. 
 
 \begin{proposition}\label{pr:union}
-Let $R$ be an oracle and $a \leq b \leq c \leq d$.  If $R(a:c) = 0$ and $R(b:d) = 0$, then $R(a:d) = 0$. 
+Let $R$ be an oracle and $I$ and $J$ two intersecting No intervals. Then $I \cup J$ is a No interval. 
 \end{proposition}
 
 \begin{proof}
-    Since $a:a$, $b:b$, $c:c$, and $d:d$ are contained in No intervals, they are also No intervals. This implies, by the Closed property, that there is a $\delta$ such that $a_\delta$, $b_\delta$, $c_\delta$, and $d_\delta$ are all No intervals. By the Bisection Approximation, we can find an $R$-Yes interval $e:f$ whose length is shorter than $\delta$. By this choice, if $e:f$ contained $a$, $b$, $c$, or $d$, then it would be wholly contained in the $\delta$-spark for that point. But this is not possible because Consistency would demand that it be a No interval.  Thus, it cannot strictly overlap either $a:c$ or $b:d$. It could be strictly included in one of them, but then it would be contained in a No interval and thus would be a No interval. 
+    Let $I = a\lte b$, $J = c\lte d$ with $a \leq c$. This can be assumed without loss of generality due to relabelling. 
+    
+    Since $a:a$, $b:b$, $c:c$, and $d:d$ are contained in No intervals, they are also No intervals. This implies, by the Closed property, that there is a $\delta$ such that $a_\delta$, $b_\delta$, $c_\delta$, and $d_\delta$ are all No intervals. By the Bisection Approximation, we can find an $R$-Yes interval $e:f$ whose length is shorter than $\delta$. By this choice, if $e:f$ contained one of $a$, $b$, $c$, or $d$, then $e:f$ would be wholly contained in the $\delta$-halo for that endpoint as $q_\delta$ contains all intervals whose length is less than $\delta$ and contains $q$.  But this is not possible because Consistency would demand that it be a No interval.  
+    
+    If $e:f$ intersects $a:d$, then it either contains one of the endpoints or is strictly contained in $a:b$ or $c:d$. We have ruled out the endpoints. Thus, it is either contained in $a:b$ or $c:d$. But those are No intervals and thus, $e:f$ would be a No interval. That contradicts $e:f$ being a Yes interval. 
 
     We therefore have $e:f$ is a Yes interval disjoint from the interval $a:d$. Thus, $a:d$ is a No interval. 
 
@@ -314,58 +331,67 @@ Let $R$ be an oracle and $a \leq b \leq c \leq d$.  If $R(a:c) = 0$ and $R(b:d) 
 Notice how once we have the $\delta$ as guaranteed to be producible from the rule as stated in the Closed property, we can then be very explicit in using the Bisection Approximation to get an interval that is disjoint from the No intervals. 
 
 
-We have just used that one method of demonstrating that $R(a:b)=0$ for some given interval $a:b$ is to produce an interval $c:d$ disjoint from $a:b$ such that $R(c:d)=1$. On the other hand, if we could show that all neighborly $R$-Yes intervals intersect $a:b$, but none of them are strictly contained in $a:b$, then either $a$ or $b$ is contained in all such intervals, but not both by the bisection approximation. We could determine which one it is by that approximation. Let's say $a$ is in all of them. Then $R(a:a)=1$ by the Closed property and thus $R(a:b)=1$ as well. This situation is where the usual computational difficulties arise. 
+We have just used that one method of demonstrating that $R(a:b)=0$ for some given interval $a:b$ is to produce an interval $c:d$ disjoint from $a:b$ such that $R(c:d)=1$. On the other hand, if we could show that all neighborly $R$-Yes intervals intersect $a:b$, but none of them are strictly contained in $a:b$, then exactly one of $a$ or $b$ is contained in all such intervals. We could determine which one it is by the bisection approximation. Let's say $a$ is in all of them. Then $R(a:a)=1$ by the Closed property and thus $R(a:b)=1$ as well. This situation is where the usual computational difficulties arise. 
 
-We can extend the buffer idea around a No singleton to a No interval. 
+We can extend the buffer idea around a No singleton to a No interval. A $\delta$-halo of an interval $I= a\lte b$ is the interval $I_\delta = a - \delta:b+\delta$.
 
 \begin{corollary}
-    Let $R$ be an oracle and $a\lte b$ an $R$-No interval. Then there exists a $\delta > 0 $ such that $a-\delta:b+\delta$ is a No interval.
+    Let $R$ be an oracle and $I$ be a No interval. Then there exists a $\delta$-halo of $I$ which is a No interval. 
 \end{corollary}
 
 \begin{proof}
-    Because $a$ and $b$ are in No intervals, we have $a:a$ and $b:b$ to be No singletons. There thus exists a $\delta$ such that $a_\delta$ and $b_\delta$ are No intervals. We then can use the union proposition to say that $a_\delta \cup a:b \cup b_\delta$ is a No interval. That is what was to be shown. 
+    Let $I = a:b$. Because $a$ and $b$ are in No intervals, we have that $a:a$ and $b:b$ are No singletons. Thus, there exists a halo $\delta$ such that $a_\delta$ and $b_\delta$ are No intervals. We can then use the union proposition to say that $I_\delta = a_\delta \cup a:b \cup b_\delta$ is a No interval. That is what was to be shown. 
 \end{proof}
 
 We will also find the following couple of propositions to be useful. 
 
 \begin{proposition}\label{pr:subinter}
-Let $R$ be a neighborly oracle. Then given an $R$-Yes interval $a\lt b$, there exists an interval $c:d$ strictly contained in $a:b$ which is also an $R$-Yes interval. 
+Let $R$ be an oracle. Given an $R$-Yes interval $a\lt b$ such that both $a:a$ and $b:b$ are No singletons, then there exists a $\varepsilon> 0$ such that the smaller interval $a+\varepsilon \lte b-\varepsilon$ is a Yes interval. 
 \end{proposition}
 
 \begin{proof}
-Because $R$ is neighborly, both $a:a$ and $b:b$ are No intervals. Thus, there exists a $\delta>0$ such that $a_\delta$ and $b_\delta$ are No intervals. We can take $\delta$ such that it is also smaller than $\frac{b-a}{3}$.
+Because $a:a$ and $b:b$ are No intervals, there exists a $\delta$-halo such that $a_\delta$ and $b_\delta$ are No intervals. We can further minimize $\delta$ so that  $0 < \delta < \frac{b-a}{3}$.
 
-Then $a:a+\delta:b-\delta:b$ is a partition of the interval $a:b$. We can use the Separation property on this with $\delta/2$. We therefore have rational intervals $e:f$ and $g:h$ that satisfy, by repeated application of the Separation property,  $a:e:a+\delta:f:g:b-\delta:h:b$. This division leads to a single Yes interval of these choices. The intervals $a:e$ and $h:b$ are No intervals as they are contained in the No intervals of $a_\delta$ and $b_\delta$, respectively. Thus, $e:h$ must be a Yes interval and it is strictly contained in $a:b$.
+Then $a:a+\delta:b-\delta:b$ is a partition of the interval $a:b$. We can use the Separation property on this with $\delta/2$. We therefore have rational intervals $e:f$ in $(a+\delta)_{\delta/2}$ and $g:h$ in $(b-\delta)_{\delta/2}$ that satisfy, by repeated application of the Separation property,  $a:e:a+\delta:f:g:b-\delta:h:b$. This division leads to a single Yes interval of these choices. The intervals $a:e$ and $h:b$ are No intervals as they are contained in the No intervals of $a_\delta$ and $b_\delta$, respectively. Thus, $e:h$ must be a Yes interval and is contained in $a+\frac{\delta}{2}:b-\frac{\delta}{2}$ and it is strictly contained in $a:b$. Thus, the desired $\varepsilon = \frac{\delta}{2}$.
 
 \end{proof}
 
+\begin{corollary}
+    The above proposition applies for all Yes intervals for a neighborly $R$ oracle. 
+\end{corollary}
+
+This is immediate since all singletons are No intervals for neighborly oracles. 
+
 \begin{proposition}\label{pr:multi}
-Given an oracle $R$ and an $R$-Yes interval $a\lt b$ and a $\delta>0$, any finite rational partition of $a:b$ will yield exactly one Yes interval that is strictly between the partition points, possibly including an endpoint, or is an interval containing a partition point whose length is no more than $\delta$.
+Given an oracle $R$ and an $R$-Yes interval $a\lt b$ and a $\delta>0$, any finite rational partition of $a:b$ will yield exactly one Yes interval that is strictly between the partition points, possibly including one of the two endpoints, or is an interval containing a partition point whose length is no more than $\delta$.
 \end{proposition}
 
 This is repeated application of the Separation property. 
 
 \begin{proof}
-Let $\delta_h$ be the minimum of $\delta$ and a third of the distances between the partition points, including the endpoints. 
 
 Let $a < c_1 < c_2 < c_3 < \cdots < c_n < b$ be a given rational partition of the interval $a:b$ where all of the $c_i$ are rationals. 
+
+Let $\delta_h$ be the minimum of $\delta$ and a third of the distances between the partition points, including the endpoints. 
 
 We start with looking at $a:c_1:b$. By the Separation property using a halo of $\delta_h$, we have the existence of $e_1$ and $f_1$ such that exactly one of $a:e_1$, $e_1:f_1$, or $f_1:b$ is Yes. 
 
 If $a:e_1$ is Yes, then so is $a:c_1$ and we are done. If $e_1:f_1$ is Yes, then $(c_1)_\delta$ is Yes and we are done. If not, we iterate by applying Separation to $f_1:b$ using $c_2$ which is in $f_1:b$ due to the choice of $\delta_h$. 
 
-Let us then assume that we have $f_{i-1}:b$ is a Yes interval, where $f_{i-1} < c_i$.  Then Separation using $c_i$ and $\delta_h$ leads to the existence of $e_i:f_i$ containing $c_i$ such that exactly one of $f_{i-1}:e_i$, $e_i:f_i$, or $f_i:b$. If either of the first two are Yes, we are done as $f_{i-1}:e_i$ is contained in $c_{i-1}:c_i$ and $e_i:f_i$ is contained in $(c_i)_\delta$. If the last is the Yes interval, then iterate again using $f_i:b$ and Separation. 
+Let us then assume that we have $f_{i-1}:b$ is a Yes interval, where $f_{i-1} < c_i$.  Then Separation using $c_i$ and $\delta_h$ leads to the existence of $e_i:f_i$ containing $c_i$ such that exactly one of $f_{i-1}:e_i$, $e_i:f_i$, or $f_i:b$. If either of the first two are Yes, we are done as $f_{i-1}:e_i$ is contained in $c_{i-1}:c_i$ and $e_i:f_i$ is contained in $(c_i)_\delta$. If $f_i:b$ is the Yes interval, then iterate again using it and Separation. 
 
-We do this until we are at $f_n:b$. At that point, we have established that $a:f_n$ is a No interval by being a union of overlapping No intervals and $f_n:b$, contained in $c_n:b$, is Yes, as desired.
+We do this until we are done or at $f_n:b$. At that point, we have established that $a:f_n$ is a No interval by being a union of overlapping No intervals and $f_n:b$, contained in $c_n:b$, is Yes, as desired.
 \end{proof}
 
 
 \begin{proposition}\label{pr:no-is-disjoint}
-    If an interval $a \lte b$ is a No interval for an oracle $R$, then there exists an $R$-Yes interval disjoint from $a:b$.
+    If an interval $I$ is a No interval for an oracle $R$, then there exists an $R$-Yes interval disjoint from $a:b$.
 \end{proposition}
 
 \begin{proof}
-    Since $R(a:b) = 0$, we have $R(a:a) = 0$ and $R(b:b) = 0$. By being closed, there is a $\delta > 0$ such that $a_{\delta}$ and $b_{\delta}$ are No intervals. Thus $I = a-\delta:b+\delta$ is a No interval as the union of overlapping No intervals is a No interval. By the Bisection Approximation, there is a Yes interval $c:d$ whose length is less than $\delta$. If $I$ is disjoint from $c:d$, then so is $a:b$ and we are done. The interval $c:d$ cannot be contained in $I$ as the No interval contains no Yes intervals. If $c:d$ overlaps with $I$ but is not contained in $I$, then that means either $c$ or $d$ is outside of $I$. Let's say $c$ is. Then $c_\delta$ both contains $c:d$ and is disjoint from $a:b$ since the distance from $c:c$ to $a:b$ is greater than $\delta$. Thus, $c:d$ is both disjoint from $a:b$ and a Yes interval, as desired. 
+    We established previously that there exists a halo $\delta$ such that $I_\delta$ is a No interval. Using that $\delta$ and the Bisection Approximation, there is a Yes interval $J$ whose length is less than $\delta$.
+
+    The interval $J$ cannot be wholly contained in the No interval $I_\delta$ as $J$ is a Yes interval. Let $c$ be a number in $J$ which is not in $I_\delta$. Then $c_\delta$ contains $J$ and is disjoint from $I$ as the distance from $c$ to $I$ is greater than $\delta$. Thus $J$ is disjoint from $I$ as well as $c_\delta$ being a Yes interval. 
 \end{proof}
 
 
@@ -387,11 +413,11 @@ The set of closed (rational) intervals forms a partially ordered set where the o
     \item The intersection of two Yes-intervals being a Yes-interval satisfies the filter requirement that for any two elements in the filter, there is a third in the filter which is contained in both. 
 \end{enumerate}
 
- The set of Yes intervals for a finished oracle is also an ultrafilter which is a filter that cannot be extended any further. This follows from the the fact that any No interval is disjoint from some Yes interval. For if we added a No interval to the set of Yes intervals, then the intersection of them would no longer be non-empty. If one were to add the empty interval to a filter, then the only filter that it could be is that of all elements since all intervals can  be trivially thought to contain the empty interval. 
+ The set of Yes intervals for a resolvable oracle is also an ultrafilter which is a non-trivial filter that cannot be extended any further. This follows from the the fact that any No interval is disjoint from some Yes interval. For if we added a No interval $I$ to the set of Yes intervals, then the intersection of $I$ with at least one of the Yes intervals would be empty. Thus, either we need to add the empty interval to this filter, making it trivial as all intervals could be said to contain the empty interval, or we no longer have a filter. In either case, we no longer have an ultrafilter. 
 
 A singleton oracle would be a principal ultrafilter, meaning there is a smallest element in the filter. For a singleton oracle, this is the closed interval which consists of just that rational number. A neighborly oracle would correspond to the free ultrafilters, namely, there is no smallest element. 
 
-Sebastian Schöner wrote an excellent blog entry describing ultrafilters as a way of zooming in on a point and how this allows ultrafilters on Hausdorff topological spaces to be the mechanism for compacting them.\footnote{\url{https://blog.s-schoener.com/2019-01-05-compactness/}} In the realm of constructions and real numbers, often ultrafilters are used in the connection of creating a version of the reals with infinitesimals. Such a construction can then be quotiented out to obtain the reals. A very readable presentation is given by Lothar Sebastian Krapp.\footnote{\url{https://www.math.uni-konstanz.de/~krapp/research/Constructions_of_the_real_numbers.pdf}} There is also an approach based on minimal Cauchy filters; we discuss that in \ref{sec:mincauchy}.
+Sebastian Schöner wrote an excellent blog entry describing ultrafilters as a way of zooming in on a point and how this allows ultrafilters on Hausdorff topological spaces to be the mechanism for compacting them.\footnote{\url{https://blog.s-schoener.com/2019-01-05-compactness/}} In the realm of constructions and real numbers, often ultrafilters are used in the connection of creating a version of the reals with infinitesimals. Such a construction can then be quotiented out to obtain the reals. A very readable presentation is given by Lothar Sebastian Krapp.\footnote{\url{https://www.math.uni-konstanz.de/~krapp/research/Constructions_of_the_real_numbers.pdf}} There is also an approach based on minimal Cauchy filters; we discuss that in Section \ref{sec:mincauchy}.
 
 While the set of oracles can be thought of as the set of sets of Yes intervals and thus as a set of ultrafilters, our approach is designed to be more focused on the mechanism of producing the Yes intervals. One can think of the oracles as doing the zooming into the neighborhood of the real number whereas the ultrafilter approach is more analogous to having a stack of prepared slides describing the zooming. In other words, oracles answer the question as to how to produce the ultrafilter for a given desired real number. We also do not require, in some sense, having the whole ultrafilter in our hands. We are content with the idea of being able to practically decide for any, possibly fuzzed out, given interval whether it is in the ultrafilter or not.  
 
@@ -2448,7 +2474,7 @@ The oracles avoid this problem of undecidability for any intervals whose endpoin
 The main point of this is that with intervals, we can make progress and make definite statements. Both continued fractions and decimals do not have mechanisms on their own to precisely get past these points of indecision. The interval approach mitigates the difficulty of uncertainties and oracles give us the maximal flexibility in taking advantage of that mechanism.
 
 
-\subsection{ In what way is \texorpdfstring{$0.\bar{9}$}{0.9} the same as 1?}
+\subsection{ Is \texorpdfstring{$0.\bar{9}=1$}{0.9=1}?}
 
 One example that may be helpful is to consider how one understands the object represented by the constant string of 9's after the decimal point. Let us consider the different variants on how we would categorize this object in the different versions and how the equality is understood. 
 
