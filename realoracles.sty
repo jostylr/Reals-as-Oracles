@@ -56,7 +56,25 @@
 
 \newcommand{\closeto}{\mathord{\rightarrow}}
 
+%https://tex.stackexchange.com/questions/32501/how-to-get-a-good-divisible-by-symbol and
+%https://tex.stackexchange.com/questions/147355/how-to-type-tensor-multiplication-with-vertical-dots
+%to put the variable in between. baselineskip was .65ex and likskiplimit was 0pt. Changed it as some (in an item with some relations) had the x shifted too much. 
+\DeclareRobustCommand{\betrel}[2]{ \mathrel{\vbox{\baselineskip.56ex\lineskiplimit1pt\hbox{.}\hbox{\hspace{-#2pt}\vspace{-1pt}\tiny\ensuremath{#1}}\hbox{.}}}
+}
 
+%\newcommand{\xrel}{\betrel{x}{0.5}}
+
+%slanted
+\DeclareRobustCommand{\betrelte}[2]{ \mathrel{\hspace{2pt}\vbox{\baselineskip.56ex\lineskiplimit1pt\hbox{\hspace{+3pt}.}\hbox{\hspace{-#2pt}\vspace{-1.05pt}\tiny\ensuremath{#1}}\hbox{\hspace{-3pt}.}}}
+}
+
+\newcommand\scalemath[2]{\scalebox{#1}{\mbox{\ensuremath{\displaystyle #2}}}}
+
+
+\newcommand{\xrelte}{\betrelte{x}{0.5}}
+\DeclareMathSymbol{\vdddots}{\mathalpha}{mathb}{"33} 
+\newcommand{\xrel}[1][x]{\ensuremath{\mathrel{\vdddots\underline{#1}\vdddots}}}
+%\newcommand{\xrelold}{\ensuremath{:\underline{x}:}}
 
 %For Katex, the following macros can substitue in for the triple dot and slanted dots: 
 %    ":": "\\char\"2AF6",
