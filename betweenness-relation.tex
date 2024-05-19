@@ -43,9 +43,9 @@ To claim to know a real number is to at least be able to answer definitively whe
 
 A little notation will be helpful. The set of all rationals $q$ such that $q$ is between $a$ and $b$, including the possibility that $q=a$ or $q=b$, is a \textbf{rational interval} denoted by $a:b$. If $a=b$, then this is a \textbf{rational singleton} denoted by $a:a$. It is a set of exactly one rational number, namely, $a$. 
 
-The notation will also be used to indicate betweenness. If $a \leq b \leq c$ or $c \leq b \leq a$, then $a:b:c$ will be used to denote that. By definition, $c:b:a$ and $a:b:c$ represents the same betweenness assertion. This can be extended to any number of betweenness relations, such as $a:b:c:d$ implying either $a \leq b \leq c \leq d$ or $d \leq c \leq b \leq a$. If $b$ and $c$ are between $a$ and $d$, but it is not clear whether $b$ is between $a$ and $c$ or between $c$ and $d$, then the notation $a:\{b,c\}:d$ can be used. This can also be extended to have, for example, $a:b:\{c,d\}$ which would be shorthand for saying that both $a:b:c$ and $a:b:d$ hold true. 
+The notation will also be used to indicate betweenness. If $a \leq b \leq c$ or $c \leq b \leq a$, then $a:b:c$ will be used to denote that. By definition, $c:b:a$ and $a:b:c$ represents the same betweenness assertion. This can be extended to any number of betweenness relations, such as $a:b:c:d$ implying either $a \leq b \leq c \leq d$ or $d \leq c \leq b \leq a$. If $b$ and $c$ are between $a$ and $d$, but it is not clear whether $b$ is between $a$ and $c$ or between $c$ and $d$, then the notation $a:\{b,c\}:d$ can be used. This can also be extended to have, for example, $a:b:\{c,d\}$ which would be shorthand for saying that both $a:b:c$ and $a:b:d$ hold true. In addition, the notation \sout{$a:b:c$} will be used to indicate that $b$ is not between $a$ and $c$.
 
-Rational number satisfy the fact that, given three rational numbers, $a, b, c$, we have either $a:b:c$, $a:c:b$, or $b:a:c$. That is, one of them is between the other two. This follows from the pairwise ordering of each of them as provided by the Trichotomy property. 
+Rational number satisfy the fact that, given three rational numbers, $a, b, c$, we have exactly one of the following holding true: $a:b:c$, $a:c:b$, or $b:a:c$. That is, one of them is between the other two. It can be written in notation as $a:b:c$ holds true if and only if both \sout{$a:c:b$} and \sout{$b:a:c$} hold true. This follows from the pairwise ordering of each of them as provided by the Trichotomy property. 
 
 In this paper, often a relabelling will be mentioned. This is to indicate that there are certain assumptions that are needed to be made, but they are notational assumptions and, in fact, some arrangement of the labels of that kind must hold. For example, if $\{a,d\}:b:c$ holds true, then either $a:d:b:c$ or $d:a:b:c$ holds true. If these are generic elements, then relabelling could be used to have $a:d:b:c$  be  true for definiteness, avoiding breaking the argument into separate, identical cases. If $a$ and $d$ were distinguished in some other way, such as being produced by different processes, then relabelling would not be appropriate to use. 
 
@@ -78,7 +78,7 @@ This is where we prove some useful general statements about rational betweenness
 Note that $a \xrel b$ is stating that the interval $a:b$ is in the relation while $a:q:b$ is stating that the rational number $q$ is between the rational numbers $a$ and $b$.
 
 \begin{proof}
-    Let $a : b$ be given such that $a : q : b$ which is the same as saying $a:q:q:b$. Then since $q \xrel q$, Consistency says that $a \xrel b$. For the other direction, assume that $\sout{a:q:b}$. By trichotomy and potentially relabeling, assume that $a$ is between $q$ and $b$. By Consistency, $q \xrel b$ and $q\xrel a$.  Since $a \neq q$ and $q \xrel q$, Rooted states that \sout{$a \xrel a$}. Since $q \xrel a$ and $q:a:b$, Separation states that \sout{$ a \xrel b$}. 
+    Let $a : b$ be given such that $a : q : b$ which is the same as saying $a:q:q:b$. Then since $q \xrel q$, Consistency says that $a \xrel b$. For the other direction, assume that \sout{$a:q:b$}. By trichotomy and potentially relabeling, assume that $a$ is between $q$ and $b$. By Consistency, $q \xrel b$ and $q\xrel a$.  Since $a \neq q$ and $q \xrel q$, Rooted states that \sout{$a \xrel a$}. Since $q \xrel a$ and $q:a:b$, Separation states that \sout{$ a \xrel b$}. 
 \end{proof}
 
 
@@ -117,7 +117,7 @@ Note that $a \xrel b$ is stating that the interval $a:b$ is in the relation whil
         \begin{enumerate}
             \item $c \xrel b$. Since $c:b$ is the intersection, this case is exactly what is desired.
             \item $c \xrel c$. This implies $c \xrel b$ which is the intersection. 
-            \item $a \xrel c$. By Proposition \ref{br:endpointed} and $a : c: d:$, this leads to $c \xrel c$. While this, by itself, would be fine and establishes $c \xrel b$, this is actually a contradiction as the Separation property also asserts in this case that $\sout{c \xrel b}$.
+            \item $a \xrel c$. By Proposition \ref{br:endpointed} and $a : c: d:$, this leads to $c \xrel c$. While this, by itself, would be fine and establishes $c \xrel b$, this is actually a contradiction as the Separation property also asserts in this case that \sout{$c \xrel b$}.
         \end{enumerate}
     \end{enumerate}
 \end{proof}
@@ -128,7 +128,7 @@ Note that $a \xrel b$ is stating that the interval $a:b$ is in the relation whil
 \end{proposition}
 
 \begin{proof}
-    Assume $\sout{a \xrel a}$. By the Closed property, there exists an $x$-interval $u \xrel v$ that does not contain $a$.
+    Assume \sout{$a \xrel a$}. By the Closed property, there exists an $x$-interval $u \xrel v$ that does not contain $a$.
 
     By Proposition \ref{br:intersect}, let $c:d$ be the $x$-interval that is the intersection of $c:d$ and $a:b$. The intersection interval excludes $a$ as $a$ is not in $c:d$. Up to relabelling, the cases are $a:c:d:b$ or $a:c:b:d$. In the second case, $c:b$ is the intersection and is the $x$-interval. For the first case, $c:d$ is the intersection. By Consistency, $c \xrel b$ as $c:c:d:b$. 
 \end{proof}
