@@ -9,9 +9,7 @@
 \newtheorem{proposition}{Proposition}[subsection]
 
 
-
-\title{Defining Real Numbers With Rational Intervals}
-
+\title{Defining Real Numbers as Oracles}
 \jtauthor
 \date{\today}
 
@@ -20,29 +18,14 @@
 %\sloppy%\openup-.1\jot
 \begin{document}\maketitle
 \begin{abstract}
-To know a real number is to know, for any given pair of rational numbers, whether it is between them. This leads to using rational intervals to describe real numbers and even to define them as such. This paper will explore several different definitions of real numbers using rational intervals, exploring their relations and contrasting their differences. Some of the definitions have not been used before. A full exploration of the real numbers as a complete ordered field will be provided as well as some discussion of generalizations and inspirations from this approach. 
+A real number is a rule that, when provided with a rational interval, answers Yes or No depending on if the real number ought to be considered to be in the given interval. Since the goal is to define the real numbers, this can only motivate the definition of which rules should be considered a real number. The rule must satisfy four properties and any rule that does is an oracle. Two of the properties are primarily maximizing the number of Yes intervals which ensures a unique oracle for each real number. One property ensures that the existence of a real number by ensuring the existence of a Yes interval. The more important property, the Separating property, ensures that the oracle is representing a unique real number. This property basically asserts that if a Yes interval is divided into two parts, then one part is a Yes interval while the other is a No interval; the exception is if the division point, which is a rational number, could be the desired real number in which case there is a small Yes interval around the division point with the smallness controlled by the questioner. After the definition and basic properties are established, various examples and algorithms in using oracles are explored in addition to establishing that the oracles do, in fact, form the field of real numbers. The concept of a Family of Overlapping, Notionally Shrinking Intervals is defined and found to be an essential tool in working with oracle arithmetic. Mediant approximations, which are related to continued fraction representations, naturally arise from an oracle perspective. One of the final sections compares and contrast with other common definitions of real numbers, such as Cauchy sequences and Dedekind cuts, in which the conclusion is that the oracle perspective is a master map to the other definitions. 
 \end{abstract}
-
-%thinking of real numbers as rational betweenness relations. This paper will define real numbers in that way, codifying relevant properties that make a relation on rationals into a real number. Many uses of real numbers, however, do not immediately  produce a rational betweenness relation. Instead, one might have an oracle. An oracle is a rule that, when provided with a rational interval and a rational width, either answer Yes or No depending on if the real number ought to be considered to be in the given interval, or returns an interval containing the real number that includes an endpoint and is no larger than the provided width. After the definitions and basic properties are established, various examples and algorithms are explored in addition to establishing that this form the field of real numbers. The concept of a Family of Overlapping, Notionally Shrinking Intervals is defined and found to be an essential tool in working with real numbers. Mediant approximations, which are related to continued fraction representations, naturally arise from working with intervals. One of the final sections compares and contrast with other common definitions of real numbers, such as Cauchy sequences and Dedekind cuts, in which the conclusion is that the oracle perspective is a master map to the other definitions. 
-
-
 
 \tableofcontents
 
-\section{Introduction}
+\section{The Oracle of \texorpdfstring{$r$}{r}}\label{sec:ora}
 
-The real numbers have a long history of being difficult to understand and use with precision. They also have a long history of being approximated easily to make practical computations happen quite readily. 
-
-The essential difficult of irrational real numbers is that infinity is embedded, in an essential way, into each of them. Indeed, pick a random real number and it almost surely is a Library of Babel all by itself. That is just one number. Contrasting that with a rational number and one can see quite a bit of difference between the two concepts. 
-
-Traditionally, students first are told that irrational numbers are those whose decimal expansions do not fall into a repeating cycle of digits. For a formal definition of real numbers, the decimal expansions have some difficulties with arithmetic. In the late 1800's, several new definitions arose, most prominently Cauchy sequences and Dedekind cuts. The Cauchy sequence definition results in taking equivalence classes of sequences as a real number. Dedekind cuts are sets of rational numbers. While Cauchy sequences suggest pursuing a computation in order to define a real number, Dedekind cuts invite a lack of computing anything in particular. 
-
-All three definitions, and many others, have the idea of rational intervals floating in the background. A decimal approximation is often thought of as an implicit interval. Cauchy sequences have the idea of eventually the tail of the sequence being trapped in an interval of length $\varepsilon$. Dedekind cuts have a lower set being paired with an upper set; this suggests that an element of the lower set and an element of the upper set form a rational interval that spans the cut. 
-
-Our goal is to explore definitions of real numbers that use rational intervals. There are already two definitions that explicitly discuss 
-
-
-This definition strikes a balance between having a solid definition of a real number and being useful in computing. Most definitions of real numbers, such as decimal expansions and Cauchy sequences, seem to require explicit computations to even define the number. This is problematic given the infinite nature of real numbers. Other definitions, such as Dedekind cuts, do not require computations to state the number, but they seem to offer, in their usual formulations, little in the way of useful guidance in computing the number. 
+Our goal is to give a new definition of real numbers. This definition strikes a balance between having a solid definition of a real number and being useful in computing. Most definitions of real numbers, such as decimal expansions and Cauchy sequences, seem to require explicit computations to even define the number. This is problematic given the infinite nature of real numbers. Other definitions, such as Dedekind cuts, do not require computations to state the number, but they seem to offer, in their usual formulations, little in the way of useful guidance in computing the number. 
 
 What we want to provide is an object that can be defined without computation, but provides the underlying mechanism for computing the real number to any precision one wants. In some sense, we are producing the framework for producing approximations to real numbers given the particulars of a given real number.  This is analogous to, in functional programming,  having a generic sorting algorithm that can be used in a variety of situations by supplying a comparison function to make a pairwise sorting decision while the framework handles the actual details of the global sorting.
 
@@ -52,18 +35,16 @@ Informally, the Oracle of $r$ is a rule which, given two rational numbers, will 
 
 Much like oracles of old, there is also the potential for intervals which we cannot answer definitively Yes or No. This framework allows for that ambiguity, but nevertheless provides a mechanism for making progress towards less uncertainty. 
 
-\subsection{Naming Convention}
-
-Throughout this paper $a$, $b$, $c$, and $d$ will be rational numbers, typically used as endpoints of intervals. The letters $e$ and $f$ are often used in the same way though sometimes they are used for the mathematical constant $e$ and common function name of $f$. Additionally,  $m, n, p, q, r, s, t, u, v$ will generally be rationals and should be assumed so unless otherwise stated. The letters $x, y, z$ are used for representing real numbers; the Greek letters $\alpha, \beta, \gamma$ may also be used for real numbers. 
+There is a short introduction to oracles in \cite{taylor23teaser} whose primary goal is to link oracles to the constructivist version of real numbers. There is also a short overview paper \cite{taylor23over} which tries to present the ideas rather than the details. 
 
 \subsection{Interval Notation}
 
-We will define a \textbf{rational interval} $a:b$ as a binary rule that, for a given rational $q$, yields Yes if $q$ is between $a$ and $b$, inclusive, and yields No if not. We say that $q$ is in $a:b$ if the interval rule yielded an affirmative answer.  We identify $b:a$ as the same rule. The interval $a:b$ contains the interval $c:d$ if being in the interval $c:d$ implies being in the interval $a:b$. We will write $a\lt b$ if we want to indicate the ordering relation between the rationals and that they are strictly not equal. We may also require knowing the ordering, but still allow equality. In that case, we use the notation $a \lte b$ to indicate $a \leq b$.  We will also write $a:b < c:d$ to indicate the situation in which $a$ and $b$ are less than $c$ and $d$ which implies that all rationals $q$ in $a:b$ are less than all rationals $r$ in $c:d$. 
+We will define a \textbf{rational interval} $a:b$ as a binary rule that, for a given rational $q$, yields $1$ (Yes) if $q$ is between $a$ and $b$, inclusive, and yields $0$ (No) if not. We say that $q$ is in $a:b$ if the interval rule yielded an affirmative answer.  We identify $b:a$ as the same rule. The interval $a:b$ contains the interval $c:d$ if being in the interval $c:d$ implies being in the interval $a:b$. We will write $a\lt b$ if we want to indicate the ordering relation between the rationals and that they are strictly not equal. We may also require knowing the ordering, but still allow equality. In that case, we use the notation $a \lte b$ to indicate $a \leq b$.  We will also write $a:b < c:d$ to indicate the situation in which $a$ and $b$ are less than $c$ and $d$ which implies that all rationals $q$ in $a:b$ are less than all rationals $r$ in $c:d$. 
 
 
 Please take note that the intervals not only have rational endpoints but they consist entirely of rational points as we do not have real numbers. Throughout, unless we say otherwise, intervals always include their endpoints. If we had the real numbers, these would be closed intervals with rational endpoints.  The symbol $:$ was chosen to represent the two endpoints with something in between. Being dotted is to be a reminder that it is just the discrete rational interval under discussion. 
 
-We also adopt an extension of this notation as $a_0:a_1:\cdots:a_{n-1}:a_n$ which suggests an interval perspective, but whose content is largely conveying the same information as $a_0 \leq a_1 \leq \cdots \leq a_{n-1} \leq a_n$ though the order could be reversed with the vertical dots. We can also put in the symbols $\lt$ and $\lte$ in that sequence as appropriate which would cement the ordering. We might also write something like $a:\{b,c\}:d$ which would indicate that both $b$ and $c$ are between $a$ and $d$, but the relative ordering of $b$ and $c$ is unknown. 
+We also adopt an extension of this notation as $a_0:a_1:\cdots:a_{n-1}:a_n$ which suggests an interval perspective, but whose content is largely conveying the same information as $a_0 \leq a_1 \leq \cdots \leq a_{n-1} \leq a_n$ though the order could be reversed with the vertical dots. We can also put in the symbols $\lt$ and $\lte$ in that sequence as appropriate which would cement the ordering. We might also write something like $a:(b?c):d$ which would indicate that both $b$ and $c$ are between $a$ and $d$, but the relative ordering of $b$ and $c$ is unknown. 
 
 We define the term \textbf{singleton} to be intervals of the form $a:a$, namely the only number in the interval is the rational $a$. We also define the term \textbf{neighborly interval} to be intervals which are not singletons, that is, $a \lt b$ is its form. When we write $a:b$, we do allow for $a=b$. 
 
@@ -77,105 +58,20 @@ Assume for this paragraph that we have $a \lt b$, $c \lt d$, and $a \leq c$. We 
 
 Note that we do have transitivity of interval inequality, that is, if $a:b < c:d$ and $c:d < e:f$, then $a:b < e:f$. This follows immediately from the transitivity of inequalities on rationals.
 
-\section{Rational Betweenness Relations as Real Numbers}
 
-Rational betweenness relations is the general idea that a real number is defined as providing a relation on rational numbers. Specifically, two rational numbers are in the relation if the real number ought to be between them. A more common way of saying this is that given a rational interval, the real number should be in that interval. 
+\subsection{Defining the Oracle}
 
-Since the real number is being defined, we have to come up with some way of describing when a rational relation satisfies describing a betweenness relation based on a real number. This will be used as the definition of the real number. 
 
-There are at least five distinct ways of doing this each with their own advantages and disadvantages. The first two approaches are pre-existing approaches. The other three are, as far as this author can determine, new. 
 
-For all of the definitions, the basic definition of the arithmetic operations and comparison operators is to do them on the intervals in the definitions. The proofs that these work appropriately may vary, but the basic idea is all the same. 
-
-\subsection{Nested Intervals}
-
-This was a definition dating back to Bachmann in 1892, see, for example, \cite{ittay-2015}. It is a generalization of the idea of decimal approximations as ever finer approximations with an implied uncertainty in the last digit. 
-
-This is the idea that one has a sequence of intervals $a_n:b_n$ such that $a_n:a_m:b_m:b_n$ for all $=m \geq n$. Additionally, $|a_n - b_n| \to 0$. This latter means that for any positive rational $\varepsilon$, there should exist an $N$ such that if $n \geq N$, then $a_n:\pm \varepsilon$ contains $b_n$. We will call such sequences \textbf{Bachmann sequences}. 
-
-This construction is very similar to Cauchy sequences. It has a similar problem that any given real number can be represented by uncountably many such sequences. Thus, there needs to be an equivalence relation imposed on it.
-
-This is done by considering the notion of a refinement of an interval sequence. Namely, if $I_n$ and $J_n$ are two Bachmann sequences with the additional fact that $J_n \subset I_n$ for all $n$, then $J_n$ is a \textbf{refinement} of $I_n$. Two Bachmann sequences are equivalent if there exists a common refinement; that is, $I_n \sim J_n$ exactly when there exists a Bachmann sequence $K_n$ such that $K_n \subset I_n$ and $K_n \subset J_n$ for all $n$. All three sequences are representing the same abstract real number. 
-
-Note that this implies that all of the intervals in these three sequences are intersecting one another. The largest refinement of two sequences would be the sequence of intersections of the two given sequences. 
-
-A quick sanity check is to assume that $I_n$ represents the rational number $c$ and thus all of the  the intervals $I_n$ should contain $c$. Then is $c$ contained in the intervals of all equivalent sequences? The basic trick is to assume that there exists a $J_m$ such that $c \notin J_m$. Then look at the distance from $c$ to the closest endpoint of $J_m$. Find an $n > m$ such that the length of $I_n$ is less than that distance. Then $I_n$ cannot contain $c$ while also intersecting $J_n$ which is contained in $J_m$. Thus, these are not equivalent sequences and so, if they are, $c$ must be in all of the intervals $J_n$. 
-
-\subsection{Families of Overlapping Notionally Shrinking Intervals}
-
-A common way of defining a real number is through some specification of intervals whose length is shrinking to 0. This is often in the guise of some core estimate along with some error bounds. We will establish that this is an oracle. 
-
-We define the term \textbf{fonsi} to refer to a Family of Overlapping, Notionally Shrinking Intervals. This means a fonsi is a set of rational intervals which are all pairwise intersecting and such that given a positive rational length $\varepsilon$, there exists at least one interval in the family whose length is less than $\varepsilon$.\footnote{We use the term ``notionally shrinking'' to indicate that we want to think of it as shrinking intervals, but there need not be any sequential aspect to this that would qualify as shrinking.} Singletons are allowed in the family and they have length 0.\footnote{There can be at most one singleton as the singletons need to intersect, but we need not presuppose the uniqueness.} A set consisting of a single singleton does qualify for being a fonsi.
-
-One method of defining real numbers among constructivists is to equate a fonsi, or a fine family of intervals, with a real number. See \cite{bridger} and \cite{bridges} for details. The fonsi framework is appealing to the constructivist framework as it aligns strongly with their methods of proof and construction. It also aligns with measurements as we briefly discuss in Section \ref{main:measure}. 
-
-One example category is that of the Bachmann sequences. A slight extension of this would be to a sequence of numbers with error bounds such that successive numbers are contained within the previously indicated error bounded intervals. That is, $a_n$ is the sequence of numbers, $\varepsilon_n$ are such that $\varepsilon_n \to 0$, and  $a_n-\varepsilon_N:a_m:a_n+\varepsilon_n$ for all $m > n$.  It is very common to have error bounds in applications and this is how we can formalize that notion. 
-
-One failed example is the set of intervals $\frac{1}{n}:1$. It is an overlapping set which creeps up to zero, but it fails to be shrinking. Another failed example is something like $\frac{1}{n}:\frac{1}{m}$, which does have intervals shrinking to zero, but it fails the overlapping property. A fonsi forces an overlap across the real number that it is representing. We could, for instance, look at $\frac{-1}{m}:\frac{1}{n}$ for all positive integers $m$ and $n$. These overlap and we can find as small an interval as we like. The fonsi $-\frac{p}{q} : \frac{r}{s}$ for all positive integers $p, q, r, s$ represents $0$ though it excludes any interval with an endpoint of $0$. If we allow for $p$ and $r$ to possibly be 0, then this is a maximal fonsi representation of $0$. 
-
-Two fonsis are equivalent if they can be combined into a single fonsi. This is equivalent to the requirement that all of the elements of both families intersect one another. Given a rational $c$ that is present in one family, it must be in any equivalent family roughly by the same logic as before. That is, if in a second family, there is an interval that does not contain $c$, then there is a separation between that interval and $c$. Choose an interval of the first family whose length is less than half of the separation. Then it cannot intersect both the interval and $c$. Thus, they are not fonsis that are equivalent. 
-
-There is more to say about fonsis as detailed in Section \ref{sec:ni}.
-
-\subsection{Rational Cut Relations}
-
-Rational cut relations are a pure, idealized form encapsulating the algorithm of the Intermediate Value Theorem. This concept is explored in \cite{taylor24dedekind} where it is proved that it is equivalent to the Dedekind cut definition for real numbers. 
-
-The idea is that a real number $x$ is a relation on rational numbers such that two rational numbers, possibly identical, are $x$-related if $x$ ought to be between them. It is a symmetrical relation. 
-
-To be a rational cut relation, the relation must satisfy the properties listed below.
+The Oracle of $r$ is a rule $R$ defined on rational intervals\footnote{It may be that there is a rational number $c$ for which the rule has no answer on any interval that has an endpoint of $c$. If the properties of an oracle are satisfied, then it is the case that we can continue to narrow down around $c$, as we show in Proposition \ref{pr:down-to-one-halo}.}, including singletons, that returns values of 1 and 0, and satisfies the properties listed below.\footnote{Set theoretically, an oracle is a function $R \col \ \mathbb{Q}^2 \to \{0,1\}$ where each pair $(a,b)$ is identified with the inclusive rational interval $a:b$. This viewpoint is suppressed here as the goal is to provide a framework for just-in-time determination.  Another way of viewing the rule is that it is the characteristic function of the set of intervals that contain the real number, a viewpoint which is also not adopted here.} 
 \begin{enumerate}
-    \item Existence. $a \xrel b$ holds for some rational interval $a:b$.
-    \item Cutting. If $a \xrel b$, then for a given $c \neq a, b$ in $a:b$, one of the following holds: 
-        \begin{enumerate}
-            \item $a \xrel c$ with \sout{$c \xrel b$},
-            \item $b \xrel c$ with \sout{$c \xrel a$}, or
-            \item $c \xrel c$.
-        \end{enumerate}
-    \item Consistency. Assume $c:d$ contains $a:b$. If $a \xrel b$, then $ c \xrel d$. 
-    \item Rooted. If $c \xrel c$ and $d \xrel d$, then $c=d$.
-    \item Closed. If $c \in a:b$ for all $a:b$ such that $a \xrel b$, then $c \xrel c$. 
+    \item Existence. $R(a:b) = 1$ for some rational interval $a:b$.
+    \item Separating. If $R(a\lt b)=1$, then for a given $c \neq a, b$ in $a:b$ and given a width $\delta$, there exists a $c_{\delta}$ compatible interval $e \lt f$ such that exactly one of the intervals $a:e$, $e:f$, and $f:b$ is a Yes interval and the other two are No intervals. 
+    \item Consistency. Assume $c:d$ contains $a:b$. If $R(a:b) = 1$, then $R(c:d) = 1$. If $R(c:d)=0$, then $R(a:b) = 0$. 
+    \item Closed. If the $\delta$-halo of $c$ is a Yes interval for all rational $\delta>0$, then $R(c:c) = 1$. Additionally, if $R(a:a)=0$, then there exists a $\delta$-halo of $a$ such that $R(a_\delta) = 0$.
 \end{enumerate}
 
-The main difficulty with this definition is that there are real numbers that we can define for which $c \xrel c$ cannot be established. Thus, the cutting property cannot be verified. This is our idealized betweenness relation. We assume for this definition that every pair of rationals, including singletons, are either definitively $x$-related or they are not. 
-
-Most of the work done in this paper will directly apply to this definition, at least with the assumption that the relation can be determined for any given rational interval. We will point any issues with using this definition in our statements and proofs throughout this paper. 
-
-The discussion of these rules will follow similarly to the oracles presented below so we will defer that discussion until then. 
-
-\subsection{Rational Exclusion Relations}
-
-This version of a rational betweenness relation replaces the cut property with being able to exclude at least one of a given pair of rational numbers in an interval. We continue to use closed intervals.\footnote{An example of the need is to consider the relation representing 0. If the intervals were open, then the intervals in the relation could be those of the form $-a:b$ where $a, b$ are positive rationals. This would satisfy our properties except for the closed property which would be excluded from the properties for an open interval. But then the question of intervals of the form $0:b$ comes up. They do not need to be a part of the relation and should not be as they exclude 0, but they can be added without conflict.    }
-
-To be an exclusion relation, the symmetric relation must satisfy the properties listed below.
-\begin{enumerate}
-    \item Existence. $a \xnan b$ holds for some rational interval $a:b$.
-    \item Exclusion. If $a \xnan b$ with $a < b$, then given $c, d$ in $a:b$, there exists $e, f$ such that  $a:e:f:b$ such that $e \xnan f$ and at least one of $c, d$ is excluded from  $e:f$. Furthermore, $a:e$ and $f:b$, if they are neighborly, are not in relation to $x$. 
-    \item Consistency. Assume $c:d$ contains $a:b$. If $a \xnan b$, then $ c \xnan d$. If \sout{$c\xnan d$}, then \sout{$a\xnan b$}. 
-    \item Closed. If $c \in a:b$ for all $a:b$ such that $a \xnan b$, then $c \xnan c$. 
-\end{enumerate}
-
-
-\subsection{Oracles}
-
-
-The idea of an oracle is that it takes in a rational interval and says Yes or No depending on whether the real number is in the interval. Unfortunately, real numbers can be a little more complicated than that. It can be the case that intervals whose endpoint is a particular rational number cannot be answered one way or the other. But what can be ascertained is whether the real number is in a $\delta$-halo of that rational number. We will formalize this. 
-
-The Oracle of $x$ is a rule $R_x$ which when given a rational interval $a:b$, with possibly $a=b$, and a rational width $\delta$, returns either $a:b$ signifying the real is in that interval, $\emptyset$ signifying that it is not in the interval, $a_\delta$ signifying it is in $a_\delta$, or $b_\delta$ signifying it is in $b_\delta$. Ideally, $\delta$ is chosen so that $a_\delta$ and $b_\delta$ are disjoint. If $a:b$ can be returned by the oracle, then it is preferred to be returned. We will say $a:b$ is a Yes interval if $R_x$ returns $a:b$ and a No interval if it returns the empty set. If a $\delta$-halo is returned, then $R_x$ is ambiguous on $a:b$, but we can say that the $\delta$-halo is a Yes interval. 
-
- The idea of the return of an interval is that the oracle is returning an interval which contains the real number. The empty set is returned when the oracle cannot give an interval which works from the given input. 
-
-Let the interval be $a:b$. If it is a Yes interval, then we use the notation $a \xora b$. For a No interval, the notation is \sout{$a \xora b$}. If $a_\delta$ is returned, this can be written as $a \xora \pm \delta$ which is a slightly compact way of writing $a-\delta \xora a - \delta$. If $b_\delta$ is returned, then $b \xora \pm \delta$ is used. 
-
-We  may also drop the $x$ for the function $R$ when there is only one oracle under discussion. The default real number will also be represented by $x$. 
-
-To be an oracle, the rule must satisfy the properties listed below.
-\begin{enumerate}
-    \item Existence. $a \xora b$ holds for some rational interval $a:b$.
-    \item Separating. If $a \xora b$, then for a given $c \neq a, b$ in $a:b$ and given a width $\delta$, there exists a $c_{\delta}$ compatible interval $e:f$ such that exactly one of the intervals $a:e$, $e:f$, and $f:b$ is a Yes interval while the other two are No intervals. 
-    \item Consistency. Assume $c:d$ contains $a:b$. If $a \xora b$, then $ c \xora d$. If \sout{$c\xora d$}, then \sout{$a\xora b$}. 
-    \item Closed. If the $\delta$-halo of $c$ is a Yes interval for all rational $\delta>0$, then $c \xora c$. Additionally, if \sout{$a \xora a$}, then there exists a $\delta$-halo of $a$ such that \sout{$a \xora \pm \delta$}.
-\end{enumerate}
+Note that in the above $a$, $b$, $c$, $d$, $e$, and $f$ are all rationals; we do not apply this to irrationals since we are defining them here. We generally obey the convention that $r$ represents naming the oracle as a number and $R$ is the rule. There is not a distinction, in fact, between $r$ and $R$, but the notation helps make the connection to how we customarily think of real numbers versus the oracle version.\footnote{As it becomes increasingly clear that the oracles do fit a model of the real numbers, we will move away from this distinction and also start to use Greek letters, such as $\alpha$, to denote oracles.}
 
 
 The Existence and Separating properties are both essential ingredients in algorithmically refining the knowledge about the real number. The Consistency and Closed properties are more about filling in the blanks and are a bit more atmospheric than algorithmic. In other words, specifying a starting Yes interval and the rule how to do the separating property allows us to develop the real number. The other two properties are there to make the oracle rule unique, but are not generally involved in directly producing better approximations. 
@@ -184,74 +80,64 @@ For further elaboration on what each of these properties means:
 
 \begin{enumerate}
   
-    \item The existence requirement says that there is definitely an interval which the Oracle confirms being in. It is required to avoid the trivial $R(a:b) = \emptyset$ for all $a:b$ which would satisfy all the other conditions, including the separating property due to that property only applying to Yes-intervals. 
+    \item The existence requirement says that there is definitely an interval which the Oracle confirms being in. It is required to avoid the trivial $R(a:b) = 0$ for all $a:b$ which would satisfy all the other conditions, including the separating property due to that property only applying to Yes-intervals. 
     
     The existing interval also gives us a place to start in our approximation schemes that we discuss later. 
     
     It is usually easy to verify in any practical example as any Yes-interval will do and we can usually find a very bad approximate interval that is easy to establish.  
 
-    \item Separation is needed to ensure that the Yes will continue to propagate downwards so that we can make progress on narrowing in on $r$. This is crucial to the use of the Oracle in approximating what we take to be a single number $r$. Ideally, we could ask the rule whether $c:c$ is a Yes interval or not. If it was No, then we would be in the case of exactly one of $a:c$ and $c:b$ being a Yes interval while the other one is a No interval. If it was Yes, then we have our real number as the rational number $c$. Unfortunately, it can be hard to ascertain whether a real number is a given rational number or not. This is why we specify a $\delta$ as a tolerance level for knowing about $c$. 
+    \item Separation is needed to ensure that the Yes will continue to propagate downwards so that we can make progress on narrowing in on $r$. This is crucial to the use of the Oracle in approximating what we take to be a single number $r$. Ideally, we could ask the rule whether $R(c:c) = 1$ or not. If it was No, then we would be in the case of $R(a:c) \neq R(c:b)$. If it was Yes, then we have our real number as the rational number $c$. Unfortunately, it can be hard to ascertain whether a real number is a given rational number or not. This is why we specify a $\delta$ as a tolerance level for knowing about $c$. 
 
     We do require that given that fuzziness, the rule should be able to give us an answer, at least in principle with a large, but finite, amount of work. In practice, we may still not be able to answer the question due to computational limitations. This particular difficulty with rationals mirrors the difficulty in other approaches to real numbers. 
     
-    Separation ensures that there is just one single number under discussion. Without imposing the No conditions, we could have the rule, for example, $R(a:b) = 1$ for all $a:b$ that contain a subinterval of a fixed given interval $m \lt n$. This is compatible with all the properties except for the requirement of having No intervals when separating the interval. In particular, let $m:n$ be our Yes interval and take $c = \frac{m+n}{2}$. Let $\delta = \frac{n-m}{3}$. Then $m:c, c:n, c:\pm \delta, m:c-\delta), c+\delta:n$ are all Yes intervals. So the Yes parts are all satisfied, but the No is not. It is the requirement of having an answer of No which makes this have a single real number that it is representing.
+    We will call this Interval Separation when we need to distinguish from other separation properties, as discussed later. 
+    
+    Separation ensures that there is just one single number under discussion. Without imposing the No conditions, we could have the rule, for example, $R(a:b) = 1$ for all $a:b$ that contain a subinterval of a fixed given interval $m \lt n$. This is compatible with all the properties except for the requirement of having No intervals when separating the interval. In particular, let $m:n$ be our Yes interval and take $c = \frac{m+n}{2}$. Let $\delta = \frac{n-m}{3}$. Then $R(m:c)=R(c:n)=R(c-\delta:c+\delta)=R(m:c-\delta)=R(c+\delta:n) = 1$. So the Yes parts are all satisfied, but the No is not. It is the requirement of having an answer of No which makes this have a single real number that it is representing.
 
     One particular example of needing to impose this is in finding the roots of a function using the intermediate value theorem. Let's say we are looking at $f(x) = (x-1)(x-2)$. The roots are 1 and 2, of course, but let's say we define the oracle rule as saying Yes to any interval $a:b$ for which the signs of $f(a)$ and $f(b)$ are not equal or one of the values is 0. This would represent both the roots 1 and 2. We would need to essentially restrict ourselves to the interval $0.5:1.5$ and require that any interval disjoint from that to be a No interval. We can then operate within that interval according to the sign rule. 
 
-Because of Consistency, the interval $e:f$ being Yes implies $c_{\delta}$ is a Yes interval. In addition, its complements in $a:b$ are sub-intervals of the complements of $e:f$ so Consistency implies that the No property gets transmitted to the sub-intervals. Thus, we may simplify the use of the Separation property for oracles as saying either $c_{\delta}$ is a Yes interval or exactly one of $a:c, c:b$ is a Yes interval.
-
-We exclude the endpoints as the No interval part would not be possible. This is different from the exclusion relation in which using the endpoints and excluding one of them is both sensible and yields a new interval. 
+Because of Consistency, the interval $e:f$ being Yes implies $c_{\delta}$ is a Yes interval. In addition, its complements in $a:b$ are sub-intervals of the complements of $e:f$ so Consistency implies that the No property gets transmitted to the sub-intervals. Thus, we may simplify the use of the Separation property for oracles as saying either $c_{\delta}$ is a Yes interval or $R(a:c) \neq R(c:b)$.
 
     \item Consistency says that Yes propagates upwards to larger intervals while No propagates downwards to smaller intervals. The Oracle never contradicts itself. 
     
     In our examples, this is usually imposed by definition of the rule, corresponding to this not revealing anything of practical use. In some sense, this property is here to ensure that there is a single oracle for a given real number.
 
 
-    Without Consistency, we could have a rule which has multiple refinement targets. Consider, as an example, the rule which is Yes for all intervals containing $0$ but excluding $1$ as well as all intervals containing $3$ but excluding $2$. This satisfies Existence, Separating, and Closed. The closed is satisfied as there is no rational number in all the intervals though we also have two singletons included. Existence is clear. Separating is pretty easy to establish, noting that there are no Yes intervals covering the two integers. It is only consistency which forces the joining of disjoint Yes intervals into a combined interval that Separation can then force a contradiction out of.  
-    The second part of Consistency is asserting that we can fill in the blanks when we know that only one value is consistent with what we know. For example, if $a:b$ contains $c:d$ and $a:b$ is a No interval, then if $c:d$ was Yes, we would have a contradiction. Consistency says that we therefore must have $c:d$ as a No interval. We have included in the property to be explicit about the requirement as we could not otherwise force it to be defined. 
+    Without Consistency, we could have a rule which has multiple refinement targets. Consider, as an example, the rule which is Yes for all integer $n:n$ intervals and neighborly intervals are Yes exactly when they are $n_{\frac{1}{4}}$ compatible for some integer $n$. This satisfies Existence, Separating, and Closed. The closed is satisfied since we include $n:n$ though because of, say $n_1$ being a No interval, the Closed statement holds regardless. Existence is clear. Separating is pretty easy to establish, noting that there are no Yes intervals covering the two integers. It is only consistency which forces the joining of disjoint Yes intervals into a combined interval that Separation can then force a contradiction out of.  
+
+    The second part of Consistency is asserting that we can fill in the blanks when we know that only one value is consistent with what we know. For example, if $a:b$ contains $c:d$ and $a:b$ is a No interval, then if $R(c:d) = 1$, we would have a contradiction. Consistency says that we therefore must define $R(c:d)=0$. We have included in the property to be explicit about the requirement.
     
     \item An important benefit of the Closed property is that the arithmetic of rationals is unchanged. As we shall see, oracle arithmetic involves interval arithmetic. With the presence of the singletons, we can do arithmetic with them as we do with fractions. 
     
-    It also helps ensure the uniqueness of an oracle. For example, we could define a $0^+$ oracle by being Yes on all the intervals of the form $a \lt b$ with $a < 0, b \geq 0$, and another oracle $0^-$ as intervals of the form $a \lt b$ with $a \leq 0, b >0$. These two proto-oracles satisfy the other properties. Both could be said to represent $0$, but they are distinct. They obviously fail to satisfy the Closed property. If we add in $0:0$ to them to satisfy the Closed Property, then they fail Consistency since we now need to include all intervals that include $0:0$. This is how we achieve uniqueness.\footnote{If we were using exclusive intervals, we could have at least three representatives. All of them have Yes to $a:b$ with $a<0, b> 0$. One representative is just that, another adds in $a:0$ and the other has $b:0$, depending on how we modify the properties.} 
+    It also helps ensure the uniqueness of an oracle. For example, we could define a $0^+$ oracle by being Yes on all the intervals of the form $a \lt b$ with $a < 0, b \geq 0$, and another oracle $0^-$ as intervals of the form $a \lt b$ with $a \leq 0, b >0$. These two proto-oracles satisfy the other properties. Both could be said to represent $0$, but they are distinct. They obviously fail to satisfy the Closed property. If we add in $0:0$ to them to satisfy the Closed Property, then they fail Consistency since we now need to include all intervals that include $0:0$. This is how we achieve uniqueness.\footnote{If we were using exclusive intervals, we could have at least three representatives. All of them have Yes to $(a,b)$ with $a<0, b> 0$. One is just that, another adds in $(a, 0)$ and the other has $(b, 0)$, depending on how we modify the properties.} 
     
     Most representations of real numbers have this issue with rationals. Decimals have the issue of repeating 9s. Dedekind cuts have the question of whether to include the rational or not in its own cut. Continued fraction representations are unique on irrational numbers, but they have two representatives for rationals. Other approaches, such as Cauchy sequences and fonsis, have an abundance of non-unique representations. 
     
     In our constructions, we often need to add this in explicitly. Establishing that a rational real is rational can be difficult, possibly impossible. This seems to be one of the essential difficulties with real numbers, to varying degrees. We handle this by using the $\delta$ smearing in the Separating property. 
 
-    In the Closed property, we have also included the fact that $a:a$ being No implies the existence of a $\delta > 0$ such that $a_\delta$ is No interval. One can argue, non-constructively, that the first statement in the Closed property implies this. Indeed, if there was no such $\delta$, then every $a_\delta$ is a Yes interval and this implies by the Closed property, that $a:a$ is a Yes interval. I have decided to include this in the property as an explicit declaration that we expect this to be constructively doable in the rule.  In particular, this applies when one says No to a singleton. To be able to say No suggests some knowledge and that there ought to be a moat around it. 
+    In the Closed property, we have also included the fact that $R(a:a)=0$ implies the existence of a $\delta > 0$ such that $R(a_\delta) = 0$. One can argue, non-constructively, that the first statement in the Closed property implies this. Indeed, if there was no such $\delta$, then every $R(a_\delta)=1$ and this implies by the Closed property, that $R(a:a)=1$. I have decided to include this in the property as an explicit declaration that we expect this to be constructively doable in the rule.  
 
 \end{enumerate}
+
+
 
 
 This definition does not avoid all of the common downsides of the other definitions of real numbers, but it does reduce them to a context that reflects how real numbers get used in practice. It illustrates those downsides as fundamental to the nature of real numbers while avoiding inessential downsides that other approaches have. See Section \ref{sec:others} for a discussion of other approaches.  
 
 
-A \textbf{singleton oracle }is an oracle whose Yes intervals includes a singleton. We may also refer to them as \textbf{rooted} oracles with the root being the singleton which we can also refer to as the unique rational that is an element of that singleton. These will eventually be identified with the rationals. A \textbf{neighborly oracle} is an oracle whose Yes intervals do not include a singleton. These are the irrationals.\footnote{For a picturesque language, we could call a \textbf{$\delta$-spark}, for a rational $\delta > 0$, of an oracle to be a rational number $q$ such that the $\delta$-halo of $q$ is a Yes interval. A \textbf{star} of an oracle is a rational number $q$ such that $q \xora q$ and this would be a stellar oracle. Stars, if they exist, are unique for a given oracle. A \textbf{galactic} oracle is one which has no star of an oracle. The idea is that we are looking at a number from afar and it looks like a point of light in the sky. That point could be a star in our own galaxy (a rational) or it could be a whole new galaxy, and those stars are generally related to one another by rational arithmetic (algebraic extension).}
+A \textbf{singleton oracle }is an oracle whose Yes intervals includes a singleton. We may also refer to them as \textbf{rooted} oracles with the root being the singleton which we can also refer to as the unique rational that is an element of that singleton. These will eventually be identified with the rationals. A \textbf{neighborly oracle} is an oracle whose Yes intervals do not include a singleton. These are the irrationals.\footnote{For a picturesque language, we could call a \textbf{$\delta$-spark}, for a rational $\delta > 0$, of an oracle to be a rational number $q$ such that the $\delta$-halo of $q$ is a Yes interval. A \textbf{star} of an oracle is a rational number $q$ such that $R(q:q) = 1$ and this would be a stellar oracle. Stars, if they exist, are unique for a given oracle. A \textbf{galactic} oracle is one which has no star of an oracle. The idea is that we are looking at a number from afar and it looks like a point of light in the sky. That point could be a star in our own galaxy (a rational) or it could be a whole new galaxy, and those stars are generally related to one another by rational arithmetic (algebraic extension).}
 
-We also define the term \textbf{resolvable oracle} to mean an oracle in which all rational intervals have a defined answer to the oracle question. For such an oracle, we can ask about $c:c$ for any singleton and get an answer. This will allow any rational in a Yes interval to divide the interval into two pieces, with exactly one of being a Yes interval, assuming the singleton is a No interval. That is, a resolvable oracle is just another way of expressing a rational cut relation. With Existence and Consistency, what makes a resolvable oracle is the ability to answer the question for every singleton. 
-
-\section{Basic Properties}
-
-Here we collect various useful facts about these relations. The primary focus is on oracles as they are the most practical and difficult, but there will be indications for the other versions. 
-
-\subsection{Rooted}
-
-While cut relations have the rooted property as assumed, in the other versions, it can be deduced. 
+We also define the term \textbf{resolvable oracle} to mean an oracle in which all rational intervals have a defined answer to the oracle question. For such an oracle, we can ask about $c:c$ for any singleton and get an answer. This will allow any rational in a Yes interval to divide the interval into two pieces, with exactly one of being a Yes interval, assuming the singleton is a No interval. This was the original version of the oracle rule and makes for a simpler presentation when it can be established. With Existence and Consistency, what makes a resolvable oracle is the ability to answer the question for every singleton. 
 
 \begin{proposition}[Rooted]\label{pr:rooted}
-    For an oracle $R$, there is at most one rational number $c$ such that $R(c:c)= c:c$.
+    For an oracle $R$, there is at most one rational number $c$ such that $R(c:c)=1$.
 \end{proposition}
 
 \begin{proof}
-    Let $c$ be a rational number such that $c:c$ is a Yes interval. Let $d$ be any other rational number. Then by Consistency, $d:c$ is a Yes interval since it contains the Yes interval $c:c$. Let $m = \frac{d+c}{2}$ be the midpoint and $L=|d-c|$ be the length of the interval which is not 0 as $d \neq c$. Then apply Separation to $m$ as the partition point and $\delta=L/4$. Separation gives us an $m_{\delta}$-compatible interval $e:f$ such that $d:e:m:f:c$ with exactly one of $d:e$, $e:f$, and $f:c$ being a Yes interval. Since $c:c$ is a Yes interval, we know $f:c$ is a Yes interval. Thus $d:e$ is a No interval. Since $d:d$ is contained in the No interval $d:e$, Consistency tells us $d:d$ is a No interval. 
+    Let $c$ be a rational number such that $R(c:c)=1$. Let $d$ be any other rational number. Then by Consistency, $d:c$ is a Yes interval since it contains the Yes interval $c:c$. Let $m = \frac{d+c}{2}$ be the midpoint and $L=|d-c|$ be the length of the interval which is not 0 as $d \neq c$. Then apply Separation to $m$ as the partition point and $\delta=L/4$. Separation gives us an $m_{\delta}$-compatible interval $e:f$ such that $d:e:m:f:c$ with exactly one of $d:e$, $e:f$, and $f:c$ being a Yes interval. Since $c:c$ is a Yes interval, we know $f:c$ is a Yes interval. Thus $d:e$ is a No interval. Since $d:d$ is contained in the No interval $d:e$, Consistency tells us $d:d$ is a No interval. 
 \end{proof}
 
 Thus, if an oracle is rooted, its root is unique. 
-
-For fonsis, including Bachmann sequences, this is accomplished by picking an $\varepsilon$ smaller than $L$ which necessarily implies an interval in the fonsi that excludes $d$. 
-
-For the exclusion relation, take $c$ and $d$ as the points to apply the exclusion to. Since $c \xnan c$, Consistency insists that the exclusionary interval $e:f$ must include $c$. 
-
 
 \subsection{Bisection Approximation}
 
@@ -327,7 +213,7 @@ We say that $c$ is \textbf{$\varepsilon$-compatible} with the oracle $R$ if ther
 \end{proof}
 
 
-
+\section{Basic Properties of an Oracle}
 
 We establish some basic facts of oracles which we will find useful throughout. 
 
@@ -759,9 +645,7 @@ As this was for any $\varepsilon >0$, we can use the above statements to conclud
 \end{proof}
 
 
-\subsection{Exploring Equivalence Between Oracles, Cut Relations, and Exclusion Relations}
-
-!Major changes needed 
+\subsection{Two Point Separation}
 
 The Consistency, Existence, and Closed Properties are basically background properties, mostly flowing from the definition of the particular oracle. Both Consistency and Closed are often explicitly added in, thus ensuring the uniqueness of the oracle via maximality. Consistency is relatively trivial and mostly uninteresting, but the Closed property is, in many ways, at the heart of the promise and difficulties of real numbers, in whatever way they are defined. 
 
@@ -830,8 +714,6 @@ We first establish that $R$ is an oracle. It is a rule that for every rational i
 \end{itemize}
 
 The other part to establish is that $R$ is the root of $\bar{R}$. To establish this, we need to have that $R$ is in every $\bar{R}$-Yes interval. So let $[\alpha, \beta]$ be an $\bar{R}$-Yes interval. We need to find an $R$-Yes interval that is included in that interval. We can apply the bisection algorithm to either construct an $\bar{R}$-Yes interval that is contained in there or either $\alpha$ or $\beta$ is a root. If it is the latter, then we are done since $R$ will be that root as well given that the upper and lower endpoints of the singleton interval will lead to the upper and lower endpoints of $R$-Yes intervals being the root's Yes-intervals. Otherwise, we have a strictly smaller interval, say $[\gamma, \kappa]$ and we can then find a lower endpoint of $\gamma$-Yes and an upper endpoint of $\kappa$-Yes which is strictly above $\alpha$ and below $\beta$, respectively. Thus, that interval is in the $[\alpha, \beta]$ interval and so $R$ is as well. Since the interval was an arbitrary Yes interval, we have established our claim. 
-
-
 
 
 \section{Examples}
@@ -1023,351 +905,39 @@ For our final example of using oracles with solving equations, we will explore a
 
 For this, we will assume that we know how to take derivatives of functions of oracles and the usual results hold. This is explored in \cite{taylor23funora}; one can also reference \cite{bridger} for a nice leisurely exploration of calculus with interval-based real numbers. 
 
-We will also assume we can do arithmetic of oracles. We will talk about that shortly, but basically, we do it on ever smaller Yes interval representatives and it all works as one would expect. 
+We will also assume we can do arithmetic of oracles. We will talk about that shortly, but basically, we do it on small Yes interval representatives and it all works as one would expect. 
 
 Given that setup, a simplified version of Kantorovich's theorem (simplified from \cite{hubbard}, p. 242) states the following:
-Assume $f$ is defined and differentiable on some interval $I$.  If $x_0\in I$ has the property that $f'(x_0)$ exists and is non-zero, then define $h_0 = -\frac{f(x_0)}{f'(x_0)}$. Define $x_1 = x_0 + h_0$ and $I_1 = [x_1-|h_0|, x_1 + |h_0|]$. If $I_1$ has the property that $d(f'(x), f'(y)) \leq M d(x, y)$ for all $x, y \in I_1$ and $\frac{M|f(x_0)|}{f'(x_0)^2} \leq \frac{1}{2}$, then $I_1$ contains a unique solution to $f(x) = 0$ which can be obtained using Newton's method. If the inequality is strict, then we get superconvergence.\footnote{See \cite{hubbard}, p.253 where the essential conclusion is that the size of $h$ shrinks by $(1/2)^{2m}$ where $m$ is the number of steps since the threshold was met for being in the superconvergence region.} 
+Assume $f$ is defined and differentiable on some interval $I$.  If $x_0\in I$ has the property that $f'(x_0)$ exists and is non-zero, then define $h_0 = -\frac{f(x_0)}{f'(x_0)}$. Define $x_1 = x_0 + h_0$ and $I_1 = [x_1-|h_0|, x_1 + |h_0|]$. If $I_1$ has the property that $d(f'(x), f'(y)) \leq M d(x, y)$ for all $x, y \in I_1$ and we have $\frac{M|f(x_0)|}{f'(x_0)^2} \leq \frac{1}{2}$, then $I_1$ contains a unique solution to $f(x) = 0$ which can be obtained using Newton's method. If the inequality is strict, then we get superconvergence\footnote{See \cite{hubbard}, p.253 where the essential conclusion is that the size of $h$ shrinks by $(1/2)^{2m}$ where $m$ is is the number of steps since the threshold was met for being in the superconvergence region.} 
 
-We'll just accept this as applying and see how it applies to oracles. We can generate a fonsi, which we cover in the next section, by applying this method to generate intervals $I_n$ by taking $x_{n-1}$ in the role of $x_0$ as above and generating $h_{n-1}, x_n, I_n$. Each $I_n$ is contained in the previous one and its length is shrinking. Thus, it defines a fonsi and hence an oracle. That is a procedure which is just barely dressed up beyond that of viewing this as generating a Cauchy sequence, which we will also discuss extracting an oracle from. 
+We'll just accept this as applying and see how it applies to oracles. We can generate a fonsi, which we cover in the next section, by applying this method to generate intervals $I_n$ by taking $x_{n-1}$ in the role of $x_0$ as above and generating $h_{n-1}, x_n, I_n$. Each $I_n$ is contained in the previous one and its length is shrinking. Thus, it defines a fonsi and hence an oracle. That is a procedure which is just barely dressed up beyond that of viewing this as generating a Cauchy sequence, which we also discuss extracting an oracle from. 
 
 An alternative approach is to assume that the condition at $x_0$ holds more generally throughout $I_1$.\footnote{$M$ can be thought roughly as a bound on the second derivative. If we can bound the first derivative away from 0 in a region (linear zero), then we are left with needing $f$ to be small in the interval. Since $f$ is near a zero, this assumption is then reasonable and we should be able to get to a point where this holds.} This would imply that we can choose any point in $I_1$ and get a Yes interval via Newton's method. Thus, given a Yes interval, a partition point, and a width, we can start Newton's method at the partition point and then iterate until the length of the generated $h$ is small enough, say, a fourth of $\delta$. Once it has reached this state, either the interval is entirely in the halo or entirely on one side of the partition. Either way, we can produce the Yes/No intervals required with no conflicts due to the uniqueness of the root. There are explicit computations that can be done to say when the generated $h$ will be small enough. 
 
-We fill this rule out into an oracle by using Consistency to define the larger intervals outside of $I_1$, using their intersection with intervals in $I_1$ to determine the Yes or No-ness. Existence is obvious given $I_1$ and we discussed Separation already. That leaves the Closed property. For $c_\delta$ to always be a Yes interval, this implies there are arbitrarily small neighborhoods around $c$ all containing a zero of the function. We have that $f$ can be taken as close to zero as we please by restricting to a small interval about $c$ which implies, as $f$ is continuous, that $f(c) = 0$ which implies $R(c:c)=0$. We can reverse this continuity logic if we know $f(a) \neq 0$. Then eventually a Newton's sequence will generate a neighboorhood disjoint from $a$. 
+We fill this rule out into an oracle by using Consistency to define the larger intervals outside of $I_1$, using their intersection with intervals in $I_1$ to determine the Yes or No-ness. Existence is obvious given $I_1$ and we discusses Separation already. That leaves the Closed property. For $c_\delta$ to always be a Yes interval, this implies there are arbitrarily small neighborhoods around $c$ all containing a zero of the function. We have that $f$ is arbitrarily bounded in the small around $c$ which implies, as $f$ is continuous, that $f(c) = 0$ which implies $R(c:c)=0$. We can reverse this continuity logic if we know $f(a) \neq 0$. Then eventually a Newton's sequence will generate a neighboorhood disjoint from $a$. 
 
 
 
 \subsubsection{Reflections on Solving Equations}
 
-Notice that in these methods, we are providing a framework for producing intervals that are as fine as we want and that contain the solution of these equations. There is no claim of having a sequence of values or producing a string of decimal digits. Instead, we claim that we start with an interval in which the solution is known to be in there and then we have a way of refining that interval to be as small as we like. 
+Notice that in these methods, we are providing a framework for producing as fine as we want intervals containing the solution of these equations. There is no claim of having a sequence of values or producing a string of decimal digits. Instead, we claim that we start with an interval in which the solution is known to be in there and then we have a way of refining that interval to be as small as we like. 
 
 One of the crucial aspects of this is the fact that the user of the real number specifies some error tolerance in the use of the Separating property. 
 
-\subsection{Three Specific Examples in Detail}
+\subsection{Family of Overlapping, Notionally Shrinking Intervals} \label{sec:ni}
 
+A common way of defining a real number is through some specification of intervals whose length is shrinking to 0. This is often in the guise of some core estimate along with some error bounds. We will establish that this is an oracle. 
 
-We now pause and give some explicit computations for computing out the three most widely known irrational numbers: $\pi$, $e$, and $\sqrt{2}$. The hope is to demonstrate how this framework interfaces with getting explicit bounds. The notion of a fonsi is very helpful here. 
 
-\subsubsection{Circles, \texorpdfstring{$\pi$}{pi}, and Sums}
-
-There are, of course, many ways of computing $\pi$, but here we will start with the classic approach of circumscribed and inscribed polygons and then separately proceed into the Bailey-Borwein-Plouffe formula which is entirely rational in the approximations. 
-
-The classic approach from Archimedes is to enclose the unit circle with a circumscribed regular polygon and sandwich that with an inscribed regular polygon. This gives us an upper and a lower bound for both the semi-perimeter and area, both of which equal $\pi$. 
-
-A nice discussion of this can be found at Math Scholar\footnote{\url{https://mathscholar.org/2019/02/simple-proofs-archimedes-calculation-of-pi/}} by David H. Bailey. They start with regular hexagons and determine that the circumscribed semi-perimeter is $A_1 = 2 \sqrt{3}$ and the inscribed semi-perimeter is $B_1 = 3$. They then double the number of sides and compute again. They repeatedly do this to compute the recurrence relations $A_{k+1} = \dfrac{2A_k B_k}{A_k + B_k}$ and $B_{k+1} = \sqrt{A_{k+1}B_k}$. Notice that there is a square root involved in this computation. We have defined the oracles of square roots so that we can proceed, but this now requires oracle arithmetic, which we have not yet done and shall overlook for the moment.  
-
-It is straightforward to see $A_{k+1} < A_k$, $B_{k+1} > B_k$, and that $A_k > B_k$.\footnote{Start with the observation that $A_1 > B_1 > 1$. Assume $A_k > B_k > 1$. Then $2 A_k  > A_k + B_k$. This implies that $M_k = \frac{2A_k}{A_k + B_k}>1$ as is its square root. This leads to both $B_{k+1} =  \sqrt{A_{k+1} B_k} = \sqrt{M_k} B_k > B_k > 1$  and $A_{k+1} = M_k B_k > \sqrt{M_k} B_k = B_{k+1}$.  For $A_{k+1} < A_k$, this follows from $2A_k B_k < A_k^2 + A_kB_k$ which follows from $A_k > B_k$.} The post further shows that $0 < A_k - B_k \leq \dfrac{128}{9*4^k} = p_k $. This is a sequence of nested intervals whose lengths are going to 0. Thus, the set of $A_k:B_k$ forms a fonsi and therefore yields an oracle. 
-
-The post also establishes that it is indeed $\pi$ that is being approximated with these intervals.
-
-This approach is basically fine except for the square root formula. It adds in extra complications in terms of interval arithmetic which would be nice to avoid if possible. 
-
-Many of the approaches to computing $\pi$ do use square roots. But there are some that are able to avoid it. One such example is from the paper by Bailey, Borwein, and Plouffe \cite{BBP}, in which they give the formula 
-
-\[ 
-\pi = \sum_{i=0}^\infty \frac{1}{16^i} \bigg( \frac{4}{8i+1} - \frac{2}{8i+4} - \frac{1}{8i+5} - \frac{1}{8i+6} \bigg)
-\]
-
-
-To apply our fonsi results, we need to show that that the sum is absolutely convergent. We can get an overestimate by replacing the parenthetical portion with 1 for estimating the remainder since the parenthetical will always be strictly between 1 and 0. Then the sum becomes a geometric sum leading to $p_n = \frac{1}{15*16^n}$ for the partial sum up to $n$. By absolute convergence as established earlier, this is a fonsi and thus leads to an oracle.  
-
-This is a thoroughly rational formula for estimating $\pi$.
-
-\subsubsection{Products, \texorpdfstring{$e$}{e}, and Sums}\label{sec:e}
-
-We define the Oracle of $e$ as follows. 
-
-Let $S_N = \sum_{i=0}^N \frac{1}{i!}$. Notice that since we are adding positive terms as $N$ increases, we have $S_N < S_{N+1}$. 
-
-We also can compute $S_M - S_N$ for $M - N = k > 0$ and see that we have $\sum_{i=N+1}^M \frac{1}{i!} <  \sum_{j=0}^k  \frac{1}{(N+1)!(N+1)^j} $ where we have replaced factors of $N+1 + j$ with $N+1$, making the sum larger due to making the denominators smaller. We factor out the factorial and then compute the remaining sum as a geometric sum, leading to $S_M - S_N < \frac{1}{N!} \frac{1}{N+1} [\frac{N+1}{N} (1 - \frac{1}{(N+1)^{k+1}} )] < \frac{1}{N! N}$.
-
-We define $p_n = \frac{1}{n!n}$. We established that $S_n < S_m < S_n + p_n$ for $m> n$. We can also clearly find $n$ such that $p_n$ is less than a given positive length. So we have a fonsi and an oracle. 
-
-That was the standard sum approach to $e$. We can also look at another standard approach, that being $(1+\frac{1}{n})^n$. The typical path is to look at the limit as $n\to \infty$ and either use some differential / logarithmic calculus arguments or argue that it is an increasing sequence, bounded above, and therefore must have a limit value. Some approaches also compare this to the sum above, e.g., Rudin\cite{rudin}, page 64. 
-
-That approach is fine with oracles, but not illuminating. Our viewpoint is that we want converging intervals. The expression $a_n = (1+\frac{1}{n})^n$ is a lower bound for $e$. We need an upper bound. A convenient upper bound is to add an extra factor: $b_n = (1+\frac{1}{n})^{n+1}$ will be greater than $e$. 
-
-To establish this as an oracle, we again use the notion of a fonsi. We are done if we can show these are nested intervals whose lengths are shrinking to 0. It is immediate that $a_n < b_n$. The method we cite shows complete nesting: $a_n < a_{n+1} < b_{n+1} < b_n$. By extension, we then have $a_n < a_m < b_m < b_n$ for all $m > n$. The method is from Mendelsohn \cite{mend} which uses the Arithmetic-Geometric Mean Inequality on the two collections of numbers: $\{1, (1+ \frac{1}{n})_{,n} \}$ and $\{1, (\frac{n+1}{n})_{,(n+1)}\}$.\footnote{We use the notation $(a)_{,k}$ to indicate a quantity $a$ being included in the collection $k$ times.} We include the details of the argument in Appendix \ref{app:e}.  Another presentation, and the origin of finding the reference, can be found at the Mathematics Stack Exchange.\footnote{ \url{https://math.stackexchange.com/questions/389793/}}
-
-We still need to show that the lengths shrink to 0. To do this, we look at the difference: $b_n - a_n = (1+\tfrac{1}{n})*a_n - a_n = \tfrac{a_n}{n}$. Because $a_n < b_n < b_1=2^2 = 4$, we have a simple bound of $\tfrac{4}{n}$ which can be made as small as we like. Thus, we have a fonsi and an oracle. 
-
-It is useful to point out that our viewpoint leads us to find useful bounds so that we can know how accurate it is and what kind of convergence we can expect as well. For the compound interest formulation, we have an error on the order of $\frac{1}{n}$ while the Taylor-based approximation is on the order of $\frac{1}{n! n}$. It brings to the forefront explicit information that practical applications can use. As we shall explore, arithmetic with oracles is based on interval arithmetic and being able to have such explicit bounds allows us not only to compute what the resulting interval lengths will be, but also to figure out what value of $n$ to use to get a certain level of final precision. 
-
-We now have two oracles claiming to be the same and we would like to establish their equality. We will be done if we can establish overlaps between the intervals. It is clearer if we lay it out in steps. We will use the labels from above. 
-\begin{enumerate}
-    \item $a_n < S_n$ for all $n$. This follows from the binomial theorem. See Appendix \ref{app:e}, Lemma \ref{lem:ansn}. If $n < m$, then $a_n < S_n < S_m$.
-    \item Given $n$, there exists $m$ such that $S_n < a_m$. This is trickier. See Appendix \ref{app:e}, Lemma \ref{lem:snam}. 
-    \item $S_n < b_m$ for all $m$ and $n$. This follows from $S_n < a_p$ for some $p$ and that $a_p < b_m$ for all $m$.
-    \item $S_n < S_m < S_n + p_n$ for $m > n$. That was established above. 
-    \item Given $a_n < b_n$ and $S_m < S_m + p_m$, they overlap. This follows from two cases. If $a_n \leq S_m$, then since we always have $S_m < b_n$, we have $a_n : S_m : b_n$. The other case is that $S_m < a_n$. In this case, $m < n$ and we have $S_m < a_n < S_n < S_m + p_m$. 
-    \item Since the intervals of both fonsis always overlap, we can use Proposition \ref{pr:fonsi-inter} to conclude that they are the same oracles. 
-\end{enumerate}
-
-For our final exploration of $e$, we would like to show that it is not a singleton, i.e, not a rational number. Given any rational of the form $\frac{r}{q}$, we claim that $\frac{r}{q}$ is not in $S_q : S_q + p_q$. If we show this, then if we have established that $e$ is a neighborly oracle. Our approach will be to proceed by contradiction, that is, we will assume that the rational is in that interval:  $S_q < \tfrac{r}{q} <  S_q + p_q = S_q + \frac{1}{q!q}$. We subtract off $S_q$ and obtain $0 < \tfrac{r}{q} - S_q < \tfrac{1}{q! q}$. If we multiply by $q! q$, we have $0 < q! r - q!S_q < 1$.  The expression $q! S_q$ is an integer since $q!$ will cancel all the denominators in that sum. But then we have the difference of two integers being strictly between 0 and 1. Since this cannot happen, we cannot have $\tfrac{r}{q}$ in the interval $S_q : S_q + \frac{1}{q! q}$. This establishes that the oracle is not a singleton with denominator $q$. Since $q$ was arbitrary, it cannot be a singleton for any rational. 
-
-It is instructive to compare this to Rudin's proof of $e$ being irrational. It is the same, except Rudin only concludes that $e$ is not rational. What we have naturally drawn out of that same work is that there can be no rational with denominator $q$ in the approximation intervals contained in $S_q$'s interval. That is, we have an explicit marker after which we know the denominators in the interval must be larger than $q$. 
-
-\subsubsection{Explicitly Computing Roots}
-
-Section \ref{sec:roots} shows the existence of $n$-th roots, but it does not give a great way of finding an $n$-th root. 
-
-We will give a common algorithm for computing these roots. It is equivalent to Newton's method, but that need not concern us here. What we produce here is a fonsi which therefore produces an oracle. By construction, they are Yes intervals of the $n$-th root of $q$ and so the fonsi yields the same oracle. 
-
-We want to find the $n$-th root of $q$. This starts by realizing that given any positive rational $x$, we have $x:\dfrac{q}{x^{n-1}}$ is a $\sqrt[n]{q}$-Yes interval.
-
-Our argument for that starts with the observation that $x^{n-1}*\dfrac{q}{x^{n-1}} = q$. Let $r$ represent the root, which exists as an oracle. For what follows, we will assume the usual rules hold for oracle arithmetic; we will cover them later. We have either $x^n < q$, $x^n = q$, or $x^n > q$ as the three possible cases. If we have equality, then $x$ is the solution and the interval above is a singleton as the root partner becomes itself when $x$ is the root, i.e, $x= \frac{q}{x^{n-1}}$ exactly when $x^n  =q$. 
-
-Let us assume that $x^n < q$. We have that $x:\frac{q}{x^{n-1}}$ is a Yes interval as long as $(\frac{q}{x^{n-1}})^n \geq q$. So let us show that we have a contradiction if is is less than $q$. If it is lesser, then by Lemma \ref{app:lesser}, we have there exists an $s$ such that $\frac{q}{x^{n-1}} < s$ and $s^n < q$. By the same lemma, there is $t$ such that $x <t$ and $t^n < q$. Let $m = \max(s, t)$. Note $m^n < q$. From $x < m$, we have $x^{n-1} <m^{n-1}$. We also have $\frac{q}{x^{n-1}} < m$. Therefore, $q = x^{n-1} \frac{q}{x^{n-1}} < m^n < q$. This is a contradiction and we therefore must have $(\frac{q}{x^{n-1}})^n \geq q$ as we wanted to establish. 
-
-Using Lemma \ref{app:greater}, we can make a similar argument that if $x^n > q$, then we must have $(\frac{q}{x^{n-1}})^n \leq q$. 
-
-Having exhausted our cases, we have that $x:\dfrac{q}{x^{n-1}}$ is a $\sqrt[n]{q}$-Yes interval.
-
-Since $a<b$ implies $\frac{q}{b^{n-1}} < \frac{q}{a^{n-1}}$, we can choose any rational $b$ such that $a^n:b^n:q$ and have that $b:\frac{q}{b^{n-1}}$ will be contained in the interval $a:\frac{q}{a^{n-1}}$. There does not seem a natural strategy to employ in selecting $b$ as, for example, bisection need not lead to a $b$ that meets that criteria. In fact, the issue is that the guess's partner is, when near the $n$-th root, farther away from the $n$-th root. Doing this partnering on the partner, it tends to get even farther away. The exception is for $n=2$ whose partner's partner is the original guess. 
-
-Newton's method suggests a particular selection, namely, that we compute the weighted average of the guess and its partner, weighting the guess $n-1$ times in that average. Specifically, $\frac{1}{n} \big( (n-1) x + \frac{q}{x^{n-1}} \big)$. This will have a quadratic convergence once it gets close enough to the root.
-
-For the square root, $n=2$, the formula becomes a simple averaging of the guess and its partner, the same as bisecting the interval.  
-
-To begin the iteration, it is useful to first get close by considering a power of 10. For example, to compute the square root of $52400$, we can view that roughly as $5*10^4$ leading to a guess of $200$. The first interval would then be $200: \frac{52400}{200} = 262$ with the next guess being the average $231$ whose complement $\frac{52400}{231}$ is about $226$. It could iterate quite quickly from there. Note that one can be rather loose with the bounds as long as one is careful to round away from the partner.  
-
-There are error estimates for this method which can help suggest how many iterations are necessary as well as establish this as a fonsi. We should also note that the interval itself generated by this method is an error estimate. Since the convergence is quadratic, we can roughly get a sense of the number of iterations required once the interval length drops below one-tenth at which point we start doubling the decimal precision at every iteration.  
-
-
-\subsection{Least Upper Bound}\label{sec:lub}
-
-We are given a non-empty set of rationals $E$ with an upper bound $M$, meaning that if $x \in E$ then $x$ has the property $x < M$. Let $U$ be the collection of rational upper bounds of $E$, namely, for rational $y$, $y \in U$ if and only if $y \geq x$ for every $x$ in $E$.  Thus, $M \in U$. Our task will be to establish and find the smallest oracle which is an upper bound of $E$.
-
-We say that $q$ is bounded above by $E$ if there exists $x \in E$ such that $q \leq x$.
-
-In order for us to establish the existence of a least upper bound, we need to define what our capabilities are. Our starting point is that $x:M$ will be a Yes interval. To make it smaller, we need to be able to determine information about rational numbers $x:c:M$ in relation to $E$ and $U$. Our Capability assumption will be that given a rational number $q$, and a $\delta > 0$, we assume that we can find rational numbers $e,f$  such that $q-\delta:e:q:f:q+\delta$ with definite results about $e,f$ in relation to $E$ and $U$. In particular, we assume that we can answer the question about $e$ and $f$, separately though consistently, as to whether they are bounded above by $E$ or are upper bounds of $E$.\footnote{This is almost the same as assuming the Separating property. But one should think about the scenario where the Capability assumption is not true. That is, there is an interval $a:b$ in which all the rational numbers have unknowable relation to $E$. This would make it possible that any of them are the least upper bound. While a least upper bound could be said to exist theoretically, without increased capability, we would not be able to approximate closer than $a:b$.} 
-
-An example to keep in mind is that of trying to find the least upper bound of the set of $x$ such that $\sin(x \pi)$ is negative and $x$ is between 1 and 3. The least upper bound is 2, of course, but let's imagine that we did not know what the function was, just that we have its Taylor series. If we tested 2 itself, the error bars on the series could never establish the result one way or another. But we can find nearby $x$ values below 2 that we can definitively establish the function value to be negative and other nearby $x$ values above 2 that we can definitively establish the function value to be positive. This kind of practical considerations is what we are aiming to account for. 
-
-We define the least upper bound of $E$ to be the rule such that $a\lte b$ is a Yes interval if and only if either $a$ is bounded above by $E$ and $b$ is an upper bound of $E$ or $a=b$ with $a$ not above any upper bounds of $E$ nor below any element of $E$. This is also known as the supremum of $E$ which we may denote by $\mathrm{sup} E$. The condition is also equivalent to $a \leq y$ for all $y \in U$ and $b \geq x$ for all $x \in E$.
-
-Let us show that this is, indeed, an oracle. 
-
-\begin{enumerate}
-    \item Existence. By assumption, there is an $x \in E$ and an upper bound $M$ in $U$. Thus, $R(x:M) = 1$. 
-    \item Separating. Let $R(a\lt b)=1$, $a < c< b$, and the width $\delta > 0$ be given. 
-
-    Let $e$, $f$ be the definite rational numbers in $c_\delta$ existing by our Capability assumption. 
-
-    If $f$, is bounded above by $E$, then so is $c$ and $e$. Thus, $f:b$ is a Yes interval while $a:f$, and all the subintervals, are No intervals. 
-
-    If $e$ is an upper bound of $E$, then so is $c$ and $f$. Thus, $a:e$ is a Yes interval wile $e:b$, and all its subintervals, are No intervals. 
-
-    The only other case has $e$ bounded above by $E$ and $f$ is an upper bound of $E$. This implies $e:f$ is a Yes interval while $a:e$ and $f:b$ are No intervals. 
-
-    We have established what we needed to show for the Separating property. 
-    
-    \item Consistency. Let $c\lte d$ contain $a\lte b$. 
-    
-    If $a : b$ is a Yes interval, then $c \leq a \leq y$ for all $y$ in $U$ and $d \geq b \geq x$ for all $x$ in $E$. Thus, $c : d$ is Yes interval.
-
-    If $c:d$ is a No interval, then either $c$ is above all the elements of $E$ or $d$ is equal to or less than some element in $E$. If the former, then $a$ has the same property. If the latter, $b$ has the same property. In either event, $a:b$ is a No interval. 
-
-    
-    \item Closed. If $c_\delta$ is a Yes interval for all $\delta > 0$, then $c-\delta$ is bounded above by $E$ and $c+\delta$ is an upper bound of $E$. This means there can be no upper bound below $c$ and no element of $E$ above $c$.  Thus, $c:c$ is a Yes interval by definition. 
-
-    If $a:a$ is No, then either there exists an element of $E$ above $a$ or an upper bound below $a$; let $q$ be this number. Let $\delta = |q-a|/2$. Then $a_\delta$ is a No interval since all elements of that sit in the same relation to $q$ as $a$.
-    \end{enumerate}
-
-We also need to establish that $\sup E$ satisfies $a \leq \sup E \leq b$ for all $a \in E$ and all $b \in U$. For any given $a \in E$ and $b \in U$, we have that $a:b$ is a $\sup E$ interval by the oracle definition of $\sup E$. Thus, we have that $a \leq \sup E \leq b$ by Proposition \ref{pr:yes-trap}. 
-
-If the non-empty set $E$ is bounded below by $K$, then we can define the set $L$ of lower bounds of $E$, namely, $z \in L$ if $z < x$ for all $x$ in $E$. Then the greatest lower bound (glb), denoted by $\mathrm{inf} E$, is the least upper bound of $L$ which exists since $L$ is bounded above by elements of $E$ which is assumed to be non-empty. We also need to assume  a similar Capability assumption. 
-
-We have defined the lub and glb in terms of sets of rationals. We can extend this to sets of oracles. Assume we are given a nonempty set $F$ of oracles bounded above, i.e., each oracle in $F$ is less than some given oracle $M$. Let $E$ be the set of lower endpoints of all the Yes intervals of all the oracles in $F$. $E$ is bounded above by an upper endpoint of an $M$-Yes interval. So $\sup E$ exists if we also assume the Capability assumption holds which can be stated directly for the oracles. Immediately, we have that $\sup E \geq r$ for all $r \in F$ since it is greater than all of the lower endpoints of the Yes intervals of the oracles in $F$.\footnote{If $\sup E < r$ for some $r \in F$, then there would exist $\sup E$-Yes interval $a \lte b$ and $r$-Yes interval $c\lte d$ such that $a:b < c:d$. This would imply that $b < c$, but all of the upper endpoints of $\sup E$ need to be upper bounds of the rationals in $E$ which $c$ is a part of. This is a contradiction. Thus, there is no such $r$.}
-
-The harder case is to show that $\sup E \leq \alpha$ for all upper bounds $\alpha$ of $F$. Let $\alpha < \sup E$ implying there is an $\alpha$-Yes interval $a\lte b$ and a $\sup E$-Yes interval $c\lte d$ such that $a:b < c:d$. If $\alpha$ was an upper bound of $F$, then $b$ would be an upper bound of all the rationals in $E$. But that would imply that it is an upper bound of $E$. Since $b$ is less than $c$, we would have $c$ is an upper bound. But the oracle $\sup E$ has the property that the lower endpoints of its neighborly Yes-intervals are not upper bounds of $E$. Thus, we have a contradiction and $\sup E$ is indeed the least upper bound of $F$.
-
-We have established
-
-\begin{theorem}\label{th:lub}
-Any set $F$ of oracles bounded from above has a least upper bound if it is always possible to find, for a given $\alpha$ and a $\delta > 0$, oracles $\beta$ and $\gamma$ in $\alpha_\delta$ such that $\beta$ and $\gamma$ can be determined, separately but consistently, to be either bounded above by $F$ or is an upper bound of $F$. 
-\end{theorem}
-
-An alternate approach is to say that $a:b$ is a Yes interval if $a$ is a lower endpoint of a Yes interval of an oracle in $F$ and $b$ is an upper endpoint of a Yes interval of an oracle which is an upper bound of $F$. This may be closer in spirit to the oracle notion than the above treatment. We do so in Appendix \ref{app:sup}. 
-
-
-
-\subsubsection{The Distance Function}
-
-We can now define the distance between two oracles. We could also do this using oracle arithmetic, but the distance is both useful and instructive to do at this stage. 
-
-Given two oracles $\alpha$ and $\beta$, we define the distance set, $D_{\alpha,\beta}$ to be the set of rational values generated by looking at each pairing of $\alpha$-Yes intervals with $\beta$-Yes intervals, say  $a:b$ and $c:d$, respectively, and computing the interval distance by $d(a:b,c:d) = \mathrm{max}(|a-c|, |a-d|,|b-c|,|b-d|)$. The \textbf{distance between $\alpha$ and $\beta$, denoted by $d(\alpha,\beta)$,} is then defined to be the greatest lower bound of $D_{\alpha,\beta}$, which is bounded below by 0. 
-
-We do need to establish that the Capability assumption holds. Let $q$ and $\delta > 0$ be given. Let $a\lte b$ and $c \lte d$ be Yes intervals of $\alpha$ and $\beta$ whose lengths are less than $\frac{\delta}{3}$; we can do this by the bisection approximation. Then $n = d(a:b, c:d)$ is an upper bound of $D_{\alpha,\beta}$ while $m = d(a:b, c:d) - \frac{2 \delta}{3}$ is a lower bound for $D_{\alpha,\beta}$. Thus, if $q \in m:n$, we can use $m$ and $n$ for the desired points. If $q$ is not in $m:n$, then either $q:m:n$ in which case $q$ is a lower bound of the distance or $m:n:q$ in which case it is bounded below by an element of $D_{\alpha,\beta}$, namely, $n$. Thus, the Capability assumption is satisfied. 
-
-The setup has shown that $d(\alpha,\beta) \leq d(a:b, c:d)$ for any $\alpha$ and $\beta$ Yes intervals. We also have that the interval distance function has the property that $d(e:f, c:d) \leq d(a:b, c:d)$ for the situation where $a:b$ contains $e:f$ since $e, f$ will be closer than the farther of $a,b$ to $c,d$. For example, if $a < e < f < b < c< d$, then $d(e:f, c:d) = d-e < d-a = d(a:b, c:d)$. 
-
-If $\alpha<\beta$, then for sufficiently narrow $\alpha$ ($a\lte b)$ and $s$ ($c\lte d$) Yes intervals, we have $a\leq b<c \leq d$ so that $d(a:b,c:d) = d-a$ and $D_{\alpha,\beta}$ will be bounded below by $c-b$. That is, $(d-a):(c-b)$ is a Yes interval for $d(\alpha,\beta)$.
-
-The distance function is always non-negative. If $\alpha=\beta$, $d(\alpha,\beta)=0$ as we can choose $a<b$ as the same interval for both and compute $d(a:b,a:b)= b-a$. Since these are the same oracle, $a\lte b$ can be chosen such that $b-a$ can be as small as we like via the bisection approximation (Proposition \ref{pr:short}) and hence the greatest lower bound is 0. 
-
-The distance function also satisfies $d(\alpha,t) = d(\alpha,\beta) + d(\beta, \gamma)$ whenever $\alpha < \beta < \gamma$. Indeed, let $a\lte b\lte c\lte d\lte e\lte f$ with $a\lte b$ being an $\alpha$-Yes interval, $c\lte d$ an $\beta$-Yes interval, and $e\lte f$ a $\gamma$-Yes interval. Then we have: 
-\begin{enumerate}
-\item $c-b \leq d(\alpha,\beta) \leq d-a$
-\item $e-d \leq d(\beta, \gamma) \leq f-c$
-\item $e-b \leq d(\alpha,\gamma) \leq f-a$
-\item Adding the first two, we have $c-b + e-d \leq d(\alpha,\beta) + d(\beta, \gamma) \leq d-a + f-c$.
-\item Rearranging, we have $e-b + (c-d) \leq d(\alpha,\beta) + d(\beta, \gamma) \leq f-a + (d-c)$.
-\end{enumerate}
-We have not yet covered arithmetic, but narrowing on interval addition is how we define adding oracles. What we have shown here is that the interval $(e-b + (c-d)): (f-a + (d-c)$ is a $[d(\alpha,\beta) + d(\beta, \gamma)]$-Yes interval. Since $c-d$ is negative and $d-c$ is positive, the $d(\alpha,\gamma)$-Yes interval $(e-b):(f-a)$ is contained in it. Since we can narrow the intervals arbitrarily,\footnote{Let $f = e + \delta_1$ and $b = a + \delta_2$. Then $f-a = e-b + \delta_1 + \delta_2$. We can take $\delta_1$ and $\delta_2$ as small as we like by the Bisection Approximation.} by Proposition \ref{pr:fonsi-inter}, we know their oracles are the same. 
-
-From this, we also get the triangle inequality. For any oracles $\alpha, \beta, \gamma$, we have $d(\alpha,t) \leq d(\alpha,\beta) + d(\beta, \gamma)$.  To argue for this, if $\beta = \alpha$ or $\beta=\gamma$, then we have equality. If $\alpha=\gamma$, then we have $0 \leq 2 d(\alpha,\beta)$ which is true. We can assume, without loss of generality, that $\alpha < \gamma$. We then have three cases: $\alpha< \beta< \gamma$, $\beta < \alpha < \gamma$, and $\alpha< \gamma  < \beta$. If $\alpha < \beta< \gamma$, then we have equality as above. If $\beta < \alpha < \gamma$, then $d(\beta, \gamma) = d(\beta,\alpha) + d(\alpha,\gamma)$ as above and thus $d(\alpha,\gamma) = d(\beta, \gamma) - d(\beta,\alpha) < d(\beta, \gamma) + d(\beta,\alpha)$. The same can be said for $\alpha < \gamma < s$. Indeed,  we have $d(\beta,\alpha) = d(\alpha,\gamma) + d(\gamma,\beta)$ which leads to $d(\alpha,\gamma) \leq d(\beta, \gamma) + d(s,\alpha)$.
-
-\subsubsection{The Cut Property}
-
-Another completeness property that is closely related to the least upper bound property but is a bit more symmetrically defined, is the Cut property. 
-
-\begin{theorem}\label{th:cut}
-    Let $A$ and $B$ be two disjoint, nonempty sets of oracles such that $A \cup B$ is the entire set of oracles.  Additionally, all oracles in $A$ are strictly less than all oracles in $B$. Then there exists an oracle $\kappa$ such that for all $x < \kappa$ we have $x \in A$ and, for all $x > \kappa$, we have $x \in B$.
-\end{theorem}
-
-James Propp uses the Cut property in \cite{propp} to establish whether various cherished theorems in real analysis are equivalent to the completeness properties or not. It is a worthwhile read. 
-
-\begin{proof}
-    We need to define the oracle $\kappa$. The rule $R$ will be such that $a \lt b$ is a Yes interval exactly when $a\in A$ and $b \in B$. Additionally, $k:k$ is a Yes singleton exactly when $k$ is not less than any element of $A$ and not more than any element of $B$. 
-
-    We need to show that $\kappa$ is an oracle and satisfies the desired property. Let us show that the desired property holds first. 
-
-    The main implication of the relation of $A \cup B$ is that if $x < y$ and $y \in A$, then $x \in A$. Similarly, if $x \in B$, then $y \in B$. The proof of this is simply that because of the union being the whole set of oracles, each of $x$ and $y$ has to be in $A$ or $B$ and cannot be in both. Furthermore, if $y \in A$ and $x \in B$, but $x < y$, then we do not have the property holding that all oracles in $A$ are strictly less than all oracles in $B$. Thus, if we know that $y \in A$, then $x \in A$. And if we know that $x \in B$, then $y \in B$.
-
-    As a result of that implication, for any $\alpha \in A$ and $\beta \in B$ with $a:b$ an $\alpha$-Yes interval and $c:d$ a $\beta$-Yes interval, then $a:d$ is a Yes interval of $\kappa$ because $a \leq \alpha$ and $\beta \leq d$ implying $a \in A$ and $d \in B$. 
-
-    Let $ x < \kappa$. Then there exists $x$ Yes interval $u\lte v$ and $\kappa$ Yes interval $e\lte f$ such that $v < e$. That is what that inequality means. By definition, $e$ is a lower endpoint for a Yes interval for some element $\alpha \in A$; let's say that is the interval $e\lte g$. We clearly have $ u \lte v < e \lte g$ and thus $\alpha > x$. As $\alpha \in A$, we therefore have $x \in A$. 
-
-    If $x > \kappa$, we can do the same argument except reversing the inequalities leading to $\beta \in B$ which is less than $x$ implying $x \in B$.
-
-    As for $\kappa$ being an oracle, we do our usual going through of the properties: 
-    \begin{enumerate}
-        \item Existence. By the non-emptiness, there exists oracles $\alpha \in A$ and $\beta \in B$ with Yes intervals $a:b$ for $\alpha$ and $c:d$ for $\beta$. Thus, $a:d$ is a Yes interval for $\kappa$. 
-        \item Separating. Let $a\lte b$ be a Yes interval, $a:c:b$, and $\delta >0 $ given.  By assumption, $c$ is either in $A$ or $B$. 
-        
-        If $c \in A$, then we know $c-\delta$ is in $A$ and we can ask about $c+\delta$. If $c+\delta$ is in $A$, then we know that $a:c+\delta$, and all its subintervals, are No intervals as well as $c+\delta:b$ being a Yes interval. If $c+\delta$ is in $B$, then $c_\delta$ is a Yes interval with $a:c-\delta$ and $c+\delta:b$ being No intervals. 
-
-        Similarly, if $c$ is in $B$, then $c+\delta \in B$ and we can ask about $c-\delta$. If $c-\delta \in B$, then $a:c-\delta$ is Yes while $c-\delta:b$ and all its subintervals are No intervals. If $c-\delta \in A$, then $a:c-\delta$ is No as is $c+\delta:b$. The interval $c_\delta$, however, is a Yes interval. 
-        
-        \item Consistency. If $c:d$ contains $a:b$ and $a:b$ is a Yes interval, then there are oracles $\alpha \in A$ and $\beta \in B$ and $\alpha$-Yes interval $a \lte e$ and $\beta$-Yes interval $f \lte b$. Since $c:e$ contains $a:e$, $c:e$ is a Yes interval of $\alpha$ and, similarly, $f:d$ is a Yes interval of $\beta$. Thus, $c:d$ satisfies the property of this oracle for being a Yes interval. 
-
-        If $c:d$ is a No interval, then there exists an $x$ such that either $x < c:d$ and $x \in B$ or $c:d < x$ and $x\in A$. In either case, $a:b$, being a subinterval of $c:d$, will satisfy the same relation. 
-        \item Closed. Assume $c_\delta$ is a Yes interval for all $\delta > 0$. Then given any element $\alpha \in A$ not equal to $c$, let $l = \frac{d(\alpha, c)}{2}$. Since $c_l$ is a Yes interval, we have that $c+l \in B$ and thus $\alpha < c+l$. But since $\alpha \notin c_l$, we must have $\alpha < c$. Thus, $c$ is not less than any element of $A$. 
-        
-        Similarly, if $\beta \in B$ with $\beta \neq c$, then we let $l = \frac{d(\beta,c)}{2}$ so that $c_l$ is a Yes interval that excludes $\beta$. Since $c_l$ is a Yes interval, $c-l \in A$ and we have that $\beta > c$. Thus, $c$ is not more than any element of $B$.
-
-        By the definition of our rule, $c:c$ is a Yes singleton. 
-
-        For the other direction, assume $a:a$ is a No singleton. This means that there is an oracle $\gamma$  which either is greater than $a$ and in $A$ or less than $a$ and in $B$. Let $\delta = \frac{d(\gamma, a)}{2}$. Then $\gamma$ has the same relation to all of the elements of $a_\delta$ and thus it is also a No interval.  
-    \end{enumerate}
-    
-\end{proof}
-
-\begin{corollary}
-    If we have two sets of rationals, $A$ and $B$ such that $A \cup B = \mathbb{Q}$ and all of the rationals in $A$ are strictly less than all of the rationals in $B$, then there exists an oracle $\kappa$ such that for all $q < \kappa$ we have $q \in A$ and for all $q > \kappa$, we have $q \in B$.
-\end{corollary}
-
-We could prove this by using the above proof almost verbatim. In particular, the oracle is defined the same way. We will, instead, augment the sets to satisfy the hypothesis of the theorem.
-
-\begin{proof}
-    Define $\bar{A}$ as the set of all oracles such that an upper endpoint of a Yes interval of the oracle is in $A$. And define $\bar{B}$ as the set of all oracles such that a lower endpoint of a Yes interval is in $B$. 
-
-    Let $x \in \bar{A}$ and $y \in \bar{B}$. We need to establish that $x < y$. Let $c\lte a$ be an $x$-Yes interval such that $a \in A$ and $b\lte d$ be a $y$-Yes interval such that $b \in B$. These exist by definition of being in the sets. By the defining assumption of $A$ and $B$, we have $a < b$. This translates directly into their oracles having the same relation, that is, $x < y$. 
-
-    The other fact that we need to establish is that $\bar{A} \cup \bar{B}$. This is not actually generally true as it is possible to have an oracle which is excluded from these two sets. There is, however, just one of those and it is entirely greater than $A$ and less than $B$. In fact, it would be the $\kappa$ we are looking for. 
-
-    Let $\gamma$ be an oracle that is not in $\bar{A}$ and not in $\bar{B}$. Let $a\lte b$ be any $\gamma$-Yes interval. Since $\gamma$ is not in those sets, we have that $b \notin A$ and $a \notin B$. Thus, since $A \cup B$ is all of the rationals, we have $a \in A$ and $b \in B$. Let $\tau$ be any other oracle distinct from $\gamma$. If $\tau > \gamma$ then there exists $\tau$-Yes interval $u\lte v$ and $a \lte b$ $\gamma$-Yes interval such that $b < u$. This means $u \in B$ and $\tau \in \bar{B}$. Alternatively, if $\tau < \gamma$, we would have $v < a$ and $\tau \in \bar{A}$.
-
-    We have shown that $\gamma$ is uniquely not in either of these and that it is greater than all elements of $\bar{A}$ while being less than all elements of $\bar{B}$. This allows us to append it to either $\bar{A}$ or $\bar{B}$ and then invoke the theorem. Of course, $\gamma$ satisfies the property of $\kappa$ as we just showed, so invoking the theorem here is not necessary in this case. 
-    
-\end{proof}
-
-The Cut property is formulated in a way with a strong presumption of knowledge of whether something was in a set or not and whether two oracles were equal or not. It may be possible to formulate it with a fuzzier version though it is not clear to me how one does that without introducing a shrinking region that yields $\kappa$ almost by assumption. 
-
-
-\subsection{Cauchy Sequences}\label{sec:cauchy}
-
-Closely related to nested intervals are the Cauchy sequences. We will first define Cauchy sequences and then describe the associated fonsi which yields an oracle. The basic idea is define Yes intervals to be those intervals that contain the tail of the sequence. 
-
-A sequence $x_n$ of oracles is \textbf{Cauchy} if given any natural number $M > 0$, there exists an $N$ and a rational interval $I_N$ whose length is less than or equal to $\frac{1}{M}$ such that for $n \geq N$, the interval $I_N$ is an $x_n$-Yes interval. That is, $I_N$ contains the oracles later in the sequence. 
-
-\begin{theorem}\label{th:cauchy}
-Any Cauchy sequence of oracles converges to an oracle. 
-\end{theorem}
-
-\begin{proof}
-    Consider the collection of $I_N$. They all intersect one another as they all contain the latter elements of the sequence. Specifically, if we have $I_N$ and $I_P$, take $n \geq \max(N, P)$. Then $I_N$ and $I_P$ must intersect as they are both $x_n$-Yes intervals. We also can find an $I_N$ which is less than any given length as that is the condition for choosing $N$ based on a given $M$. Therefore, the collection of $I_N$ is a fonsi and it generates an oracle, one in which the tail of the sequence is as close to the oracle as we care to prescribe.     
-\end{proof}
-
-The proof is short as the bulk of the work is being done by the fonsi which, as we can see here, is notionally close to what the Cauchy sequences are essentially representing. 
-
-The Cauchy condition presented here is equivalent to the condition of the more usual formulation.
-
-\begin{proposition}
-    A sequence of oracles is Cauchy if and only if the sequence satisfies for any $n, m \geq N$, $d(x_n,  x_m) < \varepsilon$ where $d$ is the oracle distance function and $\varepsilon > 0$ is an oracle. 
-\end{proposition} 
-
-\begin{proof}
-    
-If a sequence is Cauchy by our definition, then we can easily prove it satisfies the usual formulation.  Let such a sequence be given with $I_N$ having length less than $\frac{1}{M} < \varepsilon$ and for all $n \geq N$, we have $I_N$ is an $x_n$-Yes interval. Then consider $d(x_n, x_m)$ for $n, m \geq N$. Since $I_N$ is a Yes interval for both, we have $d(x_n, x_m) \leq d(I_N, I_N) < \frac{1}{M} < \varepsilon$ as the distance of an interval from itself is just it's length. 
-
-The other direction requires a little more careful choosing of the lengths. We are given a natural number $M>0$. By assumption, we can find $N$ such that that $d(x_n, x_m) < \frac{1}{9M}$ for all $n, m \geq N$. Take an $x_N$-Yes interval whose length is less than $\frac{1}{9M}$; let's say that interval is $a \lt b$. Then define $I_N = a-\frac{1}{3M} \lte b + \frac{1}{3M}$. The length of $I_N$ is less than $\frac{1}{M}$. We are therefore done if we can show that $I_N$ is an $x_n$-Yes interval for all $n \geq N$.
-
-The distance statement implies that we can find an $x_n$-Yes interval $e:f$ and an $x_N$-Yes interval $c:d$ such that $d(e:f, c:d) < \frac{1}{9M}$. Since subinterval distances shrink and we can bisect Yes intervals to get smaller Yes intervals, we can also assume that $e:f$ and $c:d$ have lengths smaller than $\frac{1}{9M}$. 
-
-In order for $e:f$ to be contained in $I_N$, we need $d(a:b, e:f) \leq \frac{1}{3M}$. The distance function satisfies a version of the triangle inequality, namely $d(a:b, e:f) \leq d(a:b, c:d) + d(c:d, c:d) + d(e:f, c:d)$. This holds for all intervals\footnote{This follows from the definitions and the usual triangle inequality. Let $|A-E| = d(a:b, e:f)$, $|B-D| = d(a:b, c:d)$, $|c-d| = d(c:d, c:d)$, and $|C-F| = d(c:d, e:f)$ where the capital letters are the different points in their respective intervals that realize the distances. Then $|A-E| = |A - D + D - C + C - E| \leq |A-D| + |D-C| + |C-E| \leq |B-D| + |c-d| + |C-F|$ where the substitutions are justified by each term being replaced with the maximum difference of the points in the intervals.  We therefore have $d(a:b, e:f) \leq d(a:b, c:d) + d(c:d, c:d) + d(e:f, c:d)$.}. Substituting in our choices, we get $ d(a:b, e:f)  \leq \frac{1}{9M} + \frac{1}{9M} + \frac{1}{9M} =  \frac{3}{9M} = \frac{1}{3M}$ as was to be shown. 
-
-The interval $I_N$ therefore contains the $x_n$-Yes interval $e:f$ and, by Consistency, is an $x_n$-Yes interval itself. 
-
-\end{proof}
-
-
-\subsection{The Collatz Number}
-
-There is an open mathematical problem, called the Collatz conjecture, which conjectures that a certain process stops for every natural number.\footnote{\url{https://en.wikipedia.org/wiki/Collatz_conjecture}} We will use that process to define a couple of oracles whose ultimate nature can only be settled by someone solving the Collatz conjecture. 
-
-We define one Oracle of Collatz $R$ to be such that $R(-\tfrac{1}{n}:\tfrac{1}{n})$ is 1 if the $k$-Collatz sequence terminates at 1 for all $k \leq n$ and 0 otherwise. For all other intervals $a:b$, $R(a:b) = 1$ if $a:b$ contains such a Collatz Yes interval. If there is an $n$ which does not satisfy the Collatz conjecture, then, taking $N$ to be the first such $n$, we define $R(\tfrac{1}{N}:\tfrac{1}{N}) = 1$. If there is no such $n$, then $R(0:0) = 1$.
-
-This is a rule which is currently known to be $-2^{-68}:2^{-68}$ compatible with the Oracle of 0. But unless it gets proven or falsified, we cannot establish equality or inequality with respect to 0. 
-
-In the ultimate form of a known result for the conjecture, this will be an Oracle of 0 or an Oracle of $\tfrac{1}{N}$ where $N$ is the first number where the conjecture fails to hold. If this was a cut relation, we would not be able to use the cutting property in all cases. For oracles, we can provide a $\delta$ and with that $\delta$ determine an $N$ to go up to that would allow $0_\delta$ to be returned, assuming the conjecture continues as it has. 
-
-An alternative approach to using this conjecture is to define an oracle that implies the $n$-th digit in its decimal approximations is $1$ if the Collatz conjecture fails on it and $0$ otherwise. We do this in the following way. Let $C(n)$ be an indicator function which is 1 if $n$ does not satisfy the Collatz conjecture and 0 otherwise. Define the following function as follows: $f(1) = 0$,  $f(n) = \sum_{i=1}^n C(i)*10^{-i} $. Define $p_n = \frac{1}{9*10^n}$ which is the closed form of the geometric sum $\sum_{i=n+1}^{\infty} 10^{-i}$ which obviously approaches $0$ as $n \to \infty$. The set of $f(n): f(n) + p_n $ define a fonsi and therefore an oracle. This is assuming, of course, that one can compute out what $C(i)$ is. This is also compatible with the 0 oracle at the present time, but even if we establish that it is not the 0 oracle, we may still not be able to compute $C(i)$ for all $i$. 
-
-This example is an issue for all definitions of real numbers, but it feels as if the oracle approach accommodates this a little better as the incompleteness of our information is naturally incorporated into the framework using the language of compatibility.
-
-\subsection{Coin Tosses}
-
-We want to model an oracle that is probabilistic in nature and explore how that might work. 
-
-The first version is to create a fonsi by a bisection method. We start with an initial interval, say $I_1 = 0:1$. Then, given $I_n = a:b$, we let $c = \tfrac{a+b}{2}$ and then use a random function that yields 1 with probability $p$ and 0 with probability $1-p$. If it is 1, then $I_{n+1} = a:c$. Otherwise, $I_{n+1} = c:b$. These intervals are clearly shrinking and overlapping, hence we can define a family $F_n$ of oracles compatible up to $I_n$ for any given $n$. We will never have a single, final oracle as it can only be defined fully after this infinite subdividing process completes. 
-
-A process closer to defining an oracle directly is to flip a coin when asked a question about an interval when the answer is not already known. We will use $R$ for the rule. Let $I$ be a given starting interval and we set $C=I$ where $C$ stands for current. Let $a:b$ be the interval asked about. If $a:b$ contains $C$ (or is $C$), then $R(a:b) = 1$. If $a:b$ and $C$ are disjoint, then $R(a:b) = 0$. If neither, then $a:b$ and $C$ intersect. Let $c:d$ then be that intersection. If the interval $c:d$ divides $C$ in two, then we use a random process to determine if $c:d$ is a Yes interval or a No interval; the complement interval in $C$ is then the opposite. Then $a:b$ is a Yes or No interval if $c:d$ is Yes or No, respectively. We also redefine $C$ to be $c:d$ or its complement, depending on which one is Yes. It is possible for $c:d$ to divide $C$ into three intervals in the case that $a:b=c:d$ is strictly contained in $C$. We apply the random process to $c:d$ first; if it is Yes, then the other two are No. If $c:d$ is No, then we do the random process to decide which of the two remaining intervals making up the complement are Yes. Whichever one is Yes, becomes the new $C$ for future Rule consultations.   
-
-For singletons, if the singleton is a subinterval of $C$, then we use the same procedure except that if it comes up No, we pick a $\delta > 0$ such that $c_\delta$ can be No without contradicting $C$ being Yes. This can always be done unless $C$ is the singleton in which case the singleton is Yes anyway. We figure out the new Yes interval as above, using $c_\delta$ as No as the dividing subinterval. 
-
-This oracle will satisfy Consistency and Existence by definition. For Separating, we can ask about $c_\delta$ or a subinterval of that; our procedure will provide the necessary results.  As for Closed, if we ask about $c:c$, we either get a Yes, which is then fine, or, if it is No, we get a $c_\delta$ that is No. There is no way we could ever establish that $c_\delta$ was a Yes interval for all $\delta >0$ without having asked about $c:c$ and getting a Yes. 
-
-This is an example of a rule which is guaranteed to give an answer for any question we ask even if the answer cannot be known in advance. In fact, the very nature of what is possible is based on what we ask. For example, if we never ask about  $c:c$, then it will not happen. But if we do ask, then it could come up as Yes. 
-
-In a certain sense, our rule here is not ``complete''. An infinite being looking at it would see the finiteness. But from our limited perspective, it works just as much as any ``complete'' rule. In contrast, the Collatz example is one which we might not get an answer to. It is ``incomplete'' on a practical level. 
-
-Comparing both of these random processes, the first seems to give an air of incompleteness which the second lacks. In particular, the first one's design looks like an infinite process that should go on until the completion, something which can never be accomplished. In contrast, the second one requires an interaction. It feels more like an answer given just in time. While it is also incomplete, it does not feel incomplete. 
- 
-Part of it is that we get to ask the second process directly the question of interest, namely, ``is this interval that we care about a Yes interval?'' In the first process, we need to keep computing the bisected intervals until we can definitively answer the question about any given interval. 
-
-In comparing it the Collatz number example, a striking difference is that the Collatz procedure is one in which different people doing the mathematics correctly will not find different answers. The random processes yields different answers for different questioners, quite radically so for the second random process. 
-
-Both the random processes and the Collatz example explains our focus on the rule rather than the set of Yes-intervals. The rule approach allows for more possibilities than the set version, as these examples demonstrate. There is no way to present the completed set of Yes intervals for these examples. One can argue about whether one can present the completed set of Yes intervals for the square root of 2 or not, but one can clearly not do so for these processes. Whether one wants to include these examples as valid oracles is a question which we leave to the reader to decide. 
-
-\section{Fonsis} \label{sec:ni}
-
-!! Check references to this section if it is still relevant
+We define a \textbf{fonsi} to be a family of overlapping, notionally shrinking intervals meaning it is a set of rational intervals which are all pairwise intersecting and such given a positive rational length $q$, there exists at least one interval in the family whose length is less than $q$.\footnote{We use the term ``notionally shrinking'' to indicate that we want to think of it as shrinking intervals, but there need not be any sequential aspect to this that would qualify as shrinking.} Singletons are allowed in the family and they have length 0.\footnote{There can be at most one singleton as the singletons need to intersect, but we need not presuppose the uniqueness.} A set consisting of a single singleton does qualify for being a fonsi.
 
 Given a fonsi, we define an oracle to be the rule that an interval is a Yes-interval if the interval contains an intersection of a finite number of elements of the fonsi or contains the intersection of all of the elements of the fonsi if that exists. This last one is how we include singletons for singleton oracles. 
 
+One method of defining real numbers among constructivists is to equate a fonsi, or a fine family of intervals, with a real number. See \cite{bridger} and \cite{bridges} for details. The fonsi framework is appealing to the constructivist framework as it aligns strongly with their methods of proof and construction. It also aligns with measurements as we briefly discuss below. 
 
-\subsection{Fonsi Properties}
+An easy category is that of nested intervals whose lengths are going to 0. We can also have a sequence of numbers with error bounds such that successive numbers are contained within the previously indicated error bounded intervals.  It is very common to have error bounds in applications and this is how we can easily establish them as oracles. 
+
+One failed example is the set of intervals $\frac{1}{n}:1$. It is an overlapping set which creeps up to zero, but it fails to be shrinking. Another failed example is something like $\frac{1}{n}:\frac{1}{m}$, which does have intervals shrinking to zero, but it fails the overlapping property. A fonsi forces an overlap across the real number that it is representing. We could, for instance, look at $\frac{-1}{m}:\frac{1}{n}$ for all positive integers $m$ and $n$. These overlap and we can find as small an interval as we like. The fonsi $-\frac{p}{q} : \frac{r}{s}$ for all positive integers $p, q, r, s$ is nearly the oracle of 0. If we allow $p$ and $r$ to be 0, then the fonsi becomes the set of Yes intervals for the Oracle of 0. 
 
 Before we establish that we can define an oracle from a fonsi, we need to establish that the pairwise intersection scales to intersections of arbitrary finite collections of intervals in a fonsi. 
 
@@ -1376,7 +946,7 @@ Before we establish that we can define an oracle from a fonsi, we need to establ
 \end{proposition}
 
 \begin{proof} 
-    Consider the intersection $\bigcap_{i=1}^n I_i$ where each $I_i$ is an interval in $\mathcal{I}$ and we have ordered them such that if $I_i = a_i : b_i$ then the lower endpoints $a_i$ are ordered from least to greatest. That is,  $a_i \leq a_{i+1}$ for all $1 \leq i \leq n$. By the definition of a fonsi, $I_n$ intersects $I_i$ for each of the $i$ and for that to happen, we must have that $a_n \leq b_i$ for every $i$. That is, since the lower endpoint of $I_n$ is greater than or equal to the lower endpoint of $I_i$ and the intervals intersect, the lower endpoint of $I_n$ must be less than or equal to the upper endpoint of $I_i$. Therefore, $a_n$ is contained in $I_i$ for every $i$ and the intersection is non-empty. In fact, $a_n : \min(\{b_i\}_{i=1}^n)$ is the interval. Note that this can be a singleton. 
+    Consider the intersection $\bigcap_{i=1}^n I_i$ where each $I_i$ is an interval in $\mathcal{I}$ and we have ordered them such that if $I_i = a_i : b_i$ then the lower bounds $a_i$ are ordered from least to greatest. That is,  $a_i \leq a_{i+1}$ for all $1 \leq i \leq n$. By the definition of a fonsi, $I_n$ intersects $I_i$ for each of the $i$ and for that to happen, we must have that $a_n \leq b_i$ for every $i$. That is, since the lower bound of $I_n$ is greater than or equal to the lower bound of $I_i$ and the intervals intersect, the lower bound of $I_n$ must be less than or equal to the upper bound of $I_i$. Therefore, $a_n$ is contained in $I_i$ for every $i$ and the intersection is non-empty. In fact, $a_n : \min(\{b_i\}_{i=1}^n)$ is the interval. Note that this can be a singleton. 
 \end{proof}
 
 
@@ -1447,9 +1017,6 @@ This suggests that we can categorize fonsis in a similar fashion as we did to or
     Let $a:b$ be the intersection interval. Our claim is that either $a$ is a root of the fonsi, $b$ is the root of the fonsi, or there exists an element of the fonsi strictly contained in $a:b$. If either of the first two is true, then we are done. If neither of those is true, then there exists an element of the fonsi, as argued above, which does not contain $a$ and does not contain $b$. Since that element must intersect $a:b$, it has to be strictly contained in $a:b$. This is what we needed to show. 
 \end{proof}
 
-\subsection{Fonsi Equivalence to Oracles}
-
-
 \begin{proposition}\label{pr:fon-oracle-exists}
 Given a fonsi $\mathcal{I}$, there exists a unique oracle $r$ such that all of the elements of the fonsi are Yes intervals of $r$.
 \end{proposition}
@@ -1462,7 +1029,7 @@ We need to show that this is an oracle and that it is unique.
 First, we remark that if an interval is disjoint from an element of the fonsi, then it is a No interval. This follows because all elements of the fonsi must intersect a community intersection. If an element of the fonsi is disjoint from an interval, this means that it cannot intersect any community intersection in it. Thus, there can be no such community intersection in the disjoint interval and it is therefore a No interval.
 
 \begin{enumerate}
-    \item Existence. By definition of a fonsi, there exists an interval $a:b$ which has length, say,  less than 1. Thus, $R(a:b)=1$ by definition of the oracle.
+    \item Existence. By definition of a fonsi,label there exists an interval $a:b$ which has length, say,  less than 1. Thus, $R(a:b)=1$ by definition of the oracle.
     
     \item Separating. Assume $R(a:b)=1$ and let $c$ be strictly contained in $a:b$ and the width $\delta >0$ be given. For convenience, we also take $\delta$ to be less than $\frac{\min(|a-c|, |b-c|}{3}$.
 
@@ -1472,7 +1039,7 @@ First, we remark that if an interval is disjoint from an element of the fonsi, t
 
     We can therefore assume that $c$ is not in $I$ and there is thus an interval $e:f$ disjoint from $I$, such that $a:e:c:f:b$ and that $e:f$ is contained in $c_\delta$. As $e:f$ is disjoint from $I$, it is a No interval. Since $I$ does not contain $c$, it must also be disjoint from either $a:e$ or $f:b$. Let us assume it is disjoint from $f:b$, without loss of generality due to relabelling. Then $f:b$ is a No interval. 
 
-    We need to establish that $a:e$ is a Yes interval. Let $A$ be the intersection of the community of elements contained in $a:b$; this exists by assumption of $a:b$ being a Yes interval. Since $I$ is an element of the fonsi, it intersects $A$ as per Proposition \ref{pr:fonsi-inf-inter}. Label the intersection $J$. Since $A$ is contained in $a:b$, so is $J$. Since $I$ is disjoint from $e:b$, so is $J$. Therefore, $J$ must be contained in $a:e$ and, by definition, $a:e$ is therefore a Yes interval. 
+    We need to establish that $a:e$ is a Yes interval. Let $A$ be the intersection of a community of elements contained in $a:b$; this exists by assumption of $a:b$ being a Yes interval. Since $I$ is an element of the fonsi, it intersects $A$ as per Proposition \ref{pr:fonsi-inf-inter}. Let's say that the intersection is $J$. Since $A$ is contained in $a:b$, so is $J$. Since $I$ is disjoint from $e:b$, so is $J$. Therefore, $J$ must be contained in $a:e$ and, by definition, $a:e$ is therefore a Yes interval. 
     
     \item Consistency. Let $c:d$ contain $a:b$ and $R(a:b)=1$. Then, by definition, $a:b$ contains the intersection of elements of $\mathcal{I}$. Thus, $c:d$ contains that same intersection and therefore $R(c:d)=1$ by definition. If $R(c:d) = 0$, on the other hand, this means it contains no intersection of the elements in the fonsi. Its subinterval of $a:b$ can therefore not contain it either. 
     
@@ -1520,7 +1087,7 @@ As any Yes intervals of $r$ and $s$ must intersect, Proposition \ref{pr:overlap}
 We have some useful corollaries from this. A \textbf{sub-fonsi} $\mathcal{J}$ of a fonsi $\mathcal{I}$ is a fonsi whose elements are also in $\mathcal{I}$, that is, $\mathcal{J} \subseteq \mathcal{I}$ and $\mathcal{J}$ is a fonsi in its own right.  
 
 \begin{corollary}\label{cor:sub-fonsi}
-    If a fonsi contains a sub-fonsi which is a subset of the Yes-intervals of an oracle, then the fonsi is associated with that same oracle. 
+    If a fonsi contains a sub-fonsi which consists of the Yes-intervals of an oracle, then the fonsi is associated with that oracle. 
 \end{corollary}
 
 \begin{proof}
@@ -1534,9 +1101,6 @@ We have some useful corollaries from this. A \textbf{sub-fonsi} $\mathcal{J}$ of
 \begin{proof}
     Since the union is a fonsi, all the elements of the union must overlap. Since each fonsi is a fonsi, given a $q > 0$, there exists elements in each fonsi whose lengths are less than $q$. Since they overlap, we meet the criteria for applying Proposition \ref{pr:fonsi-inter}. Thus, they are associated with the same oracle. 
 \end{proof}
-
-
-\subsection{Infinite Series}
 
 For constructing an oracle, a fonsi can be a very appealing pathway.  Here are a few common examples. In what follows, $i, m, n, M, N$ will all be positive natural numbers unless otherwise specified.
 
@@ -1556,7 +1120,7 @@ For constructing an oracle, a fonsi can be a very appealing pathway.  Here are a
     For $n < m$, define $A_{n,m} = \sum_{i=n+1}^m |a_i|$ and $S_{n,m} = \sum_{i=n+1}^m a_i$. By the triangle inequality, we have $-A_{n,m} : S_{n,m} : A_{n,m}$. But as $A_m = A_{n,m} + A_n $, we have that $A_n:A_m:p_n + A_n$ implies $A_n : A_n+ A_{n,m} : p_n + A_n$ telling us that $0: A_{m,n} : p_n$. Thus, $-p_n : S_{n,m} : p_n$. Adding $S_n$, we have $S_n - p_n : S_n + S_{m,n} : S_n + p_n$  or $S_n - p_n : S_m : S_n + p_n$. Thus, the collection of intervals $S_n-p_n:S_n+p_n$ forms a fonsi. The resulting oracle is denoted by $\sum_{i=0}^\infty a_i$.
 \end{itemize}
 
-\subsubsection{Measurements and Finite Fonsis}\label{main:measure}
+\subsubsection{Measurements and Finite Fonsis}
 
 Another reason to favor fonsis is that they seem to be an infinite version of our idealized notion of taking measurements. A good measurement of a physical quantity is one in which the idealized actual value is always within the interval of the value plus or minus the error. A heuristic for that is that all measurements should overlap. A goal of measurement is to be able to reduce the error to any level that we please though that is never fully realized, of course. 
 
@@ -1566,7 +1130,323 @@ This is essentially a finite fonsi version of the resolution of the compatibilit
 
 We can also view the oracle rule itself as being recast as a questioning of ``Is this measurement interval a valid measurement of the actual value that we are seeking?''
 
+\subsection{Three Specific Examples in Detail}
 
+
+We now pause and give some explicit computations for computing out the three most widely known irrational numbers: $\pi$, $e$, and $\sqrt{2}$. The hope is to demonstrate how this framework interfaces with getting explicit bounds. The notion of a fonsi is very helpful here. 
+
+\subsubsection{Circles, \texorpdfstring{$\pi$}{pi}, and Sums}
+
+There are, of course, many ways of computing $\pi$, but here we will start with the classic approach of circumscribed and inscribed polygons and then separately proceed into the Bailey-Borwein-Plouffe formula which is entirely rational in the approximations. 
+
+The classic approach from Archimedes is to enclose the unit circle with a circumscribed regular polygon and sandwich that with an inscribed regular polygon. This gives us an upper and a lower bound for both the semi-perimeter and area, both of which equal $\pi$. 
+
+A nice discussion of this can be found at Math Scholar\footnote{\url{https://mathscholar.org/2019/02/simple-proofs-archimedes-calculation-of-pi/}} by David H. Bailey. They start with regular hexagons and determine that the circumscribed semi-perimeter is $A_1 = 2 \sqrt{3}$ and the inscribed semi-perimeter is $B_1 = 3$. They then double the number of sides and compute again. They repeatedly do this to compute the recurrence relations $A_{k+1} = \dfrac{2A_k B_k}{A_k + B_k}$ and $B_{k+1} = \sqrt{A_{k+1}B_k}$. Notice that there is a square root involved in this computation. We have defined the oracles of square roots so that we can proceed, but this now requires oracle arithmetic, which we have not yet done and shall overlook for the moment.  
+
+It is straightforward to see $A_{k+1} < A_k$, $B_{k+1} > B_k$, and that $A_k > B_k$.\footnote{Start with the observation that $A_1 > B_1 > 1$. Assume $A_k > B_k > 1$. Then $2 A_k  > A_k + B_k$. This implies that $M_k = \frac{2A_k}{A_k + B_k}>1$ as is its square root. This leads to both $B_{k+1} =  \sqrt{A_{k+1} B_k} = \sqrt{M_k} B_k > B_k > 1$  and $A_{k+1} = M_k B_k > \sqrt{M_k} B_k = B_{k+1}$.  For $A_{k+1} < A_k$, this follows from $2A_k B_k < A_k^2 + A_kB_k$ which follows from $A_k > B_k$.} The post further shows that $0 < A_k - B_k \leq \dfrac{128}{9*4^k} = p_k $. This is a sequence of nested intervals whose lengths are going to 0. Thus, the set of $A_k:B_k$ forms a fonsi and therefore yields an oracle. 
+
+The post also establishes that it is indeed $\pi$ that is being approximated with these intervals.
+
+This approach is basically fine except for the square root formula. It adds in extra complications in terms of interval arithmetic which would be nice to avoid if possible. 
+
+Many of the approaches to computing $\pi$ do use square roots. But there are some that are able to avoid it. One such example is from the paper by Bailey, Borwein, and Plouffe \cite{BBP}, in which they give the formula 
+
+\[ 
+\pi = \sum_{i=0}^\infty \frac{1}{16^i} \bigg( \frac{4}{8i+1} - \frac{2}{8i+4} - \frac{1}{8i+5} - \frac{1}{8i+6} \bigg)
+\]
+
+
+To apply our fonsi results, we need to show that that the sum is absolutely convergent. We can get an overestimate by replacing the parenthetical portion with 1 for estimating the remainder since the parenthetical will always be strictly between 1 and 0. Then the sum becomes a geometric sum leading to $p_n = \frac{1}{15*16^n}$ for the partial sum up to $n$. By absolute convergence as established earlier, this is a fonsi and thus leads to an oracle.  
+
+This formula for $\pi$ is entirely rational and the $p_n$ gives us interval estimates.
+
+\subsubsection{Products, \texorpdfstring{$e$}{e}, and Sums}\label{sec:e}
+
+We define the Oracle of $e$ as follows. 
+
+Let $S_N = \sum_{i=0}^N \frac{1}{i!}$. Notice that since we are adding positive terms as $N$ increases, we have $S_N < S_{N+1}$. 
+
+We also can compute $S_M - S_N$ for $M - N = k > 0$ and see that we have $\sum_{i=N+1}^M \frac{1}{i!} <  \sum_{j=0}^k  \frac{1}{(N+1)!(N+1)^j} $ where we have replaced factors of $N+1 + j$ with $N+1$, making the sum larger due to making the denominators smaller. We factor out the factorial and then compute the remaining sum as a geometric sum, leading to $S_M - S_N < \frac{1}{N!} \frac{1}{N+1} [\frac{N+1}{N} (1 - \frac{1}{(N+1)^{k+1}} )] < \frac{1}{N! N}$.
+
+We define $p_n = \frac{1}{n!n}$. We established that $S_n < S_m < S_n + p_n$ for $m> n$. We can also clearly find $n$ such that $p_n$ is less than a given positive length. So we have a fonsi and an oracle. 
+
+That was the standard sum approach to $e$. We can also look at another standard approach, that being $(1+\frac{1}{n})^n$. The typical path is to look at the limit as $n\to \infty$ and either use some differential / logarithmic calculus arguments or argue that it is an increasing sequence, bounded above, and therefore must have a limit value. Some approaches also compare this to the sum above, e.g., Rudin\cite{rudin}, page 64. 
+
+That approach is fine with oracles, but not illuminating. Our viewpoint is that we want converging intervals. The expression $a_n = (1+\frac{1}{n})^n$ is a lower bound for $e$. We need an upper bound. A convenient upper bound is to add an extra factor: $b_n = (1+\frac{1}{n})^{n+1}$ will be greater than $e$. 
+
+To establish this as an oracle, we again use the notion of a fonsi. We are done if we can show these are nested intervals whose lengths are shrinking to 0. It is immediate that $a_n < b_n$. The method we cite shows complete nesting: $a_n < a_{n+1} < b_{n+1} < b_n$. By extension, we then have $a_n < a_m < b_m < b_n$ for all $m > n$. The method is from Mendelsohn \cite{mend} which uses the Arithmetic-Geometric Mean Inequality on the two collections of numbers: $\{1, (1+ \frac{1}{n})_{,n} \}$ and $\{1, (\frac{n+1}{n})_{,(n+1)}\}$.\footnote{We use the notation $(a)_{,k}$ to indicate a quantity $a$ being included in the collection $k$ times.} We include the details of the argument in Appendix \ref{app:e}.  Another presentation, and the origin of finding the reference, can be found at the Mathematics Stack Exchange.\footnote{ \url{https://math.stackexchange.com/questions/389793/}}
+
+We still need to show that the lengths shrink to 0. To do this, we look at the difference: $b_n - a_n = (1+\tfrac{1}{n})*a_n - a_n = \tfrac{a_n}{n}$. Because $a_n < b_n < b_1=2^2 = 4$, we have a simple bound of $\tfrac{4}{n}$ which can be made as small as we like. Thus, we have a fonsi and an oracle. 
+
+It is useful to point out that our viewpoint leads us to find useful bounds so that we can know how accurate it is and what kind of convergence we can expect as well. For the compound interest formulation, we have an error on the order of $\frac{1}{n}$ while the Taylor-based approximation is on the order of $\frac{1}{n! n}$. It brings to the forefront explicit information that practical applications can use. As we shall explore, arithmetic with oracles is interval arithmetic and being able to have such explicit bounds allows us not only to compute what the resulting interval lengths will be, but also to figure out what value of $n$ to use to get a certain level of final precision. 
+
+We now have two oracles claiming to be the same and we would like to establish their equality. We will be done if we can establish overlaps between the intervals. It is clearer if we lay it out in steps. We will use the labels from above. 
+\begin{enumerate}
+    \item $a_n < S_n$ for all $n$. This follows from the binomial theorem. See Appendix \ref{app:e}, Lemma \ref{lem:ansn}. If $n < m$, then $a_n < S_n < S_m$.
+    \item Given $n$, there exists $m$ such that $S_n < a_m$. This is trickier. See Appendix \ref{app:e}, Lemma \ref{lem:snam}. 
+    \item $S_n < b_m$ for all $m$ and $n$. This follows from $S_n < a_p$ for some $p$ and that $a_p < b_m$ for all $m$.
+    \item $S_n < S_m < S_n + p_n$ for $m > n$. That was established above. 
+    \item Given $a_n < b_n$ and $S_m < S_m + p_m$, they overlap. This follows from two cases. If $a_n \leq S_m$, then since $S_m < b_n$, we have $a_n : S_m : b_n$. The other case is that $S_m < a_n$. In this case, $m < n$ and we have $S_m < a_n < S_n < S_m + p_m$. 
+    \item Since the intervals of both fonsis always overlap, we can use Proposition \ref{pr:fonsi-inter} to conclude that they are the same oracles. 
+\end{enumerate}
+
+For our final exploration of $e$, we would like to show that it is not a singleton, i.e, not a rational number. Given any rational of the form $\frac{r}{q}$, we claim that $\frac{r}{q}$ is not in $S_q : S_q + p_q$. If we show this, then if we have established that $e$ is a neighborly oracle. Our approach will be to proceed by contradiction, that is, we will assume that the rational is in that interval:  $S_q < \tfrac{r}{q} <  S_q + p_q = S_q + \frac{1}{q!q}$. We subtract off $S_q$ and obtain $0 < \tfrac{r}{q} - S_q < \tfrac{1}{q! q}$. If we multiply by $q! q$, we have $0 < q! r - q!S_q < 1$.  The expression $q! S_q$ is an integer since $q!$ will cancel all the denominators in that sum. But then we have the difference of two integers being strictly between 0 and 1. Since this cannot happen, we cannot have $\tfrac{r}{q}$ in the interval $S_q : S_q + \frac{1}{q! q}$. This establishes that the oracle is not a singleton with denominator $q$. Since $q$ was arbitrary, it cannot be a singleton for any rational. 
+
+It is instructive to compare this to Rudin's proof of $e$ being irrational. It is the same, except Rudin only concludes that $e$ is not rational. What we have naturally drawn out of that same work is that there can be no rational with denominator $q$ in the approximation intervals contained in $S_q$'s interval. That is, we have an explicit marker after which we know the denominators in the interval must be larger than $q$. 
+
+\subsubsection{Explicitly Computing Roots}
+
+Section \ref{sec:roots} shows the existence of $n$-th roots, but it does not give a great way of finding an $n$-th root. 
+
+We will give a common algorithm for computing these roots. It is equivalent to Newton's method, but that need not concern us here. What we produce here is a fonsi which therefore produces an oracle. By construction, they are Yes intervals of the $n$-th root of $q$ and so the fonsi yields the same oracle. 
+
+We want to find the $n$-th root of $q$. This starts by realizing that given any positive rational $x$, we have $x:\dfrac{q}{x^{n-1}}$ is a $\sqrt[n]{q}$-Yes interval.
+
+Our argument for that starts with the observation that $x^{n-1}*\dfrac{q}{x^{n-1}} = q$. Let $r$ represent the root, which exists as an oracle. For what follows, we will assume the usual rules hold for oracle arithmetic; we will cover them later. We have either $x^n < q$, $x^n = q$, or $x^n > q$ as the three possible cases. If we have equality, then $x$ is the solution and the interval above is a singleton as the root partner becomes itself when $x$ is the root, i.e, $x= \frac{q}{x^{n-1}}$ exactly when $x^n  =q$. 
+
+Let us assume that $x^n < q$. We have that $x:\frac{q}{x^{n-1}}$ is a Yes interval as long as $(\frac{q}{x^{n-1}})^n \geq q$. So let us show that we have a contradiction if is is less than $q$. If it is lesser, then by Lemma \ref{app:lesser}, we have there exists an $s$ such that $\frac{q}{x^{n-1}} < s$ and $s^n < q$. By the same lemma, there is $t$ such that $x <t$ and $t^n < q$. Let $m = \max(s, t)$. Note $m^n < q$. From $x < m$, we have $x^{n-1} <m^{n-1}$. We also have $\frac{q}{x^{n-1}} < m$. Therefore, $q = x^{n-1} \frac{q}{x^{n-1}} < m^n < q$. This is a contradiction and we therefore must have $(\frac{q}{x^{n-1}})^n \geq q$ as we wanted to establish. 
+
+Using Lemma \ref{app:greater}, we can make a similar argument that if $x^n > q$, then we must have $(\frac{q}{x^{n-1}})^n \leq q$. 
+
+Having exhausted our cases, we have that $x:\dfrac{q}{x^{n-1}}$ is a $\sqrt[n]{q}$-Yes interval.
+
+Since $a<b$ implies $\frac{q}{b^{n-1}} < \frac{q}{a^{n-1}}$, we can choose any rational $b$ such that $a^n:b^n:q$ and have that $b:\frac{q}{b^{n-1}}$ will be contained in the interval $a:\frac{q}{a^{n-1}}$. There does not seem a natural strategy to employ in selecting $b$ as, for example, bisection need not lead to a $b$ that meets that criteria. In fact, the issue is that the guess's partner is, when near the $n$-th root, farther away from the $n$-th root. Doing this partnering on the partner, it tends to get even farther away. The exception is for $n=2$ whose partner's partner is the original guess. 
+
+Newton's method suggests a particular selection, namely, that we compute the weighted average of the guess and its partner, weighting the guess $n-1$ times in that average. Specifically, $\frac{1}{n} \big( (n-1) x + \frac{q}{x^{n-1}} \big)$. This will have a quadratic convergence once it gets close enough to the root.
+
+For the square root, $n=2$, the formula becomes a simple averaging of the guess and its partner, the same as bisecting the interval.  
+
+To begin the iteration, it is useful to first get close by considering a power of 10. For example, to compute the square root of $52400$, we can view that roughly as $5*10^4$ leading to a guess of $200$. The first interval would then be $200: \frac{52400}{200} = 262$ with the next guess being the average $231$ whose complement $\frac{52400}{231}$ is about $226$. It could iterate quite quickly from there. Note that one can be rather loose with the bounds as long as one is careful to round away from the partner.  
+
+There are error estimates for this method which can help suggest how many iterations are necessary as well as establish this as a fonsi. We should also note that the interval itself generated by this method is an error estimate. Since the convergence is quadratic, we can roughly get a sense of the number of iterations required once the interval length drops below one-tenth at which point we start doubling the decimal precision at every iteration.  
+
+
+\subsection{Least Upper Bound}\label{sec:lub}
+
+We are given a non-empty set of rationals $E$ with an upper bound $M$, meaning that if $x \in E$ then $x$ has the property $x < M$. Let $U$ be the collection of rational upper bounds of $E$, namely, for rational $y$, $y \in U$ if and only if $y \geq x$ for every $x$ in $E$.  Thus, $M \in U$. Our task will be to establish and find the smallest oracle which is an upper bound of $E$.
+
+We say that $q$ is bounded above by $E$ if there exists $x \in E$ such that $q \leq x$.
+
+In order for us to establish the existence of a least upper bound, we need to define what our capabilities are. Our starting point is that $x:M$ will be a Yes interval. To make it smaller, we need to be able to determine information about rational numbers $x:c:M$ in relation to $E$ and $U$. Our Capability assumption will be that given a rational number $q$, and a $\delta > 0$, we assume that we can find rational numbers $e,f$  such that $q-\delta:e:q:f:q+\delta$ with definite results about $e,f$ in relation to $E$ and $U$. In particular, we assume that we can answer the question about $e$ and $f$, separately though consistently, as to whether they are bounded above by $E$ or are upper bounds of $E$.\footnote{This is almost the same as assuming the Separating property. But one should think about the scenario where the Capability assumption is not true. That is, there is an interval $a:b$ in which all the rational numbers have unknowable relation to $E$. This would make it possible that any of them are the least upper bound. While a least upper bound could be said to exist theoretically, without increased capability, we would not be able to approximate closer than $a:b$.} 
+
+An example to keep in mind is that of trying to find the least upper bound of the set of $x$ such that $\sin(x \pi)$ is negative and $x$ is between 1 and 3. The least upper bound is 2, of course, but let's imagine that we did not know what the function was, just that we have its Taylor series. If we tested 2 itself, the error bars on the series could never establish the result one way or another. But we can find nearby $x$ values below 2 that we can definitively establish the function value to be negative and other nearby $x$ values above 2 that we can definitively establish the function value to be positive. This kind of practical considerations is what we are aiming to account for. 
+
+We define the least upper bound of $E$ to be the to be the rule such that $R(a\lte b) = 1$ if and only if either $a$ is bounded above by $E$ and $b$ is an upper bound of $E$ or $a=b$ with $a$ not above any upper bounds of $E$ nor below any element of $E$. This is also known as the supremum of $E$ which we may denote by $\mathrm{sup} E$. The condition is also equivalent to $a \leq y$ for all $y \in U$ and $b \geq x$ for all $x \in E$.
+
+Let us show that this is, indeed, an oracle. 
+
+\begin{enumerate}
+    \item Existence. By assumption, there is an $x \in E$ and an upper bound $M$ in $U$. Thus, $R(x:M) = 1$. 
+    \item Separating. Let $R(a\lt b)=1$, $a < c< b$, and the width $\delta > 0$ be given. 
+
+    Let $e$, $f$ be the definite rational numbers in $c_\delta$ existing by our Capability assumption. 
+
+    If $f$, is bounded above by $E$, then so is $c$ and $e$. Thus, $f:b$ is a Yes interval while $a:f$, and all the subintervals, are No intervals. 
+
+    If $e$ is an upper bound of $E$, then so is $c$ and $f$. Thus, $a:e$ is a Yes interval wile $e:b$, and all its subintervals, are No intervals. 
+
+    The only other case is $e$ is bounded above by $E$ and $f$ is an upper bound of $E$. This implies $e:f$ is a Yes interval while $a:e$ and $f:b$ are No intervals. 
+
+    We have established what we needed to show for the Separating property. 
+    
+    \item Consistency. Let $c\lte d$ contains $a\lte b$. 
+    
+    If $R(a\lte b)=1$, then $c \leq a \leq y$ for all $y$ in $U$ and $d \geq b \geq x$ for all $x$ in $E$. Thus, $R(c\lte d) = 1$.
+
+    If $R(c:d) = 0$, then either $c$ is above all the elements of $E$ or $d$ is equal to or less than some element in $E$. If the former, then $a$ has the same property. If the latter, $b$ has the same property. In either event, $a:b$ is a No interval. 
+
+    
+    \item Closed. If $c_\delta$ is a Yes interval for all $\delta > 0$, then $c-\delta$ is bounded above by $E$ and $c+\delta$ is an upper bound of $E$. This means there can be no upper bound below $c$ and no element of $E$ above $c$.  Thus, $R(c:c) = 1$ by definition. 
+
+    If $a:a$ is No, then either there exists an element of $E$ above $a$ or an upper bound below $a$; let $q$ be this number. Let $\delta = |q-a|/2$. Then $a_\delta$ is a No interval since all elements of that sit in the same relation to $q$ as $a$.
+    \end{enumerate}
+
+We also need to establish that $\sup E$ satisfies $a \leq \sup E \leq b$ for all $a \in E$ and all $b \in U$. For any given $a \in E$ and $b \in U$, we have that $a:b$ is a $\sup E$ interval by the oracle definition of $\sup E$. Thus, we have that $a \leq \sup E \leq b$ by Proposition \ref{pr:yes-trap}. 
+
+If the non-empty set $E$ is bounded below by $K$, then we can define the set $L$ of lower bounds of $E$, namely, $z \in L$ if $z < x$ for all $x$ in $E$. Then the greatest lower bound (glb), denoted by $\mathrm{inf} E$, is the least upper bound of $L$ which exists since $L$ is bounded above by elements of $E$ which is assumed to be non-empty. We also need to assume  a similar Capability assumption. 
+
+We have defined the lub and glb in terms of sets of rationals. We can extend this to sets of oracles. Assume we are given a nonempty set $F$ of oracles bounded above, i.e., each oracle in $F$ is less than some given oracle $M$. Let $E$ be the set of lower endpoints of all the Yes intervals of all the oracles in $F$. $E$ is bounded above by an upper endpoint of an $M$-Yes interval. So $\sup E$ exists if we also assume the Capability assumption holds which can be stated directly for the oracles. Immediately, we have that $\sup E \geq r$ for all $r \in F$ since it is greater than all of the lower endpoints of the Yes intervals of the oracles in $F$.\footnote{If $\sup E < r$ for some $r \in F$, then there would exist $\sup E$-Yes interval $a \lte b$ and $r$-Yes interval $c\lte d$ such that $a:b < c:d$. But this would imply that $b < c$, but all of the upper endpoints of $\sup E$ need to be upper bounds of the rationals in $E$ which $c$ is a part of. This is a contradiction. Thus, there is no such $r$.}
+
+The harder case is to show that $\sup E \leq \alpha$ for all upper bounds $\alpha$ of $F$. Let $\alpha < \sup E$ implying there is an $\alpha$-Yes interval $a\lte b$ and a $\sup E$-Yes interval $c\lte d$ such that $a:b < c:d$. If $\alpha$ was an upper bound of $F$, then $b$ would be an upper bound of all the rationals in $E$. But that would imply that it is an upper bound of $E$. Since $b$ is less than $c$, we would have $c$ is an upper bound. But the oracle $\sup E$ has the property that the lower endpoints of its neighborly Yes-intervals are not upper bounds of $E$. Thus, we have a contradiction and $\sup E$ is indeed the least upper bound of $F$.
+
+We have established
+
+\begin{theorem}\label{th:lub}
+Any set $F$ of oracles bounded from above has a least upper bound if it is always possible to find, for a given $\alpha$ and a $\delta > 0$, oracles $\beta$ and $\gamma$ in $\alpha_\delta$ such that $\beta$ and $\gamma$ can be determined, separately but consistently, to be either bounded above by $F$ or is an upper bound of $F$. 
+\end{theorem}
+
+An alternate approach is to say that $a:b$ is a Yes interval if $a$ is a lower endpoint of a Yes interval of an oracle in $F$ and $b$ is an upper endpoint of a Yes interval of an oracle which is an upper bound of $F$. This may be closer in spirit to the oracle notion than the above treatment. We do so in Appendix \ref{app:sup}. 
+
+
+
+\subsubsection{The Distance Function}
+
+We can now define the distance between two oracles. We could also do this using oracle arithmetic, but the distance is both useful and instructive to do at this stage. 
+
+Given two oracles $r$ and $s$, we define the distance set, $D_{r,s}$ to be the set of rational values generated by looking at each pairing of $r$-Yes intervals with $s$-Yes intervals, say  $a:b$ and $c:d$, respectively, and computing the interval distance by $d(a:b,c:d) = \mathrm{max}(|a-c|, |a-d|,|b-c|,|b-d|)$. The \textbf{distance between $r$ and $s$, denoted by $d(r,s)$,} is then defined to be the greatest lower bound of $D_{r,s}$, which is bounded below by 0. 
+
+We do need to establish that the Capability assumption holds. Let $q$ and $\delta > 0$ be given. Let $a\lte b$ and $c \lte d$ be Yes intervals of $r$ and $s$ whose lengths are less than $\frac{\delta}{3}$; we can do this by the bisection approximation. Then $n = d(a:b, c:d)$ is an upper bound of $D_{r,s}$ while $m = d(a:b, c:d) - \frac{2 \delta}{3}$ is a lower bound for $D_{r,s}$. Thus, if $q \in m:n$, we can use $m$ and $n$ for the desired points. If $q$ is not in $m:n$, then either $q:m:n$ in which case $q$ is a lower bound of the distance or $m:n:q$ in which case it is bounded below by an element of $D_{r,s}$, namely, $n$. Thus, the Capability assumption is satisfied. 
+
+The setup has shown that $d(r,s) \leq d(a:b, c:d)$ for any $r$ and $s$ Yes intervals. We also have that the interval distance function has the property that $d(e:f, c:d) \leq d(a:b, c:d)$ for the situation where $a:b$ contains $e:f$ since $e, f$ will be closer than the farther of $a,b$ to $c,d$. For example, if $a < e < f < b < c< d$, then $d(e:f, c:d) = d-e < d-a = d(a:b, c:d)$. 
+
+If $r<s$, then for sufficiently narrow $r$ ($a\lte b)$ and $s$ ($c\lte d$) Yes intervals, we have $a\leq b<c \leq d$ so that $d(a:b,c:d) = d-a$ and $D_{r,s}$ will be bounded below by $c-b$. That is, $(d-a):(c-b)$ is a Yes interval for $d(r,s)$.
+
+The distance function is always non-negative. If $r=s$, $d(r,s)=0$ as we can choose $a<b$ as the same interval for both and compute $d(a:b,a:b)= b-a$. Since these are the same oracle, $a\lte b$ can be chosen such that $b-a$ can be as small as we like via the bisection approximation (Proposition \ref{pr:short}) and hence the greatest lower bound is 0. 
+
+The distance function also satisfies $d(r,t) = d(r,s) + d(s,t)$ whenever $r < s < t$. Indeed, let $a\lte b\lte c\lte d\lte e\lte f$ with $a\lte b$ being an $r$-Yes interval, $c\lte d$ an $s$-Yes interval, and $e\lte f$ a $t$-Yes interval. Then we have: 
+\begin{enumerate}
+\item $c-b \leq d(r,s) \leq d-a$
+\item $e-d \leq d(s,t) \leq f-c$
+\item $e-b \leq d(r,t) \leq f-a$
+\item Adding the first two, we have $c-b + e-d \leq d(r,s) + d(s,t) \leq d-a + f-c$.
+\item Rearranging, we have $e-b + (c-d) \leq d(r,s) + d(s,t) \leq f-a + (d-c)$.
+\end{enumerate}
+We have not yet covered arithmetic, but narrowing on interval addition is how we define adding oracles. What we have shown here is that the interval $(e-b + (c-d)): (f-a + (d-c)$ is a $[d(r,s) + d(s,t)]$-Yes interval. Since $c-d$ is negative and $d-c$ is positive, the $d(r,t)$-Yes interval $(e-b):(f-a)$ is contained in it. Since we can narrow the intervals arbitrarily,\footnote{Let $f = e + \delta_1$ and $b = a + \delta_2$. Then $f-a = e-b:e-b + \delta_1 + \delta_2$. We can take $\delta_1$ and $\delta_2$ as small as we like by the Bisection Approximation.} by Proposition \ref{pr:fonsi-inter}, we know their oracles are the same. 
+
+From this, we also get the triangle inequality. For any oracles $r, s, t$, we have $d(r,t) \leq d(r,s) + d(s,t)$.  To argue for this, if $s = r$ or $s=t$, then we have equality. If $r=t$, then we have $0 \leq 2 d(r,s)$ which is true. We can assume, without loss of generality, that $r < t$. We then have three cases: $r< s< t$, $s < r < t$, and $r< t  < s$. If $r < s< t$, then we have equality as above. If $s < r < t$, then $d(s,t) = d(s,r) + d(r,t)$ as above and thus $d(r,t) = d(s,t) - d(s,r) < d(s,t) + d(s,r)$. The same can be said for $r < t < s$. Indeed,  we have $d(s,r) = d(r,t) + d(t,s)$ which leads to $d(r,t) \leq d(s,t) + d(s,r)$.
+
+\subsubsection{The Cut Property}
+
+Another completeness property that is closely related to the least upper bound property but is a bit more symmetrically defined, is the Cut property. 
+
+\begin{theorem}\label{th:cut}
+    Let $A$ and $B$ be two disjoint, nonempty sets of oracles such that either $A \cup B$ is the entire set of oracles.  Additionally, all oracles in $A$ are strictly less than all oracles in $B$. Then there exists an oracle $\kappa$ such that for all $x < \kappa$ we have $x \in A$ and, for all $x > \kappa$, we have $x \in B$.
+\end{theorem}
+
+James Propp uses the Cut property in \cite{propp} to establish whether various cherished theorems in real analysis are equivalent to the completeness properties or not. It is a worthwhile read. 
+
+\begin{proof}
+    We need to define the oracle $\kappa$. The rule $R$ will be such that $a \lt b$ is a Yes interval exactly when $a\in A$ and $b \in B$. Additionally, $c:c$ is a Yes singleton exactly when $c$ is not less than any element of $A$ and not more than any element of $B$. 
+
+    We need to show that $c$ is an oracle and satisfies the desired property. Let us show that the desired property holds first. 
+
+    The main implication of the relation of $A \cup B$ is that if $x < y$ and $y \in A$, then $x \in A$. Similarly, if $x \in B$, then $y \in B$. The proof of this is simply that because of the union being the whole set of oracles, each of $x$ and $y$ has to be in $A$ or $B$ and cannot be in both. Furthermore, if $y \in A$ and $x \in B$, but $x < y$, then we do not have the property holding that all oracles in $A$ are strictly less than all oracles are in $B$. Thus if we know that $y \in A$, then $x \in A$. And if we know that $x \in B$, then $y \in B$.
+
+    As a result of that implication, if $\alpha \in A$ and $\beta \in B$ with $a:b$ an $\alpha$-Yes interval and $c:d$ a $\beta$-Yes interval, then $a:d$ is a Yes interval of $\kappa$ because $a \leq \alpha$ and $\beta \leq d$ implying $a \in A$ and $d \in B$. 
+
+    Let $ x < c$. Then there exists $x$ Yes interval $u\lte v$ and $c$ Yes interval $e\lte f$ such that $v < e$. That is what that inequality means. By definition, $e$ is a lower endpoint for a Yes interval for some element $\alpha \in A$; let's say that is the interval $e\lte g$. We clearly have $ u \lte v < e \lte g$ and thus $\alpha > x$. As $\alpha \in A$, we therefore have $x \in A$ from above. 
+
+    If $x > c$, we can do the same argument except reversing the inequalities leading to $\beta \in B$ which is less than $x$ implying $x \in B$.
+
+    As for $c$ being an oracle, we do our usual going through of the properties: 
+    \begin{enumerate}
+        \item Existence. By the non-emptiness, there exists oracles $\alpha \in A$ and $\beta \in B$ with Yes intervals $a:b$ for $\alpha$ and $c:d$ for $\beta$. Thus, $a:d$ is a Yes interval for $\kappa$. 
+        \item Separating. Let $a\lte b$ be a Yes interval, $a:c:b$, and $\delta >0 $ given.  By assumption, $c$ is in $A$ or $B$. 
+        
+        If $c \in A$, then we know $c-\delta$ is in $A$ and we can ask about $c+\delta$. If $c+\delta$ is in $A$, then we know that $a:c+\delta$, and all its subintervals, are No intervals as well as $c+\delta:b$ being a Yes interval. If $c+\delta$ is in $B$, then $c_\delta$ is a Yes interval with $a:c-\delta$ and $c+\delta:b$ being No intervals. 
+
+        Similarly, if $c$ is in $B$, then $c+\delta \in B$ and we can ask about $c-\delta$. If $c-\delta \in B$, then $a:c-\delta$ is Yes while $c-\delta:b$ and all its subintervals are No intervals. If $c-\delta \in A$, then $a:c-\delta$ is No as is $c+\delta:b$. The interval $c_\delta$, however, is a Yes interval. 
+        
+        \item Consistency. If $c:d$ contains $a:b$ and $a:b$ is a Yes interval, then there are oracles $\alpha \in A$ and $\beta \in B$ and $\alpha$-Yes interval $a \lte e$ and $\beta$-Yes interval $f \lte b$. Since $c:e$ contains $a:e$, $c:e$ is a Yes interval of $\alpha$ and, similarly, $f:d$ is a Yes interval of $\beta$. Thus, $c:d$ satisfies the property of this oracle for being a Yes interval. 
+
+        If $c:d$ is a No interval, then there exists an $x$ such that either $x < c:d$ and $x \in B$ or $c:d < x$ and $x\in A$. In either case, $a:b$, being a subinterval of $c:d$, will satisfy the same relation. 
+        \item Closed. Assume $c_\delta$ is a Yes interval for all $\delta > 0$. Then given any element $\alpha \in A$ not equal to $c$, let $l = \frac{d(\alpha, c)}{2}$. Since $c_l$ is a Yes interval, we have that $c+l \in B$ and thus $\alpha < c+l$. But since $\alpha \notin c_l$, we must have $\alpha < c$. Thus, $c$ is not less than any element of $A$. 
+        
+        Similarly, if $\beta \in B$ with $\beta \neq c$, then we let $l = \frac{d(\beta,c)}{2}$ so that $c_l$ is a Yes interval that excludes $\beta$. Since $c_l$ is a Yes interval, $c-l \in A$ and we have that $\beta > c$. Thus, $c$ is not more than any element of $B$.
+
+        By the definition of our rule, $c:c$ is a Yes singleton. 
+
+        For the other direction, assume $a:a$ is a No singleton. This means that there is an oracle $\gamma$  which either is greater than $a$ and in $A$ or less than $a$ and in $B$. Let $\delta = \frac{d(\gamma, a)}{2}$. Then $\gamma$ has the same relation to all of the elements of $a_\delta$ and thus it is also a No interval.  
+    \end{enumerate}
+    
+\end{proof}
+
+\begin{corollary}
+    If we have two sets of rationals, $A$ and $B$ such that $A \cup B = \mathbb{Q}$ and all of the rationals in $A$ are strictly less than all of the rationals in $B$, then there exists an oracle $\kappa$ such that for all $q < \kappa$ we have $q \in A$ and for all $q > \kappa$, we have $q \in B$.
+\end{corollary}
+
+We could prove this by using the above proof almost verbatim. In particular, the oracle is defined the same way. We will, instead, augment the sets to satisfy the hypothesis of the theorem.
+
+\begin{proof}
+    Define $\bar{A}$ as the set of all oracles such that an upper endpoint of a Yes interval of the oracle is in $A$. And define $\bar{B}$ as the set of all oracles such that a lower endpoint of a Yes interval is in $B$. 
+
+    Let $x \in \bar{A}$ and $y \in \bar{B}$. We need to establish that $x < y$. Let $c\lte a$ be the $x$-Yes interval such that $a \in A$ and $b\lte d$ be the $y$-Yes interval such that $b \in B$. These exist by definition of being in the sets. By the defining assumption of $A$ and $B$, we have $a < b$. This translates directly into their oracles having the same relation, that is, $x < y$. 
+
+    The other fact that we need to establish is that $\bar{A} \cup \bar{B}$. This is not actually generally true as it is possible to have an oracle which is excluded from these two sets. There is, however, just one of those and it is entirely greater than $A$ and less than $B$. In fact, it would be the $\kappa$ we are looking for. 
+
+    Let $\gamma$ be an oracle that is not in $\bar{A}$ and not in $\bar{B}$. Let $a\lte b$ be any $\gamma$-Yes interval. Since $\gamma$ is not in those sets, we have that $b \notin A$ and $a \notin B$. Thus, since $A \cup B$ is all of the rationals, we have $a \in A$ and $b \in B$. Let $\tau$ be any other oracle distinct from $\gamma$. If $\tau > \gamma$ then there exists $\tau$-Yes interval $u\lte v$ and $a \lte b$ $\gamma$-Yes interval such that $b < u$. This means $u \in B$ and $\tau \in \bar{B}$. Alternatively, if $\tau < \gamma$, we would have $v < a$ and $\tau \in \bar{A}$.
+
+    We have shown that $\gamma$ is uniquely not in either of these and that it is greater than all elements of $\bar{A}$ while being less than all elements of $\bar{B}$. This allows us to append it to either $\bar{A}$ or $\bar{B}$ and then invoke the theorem. Of course, $\gamma$ satisfies the property of $\kappa$ as we just showed, so invoking the theorem here is not necessary in this case. 
+    
+\end{proof}
+
+The Cut property is formulated in a way with a strong presumption of knowledge of whether something was in a set or not and whether two oracles were equal or not. It may be possible to formulate it with a fuzzier version though it is not clear to me how one does that without introducing a shrinking region that yields $\kappa$ almost by assumption. 
+
+
+\subsection{Cauchy Sequences}\label{sec:cauchy}
+
+Closely related to nested intervals are the Cauchy sequences. We will first define Cauchy sequences and then describe the associated fonsi which yields an oracle. The basic idea is an interval is a Yes interval if it contains the tail of the sequence. 
+
+A sequence $a_n$ of oracles is \textbf{Cauchy} if given any natural number $M > 0$, there exists an $N$ and a rational interval $I_N$ whose length is less than or equal to $\frac{1}{M}$ such that for $n \geq N$, the interval $I_N$ is an $a_n$-Yes interval. That is, $I_N$ contains the oracles later in the sequence. 
+
+\begin{theorem}\label{th:cauchy}
+Any Cauchy sequence of oracles converges to an oracle. 
+\end{theorem}
+
+\begin{proof}
+    Consider the collection of $I_N$. They all intersect one another as they all contain the latter elements of the sequence. Specifically, if we have $I_N$ and $I_P$, take $n \geq \max(N, P)$. Then $I_N$ and $I_P$ must intersect as they are both $a_n$-Yes intervals. We also can find an $I_N$ which is less than any given length as that is the condition for choosing $N$ based on a given $M$. Therefore, the collection of $I_N$ is a fonsi and it generates an oracle, one in which the tail of the sequence is as close to the oracle as we care to prescribe.     
+\end{proof}
+
+The proof is short as the bulk of the work is being done by the fonsi which, as we can see here, is notionally close to what the Cauchy sequences are essentially representing. 
+
+The Cauchy condition presented here is equivalent to the condition of the more usual formulation.
+
+\begin{proposition}
+    A sequence of oracles is Cauchy if and only if the sequence satisfies for any $n, m \geq N$, $d(a_n,  a_m) < \varepsilon$ where $d$ is the oracle distance function and $\varepsilon > 0$ is an oracle. 
+\end{proposition} 
+
+\begin{proof}
+    
+If a sequence is Cauchy by our definition, then we can easily prove it satisfies the usual formulation.  Let such a sequence be given with $I_N$ having length less than $\frac{1}{M} < \varepsilon$ and for all $n \geq N$, we have $I_N$ is an $a_n$-Yes interval. Then consider $d(a_n, a_m)$ for $n, m \geq N$. Since $I_N$ is a Yes interval for both, we have $d(a_n, a_m) \leq d(I_N, I_N) < \frac{1}{M} < \varepsilon$ as the distance of an interval from itself is just it's length. 
+
+The other direction requires a little more careful choosing of the lengths. We are given a natural number $M>0$. By assumption, we can find $N$ such that that $d(a_n, a_m) < \frac{1}{9M}$ for all $n, m \geq N$. Take an $a_N$-Yes interval whose length is less than $\frac{1}{9M}$; let's say that interval is $a \lt b$. Then define $I_N = a-\frac{1}{3M} \lte b + \frac{1}{3M}$. The length of $I_N$ is less than $\frac{1}{M}$. We are therefore done if we can show that $I_N$ is an $a_n$-Yes interval for all $n \geq N$.
+
+The distance statement implies that we can find an $a_n$-Yes interval $e:f$ and an $a_N$-Yes interval $c:d$ such that $d(e:f, c:d) < \frac{1}{9M}$. Since subinterval distances shrink and we can bisect Yes intervals to get smaller Yes intervals, we can also assume that $e:f$ and $c:d$ have lengths smaller than $\frac{1}{9M}$. 
+
+In order for $e:f$ to be contained in $I_N$, we need $d(a:b, e:f) \leq \frac{1}{3M}$. The distance function satisfies a version of the triangle inequality, namely $d(a:b, e:f) \leq d(a:b, c:d) + d(c:d, c:d) + d(e:f, c:d)$. This holds for all intervals\footnote{This follows from the definitions and the usual triangle inequality. Let $|A-E| = d(a:b, e:f)$, $|B-D| = d(a:b, c:d)$, $|c-d| = d(c:d, c:d)$, and $|C-F| = d(c:d, e:f)$ where the capital letters are the different points in their respective intervals that realize the distances. Then $|A-E| = |A - D + D - C + C - E| \leq |A-D| + |D-C| + |C-E| \leq |B-D| + |c-d| + |C-F|$ where the substitutions are justified by each term being replaced with the maximum difference of the points in the intervals.  We therefore have $d(a:b, e:f) \leq d(a:b, c:d) + d(c:d, c:d) + d(e:f, c:d)$.}. Substituting in our choices, we get $ d(a:b, e:f)  \leq \frac{1}{9M} + \frac{1}{9M} + \frac{1}{9M} =  \frac{3}{9M} = \frac{1}{3M}$ as was to be shown. 
+
+The interval $I_N$ therefore contains the $a_n$-Yes interval $e:f$ and, by Consistency, is an $a_n$-Yes interval itself. 
+
+\end{proof}
+
+
+\subsection{The Collatz Number}
+
+There is an open mathematical problem, called the Collatz conjecture, which conjectures that a certain process stops for every natural number.\footnote{\url{https://en.wikipedia.org/wiki/Collatz_conjecture}} We will use that process to define a couple of oracles whose ultimate nature can only be settled by someone solving the Collatz conjecture. 
+
+We define one Oracle of Collatz $R$ to be such that $R(-\tfrac{1}{n}:\tfrac{1}{n})$ is 1 if the $k$-Collatz sequence terminates at 1 for all $k \leq n$ and 0 otherwise. For all other intervals $a:b$, $R(a:b) = 1$ if $a:b$ contains such a Collatz Yes interval. If there is an $n$ which does not satisfy the Collatz conjecture, then, taking $N$ to be the first such $n$, we define $R(\tfrac{1}{N}:\tfrac{1}{N}) = 1$. If there is no such $n$, then $R(0:0) = 1$.
+
+This is a rule which is currently known to be $-2^{-68}:2^{-68}$ compatible with the Oracle of 0. But unless it gets proven or falsified, we cannot establish equality or inequality with respect to 0. 
+
+In the ultimate form of a known result for the conjecture, this will be an Oracle of 0 or an Oracle of $\tfrac{1}{N}$ where $N$ is the first number where the conjecture fails to hold. Until that happens, we cannot practically use the Separating property in all possible cases. 
+
+An alternative approach to using this conjecture is to define an oracle that implies the $n$-th digit in its decimal approximations is $1$ if the Collatz conjecture fails on it and $0$ otherwise. We do this in the following way. Let $C(n)$ be an indicator function which is 1 if $n$ does not satisfy the Collatz conjecture and 0 otherwise. Define the following function as follows: $f(1) = 0$,  $f(n) = \sum_{i=1}^n C(i)*10^{-i} $. Define $p_n = \frac{1}{9*10^n}$ which is the closed form of the geometric sum $\sum_{i=n+1}^{\infty} 10^{-i}$ which obviously approaches $0$ as $n \to \infty$. The set of $f(n): f(n) + p_n $ define a fonsi and therefore an oracle. This is assuming, of course, that one can compute out what $C(i)$ is. This is also compatible with the 0 oracle at the present time, but even if we establish that it is not the 0 oracle, we may still not be able to compute $C(i)$ for all $i$. 
+
+This example is an issue for all definitions of real numbers, but it feels as if the oracle approach accommodates this a little better as the incompleteness of our information is naturally incorporated into the framework using the language of compatibility.
+
+\subsection{Coin Tosses}
+
+We want to model an oracle that is probabilistic in nature and explore how that might work. 
+
+The first version is to create a fonsi by a bisection method. We start with an initial interval, say $I_1 = 0:1$. Then, given $I_n = a:b$, we let $c = \tfrac{a+b}{2}$ and then use a random function that yields 1 with probability $p$ and 0 with probability $1-p$. If it is 1, then $I_{n+1} = a:c$. Otherwise, $I_{n+1} = c:b$. These intervals are clearly shrinking and overlapping, hence we can define a family $F_n$ of oracles compatible up to $I_n$ for any given $n$. We will never have a single, final oracle as it can only be defined fully after this infinite subdividing process completes. 
+
+A process closer to defining an oracle directly is to flip a coin when asked a question about an interval when the answer is not already known. We will use $R$ for the rule. Let $I$ be a given starting interval and we set $C=I$ where $C$ stands for current. Let $a:b$ be the interval asked about. If $a:b$ contains $C$ (or is $C$), then $R(a:b) = 1$. If $a:b$ and $C$ are disjoint, then $R(a:b) = 0$. If neither, then $a:b$ and $C$ intersect. Let $c:d$ then be that intersection. If the interval $c:d$ divides $C$ in two, then we use a random process to determine if $c:d$ is a Yes interval or a No interval; the complement interval in $C$ is then the opposite. Then $a:b$ is a Yes or No interval if $c:d$ is Yes or No, respectively. We also redefine $C$ to be $c:d$ or its complement, depending on which one is Yes. It is possible for $c:d$ to divide $C$ into three intervals in the case that $a:b=c:d$ is strictly contained in $C$. We check $c:d$ first; if it is Yes, then the other two are No. If $c:d$ is No, then we do the random process to decide which of the two remaining intervals making up the complement are Yes. Whichever one is Yes, becomes the new $C$ for future Rule consultations.   
+
+For singletons, if the singleton is a subinterval of $C$, then we use the same procedure except that if it comes up No, we pick a $\delta > 0$ such that $c_\delta$ can be No without contradicting $C$ being Yes. This can always be done unless $C$ is the singleton in which case the singleton is Yes anyway. We figure out the new Yes interval as above, using $c_\delta$ as No as the dividing subinterval. 
+
+This oracle will satisfy Consistency and Existence by definition. For Separating, we can ask about $c_\delta$ or a subinterval of that; our procedure will provide the necessary results.  As for Closed, if we ask about $c:c$, we either get a Yes, which is then fine, or, if it is No, we get a $c_\delta$ that is No. There is no way we could ever establish that $c_\delta$ was a Yes interval for all $\delta >0$ without having asked about $c:c$ and getting a Yes. 
+
+This is an example of a rule which is guaranteed to give an answer for any question we ask even if the answer cannot be known in advance. In fact, the very nature of what is possible is based on what we ask. For example, if we never ask about  $c:c$, then it will not happen. But if we do ask, then it could come up as Yes. 
+
+In a certain sense, our rule here is not ``complete''. An infinite being looking at it would see the finiteness. But from our limited perspective, it works just as much as any ``complete'' rule. In contrast, the Collatz example is one which we might not get an answer to. It is ``incomplete'' on a practical level. 
+
+Comparing both of these random processes, the first seems to give an air of incompleteness which the second lacks. In particular, the first one's design looks like an infinite process that should go on until the completion, something which can never be accomplished. In contrast, the second one requires an interaction. It feels more like an answer given just in time. While it is also incomplete, it does not feel incomplete. 
+ 
+Part of it is that we get to ask the second process directly the question of interest, namely, ``is this interval that we care about a Yes interval?'' In the first process, we need to keep computing the bisected intervals until we can definitively answer the question about any given interval. 
+
+In comparing it the Collatz number example, a striking difference is that the Collatz procedure is one in which different people doing the mathematics correctly will not find different answers. The random processes yields different answers for different questioners, quite radically so for the second random process. 
+
+Both the random processes and the Collatz example explains our focus on the rule rather than the set of Yes-intervals. The rule approach allows for more possibilities than the set version, as these examples demonstrate. There is no way to present the completed set of Yes intervals for these examples. One can argue about whether one can present the completed set of Yes intervals for the square root of 2 or not, but one can clearly not do so for these processes. Whether one wants to include these examples as valid oracles is a question which we leave to the reader to decide. 
 
 \section{Interval Arithmetic}
 

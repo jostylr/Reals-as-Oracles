@@ -21,7 +21,7 @@
 %% needs to be disabled.
 % Symmetric option added to have sidenotes on 
 \documentclass[nohyper,nobib, symmetric]{tufte-book}
-\includeonly{chapters/a-rational-review}
+%\includeonly{chapters/a-rational-review}
 \usepackage{nameref}
 % \hypersetup{colorlinks}% uncomment this line if you prefer colored hyperlinks (e.g., for onscreen viewing)
 
@@ -290,14 +290,28 @@ Dedicated to those who distrust infinity but acknowledge its uses.
 
 \include{chapters/introduction}
 
-\include{chapters/a-rational-review}
-
 
 %%
 % Start the main matter (normal chapters)
 \mainmatter
 
-\part{Real Oracles}  
+\part{A Rational World}
+
+\include{chapters/counting-numbers}
+
+\include{chapters/credit-and-debt}
+
+\include{chapters/dividing-into-parts}
+
+\include{chaptes/pennies-on-the-dollar}
+
+\include{chapters/rational-algebra}
+
+\include{chapters/rational-geometry}
+
+
+
+\part{Real Numbers}  
 
 \include{chapters/why-rational-numbers}
 
@@ -305,14 +319,26 @@ Dedicated to those who distrust infinity but acknowledge its uses.
 
 
 
-\part{Function Oracles}
+\part{Functions}
 
 
 
-\part{Generalizing Oracles}
+\part{Calculus}
+
+\part{Multivariable Considerations}
+
+\part{Analysis, Mathematical and Numerical}
+
+
 
 
 \backmatter
+
+\appendix
+
+\include{chapters/sets-as-numbers}
+
+\include{chapters/ratmath}
 
 % \bibliography{sample-handout}
 % \bibliographystyle{plainnat}

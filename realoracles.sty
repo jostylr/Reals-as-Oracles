@@ -3,16 +3,25 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{realoracles}[2023/02/05 Representing Real Oracles with colons and such]
 
+
 %%Requeiried packages and preliminary definitions, needed by the options
-\RequirePackage{mathabx}
+%\RequirePackage{mathabx}
 \RequirePackage{ulem} %underlining, normalem is to allow for normal bibtex emphasis
 \RequirePackage{graphicx} %used for the wall symbol rotation
 
+% the 3 vertical dots come from mathabx. but that clobbered some stuff so this is a way to have that symbol
+%https://tex.stackexchange.com/questions/176941/conflict-between-mathabx-and-other-packages
+\DeclareFontFamily{U}{mathb}{\hyphenchar\font45}
+\DeclareFontShape{U}{mathb}{m}{n}{
+      <5> <6> <7> <8> <9> <10> gen * mathb
+      <10.95> mathb10 <12> <14.4> <17.28> <20.74> <24.88> mathb12
+      }{}
+\DeclareSymbolFont{mathb}{U}{mathb}{m}{n}
 
 
 %https://tex.stackexchange.com/questions/432778/reduce-spacing-around-colons-in-math-mode
-\DeclareMathSymbol{:}{\mathbin}{mathb}{"33}
-\DeclareMathSymbol{\col}{\mathord}{operators}{"3A}  %gives usual colon
+%\DeclareMathSymbol{:}{\mathbin}{mathb}{"33}
+%\DeclareMathSymbol{\col}{\mathord}{operators}{"3A}  %gives usual colon
 %do \mathrel{\col} for more spaced colon. 
 %\mathrel{:} if need colon spaced. 
 %want small less than for colon replacement
@@ -74,6 +83,18 @@
 \newcommand{\xrelte}{\betrelte{x}{0.5}}
 \DeclareMathSymbol{\vdddots}{\mathalpha}{mathb}{"33} 
 \newcommand{\xrel}[1][x]{\ensuremath{\mathrel{\vdddots\underline{#1}\vdddots}}}
+\newcommand{\xnan}[1][x]{%
+    \ensuremath{\mathrel{\vdddots\vtop{ \offinterlineskip \ialign{
+          ##\cr % template
+          \ensuremath{#1}\cr % top line
+          \noalign{\vspace{0.25ex}}% space
+          \hidewidth.\kern-0.1em.\hidewidth\cr % dots
+        } }\vdddots}
+}}
+\newcommand{\xora}[1][x]{\ensuremath{\mathrel{\vdddots\widehat{#1}\vdddots}}}
+\newcommand{\oracle}[2][x]{\ensuremath{R_{#1}(#2)}}
+
+
 %\newcommand{\xrelold}{\ensuremath{:\underline{x}:}}
 
 %For Katex, the following macros can substitue in for the triple dot and slanted dots: 

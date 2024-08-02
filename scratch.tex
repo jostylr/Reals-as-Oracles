@@ -1,0 +1,28 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[pdfencoding=auto,psdextra]{hyperref}
+
+%\usepackage{mathabx}
+
+\usepackage{amsmath}
+
+% Setup the mathb font (from mathabx.sty)
+\DeclareFontFamily{U}{mathb}{\hyphenchar\font45}
+\DeclareFontShape{U}{mathb}{m}{n}{
+      <5> <6> <7> <8> <9> <10> gen * mathb
+      <10.95> mathb10 <12> <14.4> <17.28> <20.74> <24.88> mathb12
+      }{}
+\DeclareSymbolFont{mathb}{U}{mathb}{m}{n}
+
+% Define a subset character from that font (from mathabx.dcl)
+% to completely replace the \subset character, you can replace
+% \varsubset with \subset
+
+\DeclareMathSymbol{\Earth}{3}{mathb}{"33}
+%\usepackage{fonttable}
+\begin{document}
+%\fonttable{mathb10}
+  \begin{equation}
+    U_{\Earth}
+  \end{equation}
+\end{document}
