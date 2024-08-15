@@ -161,44 +161,53 @@ To be an exclusion relation, the symmetric relation must satisfy the properties 
 
 The idea of an oracle is that it takes in a rational interval and says Yes or No depending on whether the real number is in the interval. Unfortunately, real numbers can be a little more complicated than that. It can be the case that intervals whose endpoint is a particular rational number cannot be answered one way or the other. But what can be ascertained is whether the real number is in a $\delta$-halo of that rational number. We will formalize this. 
 
-The Oracle of $x$ is a rule $R_x$ which when given a rational interval $a:b$, with possibly $a=b$, and a rational width $\delta$, returns either $a:b$ signifying the real is in that interval, $\emptyset$ signifying that it is not in the interval, $a_\delta$ signifying it is in $a_\delta$, or $b_\delta$ signifying it is in $b_\delta$. Ideally, $\delta$ is chosen so that $a_\delta$ and $b_\delta$ are disjoint. If $a:b$ can be returned by the oracle, then it is preferred to be returned. We will say $a:b$ is a Yes interval if $R_x$ returns $a:b$ and a No interval if it returns the empty set. If a $\delta$-halo is returned, then $R_x$ is ambiguous on $a:b$, but we can say that the $\delta$-halo is a Yes interval. 
+The Oracle of $x$ is a rule $R_x$ which, when given a rational interval $a:b$, with possibly $a=b$, and a rational width $\delta$, returns either $a:b$ signifying the real number $x$ ought to be in that interval,  $a_\delta$ signifying $x$ is in $a_\delta$, $b_\delta$ signifying $x$ is in $b_\delta$, or $\emptyset$ signifying that $x$ ought not to be in $a:b$.
 
- The idea of the return of an interval is that the oracle is returning an interval which contains the real number. The empty set is returned when the oracle cannot give an interval which works from the given input. 
+We will say $a:b$ is a Yes interval if $R_x (a:b, \delta) \neq \emptyset$ for all $\delta >0$. It is assumed for all oracles that if $R_x$ returns an interval $c:d$, then $c:d$ is a Yes interval. Thus, if $R_x( a:b, \delta) = a:b$ for some $\delta$, then $a:b$ is a Yes interval. 
 
-Let the interval be $a:b$. If it is a Yes interval, then we use the notation $a \xora b$. For a No interval, the notation is \sout{$a \xora b$}. If $a_\delta$ is returned, this can be written as $a \xora \pm \delta$ which is a slightly compact way of writing $a-\delta \xora a - \delta$. If $b_\delta$ is returned, then $b \xora \pm \delta$ is used. 
+Note that it is possible that $R_x(a:b, \delta) = a_\delta$ for all $\delta > 0$. The interval $a:b$ is a Yes interval in this case, but it is not the case that $a:b$ has been returned by $R_x$. Additionally, $R_x(a:a, \delta) = a_\delta$ may hold for all $\delta$. This also implies that $a:a$ is a Yes interval though it is never returned by $R_x$.
 
-We  may also drop the $x$ for the function $R$ when there is only one oracle under discussion. The default real number will also be represented by $x$. 
+If $a:b$ is a Yes interval, then we use the notation $a \xora b$. For a No interval, the notation is \sout{$a \xora b$}. If $a_\delta$ is returned from evaluating $R$, then $a_\delta$ is a Yes interval which may be written as $a \xora \pm \delta$ and is a slightly more compact way of writing $a-\delta \xora a + \delta$. If $b_\delta$ is returned, then $b \xora \pm \delta$ is used. 
+
+We  may also drop the $x$ for the function $R$ when there is only one oracle under discussion. If no real number symbol is given, then $x$ will be used as the default. 
 
 To be an oracle, the rule must satisfy the properties listed below.
 \begin{enumerate}
     \item Existence. $a \xora b$ holds for some rational interval $a:b$.
-    \item Separating. If $a \xora b$, then for a given $c \neq a, b$ in $a:b$ and given a width $\delta$, there exists a $c_{\delta}$ compatible interval $e:f$ such that exactly one of the intervals $a:e$, $e:f$, and $f:b$ is a Yes interval while the other two are No intervals. 
+    \item Separating. If $a \xora b$, then for a given $c \neq a, b$ in $a:b$ and given a width $\delta$, there exists a $c_{\delta}$ compatible interval $e:f$ such that exactly one of the following holds true:
+    \begin{enumerate}
+        \item $a \xora e$, \sout{$e \xora f$}, \sout{$f \xora b$};
+        \item \sout{$a \xora e$}, $e \xora f$, \sout{$f \xora b$};
+        \item \sout{$a \xora e$}, \sout{$e \xora f$}, $f \xora b$;
+    \end{enumerate}
     \item Consistency. Assume $c:d$ contains $a:b$. If $a \xora b$, then $ c \xora d$. If \sout{$c\xora d$}, then \sout{$a\xora b$}. 
-    \item Closed. If the $\delta$-halo of $c$ is a Yes interval for all rational $\delta>0$, then $c \xora c$. Additionally, if \sout{$a \xora a$}, then there exists a $\delta$-halo of $a$ such that \sout{$a \xora \pm \delta$}.
+
 \end{enumerate}
 
 
-The Existence and Separating properties are both essential ingredients in algorithmically refining the knowledge about the real number. The Consistency and Closed properties are more about filling in the blanks and are a bit more atmospheric than algorithmic. In other words, specifying a starting Yes interval and the rule how to do the separating property allows us to develop the real number. The other two properties are there to make the oracle rule unique, but are not generally involved in directly producing better approximations. 
+The Existence and Separating properties are both essential ingredients in algorithmically refining the knowledge about the real number. The Consistency property is more about filling in the blanks when already given some knowledge. In other words, specifying a starting Yes interval and the rule how to do the separating property allows us to develop the real number. 
 
 For further elaboration on what each of these properties means:
 
 \begin{enumerate}
   
-    \item The existence requirement says that there is definitely an interval which the Oracle confirms being in. It is required to avoid the trivial $R(a:b) = \emptyset$ for all $a:b$ which would satisfy all the other conditions, including the separating property due to that property only applying to Yes-intervals. 
+    \item The Existence property says that there is definitely an interval which the Oracle confirms being in. It is required to avoid the trivial $R(a:b) = \emptyset$ for all $a:b$ which would satisfy all the other conditions, including the Separating property due to that property only applying to Yes-intervals. 
     
     The existing interval also gives us a place to start in our approximation schemes that we discuss later. 
     
-    It is usually easy to verify in any practical example as any Yes-interval will do and we can usually find a very bad approximate interval that is easy to establish.  
+    It is usually easy to verify in any practical example as any Yes-interval will do and we can usually find a very bad approximate interval that is easy to establish. 
 
-    \item Separation is needed to ensure that the Yes will continue to propagate downwards so that we can make progress on narrowing in on $r$. This is crucial to the use of the Oracle in approximating what we take to be a single number $r$. Ideally, we could ask the rule whether $c:c$ is a Yes interval or not. If it was No, then we would be in the case of exactly one of $a:c$ and $c:b$ being a Yes interval while the other one is a No interval. If it was Yes, then we have our real number as the rational number $c$. Unfortunately, it can be hard to ascertain whether a real number is a given rational number or not. This is why we specify a $\delta$ as a tolerance level for knowing about $c$. 
+    The existing interval is also part of specifying a limited domain for finding a solution. For example, if using $\sin(x) = 0$ to define $\pi$ using the Intermediate Value Theorem, one needs to specify an interval with exactly one solution, such as the interval $3:4$.
+
+    \item Separation is needed to ensure that the Yes will continue to propagate downwards so that we can make progress on narrowing in on $x$. This is crucial to the use of the Oracle in approximating what we take to be a single number $x$. Ideally, we could ask the rule whether $c:c$ is a Yes interval or not. If it was No, then we would be in the case of exactly one of $a:c$ and $c:b$ being a Yes interval while the other one is a No interval. If it was Yes, then we have our real number as the rational number $c$. Unfortunately, it can be hard to ascertain whether a real number is a given rational number or not. This is why we specify a $\delta$ as a tolerance level for knowing about $c$. 
 
     We do require that given that fuzziness, the rule should be able to give us an answer, at least in principle with a large, but finite, amount of work. In practice, we may still not be able to answer the question due to computational limitations. This particular difficulty with rationals mirrors the difficulty in other approaches to real numbers. 
     
-    Separation ensures that there is just one single number under discussion. Without imposing the No conditions, we could have the rule, for example, $R(a:b) = 1$ for all $a:b$ that contain a subinterval of a fixed given interval $m \lt n$. This is compatible with all the properties except for the requirement of having No intervals when separating the interval. In particular, let $m:n$ be our Yes interval and take $c = \frac{m+n}{2}$. Let $\delta = \frac{n-m}{3}$. Then $m:c, c:n, c:\pm \delta, m:c-\delta), c+\delta:n$ are all Yes intervals. So the Yes parts are all satisfied, but the No is not. It is the requirement of having an answer of No which makes this have a single real number that it is representing.
+    Separation ensures that there is just one single number under discussion. Without imposing the No conditions, we could have the rule, for example, $R(a:b) = 1$ for all $a:b$ that contain a subinterval of a fixed given interval $m \lt n$. This is compatible with all the properties except for the requirement of having No intervals when separating the interval. In particular, let $m:n$ be our Yes interval and take $c = \frac{m+n}{2}$. Let $\delta = \frac{n-m}{3}$. Then $m:c, c:n, c:\pm \delta, m:c-\delta, c+\delta:n$ are all Yes intervals. So the Yes parts are all satisfied, but the No is not. It is the requirement of having an answer of No which makes this have a single real number that it is representing.
 
-    One particular example of needing to impose this is in finding the roots of a function using the intermediate value theorem. Let's say we are looking at $f(x) = (x-1)(x-2)$. The roots are 1 and 2, of course, but let's say we define the oracle rule as saying Yes to any interval $a:b$ for which the signs of $f(a)$ and $f(b)$ are not equal or one of the values is 0. This would represent both the roots 1 and 2. We would need to essentially restrict ourselves to the interval $0.5:1.5$ and require that any interval disjoint from that to be a No interval. We can then operate within that interval according to the sign rule. 
+    One particular example of needing to impose this is in finding the roots of a function using the intermediate value theorem. Let's say we are looking at $f(x) = (x-1)(x-2)$. The roots are 1 and 2, of course, but let's say we define the oracle rule as saying Yes to any interval $a:b$ for which the signs of $f(a)$ and $f(b)$ are not equal or one of the values is 0. This would represent both the roots 1 and 2. To satisfy the Separation property and get a single solution, we can restrict ourselves to the interval $0.5:1.5$ and require that any interval disjoint from that is a No interval. We can then operate within that interval according to the sign rule. 
 
-Because of Consistency, the interval $e:f$ being Yes implies $c_{\delta}$ is a Yes interval. In addition, its complements in $a:b$ are sub-intervals of the complements of $e:f$ so Consistency implies that the No property gets transmitted to the sub-intervals. Thus, we may simplify the use of the Separation property for oracles as saying either $c_{\delta}$ is a Yes interval or exactly one of $a:c, c:b$ is a Yes interval.
+Because of Consistency, the interval $e:f$ being Yes implies $c_{\delta}$ is a Yes interval. In addition, its complementary intervals in $a:b$ are sub-intervals of the complements of $e:f$ so Consistency implies that the No property gets transmitted to the sub-intervals. Thus, we may simplify the use of the Separation property for oracles as saying either $c_{\delta}$ is a Yes interval or exactly one of $a:c, c:b$ is a Yes interval.
 
 We exclude the endpoints as the No interval part would not be possible. This is different from the exclusion relation in which using the endpoints and excluding one of them is both sensible and yields a new interval. 
 
@@ -208,17 +217,9 @@ We exclude the endpoints as the No interval part would not be possible. This is 
 
 
     Without Consistency, we could have a rule which has multiple refinement targets. Consider, as an example, the rule which is Yes for all intervals containing $0$ but excluding $1$ as well as all intervals containing $3$ but excluding $2$. This satisfies Existence, Separating, and Closed. The closed is satisfied as there is no rational number in all the intervals though we also have two singletons included. Existence is clear. Separating is pretty easy to establish, noting that there are no Yes intervals covering the two integers. It is only consistency which forces the joining of disjoint Yes intervals into a combined interval that Separation can then force a contradiction out of.  
-    The second part of Consistency is asserting that we can fill in the blanks when we know that only one value is consistent with what we know. For example, if $a:b$ contains $c:d$ and $a:b$ is a No interval, then if $c:d$ was Yes, we would have a contradiction. Consistency says that we therefore must have $c:d$ as a No interval. We have included in the property to be explicit about the requirement as we could not otherwise force it to be defined. 
-    
-    \item An important benefit of the Closed property is that the arithmetic of rationals is unchanged. As we shall see, oracle arithmetic involves interval arithmetic. With the presence of the singletons, we can do arithmetic with them as we do with fractions. 
-    
-    It also helps ensure the uniqueness of an oracle. For example, we could define a $0^+$ oracle by being Yes on all the intervals of the form $a \lt b$ with $a < 0, b \geq 0$, and another oracle $0^-$ as intervals of the form $a \lt b$ with $a \leq 0, b >0$. These two proto-oracles satisfy the other properties. Both could be said to represent $0$, but they are distinct. They obviously fail to satisfy the Closed property. If we add in $0:0$ to them to satisfy the Closed Property, then they fail Consistency since we now need to include all intervals that include $0:0$. This is how we achieve uniqueness.\footnote{If we were using exclusive intervals, we could have at least three representatives. All of them have Yes to $a:b$ with $a<0, b> 0$. One representative is just that, another adds in $a:0$ and the other has $b:0$, depending on how we modify the properties.} 
-    
-    Most representations of real numbers have this issue with rationals. Decimals have the issue of repeating 9s. Dedekind cuts have the question of whether to include the rational or not in its own cut. Continued fraction representations are unique on irrational numbers, but they have two representatives for rationals. Other approaches, such as Cauchy sequences and fonsis, have an abundance of non-unique representations. 
-    
-    In our constructions, we often need to add this in explicitly. Establishing that a rational real is rational can be difficult, possibly impossible. This seems to be one of the essential difficulties with real numbers, to varying degrees. We handle this by using the $\delta$ smearing in the Separating property. 
 
-    In the Closed property, we have also included the fact that $a:a$ being No implies the existence of a $\delta > 0$ such that $a_\delta$ is No interval. One can argue, non-constructively, that the first statement in the Closed property implies this. Indeed, if there was no such $\delta$, then every $a_\delta$ is a Yes interval and this implies by the Closed property, that $a:a$ is a Yes interval. I have decided to include this in the property as an explicit declaration that we expect this to be constructively doable in the rule.  In particular, this applies when one says No to a singleton. To be able to say No suggests some knowledge and that there ought to be a moat around it. 
+    The second part of the Consistency property may not feel necessary. Indeed, if $a\lt b$ is strictly contained in the No interval $c:d$, then choose a $\delta$ such that $a- \delta : b+\delta$ is contained in $c:d$, which is possible by the strictly contained property. Then  and $a:b$ is a No interval, then if $c:d$ was Yes, we would have a contradiction. Consistency says that we therefore must have $c:d$ as a No interval. We have included this in the property to be explicit about the requirement as we could not otherwise force it to be defined. 
+    
 
 \end{enumerate}
 
@@ -230,6 +231,30 @@ A \textbf{singleton oracle }is an oracle whose Yes intervals includes a singleto
 
 We also define the term \textbf{resolvable oracle} to mean an oracle in which all rational intervals have a defined answer to the oracle question. For such an oracle, we can ask about $c:c$ for any singleton and get an answer. This will allow any rational in a Yes interval to divide the interval into two pieces, with exactly one of being a Yes interval, assuming the singleton is a No interval. That is, a resolvable oracle is just another way of expressing a rational cut relation. With Existence and Consistency, what makes a resolvable oracle is the ability to answer the question for every singleton. 
 
+\subsubsection{Equality of Oracles}
+
+An attentive reader will notice that the Closed property of the previous two definitions is absent for oracles. This is because it is both not true and can be somewhat deduced from it. 
+
+A possible Closed property statement could be of the form: If the $\delta$-halo of $c$ is a Yes interval for all rational $\delta>0$, then $c \xora c$. Additionally, if \sout{$a \xora a$}, then there exists a $\delta$-halo of $a$ such that \sout{$a \xora \pm \delta$}.    
+
+The statement that $c \xora c$ is the statement that $R(c:c, \delta)= c:c$ for some $\delta$; the oracle would be compatible at that point with that statement for all $\delta$. Unfortunately, if $R(c:c, \delta) = c_\delta$ for all $\delta > 0$, we cannot conclude that there exists a $\delta > 0$ such that $R(c:c, \delta) = c:c$. It is clear, however, that $c$ is the real number being discussed. The actual claim is that an oracle of this kind is equal to an oracle such that $R(a:b, \delta) = a:b$ if and only if $c \in delta$.
+
+To establish this, we need to first discuss equality of oracles. For the other relations, equality is literal as we assumed a definite answer for them. For oracles, the oracle can return up to three distinct answers if it is not a No interval. This offers some possible differences. Oracles $R$ and $S$ are \textbf{equal} if and only if $R(a:b, \delta) \neq \emptyset$ occurs exactly when $S(a:b, \delta) \neq \emptyset$. That is to say, both oracles return a non-empty interval for the same inputs. They may return different intervals, but they agree on whether an interval is Yesish or not.  
+
+
+
+
+
+
+ An important benefit of the Closed property is that the arithmetic of rationals is unchanged. As we shall see, oracle arithmetic involves interval arithmetic. With the presence of the singletons, we can do arithmetic with them as we do with fractions. 
+    
+    It also helps ensure the uniqueness of an oracle. For example, we could define a $0^+$ oracle by being Yes on all the intervals of the form $a \lt b$ with $a < 0, b \geq 0$, and another oracle $0^-$ as intervals of the form $a \lt b$ with $a \leq 0, b >0$. These two proto-oracles satisfy the other properties. Both could be said to represent $0$, but they are distinct. They obviously fail to satisfy the Closed property. If we add in $0:0$ to them to satisfy the Closed Property, then they fail Consistency since we now need to include all intervals that include $0:0$. This is how we achieve uniqueness.\footnote{If we were using exclusive intervals, we could have at least three representatives. All of them have Yes to $a:b$ with $a<0, b> 0$. One representative is just that, another adds in $a:0$ and the other has $b:0$, depending on how we modify the properties.} 
+    
+    Most representations of real numbers have this issue with rationals. Decimals have the issue of repeating 9s. Dedekind cuts have the question of whether to include the rational or not in its own cut. Continued fraction representations are unique on irrational numbers, but they have two representatives for rationals. Other approaches, such as Cauchy sequences and fonsis, have an abundance of non-unique representations. 
+    
+    In our constructions, we often need to add this in explicitly. Establishing that a rational real is rational can be difficult, possibly impossible. This seems to be one of the essential difficulties with real numbers, to varying degrees. We handle this by using the $\delta$ smearing in the Separating property. 
+
+    In the Closed property, we have also included the fact that $a:a$ being No implies the existence of a $\delta > 0$ such that $a_\delta$ is No interval. One can argue, non-constructively, that the first statement in the Closed property implies this. Indeed, if there was no such $\delta$, then every $a_\delta$ is a Yes interval and this implies by the Closed property, that $a:a$ is a Yes interval. I have decided to include this in the property as an explicit declaration that we expect this to be constructively doable in the rule.  In particular, this applies when one says No to a singleton. To be able to say No suggests some knowledge and that there ought to be a moat around it. 
 \section{Basic Properties}
 
 Here we collect various useful facts about these relations. The primary focus is on oracles as they are the most practical and difficult, but there will be indications for the other versions. 
@@ -2090,7 +2115,7 @@ This section is an exploration of what this framing of real numbers suggests for
 
 An alternative to the bisection method is the mediant method. Given a rational interval $\frac{a}{b} : \frac{c}{d}$, we divide the interval into two pieces by using the mediant $\frac{a+c}{b+d}$ as the ``middle''. This does depend on the particular fraction representative of the rational endpoints. Indeed, by scaling the two rational numbers, we can use the mediant operation to produce any rational number in the interval. If we repeatedly scale the fractions to have common denominators, then the mediant operation is the same as bisecting. 
 
-The iterative procedure is to start with an interval\footnote{In what might be considered a canonical process, we would start with deciding on the interval $[\frac{-1}{0}, \frac{0}{1}]$ vs $[\frac{0}{1}, \frac{1}{0}]$ to determine the sign and then repeated application of the process gets the integral portion. In practice, we can just try to get to the intergral interval containing the real number as fast as we can and then start the process.}, compute a mediant, ask the oracle which interval contains it, and then repeat with that new interval. This produces the best rational approximations to the real number in the sense that there is no closer rational number to the target number whose denominator is no bigger than the mediant's denominator produced by this method. 
+The iterative procedure is to start with an interval\footnote{In what might be considered a canonical process, we would start with deciding on the interval $[\frac{-1}{0}, \frac{0}{1}]$ vs $[\frac{0}{1}, \frac{1}{0}]$ to determine the sign and then repeated application of the process gets the integral portion. In practice, we can just try to get to the integral interval containing the real number as fast as we can and then start the process.}, compute a mediant, ask the oracle which interval contains it, and then repeat with that new interval. This produces the best rational approximations to the real number in the sense that there is no closer rational number to the target number whose denominator is no bigger than the mediant's denominator produced by this method. 
 
 
 \subsection{Square Roots}

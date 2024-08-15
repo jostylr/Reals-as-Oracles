@@ -1,0 +1,515 @@
+\documentclass[12pt]{article}
+\usepackage{personal}
+\usepackage{realoracles}
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{proposition}{Proposition}[section]
+
+
+
+\title{Defining Real Numbers By Inclusion in Rational Intervals}
+
+\jtauthor
+\date{\today}
+
+
+
+%\sloppy%\openup-.1\jot
+\begin{document}\maketitle
+\begin{abstract}
+Irrational numbers cannot be known in a precise way in the same fashion that rational numbers can be. But one can be precise about the uncertainty. The assertion is that if one knows whether or not a real number is in any given rational number, then one can claim to know the real number. This paper will define real numbers as rules that give definite, useful answers to whether a real number is in a given rational interval. It is proven that the collection of these rules satisfies the axiom of the real numbers. 
+\end{abstract}
+
+Real numbers are a fundamental part of mathematics. They have many different definitions, but they each have their own inadequacies. The definition in this paper is an attempt to minimize these difficulties. 
+
+The first step towards this idea is to think of a real number $x$ as providing a betweenness relation on rational numbers by $a$ and $b$ being $x$-related if $x$ is, inclusively, between $a$ and $b$. This almost works. But there are many situations in which one cannot definitively conclude that for a given real number. The resolution of this is to have an underlying rule managing the information and then to have a layer on top of this. 
+
+The rules under discussion have the property that they can provide precise, certain answers about a real number. The setup allows for the computation of intervals, but does not require computation in order to define the real number. The one downside is that multiple rules can represent the same real number, but the ambiguity is largely unseen at the higher level presentation of the $x$-relation viewpoint.  
+
+This paper will first establish some basic notations for working with rational intervals before defining the properties that these rules must satisfy to represent a real number. A brief section on some examples will be given which will be light on details. See \cite{taylor23main} for a more in-depth discussion of examples, uses, and comparisons to other definitions of real numbers. Equality is discussed before several sections are explored in fully establishing the real number properties. While not necessary, there is also a discussion on how the standard uncountability result arises from these rules. 
+
+\section{Interval Notations}
+
+This section is in common to the other papers on this subject by this author, such as \cite{taylor24dedekind}.
+
+The set of all rationals $q$ such that $q$ is between $a$ and $b$, including the possibility that $q=a$ or $q=b$, is a \textbf{rational interval} denoted by $a:b$. If $a=b$, then this is a \textbf{rational singleton} denoted by $a:a$. A singleton is a set of exactly one rational number, namely, $a$. 
+
+The notation will also be used to indicate betweenness. If $a \leq b \leq c$ or $c \leq b \leq a$, then $a:b:c$ will be used to denote that. By definition, $c:b:a$ and $a:b:c$ represent the same betweenness assertion. This can be extended to any number of betweenness relations, such as $a:b:c:d$ implying either $a \leq b \leq c \leq d$ or $d \leq c \leq b \leq a$. There are also some trivial ways to extend given betweenness chains. For example, if $a:b:c$, then $a:a:b:c$ holds as well. Another example is that if $a:b:c$ and $b:c:d$, then $a:b:c:d$ holds true. This all follows from standard inequality rules. 
+
+If $b$ and $c$ are between $a$ and $d$, but it is not clear whether $b$ is between $a$ and $c$ or between $c$ and $d$, then the notation $a:\{b,c\}:d$ can be used. This can also be extended to have, for example, $a:b:\{c,d\}$ which would be shorthand for saying that both $a:b:c$ and $a:b:d$ hold true. In addition, the notation \sout{$a:b:c$} will be used to indicate that $b$ is not between $a$ and $c$. One could also indicate this by $b:\{a,c\}$ which leads to observing that $a$ and $c$ could be said to be on the same side of $b$. 
+
+Rational numbers satisfy the fact that, given three distinct rational numbers, $a, b, c$, we have that exactly one of the following holds true: $a:b:c$, $a:c:b$, or $b:a:c$. That is, one of them is between the other two. It can be written in notation as $a:b:c$ holds true if and only if both \sout{$a:c:b$} and \sout{$b:a:c$} hold true. This follows from the pairwise ordering of each of them as provided by the Trichotomy property for rational numbers along with the transitive property. 
+
+In this paper, often a potential relabeling will be invoked. This is to indicate that there are certain assumptions that are needed to be made, but they are notational assumptions and, in fact, some arrangement of the labels of that kind must hold. For example, if $\{a,d\}:b:c$ holds true, then either $a:d:b:c$ or $d:a:b:c$ holds true. If these are generic elements, then relabeling could be used to have $a:d:b:c$  be  true for definiteness, avoiding breaking the argument into separate, identical cases. If $a$ and $d$ were distinguished in some other way, such as being produced by different processes, then relabeling would not be appropriate to use. 
+
+If $a:b:c:d$, then the union of $a:c$ with $b:d$ is the interval $a:d$. If $b \neq c$, then the union as a set of $a:b$ and $c:d$ is not an interval. One can still consider the intervalized union of $a:d$ as the shortest interval that contains both intervals. 
+
+The notation $a_\delta$ represents the $\delta$-halo of $a$ which means $a -\delta : a+ \delta$. An interval is $a_\delta$ compatible if it is strictly contained in $a_\delta$ and contains $a$. The halo can also extend to other intervals. The notation $(a:b)_\delta$ will refer to $a_\delta \cup a:b \cup b_\delta$. If $a <b$, this is the same as the interval $a-\delta:b+\delta$.
+
+The notation $b : |a_\delta$ will indicate the interval that goes from $b$ to the closest endpoint of $a_\delta$ to $b$ while the notation $b:a_{\delta}|$ will indicate that the interval goes from $b$ to the farthest endpoint of $a_\delta$ from $b$. If, for example, $b < a-\delta < a$, then $b:|a_\delta$ is the same as $b:a-\delta$ while $b:a_{\delta}|$ is the same as $b:a+\delta$. Also, $|a_\delta : b$ is the same as $b:a_\delta |$.
+
+The term subinterval of $a:b$ will include $a:b$ as a subinterval but it does not include the empty set as a subinterval.  
+
+The set $\mathbb{I}$ will represent the set of all rational intervals. 
+
+\section{Definition of a Real Number}
+
+Throughout the rest of the paper, unless noted otherwise, the letters $a$ to $w$ will represent rational numbers while $x, y, z, \alpha, \beta$ will represent real numbers.  The symbols $\delta$, $\delta'$ and $\varepsilon$ will be positive rational numbers. 
+
+An \textbf{oracle} is defined to be a rule $R\col \mathbb{I} \times \mathbb{Q}^+ \to \mathbb{I} \cup \emptyset$ that satisfies five properties. One notation that is needed is $\mathbb{I}_R$ which will be all of the intervals that have a subinterval in the range of $R$. The properties are:
+\begin{enumerate}
+    \item Range. $R(a:b, \delta)$ should either be $\emptyset$ or a subinterval of $(a:b)_\delta$. 
+    %an element of the set $\{a:b, a_\delta, b_\delta, \emptyset\}$ for all rational intervals $a:b$ and $\delta >0$.
+    \item Existence. There exists $a:b$ and $\delta$ such that $R(a:b, \delta) \neq \emptyset$.
+    %There exists a rational interval $a:b$ such that $R(a:b, \delta) \neq \emptyset$ for all $\delta > 0$.
+    %\item Separation. Given two rational numbers, there exists an interval $a:b$ containing one of those numbers such that $R(a:b, \delta) = \emptyset$ for some $\delta$ and another interval $c:d$ not containing that number but which is in the range of $R$. 
+    \item Separation. 
+    %If $a:b$ is in the range of $R$, then for $a:c:b$ and given $\delta$, at least one of the following holds true: $(a:c)_\delta \in \mathbb{I}_R$ or $(c:b)_\delta \in \mathbb{I}_R$.
+    If $a:b$ is in the range of $R$, then for a given $m$ in $a:b$ and given a width $\delta$, there exists an $m_\delta$ compatible interval $e:f$ such that one of the following holds true:  $|a_\delta:e \in \mathbb{I}_R$, $e:f \in \mathbb{I}_R$,  or $f:b_{\delta}| \in \mathbb{I}_R$.
+    
+%    \begin{enumerate}
+ %       \item $|a_\delta:e \in \mathbb{I}_R$; %and there exists $\delta'$ such that $R(e:f, \delta')=\emptyset$ and $R(f:b, \delta') = \emptyset$;
+  %      \item $e:f \in \mathbb{I}_R$;% and there exists $\delta'$ such that $R(a:e, \delta')=\emptyset$ and $R(f:b, \delta') = \emptyset$;
+   %     \item $f:b_{\delta}| \in \mathbb{I}_R$;% and there exists $\delta'$ such that $R(e:f, \delta')=\emptyset$ and $R(a:e, \delta') = \emptyset$.
+   % \end{enumerate}
+   \item Disjointness. If $a:b$ is in the range of $R$ and $c:d$ is disjoint from $a:b$, then there exists a $\delta$ such that $R(c:d, \delta) = \emptyset$.
+    \item Consistency. If $a:b  \in \mathbb{I}_R$, then $R(a:b, \delta) \neq \emptyset$ for all $\delta$.
+    \item Closed. If $a_\delta \in \mathbb{I}_R$ for all $\delta $, then $R(a:b, \delta) \neq \emptyset$ for all $\delta$ and $b$. 
+
+   % \item Intersecting. If $a:b$ and $c:d$ are in the range of $R$, then they intersect in an interval $e:f \in \mathbb{I}_R$. If $m:n$ is disjoint from $a:b$, then there exists $\delta$ such that $R(m:n, \delta) = \emptyset$. 
+\end{enumerate}
+
+If multiple real numbers are being discussed, such as $x$ and $y$, then $R_x$ and $R_y$ will represent their respective rules. 
+
+The rule $R$ is potentially a multi-valued function. The expression $R(a:b, \delta) \neq \emptyset$ implies that the empty set is not in the range of $R$ for that input. The expression $R(a:b, \delta) = \emptyset$ is implying that the range for that input into $R$ contains the empty set; it need not be exclusively the empty set. 
+
+The range of $R$ can be thought of as intervals that are known to include the real number based directly on its definition. Then Consistency ensures that $\mathbb{I}_R$ is included in the the set of intervals known to contain the rule since containment is transitive. The Closed property covers an edge case dealing with describing rational numbers.
+
+A rational interval $a:b$ is a \textbf{Yes interval} of the rule $R$ if $R(a:b, \delta) \neq \emptyset$ for all $\delta >0$. This includes all intervals that are in  $\mathbb{I}_R$, but it also includes the \textbf{$R$-Rooted} intervals which are the ones that satisfy the Closed property. A rational interval $a:b$ is a \textbf{No interval} if $R(a:b, \delta) = \emptyset$ for some $\delta > 0$. As will be shown later, it can be argued non-constructively that all intervals $a:b$ will either be a Yes interval or a No interval. 
+
+If an interval $a:b$ is a Yes interval for $R$ and $R$ is to represent the real number $x$, then this can be expressed with the notation $a \xora b$. For No intervals, the notation is \sout{$a \xora b$}. The notation $a:|c_\delta$ extends to the Yes intervals as $a \xora |c_\delta$. These notation are reflective of that the Yes / No interval designation has created an $x$-betweenness relation on the rational numbers. 
+
+It may be helpful to expand a little on what the properties mean. The basic idea is that a Yes interval ought to contain the real number; since this is defining the real number, this becomes a defining assertion. The concept of the rule is that a possible Yes interval is given along with a little error tolerance. The rule ought to respond with a Yes interval which helps move the process along in ascertaining what the real number is. If it cannot respond with a Yes interval, then the given interval is a No interval. 
+
+Here is a bit of explanation for the properties:
+\begin{enumerate}
+    \item Range. Returning $a:b$ means $x$ is in $a:b$ and this is the preferred return when possible. Returning $\emptyset$ means that $x$ is not in $a:b$. This is preferred when this is known. The returns of $a_{\delta}$ and $b_{\delta}$ are the edge cases. These overlap with $a:b$ and its complement.  A return of one of these is indicating that $a:b$'s status is unknown, but that at least the returned one can be used in further works. 
+    \item Existence. Without this, the rule could yield a No interval for all intervals and this is not a particularly helpful rule nor would it represent any $x$. On a practical level, this is the starting point of where to start narrowing in on the real number. It can be quite a large interval which makes this doable if some very rough knowledge of the number is known. 
+    \item Separation. This property is the mechanism behind the Intermediate Value Theorem. The idea is that a Yes interval should be able to be continually narrowed down by selecting a rational number $c$ inside of it and then testing which of the two created intervals is a Yes interval and the other one would then be a No interval. Because of the possibility of being able to not decide the issue at $c$, there is a $\delta$-halo extended in which to examine it. It can also be the case that while $a:b$ is in the range of $R$, subintervals of it are not. Instead, what could happen is that it is a $R$-Rooted at $a$ and thus the smaller intervals extend past $a:b$.
+    %The interval $e:f$ is present since the halo itself might have endpoints that are indeterminate. This allows one to then have a crisply defined Yes interval with the other two intervals being No. Being able to assert the existence of No intervals in this property is what allows a proof that this is describing a single real number. 
+    \item Disjointness. This ensures that a single real number is being discussed. Without an assertion of negativity, one could have multiple disjoint regions. This is complementary to the idea of Consistency. As an example, imagine a rule which returns small intervals around 2 and small intervals around 5. Done correctly, this will be able to satisfy the other properties, including the Separation property because that property only applies within intervals in the Range of $R$. 
+    \item Consistency. This is stating that the oracle never contradicts itself. Since it is supposed to represent a real number being in the interval, if another interval contains it, then that containing interval also contains the real number and ought to be a Yes interval. This rule ensures this. Taking $c:d$ to be $a:b$, this also ensures that no interval is simultaneously both a Yes and a No interval. Consistency implies that if an interval is a No interval, then all intervals contained in it are No as well. This will be said to be the Consistency property as well.
+    \item Closed. This ensures that if there is a narrowing in to a single rational number, then the intervals with that rational number as endpoint are Yes intervals. It does not require that the interval in question is in the range of $R$. Since the assumption that $a_\delta$ is a Yes interval for all $\delta >0$, it is the case that $R$ can always return $a_\delta$ for $R(a:b, \delta)$. Closed is simply asserting that it ought to do this. 
+
+\end{enumerate}
+
+The term rule is being used instead of function to suggest a more constructive approach. While it is perfectly fine for an $R$ to be given as an explicit function, the more typical case is that $R$ is computed out as needed and may not return the same result for the same inputs. The term oracle is also used to suggest that it is an answering to a question about something that is not quite there and answering in vague, uncertain ways. It is, in fact, the questioning which is bringing the object into existence. The prophecy shapes the reality. 
+
+
+\section{Examples}
+
+The first set of examples is that of rational numbers. Given a rational number $q$, one oracle rule, the \textbf{Rooted Oracle at $q$}, can be that $R(a:b, \delta) = q:q$ if $q \in (a:b)_\delta$ and is the empty set otherwise. This is the nice version of a rational number. A less nice version, but one more in line with what is produced from arithmetic operations on irrational numbers is the \textbf{Rootless Oracle at $q$} whose rule is that $R(a:b, \delta)$ returns $q_\delta$ if $q \in (a:b)_\delta$ and returns the empty set otherwise. Both versions have that the Yes intervals are the intervals that contain $q$ while the No intervals are those that do not contain $q$. These two oracles should be considered equal, as established below. 
+
+The next set of examples are the $n$-th roots. Let $x$ represent the positive real number such that $x^n$ ought to be the rational $q$. The comprehensive rule for these is that $R(a\lt b, \delta) = a:b$ whenever $\max(a, 0)^n:q:b^n$ and is the empty set otherwise.
+
+A common situation for real number estimates is that the real number is computed by a sequence of intervals. For example, the $n$-th root can be computed using Newton's method. Let $a_0 >0$ be some positive rational. Given $a_m$, define $b_m = q/a_m^{n-1}$; $a_m^n : q : b_m^n$ will hold true. The iteration is defined as $a_{m+1} = a_m + (b_m - a_m)/n$. This is what results from applying Newton's method to $x^n - q$. The oracle rule $R$ would then be to compute $m, a_m, b_m$ such that $|a_m - b_m| < \delta$.  Then $R(a:b, \delta) = a_m:b_m$ if $a_m:b_m$ is a subinterval of $(a:b)_\delta$ and is the $\emptyset$ otherwise. Note that if it is the empty set that is returned, then $a:b$ and $a_m:b_m$ are disjoint due to the length of $a_m:b_m$; $a_m:b_m$ need not be disjoint from $a_\delta$ or $b_\delta$ in this case. 
+
+The Newton's method rule is actually a family of rules each with different $R$ rules. Given a different $a_0$, the intervals computed will differ and will lead to some computed overlaps overlapping the endpoints of some intervals that other starting points would not overlap with. The Yes / No determination, however, would not  change. If the root is the rational $p$, that is, $p^n = q$,  then intervals of the form $p:b$ will never be returned by this procedure unless $a_0 = p = b_0$. Nevertheless, the rule will never return the empty set for an interval that contains $p$. All Yes intervals in this case will contain $p$. 
+
+This idea of containment rules generally goes the same way. Define a \textbf{Family of Overlapping, Notionally Shrinking Intervals} (fonsi, pronounced faan-zee,)  to be a set of rational intervals such that any pair of rational intervals in the set intersect and, given a rational $\varepsilon >0$, there exists at least one interval in the fonsi such that its length is less than $\varepsilon$. Sequences of nested intervals whose lengths approach 0 is an example of a fonsi. In constructivist works, such as \cite{bridger}, these objects are often taken as the definition of a real number and likened to a set of measurements. 
+
+\begin{proposition}
+    Given a fonsi, there is an oracle associated with it such that all of the elements of the fonsi are Yes intervals. 
+\end{proposition}
+
+\begin{proof}
+    Let $a:b$ and rational $\delta>0$ be given. Choose an interval $c:d$ from the fonsi such that $|c:d| < \delta$. If $c:d$ is a subinterval of $(a:b)_{\delta}$ which intersects $a:b$, then return $c:d$ for $R(a:b, \delta)$; otherwise, return the empty set. 
+
+    The intervals in the range of $R$ are precisely the elements of the fonsi. 
+    
+     %Different choices of $c:d$ will lead to different outcomes for $R$, but it will not lead to different Yes/No intervals. To say that $a:b$ is a Yes interval is to say that for every $\delta$ and every choice of fonsi element $c:d$ such that $|c:d| < \delta$, it is the case that $c:d$ is a subinterval of $(a:b)_\delta$. 
+     
+     %Indeed, let us suppose that $R(e:f, \delta)= a:b$ and $R(a:b, \delta') = \emptyset$. This should be forbidden. Let $c:d$ be the interval contained in $a:b$ per the first result and $c':d'$ be the interval disjoint from $a:b$ per the second result. Both $c:d$ and $c':d'$ are in the fonsi which means they need to intersect. But that is impossible and thus the rule never yields both a Yes and a No for the same interval. 
+
+    The properties are verified as follows: 
+    \begin{enumerate}
+        \item Range. Satisfied by definition. 
+        \item Existence. The fonsi must be non-empty since given a length, it is required to produce an interval. Let $a:b$ be any element of the fonsi and $\delta$ be given. Let $c:d$ be any element of the fonsi whose length is less than $\delta$. Since $c:d$ and $a:b$ must intersect, it must be the case that $c:d$ is a subinterval of $(a:b)_\delta$. Thus, $R(a:b, \delta) \neq $
+        \item Separation. 
+        %Let $a:b$ be in the range of $R$, that is, it is an element of the fonsi. Let $m$ be given such that $a:m:b$. Let $\delta$ be given. Let $c:d$ be a fonsi element whose length is less than $\delta$. It must intersect $a:b$ as they are both elements of the fonsi. It therefore must be contained in $(a:b)_\delta$. The task is to show that $c:d$ is a subinterval of at least one of $(a:m)_\delta$ or $(b:m)_\delta$. Assume $c:d$ is not a subinterval of $(a:m)_\delta$. Then that means one of the endpoints must be outside of $m_\delta$ though in $(b:m)_\delta$; let's say it is $d$. Then since $c:d$ has length less than $\delta$, it must be the case that $m$ is not in $c:d$. Thus, $m:c:d$ is true and therefore $c:d$ is contained in $(b:m)_\delta$.
+        Let $a:b$ be in the range of $R$, that is, it is an element of the fonsi. Let $m$ be given such that $a:m:b$. Let $\delta$ be given. Let $c:d$ be an element of the fonsi whose length is less than $\delta$. Since $a:b$ and $c:d$ are in the fonsi, they overlap. This implies $c:d$ is contained in $(a:b)_\delta$. If $c:m:d$, then, because of the length being less than $\delta$, $c:d$ is wholly contained in $m_\delta$. Thus, if we take $m_\delta$ as the $e:f$ with $a:e:f:b$, it will be the case that $a:e$ and $f:b$ are disjoint from $c:d$. Thus, they are No intervals while $e:f$, containing $c:d$, is in $\mathbb{I}_R$. 
+        
+        If $m$ is not in $c:d$, then, possibly via relabelling, $c:d$ will be contained within $|a_\delta:m$ with $d$ closer to $m$ than $c$ is. Let $e$ be, say, the midpoint between $m$ and $d$ and $f$ be some number that is strictly contained in $m_\delta$ and $m:b$. Then both $e:f$ and $f:b$ are disjoint from $c:d$ and hence are No intervals. By the containment of $c:d$, $|a_\delta:e$ is in $\mathbb{I}_R$.
+        \item Disjointness. Let $a:b$ be in the range of $R$ and $c:d$ be disjoint from $a:b$. Let $\delta$ be less than the distance from $a:b$ to $c:d$. Then no interval contained in $(c:d)_\delta$ can intersect $a:b$. Thus, there is no element of the fonsi contained in $(c:d)_\delta$ and therefore $R(c:d, \delta) = \emptyset$.
+        \item Consistency. Let $a:b \in \mathbb{I}_R$ which implies there exists an element $c:d$ of the fonsi which is a subinterval of $a:b$. Let  $ \delta$ be given. The task is to show $R(a:b, \delta) \neq \emptyset$. Let $e:f$ be any element of the fonsi whose length is less than $\delta$. Since $e:f$ and $c:d$ intersect as they are both in the fonsi, it must be the case that $e:f$ is contained in $(a:b)_\delta$. Hence $R(a:b, \delta) \neq \emptyset$.
+        \item Closed. Assume that $a$ is given such that $a_\delta \in \mathbb{I}_R$ for all $\delta$. Given $a:b$ and $\delta$, the task is to show $R(a:b, \delta) \neq \emptyset$. Let $c:d$ be an element of the fonsi whose length is less than $\delta$. The task is to show that it is contained in $(a:b)_\delta$. Due to the length, if $c:a:d$, then $c:d$ is contained in $(a:b)_\delta$. If not, then the distance from $c:d$ to $a$ is positive. Let $\delta'$ be less than that distance. Then $a_{\delta'}$ is disjoint from $c:d$. But this cannot be as $a_{\delta'}$ contains an element of the fonsi which must intersect $c:d$. Therefore, $a$ must be contained in $c:d$. Since $c:d$ is contained in $(a:b)_\delta$, $R(a:b, \delta) \neq \emptyset$.
+
+    \end{enumerate}
+
+\end{proof}
+
+Cauchy sequences viewed as pairs of rationals $a_n, \varepsilon_n$ where $a_n$ is an element of the sequence and $\varepsilon_n$ is the bound for all future elements to be within $\varepsilon_n$ of $a_n$, lead to the sequence of intervals $a_n-\varepsilon_n:a_n+\varepsilon_n$. The Cauchy criterion ensures that the $\varepsilon_n$ exists and approach 0. Thus, Cauchy sequences lead to fonsis. From Cauchy sequences, one sees that the converging infinite sums produce fonsis as well. 
+
+Given a set $E$ of rationals bounded above by a rational $b_0$, let $a_0 \in E$. Define $m_n$ to be the midpoint between $a_n$ and $b_n$. If $m_n$ is an upper bound of $E$, then $a_{n+1} = a_n$ and $b_{n+1}=m_n$. If $m_n$ is not an upper bound of $E$, then $a_{n+1} = m_n$ and $b_{n+1} = b_n$. With this definition, $a_n:b_n$ is a sequence of nested shrinking intervals. That collection is a fonsi and defines an oracle. This oracle is the least upper bound of $E$. The role of the $a_m$ is to ensure there is no upper bound below while the role of $b_m$ is to ensure there is no element of $E$ above. 
+
+Another approach to the least upper bound is to define $R(a:b, \delta)$ to be $a:b$ when $a$ is bounded above by an element of $E$ and $b$ is an upper bound. For practical reasons, it may not be easy to determine this. Therefore, one could extend it such that if $a_\delta$ contains both elements of $E$ and upper bounds, then $a_\delta$ is returned. An example is computing the least upper bound of the set consisting of all rational numbers less than $\pi$. This is computing $\pi$ and computations can only illuminate so far. If a number is given in the uncertain range, either further computation is needed or one can simply return $a_\delta$. 
+
+The last example of this section are the real numbers produced by the Intermediate Value Theorem. Let $f(x)$ be a function which is continuous and monotonic on $a:b$ with $f(a)*f(b) < 0$. For rational intervals $c:d$ contained in $a:b$, define the oracle $R$ by $R(c:d, \delta) = c:d$ if $f(c)*f(d) \leq 0$ and the empty set otherwise. For intervals that are not contained in $a:b$, take the intersection with $a:b$ and return its result. Monotonicity is required for the No intervals returned by the Separation property as well as for Consistency. Continuity is required to show that the oracle produced here is a zero of $f$. Without continuity, the most that can be said is that the oracle is the location of a sign change for the function. The initial $a:b$ yields the existence property. 
+
+The above is assuming that a sign can be determined for $f(c)$. It is possible that if $c$ is close to zero, something which is desired, then $f(c)$'s fuzziness will prevent a sign determination. In that case, the continuity of the function allows for the existence of a $\delta$ such that $f(c_{\delta})$ is contained in the interval $-\varepsilon:\varepsilon$ for a specified $\varepsilon$. Thus, one could specify an $\varepsilon$ tolerance and if $f$ is in that region, then $c_\delta$ is returned by the rule. Practically speaking, this is when a process will terminate, having it hit the resolution limits of the computational system. 
+
+Without monotonicity, this definition does not work. One can still do the usual process of dividing up the interval and testing the signs to create a sequence of nested intervals. The sequence constructed will be a fonsi and therefore there will be an oracle associated with it. The oracle that is found could be path dependent on the choice of division points. 
+
+\section{Useful Properties}
+
+Here we pause for some simple, but important properties. Largely, it can be summarized as saying that the Yes intervals form a fonsi. 
+
+\begin{proposition}[Bisection Algorithm]
+    Given a rational $\varepsilon >0$ and an oracle $R$, there exists a Yes interval whose length is less than $\varepsilon$.
+\end{proposition}
+
+\begin{proof}
+    By Existence, there exists an interval $a_0:b_0$ in the range of $R$. The iteration step for determining $i+1$ given $a_i:b_i$ begins with letting $m_i$ be the average of $a_i$ and $b_i$. Applying Separation on $a_i:b_i$ with $m_i$ the dividing point and choose $\delta = \min(|a_i:b_i|/6, \varepsilon /2)$. By Separation and Consistency, there exists an interval $e_i:f_i$ in $(m_i)_\delta$ and an interval $a_{i+1}:b_{i+1}$ in the range of $R$ such that one of the following holds: 
+    \begin{enumerate}
+        \item $a_{i+1}:b_{i+1}$ is in $e_i:f_i$. Since the length of $(m_i)_\delta$ is less than $\varepsilon$, this interval works as the desired interval.  
+        \item  $a_{i+1}:b_{i+1}$ is in $|(a_i)_\delta:e_i$. The length will be no more than $2|a_i:b_i|/3$.
+        \item  $a_{i+1}:b_{i+1}$ is in $f_i:(b_i)_\delta|$. The length will be no more than $2|a_i:b_i|/3$..
+    \end{enumerate}
+    The length of $a_n:b_n$ will be at most $(2/3)^n |a_0:b_0|$. Thus, if $n > (3/2)\sqrt{\varepsilon/|a_0:b_0|}$, then the length will be less than $\varepsilon$. 
+\end{proof}
+
+
+\begin{proposition}
+    Given an oracle $R$, $a:b$ in the range of $R$, and $c:d$ in the range of $R$, $a:b$ and $c:d$ intersect. 
+\end{proposition}
+
+\begin{proof}
+    If they were disjoint, then the Disjointness property would say, for example, that $R(c:d, \delta)= \emptyset$ for some $\delta$. But $c:d \in \mathbb{I}_R$. Thus, Consistency says that $R(c:d, \delta) \neq \emptyset$. This is a contradiction and the two intervals must intersect. 
+\end{proof}
+
+\begin{corollary}
+    The intervals in the range of $R$ form a fonsi.
+\end{corollary}
+
+
+The Separation property as postulated does not apply to all Yes intervals; this makes it easier to verify, but harder to use. But it can be extended to all Yes intervals.
+
+\begin{proposition}[Separation]
+    If $a: b$ is a Yes interval for an oracle $R$, $m$ is a rational number strictly between $a$ and $b$, and $\delta > 0$ is given, then there exists an $m_\delta$ compatible interval $e:f$ such that one of the following holds true:
+    \begin{enumerate}
+        \item $a \xora e$, \sout{$e\xora f$}, \sout{$f\xora b$};
+        \item $e \xora f$, \sout{$a\xora e$}, \sout{$f\xora b$};
+        \item $f \xora b$, \sout{$a\xora e$}, \sout{$e\xora f$}.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    Yes intervals are either in $\mathbb{I}_R$ or they are $R$-Rooted. 
+    
+    The $R$-Rooted intervals, say with root $a$, are of the form $a:b$ where $a_\delta' \in \mathbb{I}_R$ for all rational $\delta' >0$. With $a:e:b$, it is immediately the case that $a:e$ is an $R$-Rooted interval and hence is a Yes interval. Any $m_\delta$ compatible interval $e:f$ will then have the property that $a \xora e$ while \sout{$e\xora f$} and \sout{$f\xora b$} because $e:f$ and $f:b$ are disjoint from $a_\delta$ for $\delta < |a:e|$.
+ 
+    The other case is that of $a:b \in \mathbb{I}_R$. This consists of two cases. Let $c:d$ be an interval contained in $a:b$ which is also in the range of $R$. 
+    
+    If $m$ is not in $c:d$, then, by possibly relabelling, $a:m:c:d:b$ with $m$ strictly contained in $a:c$.  Let $e:f$ be an $m_\delta$ compatible interval where $f$ is strictly contained in $m:c$, such as the average of $m$ and $c$. Then $a:e$ and $e:f$ are disjoint from $c:d$ while $f:b$ contains $c:d$. Thus, \item $f \xora b$, \sout{$a\xora e$} and \sout{$e\xora f$}.
+
+    If $m$ is in $c:d$, then apply the Separation property using the $\delta' < \delta$. If the produced $e':f'$ is in $\mathbb{I}_R$, then as it is in $m_{\delta'}$, it can be expanded to an interval $e:f$ such that $e:f$ is $m_\delta$ compatible and both $a:e$ and $f:b$ are disjoint from $e':f'$. Thus, $e \xora f'$, \sout{$a\xora e$}, \sout{$f\xora b$}.
+
+    If the produced $e':f'$ is not in $\mathbb{I}_R$, then by relabelling, it can be assumed that $|c_{\delta'}:e' \in \mathbb{I}_R$. Then $e$ can be chosen to be strictly contained in $e':m$ so that \sout{$e\xora f'$} and \sout{$f'\xora b$} by Disjointness. If $a:c_{\delta'}:e$, then $a \xora e$. If not, then a non-constructive approach is needed.
+
+    Since $|a_{\delta'}:e$ is in $\mathbb{I}_R$, any interval in the range of $R$ whose length is less than $\delta'$ must be contained in that interval due to it having to intersect $a:b$ and $|c_{\delta'}:e'$ with the length being shorter than half of $\delta$. Each such interval is either contained in $a:b$ or the interval contains $a$. If the former happens just once, the $a \xora e$. If not, then the Closed property leads to $a \xora e$.  
+\end{proof}
+
+By Consistency, it is also true that one conclude one of: 
+    \begin{enumerate}
+        \item $a\xora m$, \sout{$m \xora b$};
+        \item $m\xora \pm \delta$, \sout{$a \xora |m_\delta$}, \sout{$b \xora |m_\delta$};
+        \item $b \xora m$, \sout{$m \xora a$}.
+    \end{enumerate}
+
+\begin{proposition}
+    If $ a\xora b$ and $c \xora d$, then $a:b$ and $c:d$ intersect with the intersection being a Yes interval. 
+\end{proposition}
+
+\begin{proof}
+    Up to relabelling, the various cases are: 
+    \begin{enumerate}
+        \item $a:c:d:b$. In this case, the intersection is $c:d$ which is a Yes interval. 
+        \item $a:b:c:d$ with $b \neq c$. The claim is that this is not possible. By Consistency, $a:d$ is a Yes interval. Let $m$ be the midpoint between $b$ and $c$ and $\delta$ be a length less than half the distance between $b$ and $c$. Then Separation using $a:d$, $m$ and $\delta$ leads to the conclusion that either $a:b$ or $c:d$ are No intervals. This contradicts the assumption and this case is not possible. As this is the only scenario in which they do not intersect, this establishes that Yes intervals always intersect. 
+        \item $a:c:b:d$ with $b \neq c$. By Consistency, $a:d$ is a Yes interval. Let $\delta$ be less than half the distance between $b$ and $c$. 
+        
+        Use Separation on $a:b$ with $c$ as the separating number and $\delta$ the overlap. Separation gives us a $c_\delta$ compatible interval $e:f$ such that $a:e:c:f:b$. Since $a:e$ is disjoint from the Yes interval $c:d$, the previous item implies that $a:e$ must be a No interval. If $f:b$ is a Yes interval, then $c:b$ is a Yes interval which establishes that the intersection is a Yes interval and not a No interval. What remains is $e:f$. 
+
+        By a similar argument using $c:d$ and $b$ to separate, there is an interval $m:n$ such that $c:m:b:n:d$ which is $b_\delta$ compatible. The interval $n:d$ must be a No interval by the disjointness with $a:b$. The interval $c:m$ being a Yes interval satisfies the intersection requirement. That leaves $m:n$. By the selection of $\delta$, it is the case that $b_\delta$ and $c_\delta$ are disjoint. Thus, $m:n$ and $e:f$ are disjoint and both cannot be Yes intervals. 
+
+        The conclusion is therefore that $b:c$ is a Yes interval. 
+
+        \item $a:(b=c):d$. In this case, $b=c$ is the intersection. As before, we apply Separation to $a:d$ with a separating number of $c$ and a $\delta$ such that $c_\delta$ is strictly contained in $a:d$. Note that if either $a=b$ or $c=d$ in this case, then the singleton interval $b:c$ is the same as $a:b$ or $c:d$, respectively. Thus, the intersection is a Yes interval. Assuming the endpoints are distinct, Separation gives an interval $e:f$ such that $a:e:c:f:d$ with all of them not equal to one another. If $a:e$ is a Yes interval, then $c:d$ is a No interval which contradicts the assumption. If $f:d$ is a Yes interval, then $a:b$ is a No interval which contradicts the assumption. Thus, $e:f$ has to be a Yes interval. Note that this logic would apply for all $0 < \delta' < \delta$. Therefore, $c_\delta$ is a Yes interval for all $\delta > 0$. By the Closed property, the intersection $c:c$ is a Yes interval. 
+     \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    If $a \xora b$, $b \xora c$ and $a:b:c$, then $b:b$ is a Yes interval.
+\end{corollary}
+
+
+
+\begin{corollary}
+    The set of Yes intervals of an oracle form a fonsi. 
+\end{corollary}
+
+\section{Equality}
+
+Most definitions of real numbers have some issue with non-uniqueness of the representative. Some of them are small in scope such as the trailing nines of decimal representations and the two representatives of rationals in continued fraction representations. Others are quite significant such as Cauchy sequences having uncountably many different and misleading representatives. Dedekind cuts largely avoid non-uniqueness though that approach is the least oriented towards computation and the representatives of rational numbers do not have any special characteristics. 
+
+For oracles, the non-uniqueness is largely sitting with $R$. Indeed, $R$ may not even be a single-valued function. It is a foundation for the higher level deduction of which intervals are Yes or No intervals which is well-defined. The goal in this section is to say that two oracles are equal if they agree on which intervals are Yes or No. The main step is to establish that the Yes / No intervals provide a stable way of understanding an oracle. 
+
+Given a rational number $q$, the set of intervals with an endpoint being $q$ will be denoted $\mathbb{I}_q$ and will be referred to as the intervals rooted at $q$. The complement of $\mathbb{I}_q$ in $\mathbb{I}$ will be denoted by $\mathbb{I}_{\setminus q}$.
+
+\begin{proposition}
+    Given an oracle $R$, there is at most one rational number $q$ such that the Yes/No interval designation is not constructively knowable on elements of $\mathbb{I}_q$. If such a $q$ can be established, then for all intervals in $\mathbb{I}_{\setminus q}$, the intervals will be Yes or No depending on whether $q$ is in the interval or not, respectively. 
+\end{proposition}
+
+\begin{proof}
+    Let $a:b$ be given. By the Bisection Algorithm, let $c:d$ be a Yes interval whose length is less than half the length of $a:b$. If $c:d$ is in $a:b$, then $a:b$ is a Yes interval by Consistency. If $c:d$ is disjoint from $a:b$ then taking a $\delta$ small enough leads to $a_\delta$ and $b_\delta$ being disjoint from $c:d$; hence $c:d$ is a No interval. Therefore, in the uncertain case, $a:b$ and $c:d$ must overlap. By relabelling and the fact that the length of $c:d$ is shorter than the length of $a:b$, we can assume $c:a:d:b$ with $d$ closer to $a$ than to $b$. Given a $\delta$, the choice of $c:d$ could be made to have its length be shorter than $\delta$, assuming that the new choice has not led to a definitive Yes or No. Thus, $c:d$ is contained in $a_\delta$. This argument can continue indefinitely. Either $a:b$ is found to be a Yes interval or a No interval or $a_\delta$ is a Yes interval for all $\delta >0$. In the latter case, $a$ is the $q$ of the statement. By the Closed property, $a:b$ is then a Yes interval. 
+
+    There can be at most one such rational number. If $a_\delta$ and $b_\delta$ were Yes intervals for all $\delta > 0$, then choosing $\delta$ to be less than half the distance between $a$ and $b$ would lead to the two intervals being disjoint. Thus, they both cannot be Yes intervals. 
+
+    As for the characterization about containing $q$ or not as the determining factor, assume $a_\delta$ is a Yes interval for all $\delta > 0$. If $a$ is an endpoint, then Closed established it as a Yes interval. If $a$ is not an endpoint, say the interval is $b:c$, then there are two cases. If $a$ is in $b:c$, then choose $\delta$ to be less than the smallest distance from $a$ to $b$ and $c$. Then $a_\delta$ is in $b:c$ and it is a Yes interval. If $a$ is not in $b:c$, then again take the smallest distance from $a$ to $b$ and $c$. This forces $a_\delta$ to be disjoint from $b:c$ and since $a_\delta$ is a Yes interval, $b:c$ must be a No interval. 
+ \end{proof}
+
+The above proof is non-constructive in the sense that establishing $a_\delta$ is a Yes interval for all $\delta > 0$ involves checking infinitely many cases. This is something that can be accomplished in many cases, but not all. This leads to the heart of the difficulty with equality of real numbers. 
+
+Two oracles are \textbf{equal} if the set of their Yes intervals are exactly the same. Since all intervals are either Yes or No for a given oracle, this is well-defined. The properties of Reflexivity, Symmetry, and Transitivity follow immediately from those properties on equality of sets. 
+
+Because of the non-construct nature of the $a_\delta$ option, in practice, it may be hard to establish that two oracles are equal. They are $a_\delta$ compatible for a given $a$ and $\delta$ if $a_\delta$ is a Yes oracle for both. 
+
+\begin{proposition}
+    Given a rational number $q$, the Rooted Oracle at $q$ is equal to the Rootless Oracle at $q$. 
+\end{proposition}
+
+\begin{proof}
+    A Rootless Oracle at $q$ returns $q_\delta$ when asked about $R(a:b, \delta)$ and $q$ is in the interval of $a:b$. Thus, $R(a:b, \delta) = q_\delta \neq \emptyset$ exactly when $q \in a:b$ and is the empty set otherwise. These are the Yes intervals. The Rooted Oracle at $q$ has $R(a:b, \delta) = a:b \neq \emptyset $ exactly when $q \in a:b$ and is the empty set otherwise. 
+
+    In both cases, $a:b$ is a Yes interval exactly when $q \in a:b$. By the definition of equality, these are equal as oracles. 
+\end{proof}
+
+The Oracle of $q$ will refer to any oracle which is equal to the Rooted Oracle at $q$ which will be the canonical example. 
+
+A particular example to explore is $(\sqrt{2})^2$. Let $R$ be the oracle of this number. It should be equal to the Oracle of 2. One rule can be the following: $R(a:b, \delta) =a:b$ when there exists a positive rational interval $c:d$ such that $a:c^2:2:d^2:b$ and will be equal to $a_\delta$ when there exists a positive rational interval $c:d$ such that $c^2:{a, 2}:d^2$ with $c^2:d^2$ contained in $a_\delta$. The rule returns the empty set in all other cases. If $a \neq 2$,  then when $\delta$ is less than the distance between $a$ and 2, there will exist no interval $c:d$ that satisfies the requirements and thus the rule provides the empty set. By relabelling $a$ and $b$, that handles the cases. It is clear that the Yes intervals are exactly those that contain 2. Thus, this is the Oracle of 2, as it should be. 
+
+\section{Comparison Operators}
+
+Two oracles $R_x$ and $R_y$ can be distinguished if there are disjoint intervals $a:b$ and $c:d$ such that $a \xora b$ and $c \xora[y] d$. It is clear that the oracles are not equal as they do not have the same Yes/No intervals. Having separated intervals allows for a comparison of oracles. 
+
+We define the operators, using the intervals above, as:
+\begin{enumerate}
+    \item $x < y$. This occurs if $a:b<c:d$.
+    \item $x > y$. This occurs if $a:b > c:d$.
+\end{enumerate}
+
+If the intervals $a:b$ and $c:d$ were not disjoint, then equality is possible and would be limited to their intersection. 
+
+It does need to be shown that there can be no contradiction. 
+
+\begin{proposition}
+    If $x < y$, then it is not true that $x > y$ and also not true that $x = y$.
+\end{proposition}
+
+\begin{proof}
+    The issue is that the comparison is based on two intervals. It needs to be shown that two other intervals would not contradict this statement. 
+
+    Let $a:b < c:d$ be given that exemplifies $x<y$. Then $a:b$ is disjoint from $c:d$. This implies that $a:b$ is a No interval for $y$ while $c:d$ is a No interval for $x$. Thus, the two oracles are not equal as they differ on the Yes and No intervals. 
+
+    The other task is to show there are no Yes intervals that contradict the inequality. Let $p:q$ be a Yes interval for $x$ and $r:s$ be a Yes interval for $y$. If $p:q$ and $r:s$ overlap, then there is no contradictory information. 
+
+    Assume, therefore, that they are disjoint. Since $p:q$ must intersect $a:b$ and $r:s$ must intersect $c:d$, it must be the case that $p:q < r:s$. This follows as given any two disjoint intervals, one must be wholly less than the other and the intersections demonstrates which inequality holds. 
+
+\end{proof}
+
+The oracle inequality operation satisfies transitivity, relying on the transitivity of inequality for rational intervals which in turn relies on the transitivity of rational numbers. 
+
+The classical story is that the real numbers satisfy the Trichotomy property: Given $x$ and $y$, exactly one of the following holds: $x<y$, $x>y$, or $x=y$. This holds non-constructively for the oracles. If there exists two disjoint Yes intervals, one for $x$ and one for $y$, then one of the inequality holds as was just explored. The other case is that every Yes interval of $x$ intersects every Yes interval of $y$. The claim is that $x=y$ in that situation. 
+
+\begin{proposition}
+    Let $x$ and $y$ be two oracles such that every Yes interval of $x$ intersects every Yes interval of $y$. Then $x=y$
+\end{proposition}
+
+\begin{proof}
+    Let $a:b$ be a Yes interval of $x$. The task is to show that $a:b$ is a Yes interval of $y$. By relabelling, this also handles showing the Yes intervals of $y$ are Yes intervals of $x$.
+
+    Let $\delta$ be less than half the length of $a:b$.
+
+    Let $c:d$ be any Yes interval of $y$ of whose length is less than $\delta$. By assumption, $c:d$ intersects $a:b$. If $c:d$ is contained in $a:b$, then $a:b$ is a $y$-Yes interval. If not, it overlaps an endpoint. By the choice of the length, only one of the endpoints is in $c:d$. By relabelling, assume that $c:a:d:b$ is the situation. For $y$-Yes intervals whose length is less than $\delta$, they cannot contain $b$ as they must intersect $c:d$ and the distance from $d$ to $b$ is at least as great as $\delta$. Thus, either all of them contain $a$, implying $a_\delta'$ is a Yes interval for all $\delta' > 0$ or there is a Yes interval of $y$ contained in $a:b$. The Closed property yields that $a:b$ is a $y$-Yes interval in the first case while Consistency yields $a:b$ to be a Yes interval in the second case. Either way, $a:b$ is a Yes interval of $y$.
+
+    Since $a:b$ was an arbitrary Yes interval of $x$, this has shown that all Yes intervals of $x$ are Yes intervals of $y$. With relabelling, this would establish the same for $y$-Yes intervals being $x$-Yes intervals. Since they have the same Yes intervals, they are equal. 
+\end{proof}
+
+This was non-constructive as, generically, it requires potentially checking infinitely many intervals. 
+
+\begin{corollary}
+    Let $x$ and $y$ be two oracles. Then, nonconstructively, exactly one of the following holds true: $x<y$, $x>y$, or $x=y$.
+\end{corollary}
+
+The constructivists use a property called $\varepsilon$-Trichotomy. This allows a definite determination with a finite, predictable amount of work. 
+
+\begin{proposition}[$\varepsilon$-Trichotomy]
+    Given oracles $x$ and $y$ and a positive rational $\varepsilon$, exactly one of the following holds: $x<y$, $x>y$, or there exists an interval $a:b$ of length no more than $\varepsilon$ such that $a:b$ is a Yes interval for both $x$ and $y$.
+\end{proposition}
+
+\begin{proof}
+    By the Bisection algorithm, there exists an $x$-Yes interval of $c:d$ and a $y$-Yes interval $e:f$ such that both intervals have length less than $\varepsilon/2$. If $c:d$ and $e:f$ are disjoint, then the oracles are unequal with the inequality being that of the intervals. If $c:d$ and $e:f$ overlap, then their union is a Yes interval for both $x$ and $y$. That interval is also of length less than $\varepsilon$.
+\end{proof}
+
+
+\section{Completeness}
+
+Completeness is a defining feature of real numbers. It can come in a variety of guises as wonderfully detailed by James Propp in \cite{propp}. While any of the equivalent versions could be used, this paper will go with the choice Propp suggests as a good foundation: the Cut property. It is a simplified and symmetrized version of the least upper bound property. 
+
+\begin{theorem}\label{th:cut}
+    Let $A$ and $B$ be two disjoint, nonempty sets of oracles such that $A \cup B$ is the entire set of oracles.  Additionally, assume all oracles in $A$ are strictly less than all oracles in $B$. Then there exists an oracle $\kappa$ such that for all $x < \kappa$, it is the case that $x \in A$ and, for all $x > \kappa$, it is the case that $x \in B$.
+\end{theorem}
+
+Note that it should be clear that if $x < y$ and $y \in A$, then $x  \in A$. Also, if $x \in B$, then $y \in B$. To be otherwise would contradict the assumption that $A$ is strictly less than $B$. 
+
+A rational being an element of a set of oracles will mean an oracle representative of that rational is in the set of oracles. An oracle version of the rational $q$ will be denoted $\xora[q]$.
+
+\begin{proof}
+    We need to define the oracle $\kappa$. The rule $R$ will be such that $R(a:b, \delta)$ returns one of $a_\delta, b_\delta, a:b$ depending on whether the interval intersects both $A$ and $B$. If none of them do, then the empty set is returned. 
+
+    We need to show that $\kappa$ is an oracle and satisfies the desired property. Let us show that the desired property holds first. 
+
+    %The main implication of the relation of $A \cup B$ is that if $x < y$ and $y \in A$, then $x \in A$. Similarly, if $x \in B$, then $y \in B$. The proof of this is simply that because of the union being the whole set of oracles, each of $x$ and $y$ has to be in $A$ or $B$ and cannot be in both. Furthermore, if $y \in A$ and $x \in B$, but $x < y$, then we do not have the property holding that all oracles in $A$ are strictly less than all oracles in $B$. Thus, if we know that $y \in A$, then $x \in A$. And if we know that $x \in B$, then $y \in B$.
+
+    For any $x \in A$ and $y \in B$ with $a \xora b$  and $c \xora[y] d$, with $a \leq b$ and $c \leq d$, it is the case that $a \in A$ and $d \in B$ then $a:d$ intersects both $A$ and $B$. Thus, $a \xora[\kappa] d$. 
+
+    Let $ x < \kappa$. Then there exists $x$ Yes interval $u\lte v$ and $\kappa$ Yes interval $e\lte f$ such that $v < e$. That is what that inequality means. By definition, $e$ is a lower endpoint for a Yes interval for some element $\alpha \in A$; let's say that is the interval $e\lte g$. We clearly have $ u \lte v < e \lte g$ and thus $\alpha > x$. As $\alpha \in A$, we therefore have $x \in A$. 
+
+    If $x > \kappa$, we can do the same argument except reversing the inequalities leading to $\beta \in B$ which is less than $x$ implying $x \in B$.
+
+    As for $\kappa$ being an oracle, we do our usual going through of the properties: 
+    \begin{enumerate}
+        \item Existence. By the non-emptiness, there exists oracles $\alpha \in A$ and $\beta \in B$ with Yes intervals $a:b$ for $\alpha$ and $c:d$ for $\beta$. Thus, $a:d$ is a Yes interval for $\kappa$. 
+        \item Separating. Let $a\lte b$ be a Yes interval, $a:c:b$, and $\delta >0 $ given.  By assumption, $c$ is either in $A$ or $B$. 
+        
+        If $c \in A$, then we know $c-\delta$ is in $A$ and we can ask about $c+\delta$. If $c+\delta$ is in $A$, then we know that $a:c+\delta$, and all its subintervals, are No intervals as well as $c+\delta:b$ being a Yes interval. If $c+\delta$ is in $B$, then $c_\delta$ is a Yes interval with $a:c-\delta$ and $c+\delta:b$ being No intervals. 
+
+        Similarly, if $c$ is in $B$, then $c+\delta \in B$ and we can ask about $c-\delta$. If $c-\delta \in B$, then $a:c-\delta$ is Yes while $c-\delta:b$ and all its subintervals are No intervals. If $c-\delta \in A$, then $a:c-\delta$ is No as is $c+\delta:b$. The interval $c_\delta$, however, is a Yes interval. 
+
+        \item Disjointness. Let $a \lte b$ be in the range of $R$ and $c : d$ disjoint from $a:b$. If $(c:d) < a$, then both $c$ and $d$ are in $A$. With a $\delta$ less than the distance to $a$, it would be the case that $c_\delta, d_\delta, c:d$ do not intersect $B$. Thus, $R(c:d, \delta) = \emptyset$. Similarly for $b < (c:d)$. 
+         
+        \item Consistency. If $c:d$ contains $a:b$ and $a:b$ is a Yes interval, then there are oracles $\alpha \in A$ and $\beta \in B$ and $\alpha$-Yes interval $a \lte e$ and $\beta$-Yes interval $f \lte b$. Since $c:e$ contains $a:e$, $c:e$ is a Yes interval of $\alpha$ and, similarly, $f:d$ is a Yes interval of $\beta$. Thus, $c:d$ satisfies the property of this oracle for being a Yes interval. 
+
+        If $c:d$ is a No interval, then there exists an $x$ such that either $x < c:d$ and $x \in B$ or $c:d < x$ and $x\in A$. In either case, $a:b$, being a subinterval of $c:d$, will satisfy the same relation. 
+        \item Closed. Assume $c_\delta$ is a Yes interval for all $\delta > 0$. Then given any element $\alpha \in A$ not equal to $c$, let $l = \frac{d(\alpha, c)}{2}$. Since $c_l$ is a Yes interval, we have that $c+l \in B$ and thus $\alpha < c+l$. But since $\alpha \notin c_l$, we must have $\alpha < c$. Thus, $c$ is not less than any element of $A$. 
+        
+        Similarly, if $\beta \in B$ with $\beta \neq c$, then we let $l = \frac{d(\beta,c)}{2}$ so that $c_l$ is a Yes interval that excludes $\beta$. Since $c_l$ is a Yes interval, $c-l \in A$ and we have that $\beta > c$. Thus, $c$ is not more than any element of $B$.
+
+        By the definition of our rule, $c:c$ is a Yes singleton. 
+
+        For the other direction, assume $a:a$ is a No singleton. This means that there is an oracle $\gamma$  which either is greater than $a$ and in $A$ or less than $a$ and in $B$. Let $\delta = \frac{d(\gamma, a)}{2}$. Then $\gamma$ has the same relation to all of the elements of $a_\delta$ and thus it is also a No interval.  
+    \end{enumerate}
+    
+\end{proof}
+
+
+\section{Arithmetic}
+
+For arithmetic, the operators of addition and multiplication need to be defined. Then it needs to be shown that the properties hold including the existence of additive and multiplicative identities and inverses, as appropriate. 
+
+Interval arithmetic is largely that of doing the operation on the endpoints. For addition, $a \lte b \oplus c \lte d = (a+c) \lte (b:d)$ and its length $|a:b|+|c:b|$. For multiplication, $a:b \otimes c:d = \min(ac, ad, bc, bd):\max(ac, ad, bc, bd)$. For $0 \lte a \lte b$ and $0 \lte c \lte c$, the interval multiplication becomes $ac \lte bd$. For multiplication, the length is a bit more complicated. Let $M$ be an absolute bound for $a:b$ and $c:d$; an absolute bound on an interval is a number such that for $p$ in the interval, $|p| < M$. Then $|a:b \otimes c:d < |M|(|a:b| + |c:d|)$. 
+
+Most of the arithmetic properties hold, but the distributive property does not nor are there any additive and multiplicative inverses. The additive identity is $0:0$ while the multiplicative one is $1:1$. Subintervals of $a:b$ and $c:d$ operated together are subintervals of $a:b$ and $c:d$ operated on. 
+
+The negation operator is $\ominus(a:b) = -a:-b$; this is not the additive inverse as $a:b \oplus (\ominus(a :b )) = (a-b):(b-a)$ which does contain 0, but not exclusively so. The reciprocity operator is $1 \oslash (a:b) = 1/a : 1/b$ though this only applies to intervals excluding 0. If 0 was included, with $a < 0$, the resulting set would be $-\infty:1/a \cup 1/b : \infty $ which is not an interval as used here.
+
+The distributive property is replaced with $( a:b \otimes ( c:d \oplus e:f) \subset (a:b \otimes c:d) \oplus (a:b \otimes e:f)$. To see this, note that the left-side has boundaries chosen from $\{ac+ae, ad+af, bc+be, bd+bf\}$ while the second has a boundary of the form $(\min(ac, ad, bc, bd) + \min(ae, af, be, bf) ) \lte (\max(ac, ad, bc, bd) + \max(ae, af, be, bf) )$. To demonstrate that they are indeed not equal for some examples, consider $2:3 \otimes ( 4:7 \oplus -6:-3) = -6:12$ compared to $(2:3 \otimes 4:7) \oplus (2:3 \otimes -6:-3) = -10:15$. 
+
+For more on interval analysis, see, for example, \cite{moore}.
+
+
+Let oracles $x$ and $y$ be given with rules $R_x$ and $R_y$, respectively. The oracle $\xora[x+y]$ is defined by the rule that $R(a:b, \delta)$ can be $c:d$ if there exists $e':f'$ in the range of $R_x$ and $e'': f''$ in the range of $R_y$ such that $(e':f') \oplus (e'':f'') = c:d$ and $c:d$ is contained in $(a:b)_\delta$; it is the empty set otherwise. For multiplication, the oracle $\xora[xy]$ is defined by the rule that $R(a:b, \delta)$ is $c:d$ if there exists $e': f'$  in the range of $R_x$ and $e'':f''$ such that $(e':f') \otimes (e'':f'') = c:d$ and $c:d$ is contained in $(a:b)_\delta$; it is the empty set otherwise. A variant of this is to enlarge this to use the Yes intervals of $x$ and $y$; the choice to use the range of $R$ is to keep the arithmetic constructive. It should be clear that they generate the same set of Yes intervals for the operated on oracles as Yes intervals are associated with intervals in the range of the rule. This is then the link to saying that using different rules for $x$ and $y$ lead to the same $x+y$-relation on the rationals. 
+
+
+The first step is to establish that these are oracles. Addition and multiplication will be handled mostly simultaneously. The symbol $\odot$ will be used to represent a generic symbol for an operator operating on intervals and $\cdot$ will then be used for that same operator operating on individual numbers.
+
+\begin{enumerate}
+    \item Range. This holds by definition. 
+    \item Existence. Let $a \xora b$ and $c \xora[y] d$. Then $R(a:b \odot c:d, \delta) = a:b \odot c:d$ establishes existence for the operator $\odot$; cycling over $\oplus$ and $\otimes$ yields it for both of them. 
+    \item Separation. Let $a:b$ be the result of $a':b' \odot a'':b''$ for $a':b' \in R_x$ and $a'': b'' \in R_y$. Let $m$ be strictly contained in $a:b$ and let $\delta$ be given. 
+    
+    %Because $m$ is strictly contained, there exists $m'$ and $m''$ such that $m = m' \cdot m''$ with $m'$ strictly contained in $a':b'$ and $m''$ strictly contained in $a'':b''$. 
+    
+    For $\odot = \oplus$, choose $\delta'$ and $\delta''$ such that $\delta' + \delta'' < \delta$. 
+    
+    For $\odot = \otimes$, let $M$ be an absolute upper bound on the intervals $e':f'$ and $e'':f''$. Then choose $\delta'$ and $\delta''$ such that $M (\delta' + \delta'') < \delta$.
+    
+    Choose intervals $c':d' \in [R_x]$ and $c'':d'' \in [R_y]$  such that their lengths are less than $\delta'$ and $\delta''$, respectively, as allowed by the Bisection Algorithm. Define $c:d = c':d' \odot c'':d''$ Then $|c:d| < \delta$ per the respective operators bounds. 
+    
+    Since $a':b'$ and $c':d'$ must intersect as both are in the range of $R_x$, it must be the case that $c':d'$ is contained in $(a':b')_{\delta'}$. Similarly for $c'':d'' \subset (a'':b'')_{\delta''}$. Therefore, $c:d \subset (a':b')_{\delta'} \odot (a'':b'')_{\delta''} \subset (a:b)_\delta$.
+
+    If $m$ is contained in $c:d$, then since its length is less than $\delta$, it is contained in $m_\delta$ and it serves in the role of $e:f$ in the property. If $m$ is not in $c:d$, let $a:c:d:m$ by relabelling. Then take $e$ to be the average of $d$ and $m$. Let $f$ be on the other side of $m$ and within $m_\delta$. The interval $c:d$ is then wholly contained in $|a_\delta:e$, satisfying the property. 
+    
+    
+   % Then use Separation on $a':b'$ with $m'$ and $\delta'$ to generate an interval $c':d'$ in the range of $R_x$ which is contained in  $|a'_{\delta'}:e'$, $e':f'$, or $f':b'_{\delta'}|$ where $e':f'$ is $m'_{\delta'}$. Assume by relabelling, that $e' <f'$ and $a' < b'$. Do the same for $R_y$, replacing primes with double primes. Then consider $c':d' \oplus c'':d'' = c:d$ and $e':f' \oplus e'':f'' = e:f$. If they are both in the same kind of interval, say $c':d' \subset |a'_{\delta'}:e'$ and $c'':d'' \subset |a''_{\delta''}:e''$ then $c:d \subset |a_\delta:e$ as the sums work for endpoints. If they are in different kinds of intervals, then there are two cases. 
+    
+
+
+    
+    \item Disjointness. Let $e \xora f$ and $e' \xora[y] f'$ be such that $e:f \odot e':f'$ is in $a:b$. Given any $m \xora n$ and $m' \xora[y] n'$, there will be $p$ and $p'$ such that $e:p:f$, $m:p:n$, $e':p':f'$, and $m':p':n'$. Then $p \cdot p'$ will be in both $e:f \odot e':'f'$ and $m:n \odot m':n'$. Thus, there can be no such interval contained in $(c:d)_\delta$ where $\delta$ is chosen small enough such that the interval is disjoint from $a:b$ which can be done as these inclusive intervals are disjoint. 
+    \item Consistency, Closed. This follows since if $c:d$ is in the range of $R$, then it is the result of the operation of two intervals and thus will also be available for any $(a:b)_\delta$ to be returned for. The empty set is never returned for in this scenario. 
+\end{enumerate}
+
+Having established that these are oracles, then it is necessary to check the field properties. 
+\begin{enumerate}
+    \item Commutativity. This follows from $a:b \odot c:d = c:d \odot a:b$ which in turn follows from the commutativity of $\cdot$ on the rationals. 
+    \item Associativity. This follows from $(a:b \odot c:d) \odot e:f = a:b \odot (c:d \odot e:f)$ which in turn follows from the commutativity of $\cdot$ on the rationals. 
+    \item Identities. Since $a:b \oplus 0:0 = a:b$, the rule $R_0 (c:d, \delta) = 0:0$ for $c:0:d$ and $\emptyset$ otherwise leads to $R_x \oplus R_0 = R_x$. Thus, $x + 0 = x$ for all rational-betweenness relations $x$. Similarly, $a:b \otimes 1:1 = a:b$ leads to $x \times 1 = x$. 
+    \item Distributive Property. As mentioned above, $( a:b \otimes ( c:d \oplus e:f) \subset (a:b \otimes c:d) \oplus (a:b \otimes e:f)$. This means that the oracle rule for both will not return the empty set unless the other one does as well. Thus, they generate the same betweenness relation and are therefore considered equal. 
+    \item Additive Inverse.  The additive inverse for for $x$ is given by the rule $R_{-x}(a:b, \delta) = \ominus c:d$ where $R_x (\ominus a:b, \delta) = c:d$  and is the empty set if $R_x$ is the empty set for those inputs. It is an oracle basically because the rule returns the empty set in the same conditions as the original rule. For example, if $a:b \in \mathbb{R}_{-x}$, then $\ominus a:b \in \mathbb{R}_x$and thus $R_x(\ominus a:b, \delta) \neq \emptyset$ implying $R_{-x} (a:b, \delta) \neq \emptyset$.
+
+    To verify that this is the additive inverse, compute $x + (-x)$ by looking at $a:b \oplus c:d$ where $a:b \in [R_x]$ and $c:d \in [R_{-x}]$. For $c:d$ to be in the range of $[R_{-x}]$, it must be the case that $-c:-d$ is in the range of $[R_x]$. The intervals $-c:-d$ and $a:b$ must intersect as they are both in the range of $R_x$. Let $p$ be a point of that intersection. Then $a:b \oplus c:d$ has $p + (-p) =0$ in its interval. Since these were random intervals in the ranges, it must be true that all intervals in the range of the sum rule must contain 0. This leads to the set of Yes intervals being those that contain 0, the same set as for the rooted oracle rule of 0. 
+    
+    \item Multiplicative Inverse. For the multiplicative inverse, it is slightly more complicated. The easiest path is to consider the fonsi defined by $\{ a:b | 1 \oslash a:b \in [R_x] \wedge 0 \notin a:b \}$. If this is nonempty, then it defines a fonsi as the narrowing and intersection of the intervals in $R_x$ translates to that of their reciprocal nature. Indeed, $|1 \oslash a:b| = |a:b|/|a*b|$ which clearly shrinks as $a$ and $b$ get closer to one another and not closer to 0. Being a fonis, there is an oracle associated with it. 
+
+    Being the multiplicative inverse follows by multiplying the elements in the fonsi with the intervals of $R_x$. As with the additive inverse, given $a:b \in [R_x]$ and $c:d \in [R_{1/x}]$, there exists $p$ that is common to both $a:b$ and $1 \oslash c:d$. Thus, the multiplication of these intervals leads to $p *1/p = 1$ and, as this is true for all such intervals, this is equal to the oracle of 1. 
+
+\end{enumerate}
+
+This establishes that the oracles form a field. 
+
+
+\section{The Real Numbers}
+
+The oracles are ordered, complete, and a field. It needs to be shown that the arithmetic operations respects the ordering. To do this, it needs to be shown that 1) $x + z < y +z$ implies $x<y$ and 2) $xy > 0 $ if $x >0 $ and $y >0$.
+
+By definition of the inequality, there exists intervals $ a \xora[x+z] b$ and $c \xora[y + z] d$ such that $a:b < c:d$. Let $a' \xora b'$, $e' \xora[z] f'$, $c' \xora[y] d'$, and $e''  \xora[z] f''$ such that $e':f'$ and $e'':f''$ are less than half the distance between $a:b$ and $c:d$, $a'\lte b'\oplus e' \lte f' \subset a \lte b$, and $c' \lte d' \oplus e'' \lte f'' \subset c \lte d$. This can be done as the meaning of the sum and the narrowing of intervals.  The containment and given interval inequality translates into $b' + f' \leq b < c \leq c' + e''$. Since $e':f'$ and $e'':f''$ are Yes intervals for the same oracle, they intersect. Let $p$ be that intersection. Also let $L$ be the max of $|e':f'|$ and $|e'':f''|$. Note that $L < (c-b)/2$ by the choice of those intervals and the Bisection Algorithm. Therefore, $b' + f' + L < c' + e'' - L $. Furthermore, since $p \leq f'$ and $p \geq e''$, this can be written as $b' + p + L <  c' + p - L$. So $b' < c' - 2L < c'$ implying $a':b' < c':d'$ which in turn implies $x< y$.
+
+The multiplication is a bit shorter. Let $x >0 $, $y >0$, $a \xora b$ such that $0<a \lte b$, $c \xora[y] d$ such that $0 < c \lte d$. Then $xy$ has the interval $ac \lte bd$ which is greater than 0 and hence the oracle $xy$ is greater than 0. 
+
+Thus, the oracles are a complete, ordered field with the rationals dense in it. These are the real numbers. 
+
+
+\section{Concluding Thoughts}
+
+The idea was quite simple: a real number is best represented by the intervals that contain it. To do this, there are two distinct levels. The first level is that of the oracle rules. These are computationally accessible. They are constructive in nature. Indeed, they are best thought of as a prescription as to what to compute and do rather than some completed object given to one. 
+
+The second level is that of the betweenness relations. These are pure. They represent the intervals that contain the real number. In order to compute out all the Yes intervals for a given oracle, it may be necessary to check infinitely many intervals. That is, to state the relations is to delver into non-constructivist territories. 
+
+Both versions have their trade offs. In terms of practical uses, the rules are very implementable in, say, a computer program. The betweenness relations are very useful in theoretical uses. Some of the results in the arithmetic could have been smoother if the relations aspect was relied upon rather than the rules. The reason that was not chosen was to show how it works with the rules. 
+
+A famous motivation for Dedekind was to prove that $\sqrt{2} \sqrt{3} = \sqrt{6}$. How might that go with the relations? The Yes intervals for $\sqrt{p}$ were of the form $\max(0,a)^2 : p : b^2$. Let $a \xora{\sqrt{2}} b$ and $c \xora{\sqrt{3}} d$. Focusing on the positive intervals and with $a\lte b$, $c \lte d$, the multiplication of them leads to $ac \lte bd$. Squaring them, leads to $a^2 c^2 \lte b^2 d^2$. Since $a^2 \lte 2 \lte b^2$ and $c^2 \lte 3 \lte d^2$, the multiplication of those intervals leads to $a^2 c^2 \lte 6 \lte b^2 d^2$.
+
+In general, using intervals is how arithmetic facts can be established. The computation of $e + \pi$ would be similarly explored. One would take Yes intervals of $e$ and Yes intervals of $\pi$ and then add them together. The intervals can be shrunk as small as one likes and has the computational power to do it. There is nothing infinite in the computation up a certain desired level of $\delta$. 
+
+
+
+\medskip
+
+\normalem %restoring normal emphasis in bibliography 
+
+\printbibliography
+
+\end{document}
