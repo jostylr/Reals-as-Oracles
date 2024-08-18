@@ -1,9 +1,18 @@
 # Reals-as-Oracles
 This is a project exploring a new definition of real numbers, namely, viewing a real number as an oracle that affirms when a rational interval contains the real number. While that was the initial purpose and remains the primary one, explorations into its generalizations are also being housed in this project. 
 
-This project is currently being revised to have a slightly refined core property which allows for more practical considerations. The current version of the main paper is revised through section 3.4 and has an updated section on mediant approximations of section 6.2.1. I consider it 80% revised: 
+The current version of this project has two main (shortish) papers to explain the basic idea. 
 
+The paper that develops the idea from scratch is [Defining Real Numbers By Inclusion in Rational Intervals](https://github.com/jostylr/Reals-as-Oracles/blob/main/articles/reals-as-oracles-short.pdf)  It uses rules that given an interval and some fuzziness, return an interval that contains the real number or returns the empty set. It then uses that structure to generate a betweenness relation, nonconstructively. It is established that the oracles form the real numbers. 
+
+The other paper of recent vintage is that using betweenness relations directly and linking them to Dedekind cuts: [Real Numbers as Rational Betweenness Relations]([https://github.com/jostylr/Reals-as-Oracles/blob/9b8a7e5c264a5b725baf08ec64811a520bfda858/articles/reals-as-oracles-betweeness.pd](https://github.com/jostylr/Reals-as-Oracles/blob/main/articles/reals-as-oracles-betweeness.pdf)f)
+
+
+Another part of this project is the very long paper. It is currently in various stages of readiness. 
+This is a version 2 
 [Defining Real Numbers as Oracles, v2 alpha](https://github.com/jostylr/Reals-as-Oracles/blob/main/articles/Reals_as_Oracles_v2_alpha.pdf) 
+
+There is also a version 3 being worked on. 
 
 
 The following papers have been posted to the arXiv and were donish though I consider them outdated at this point. The arXiv versions are provided, but they tend to be older than the primary link which is a link to the pdf hosted in this repository under articles. 
