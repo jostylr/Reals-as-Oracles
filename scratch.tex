@@ -26,3 +26,51 @@
     U_{\Earth}
   \end{equation}
 \end{document}
+
+
+
+
+
+This is fine theoretically, but it is not fine practically. There are many situations in which the division between $A$ and $B$ is not well established. It may take great computational effort to narrow in on where the division lies. Thus, the task here will be slightly expanded to include a fuzzy boundary. 
+
+
+A \textbf{Fuzzy Set} $A$ is a set-like object such that given any relation $x$ and rational length $\varepsilon$, either $x \in A$, $x \notin A$, or there exists $a \xrel b$ such that $a \in A$, $b \notin A$, and $|a:b| < \varepsilon$; the interval $a:b$ is called an $\varepsilon$-boundary of $A$. A Fuzzy Set is a Fuzzy Ray if in addition the following properties hold: 1) whenever $x \in A$, $y \notin A$, and $x':x:y:y'$, then $x' \in A$ and $y' \notin A$; 2) if $x \in A$, $y \notin A$, and $z$ is an element of an $\varepsilon$-boundary of $A$ that neither $x$ nor $y$ are members of, then $x : z: y$. In all of this, it is assumed that there is at least one element in $A$ and one element not in $A$. 
+
+\begin{theorem}[The $\epsilon$-Cut Property]
+    Given a Fuzzy Ray $A$, there exists a relation $\kappa$ such that whenever $x : \kappa: y$, then $x \in A$ and $y \notin A$ or vice versa.
+\end{theorem}
+
+
+\begin{proof}
+    The relation $\kappa$ will be defined by defining an oracle that represents it. To define the rule $R$, let $a:b$ and $\delta$ be given. Let $\varepsilon = \delta/2$. Query the status of $a$ and $b$. If $a$ and $b$ are both in $A$ or both not in $A$, then the empty set is returned. If one is in $A$ and the other is not in $A$, then $a:b$ is returned. The other option is that at least one of them is in an interval $c:d$ that is an $\varepsilon$-boundary of $A$; in that case, return $c:d$. 
+    
+    We need to show that $\kappa$ is an oracle and satisfies the desired properties. Let us show that the desired property holds first. 
+
+    For any $x \in A$ and $y \notin A$, there exists an $x$-Yes interval $a : b$  and a $y$-Yes interval $c :d$ such that they are disjoint and that $a:b:c:d$. Necessarily, $a \in A$ and $d \notin A$. 
+    
+    t $\widehat{a} \in A$ and $\widehat{d} \in B$. Hence, $a:d \in R$ and $a \xora[\kappa] d$. 
+
+    Let $ x < \kappa$. Then there exists an $x$-Yes interval $u\lte v$ and a $\kappa$-Yes interval $e\lte f$ such that $v < e$. That is what that inequality means. By definition, $e$ is a lower endpoint of an interval that contains the interval $m\lte n$ where $m$ is itself the lower endpoint of a Yes interval for some element $\alpha \in A$; let's say that is the interval $m\lte g$. We clearly have $ u \lte v < e \lte g$ and thus $\alpha > x$. As $\alpha \in A$, we therefore have $x \in A$. 
+
+    If $x > \kappa$, we can do the same argument except reversing the inequalities leading to $\beta \in B$ which is less than $x$ implying $x \in B$.
+
+    As for $\kappa$ being an oracle, this is the usual checking of the properties: 
+    \begin{enumerate}
+        \item Range. This is true by definition. 
+        
+        \item Existence. By the non-emptiness, there exists oracles $\alpha \in A$ and $\beta \in B$ with Yes intervals $a:b$ for $\alpha$ and $c:d$ for $\beta$. Thus, $R(a:d, 1) \neq \emptyset$ as $\widehat{a-1} \in A$ and $\widehat{d+1} \in B$. 
+        
+        \item Separation. Let $a\lte b \in R$, $a:m:b$, and a subwidth $\delta $ be given.  By assumption of the disjointness and totality of the sets $A$ and $B$, it is the case that $\widehat{m}$ is in exactly one of $A$ or $B$.
+        
+        If $\widehat{m} \in A$, then $\widehat{m-\delta}$ is in $A$. If $\widehat{m+\delta}$ is in $A$, then $m+\delta:b \in R$. If $\widehat{m+\delta}$ is in $B$, then $m_\delta \in R$.
+
+        Similarly, if $m$ is in $B$, then $\widehat{m+\delta} \in B$. If $\widehat{m-\delta} \in B$, then $a:m-\delta \in R$. If $\widehat{m-\delta} \in A$, then $m_\delta \in R$.
+
+        \item Disjointness. Let $a \lte b$ be in the range of $R$ and $c : d$ disjoint from $a:b$. If $(c:d) < a$, then both $c$ and $d$ are in $A$. With a $\delta$ less than the distance to $a$, it would be the case that $c_\delta, d_\delta, c:d$ do not intersect $B$. Thus, $R(c:d, \delta) = \emptyset$. Similarly for $b < (c:d)$. 
+         
+        \item Consistency. Let $a \lte b \in \mathbb{I}_R$ and $\delta$ be given. Let $c \lte d \in R$ and contained in $a:b$. Note that $\widehat{c} \in A$ and $\widehat{d} \in B$ by definition of the range of $R$. Then $a- \delta < c$ implies $\widehat{a - \delta} \in A$ and $b + \delta > d$ implies $\widehat{b+\delta} \in B$. Thus, $R(a:b, \delta) \neq \emptyset$ and, in fact, $R(a:b, \delta) = c:d$.
+        
+        \item Closed. Let $a_\delta \in \mathbb{I}_R$ for all $\delta$. Let $a:b$ and $\delta$ be given. Let $c \lte d$ be such that $c:d$ is contained in $a_\delta$ and $c:d \in R$. Then $c \in A$ and $d \in B$. By the containment in $a_\delta$, $a- \delta < c$ implies $\widehat{a-\delta} \in A$ while $a + \delta > d$ implies $\widehat{a+\delta} \in B$. If $b \leq a$, then $\widehat{b-\delta} \in A$. If $b \geq a$, then $\widehat{b+\delta} \in B$. In either case, $R(a:b, \delta) \neq \emptyset$ as the condition to have the empty set is not present. In addition, $R(a:b, \delta) = c:d$. 
+    \end{enumerate}
+    
+\end{proof}
