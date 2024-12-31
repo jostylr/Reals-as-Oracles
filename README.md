@@ -3,9 +3,9 @@ This is a project exploring a new definition of real numbers, namely, viewing a 
 
 The current version of this project has two main (shortish) papers to explain the basic idea. 
 
-The paper that develops the idea from scratch is [Defining Real Numbers By Inclusion in Rational Intervals](https://github.com/jostylr/Reals-as-Oracles/blob/main/articles/reals-as-oracles-short.pdf)  It uses rules that given an interval and some fuzziness, return an interval that contains the real number or returns the empty set. It then uses that structure to generate a betweenness relation, nonconstructively. It is established that the oracles form the real numbers. 
+The paper that develops the idea from scratch is [Real Numbers as Rational Betweenness Relations](https://github.com/jostylr/Reals-as-Oracles/blob/main/articles/rational-betweenness-relations-oracles.pdf)  It uses rules, called oracles, that given an interval and some fuzziness, return an interval that contains the real number or returns the empty set. It then uses that structure to generate a betweenness relation, nonconstructively. It is established that the oracles form the real numbers. 
 
-The other paper of recent vintage is that using betweenness relations directly and linking them to Dedekind cuts: [Real Numbers as Rational Betweenness Relations](https://github.com/jostylr/Reals-as-Oracles/blob/main/articles/reals-as-oracles-betweeness.pdf)
+The other paper of recent vintage is that using betweenness relations directly and linking them to Dedekind cuts: [Rational Betweenness Relations From Dedekind Cuts](https://github.com/jostylr/Reals-as-Oracles/blob/main/articles/rational-betweenness-relations-dedekind-cuts.pdf)
 
 
 Another part of this project is the very long paper. It is currently in various stages of readiness. 
