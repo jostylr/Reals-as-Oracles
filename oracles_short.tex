@@ -796,11 +796,11 @@ For more on interval analysis, see, for example, \cite{moore} or, in this contex
 
 Having discussed interval arithmetic, oracle arithmetic can now be defined based on that. The essential additional ability is that of being able to use narrower intervals. Much of the discussion will be the same for both arithmetic and multiplication. To facilitate that, the symbol $\odot$ will be used to represent a generic symbol for an operator operating on intervals and $\cdot$ will then be used for that same operator operating on individual numbers.
 
-Let oracles $x$ and $y$ be given with rules $R_x$ and $R_y$, respectively. The oracle $\xora[x \cdot y]$ is defined by the following rule. Given $a:b$ and $\delta$, take an interval $c:d = (e:f) \odot (g:h)$ such that $e:f$ is in the range of $R_x$, $g:h$ is in the range of $R_y$, and $|c:d| < \delta$. Then $R_{x \cdot y}(a:b, \delta) = c:d$ if $c:d$ intersects $a:b$ and is the empty set otherwise. Note that if $c:d$ intersects $a:b$, it will be contained in $(a:b)_\delta$. 
+Let oracles $R_x$ and $R_y$ be given. The oracle $R_{x \cdot y}$ is defined by the following. Given $a:b$ and $\delta$, take an interval $c:d = (e:f) \odot (g:h)$ such that $e:f$ is a prophecy of $R_x$, $g:h$ is a prophecy of $R_y$, and $|c:d| < \delta$. Then $R_{x \cdot y}(a:b, \delta) = c:d$ if $c:d$ intersects $a:b$ and is the empty set otherwise. Note that if $c:d$ intersects $a:b$, it will be contained in $(a:b)_\delta$. 
 
 The existence of an interval of the form $c:d$ follows from the computational bounds on the arithmetic operators as well as the Bisection Algorithm applied to $R_x$ and $R_y$. For addition, that choice is ensured by choosing the lengths of each to be less than $\frac{\delta}{2}$. For multiplication, let $M$ be a bound on given intervals of $R_x$ and $R_y$. Then choose intervals of $R_x$ and $R_y$ such that their lengths are less than $\frac{\delta}{2M}$. 
 
- A variant of this is to enlarge this to use the Yes intervals of $x$ and $y$; the choice to use the ranges of $R_x$ and $R_y$ is to keep the arithmetic constructive. It should be clear that they generate the same set of Yes intervals for the operated on oracles as Yes intervals are associated with intervals in the range of the rule. This is then the link to saying that using different rules for $x$ and $y$ lead to the same $x+y$, $xy$-relations on the rationals. 
+ A variant of this is to enlarge this to use the Yes intervals of $x$ and $y$; the choice to use the prophecies is to keep the arithmetic constructive. It will be the case that using equivalent rules leads to an equivalent rule for the result; this will be established below. 
 
 The first step is to establish that these are oracles. 
 
@@ -874,12 +874,12 @@ Having established that these are oracles, it is necessary to check the field pr
 
 \end{enumerate}
 
-This establishes that the oracles form a field. 
+Having established the field properties hold for oracles, this translates to rational betweenness relations establishing that they are a field. 
 
 
 \subsection{The Real Numbers}
 
-The oracles are ordered, complete, and a field. It needs to be shown that it is an ordered field, that is, that the arithmetic operations respects the ordering. To do this, it is sufficient to show that 1) for all $x, y, z$ in the field, if $x<y$, then $x + z < y +z$; and 2) for all $x, y$ in the field, if $x >0$ and $y>0$, then $xy > 0 $.
+The rational betweenness relations are ordered, complete, and a field. It needs to be shown that it is an ordered field, that is, that the arithmetic operations respects the ordering. To do this, it is sufficient to show that 1) for all $x, y, z$ in the field, if $x<y$, then $x + z < y +z$; and 2) for all $x, y$ in the field, if $x >0$ and $y>0$, then $xy > 0 $.
 
 By definition of the inequality, there exists intervals $ a \xora[x] b$ and $c \xora[y] d$ such that $a:b < c:d$. Thus, $c-b > 0$. By Bisection, there exists an interval $e \xora[z] f$ such that $0 \leq f-e < c-b$. Then $a+e \xora[x+z] b+f$ and $c+e \xora[y+z] d+f$. Since $a+e \leq  b+f$ and $c+e \leq d+f$, it suffices to show that $b+f < c+e$. This is equivalent to showing $f-e < c-b$, but that is true by choice of $e:f$. Thus, $x+z < y+z$. As there was nothing special about $x$, $y$, or $z$, this holds for all oracles. 
 
@@ -887,7 +887,7 @@ The multiplication is a bit shorter. Let $x >0 $, $y >0$, $a \xora b$ such that 
 
 The rationals are also dense in the oracles. Let $x < y$ be two given oracles. Let $a:b < c:d$ where $a \xora b$ and $c \xora[y] d$; this is allowed by the meaning of the inequality. Let $m$ be the average of $b$ and $c$. Then the oracle version of $m$, say $\widehat{m}$, satisfies $x < \widehat{m} < y$ as evidenced by $a:b < m:m < c:d$.
 
-Thus, the oracles are a complete, ordered field with the rationals dense in it. These are the real numbers. 
+As this holds for all oracles, it holds for the rational betweenness relations. Thus, they are a complete, ordered field with the rationals dense in it. These are the real numbers. 
 
 
 \section{Concluding Thoughts}
