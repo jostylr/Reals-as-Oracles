@@ -2,10 +2,12 @@
 \usepackage{personal}
 \usepackage{realoracles}
 
-\newtheorem{theorem}{Theorem}[section]
+
 \newtheorem{lemma}{Lemma}[section]
 \newtheorem{corollary}{Corollary}[section]
 \newtheorem{proposition}{Proposition}[section]
+\newtheorem{theorem}{Theorem}
+
 
 \newcommand{\qcut}[2][x]{\ensuremath{\mathbb{Q}_{#2 #1}}}
 \newcommand{\qlt}[1][x]{\qcut[#1]{<}}
@@ -24,7 +26,7 @@
 %\sloppy%\openup-.1\jot
 \begin{document}\maketitle
 \begin{abstract}
-Two rational numbers are $x$-related if $x$ is, inclusively, between them. These betweenness relations represent a new way to define the real numbers. There are five properties that characterize such relations. The key property is the Separation property which states that given two rationals in relation, then any number in between is either related to exactly one of the two endpoints or is related to itself. To prove that the set of such relations can be taken to be the real numbers, it will be demonstrated that the betweenness relations with the natural order and arithmetic of intervals is canonically isomorphic as a complete ordered field to Dedekind cuts. 
+Two rational numbers are $x$-related if $x$ is, inclusively, between them. These betweenness relations represent a new way to define the real numbers. There are five properties that characterize such relations. The key property is the Separation property which states that given two rationals in relation, then any number in between is either $x$-related to exactly one of the two endpoints or is $x$-related to itself. To prove that the set of such relations can be taken to be the real numbers, it will be demonstrated that the betweenness relations with the natural order and arithmetic of intervals is canonically isomorphic as a (complete) ordered field to Dedekind cuts. 
 \end{abstract}
 
 \section{Introduction}
@@ -35,9 +37,11 @@ This paper will first define the term rational betweenness relation. This will i
 
 An important part of defining real numbers is defining the order relation and arithmetic operators. Interval ordering and arithmetic naturally carry over to the relations. The bijection to the Dedekind cuts will be shown to respect the order relations and arithmetic operators which can then be used to establish their properties, including the completeness property.   This establishes that the space of rational betweenness relations is a valid model of the real numbers. 
 
+While this paper establishes the properties using Dedekind cuts, it is also possible to do this more directly using a more constructive structure called an oracle. This is pursued in \cite{taylor24oraclerbr}.
+
 Throughout this paper and without further explicit comment, the letters $a, b, c, d$ will always be rational numbers and often take the role of endpoints of intervals. The letters $m, n, p, q, r, s$ will also always be rational numbers and often take the role of numbers in an interval. The letters $x, y, z, \alpha, \beta$ will notionally represent real numbers.
 
-\section{Definition of a rational betweenness relation}
+\section{Betweenness Notation}
 
 To claim to know a real number is to at least be able to answer definitively whether that real number is between any two given rational numbers. With that capability, one can do arbitrarily precise arithmetic with that number. The capability can be codified as a relation between rational numbers. 
 
@@ -50,6 +54,8 @@ If $b$ and $c$ are between $a$ and $d$, but it is not clear whether $b$ is betwe
 Rational numbers satisfy the fact that, given three distinct rational numbers, $a, b, c$, we have that exactly one of the following holds true: $a:b:c$, $a:c:b$, or $b:a:c$. That is, one of them is between the other two. It can be written in notation as $a:b:c$ holds true if and only if both \sout{$a:c:b$} and \sout{$b:a:c$} hold true. This follows from the pairwise ordering of each of them as provided by the Trichotomy property for rational numbers along with the transitive property. 
 
 In this paper, often a potential relabeling will be invoked. This is to indicate that there are certain assumptions that are needed to be made, but they are notational assumptions and, in fact, some arrangement of the labels of that kind must hold. For example, if $\{a,d\}:b:c$ holds true, then either $a:d:b:c$ or $d:a:b:c$ holds true. If these are generic elements, then relabeling could be used to have $a:d:b:c$  be  true for definiteness, avoiding breaking the argument into separate, identical cases. If $a$ and $d$ were distinguished in some other way, such as being produced by different processes, then relabeling would not be appropriate to use. 
+
+\section{Definition of a Rational Betweenness Relation}
 
 A rational betweenness relation is a relation on pairs of rational numbers that is supposed to express that there is a real number $x$ between the two rational numbers. The notation $a \xrel b$ denotes that $x$ ought to satisfy $a \leq x \leq b$ or $b \leq x \leq a$;  both the ordered pairs $(a,b)$ and $(b,a)$ are in the betweenness relation. We say that $a:b$ is an $x$-interval and that $a$ is $x$-related to $b$. If $(a,b)$ is not in the relation, then that can be denoted by \sout{$a \xrel b$} and $a:b$ is said to not be an $x$-interval. 
 
@@ -65,14 +71,14 @@ which satisfies the following properties:
 
 If $q \xrel q$, then $x$ represents the rational number $q$ and is the \textbf{root of the relation}; $q:q$ may be called an $x$-singleton. If such a $q$ exists, then $x$ is said to be rational. Also note that the Singular property implies that $q$ would be unique. If no such $q$ exists, then $x$ is said to be irrational. 
 
-The Interval Separation property is at the heart of this procedure being computationally useful. It is modelled on how the Intermediate Value Theorem is operationalized. This version of the property is idealized in the sense that there is an assumption that $c:c$ can be evaluated as to whether it is in the relation or not. For a more practical approach that loosens that restriction and discusses alternative versions of the Separation property, see \cite{taylor23main}. The idea there is to view the relation more as a a mechanism for providing an answer to a question asked by a user. The questioner provides a little bit of fuzziness. 
+The Interval Separation property is at the heart of this procedure being computationally useful. It is modeled on how the Intermediate Value Theorem is operationalized. This version of the property is idealized in the sense that there is an assumption that $c:c$ can be evaluated as to whether it is in the relation or not. For a more practical approach that loosens that restriction and discusses alternative versions of the Separation property, see either the relatively short \cite{taylor24oraclerbr} or the longer \cite{taylor23main}. The idea there is to view the relation more as a a mechanism for providing an answer to a question asked by a user. The questioner provides a little bit of fuzziness. 
 
 
-\subsection{Propositions for Rational Betweenness Relations}
+\section{Propositions for Rational Betweenness Relations}
 
 Here are some useful general statements about rational betweenness relations. 
 
-For rationals, the betweenness is accurate. 
+For rationals, the claim of betweenness is verifiably accurate. 
 
 \begin{proposition}\label{br:rooted}
     If the $x$-between relation has a rational root $q$, then $a \xrel b$ if and only if $a : q : b$.
@@ -81,10 +87,10 @@ For rationals, the betweenness is accurate.
 Note that $a \xrel b$ is stating that the interval $a:b$ is in the relation while $a:q:b$ is stating that the rational number $q$ is between the rational numbers $a$ and $b$.
 
 \begin{proof}
-    Let $a : b$ be given such that $a : q : b$ which is the same as saying $a:q:q:b$. Then since $q \xrel q$, Consistency says that $a \xrel b$. For the other direction, assume that \sout{$a:q:b$}. By Trichotomy and potentially relabeling, assume that $a$ is between $q$ and $b$. By Consistency, $q \xrel b$ and $q\xrel a$.  Since $a \neq q$ and $q \xrel q$, Singular implies that \sout{$a \xrel a$}. Since $q \xrel a$ and $q:a:b$, Separation states that \sout{$ a \xrel b$}. 
+    Let $a : b$ be given such that $a : q : b$ which is the same as saying $a:q:q:b$. Then since $q \xrel q$, Consistency says that $a \xrel b$. For the other direction, assume that \sout{$a:q:b$} which implies $q$ is distinct from both $a$ and $b$. By Trichotomy and potentially relabeling, assume that $a$ is between $q$ and $b$. By Consistency, $q \xrel b$ and $q\xrel a$.  From $q \xrel q$, Singular implies that \sout{$a \xrel a$}. Since $q \xrel a$ and $q:a:b$, Separation states that \sout{$ a \xrel b$}. Since either $a:q:b$ or \sout{$a:q:b$} must hold in general, this has exhausted the cases and the result holds.  
 \end{proof}
 
-Every rational is $x$-related to some other rational for every betweennes relation $x$. 
+Every rational is $x$-related to some other rational for every betweenness relation $x$. 
 
 \begin{proposition}\label{br:existence}
     Given $\xrel$ and rational $a$, there exists $b$ such that $a \xrel b$. 
@@ -96,7 +102,7 @@ Every rational is $x$-related to some other rational for every betweennes relati
     The other case is $u:a:v$. If $a = u = v$, then $a \xrel a$ implying $a \xrel b$ for all rational $b$.  If $a = u \neq v$, then $a \xrel v$ applies. If $a  = v \neq u$, then $a \xrel u$. The last case is that $a$ is strictly between $u$ and $v$. Again, if $a \xrel a$, then that satisfies the requirements. Otherwise, Separation states that either $a \xrel u$ or $a \xrel v$. In either case, the desired $b$ exists. 
 \end{proof}
 
-Two $x$-related intervals that intersect just at an endpoint leads to that endpoint being the root fo $x$. 
+Two $x$-related intervals that intersect just at an endpoint leads to that endpoint being the root of $x$. 
 
 \begin{proposition}\label{br:endpointed}
     If $a \xrel p$ and $p \xrel b$ with $a:p:b$, then $p \xrel p$.
@@ -145,7 +151,7 @@ The next two statements suggest a narrowing away from endpoints that are not roo
 \end{proposition}
 
 \begin{proof}
-    Assume \sout{$a \xrel a$}. By Proposition \ref{br:not-rooted-separated}, there exists an $x$-interval $u:v$ which does not contain $a$. By Proposition \ref{br:intersect}, there exists an $x$-interval  $c:d$ which is the intersection of $u:v$ and $a:b$. The intersection interval excludes $a$ as $a$ is not in $u:v$. Up to relabeling, the cases are $a:c:d:b$ or $a:c:b:d$. In the second case, $c:b$ is the intersection and is the $x$-interval. For the first case, $c:d$ is the intersection. By Consistency, $c \xrel b$ as $c:c:d:b$. 
+    Assume \sout{$a \xrel a$}. By Proposition \ref{br:not-rooted-separated}, there exists an $x$-interval $u:v$ which does not contain $a$. By Proposition \ref{br:intersect}, there exists an $x$-interval  $c:d$ which is the intersection of $u:v$ and $a:b$. The intersection interval excludes $a$ as $a$ is not in $u:v$. By potentially relabeling, it can be assumed that $a:c:d$ with $a \neq c$. The cases are $a:c:d:b$ or $a:c:b:d$. In the second case, $c:b$ is the intersection and is the $x$-interval. For the first case, $c:d$ is the intersection. By Consistency, $c \xrel b$ as $c:c:d:b$. 
 \end{proof}
 
 \begin{corollary}\label{br:doublesomething-inside}
@@ -167,7 +173,7 @@ Disjointness is a useful condition to use in separating $x$-intervals from non-$
 \end{proof}
 
 
-Two rational betweenness relations, $\xrel$ and $\xrel[y]$ are different if there exists an interval $a:b$ such that $a \xrel b$ and \sout{$a \xrel[y] b$} or vice versa. 
+Two rational betweenness relations $\xrel$ and $\xrel[y]$ are different if there exists at least one interval $a:b$ such that either $a \xrel b$ with \sout{$a \xrel[y] b$} or $a \xrel[y] b$ with \sout{$a \xrel b$}. 
 
 \begin{proposition}\label{br:different}
     If $\xrel$ and $\xrel[y]$ are different, then there exists two disjoint intervals $a:b$ and $c:d$ such that $a \xrel b$, \sout{$a \xrel[y] b$}, $c \xrel[y] d$, and \sout{$c \xrel d$}.
@@ -219,7 +225,7 @@ If $\qeq = \{q\}$, then $\qlt$ is the set of rational numbers less than $q$ and 
 If $\qeq$ is empty, then the cut represents an irrational number. In that case, $\qgt$ and $\qlt$ are complements in the set of rational numbers. 
 
 
-\subsection{Propositions for Dedekind Cuts}
+\section{Propositions for Dedekind Cuts}
 
 This is a collection of some useful statements regarding Dedekind cuts. 
 
@@ -270,7 +276,7 @@ The notation $A^C$ will denote the set complement of $A$. That is, $A$ and $A^C$
 In other words, for a given lower cut $A$, the complement of $A$ is the set of upper bounds of $A$.  $A$ is almost the set of lower bounds of the complement. The exception is that if $A^C$ has a least element, then that least element is a lower bound of the complement as well. 
 
 \begin{proof}
-    Let $q \in A$ and $r \in A^C$. Since the sets are disjoint, $r \neq q$. If $r < q$, then $r \in A$ by the Unbounded Below property. This condition leads to $r \nless q$. By the Trichotomy property for rationals, $q > r$. As $q$ and $r$ were arbitrary elements in their sets, all of the elements in $A^C$ are strictly greater than the elements in $A$. To establish that all upper bounds are in $A^C$, let $s$ be an upper bound which means that for any $t \in A$, $s \geq t$. If $s \in A$, then, by the Open Above property, there would be an $m \in A$ such that $m > s$. But this contradicts $s$ being an upper bound of $A$. Thus, we can conclude that $s \in A^C$. 
+    Let $q \in A$ and $r \in A^C$. Since the sets are disjoint, $r \neq q$. If $r < q$, then $r \in A$ by the Unbounded Below property. This contradiction leads to the conclusion that $r \nless q$. By the Trichotomy property for rationals, $r > q$. As $q$ and $r$ were arbitrary elements in their sets, all of the elements in $A^C$ are strictly greater than the elements in $A$. To establish that all upper bounds are in $A^C$, let $s$ be an upper bound which means that for any $t \in A$, $s \geq t$. If $s \in A$, then, by the Open Above property, there would be an $m \in A$ such that $m > s$. But this contradicts $s$ being an upper bound of $A$. Thus, we can conclude that $s \in A^C$. 
 \end{proof}
 
 
@@ -287,7 +293,7 @@ In other words, for a given lower cut $A$, the complement of $A$ is the set of u
         \item Nonempty. $A$ is nonempty by definition. If there was no least element $q$ in $C$, then $C = A^C$ and, by assumption, $A^C$ was nonempty. If there is a least element, then $q+1 > q$ is an upper bound of $A$ and hence in $A^C$ by the lemma. Since $C$ and $A^C$ differ only by $q$, $q+1 \in C$ implying $C$ is not empty. 
         \item Ordered. Let $a \in A$ and $c \in C$. Then the lemma says that $ a< c$. If $b \in B$, then the lemma also says that $a < b$. As $b$ is the least element of $A^C$ and $b \notin C$, $ b < c$. 
         \item Comprehensive. $A \cup B \cup C = A \cup A^C = \mathbb{Q}$ by definition. 
-        \item Singular. By definition, $B$ has at most one element. This was predicated on the fact that given a set $D$, if $q, s \in D$, $q \leq r$ and $s \leq r$ for all $r \in D$, then $q \leq s$ and $s \leq q$ which implies $q = s$. That is, there is at most one least element for any given set. 
+        \item Singular. By definition, $B$ has at most one element. This was predicated on the fact that given a set $D$ of rationals, if $q, s \in D$, $q \leq r$ and $s \leq r$ for all $r \in D$, then $q \leq s$ and $s \leq q$ which implies $q = s$. That is, there is at most one least element for any given set. 
         \item Open. The Open Above property from $A$ being a lower cut is exactly that $A$ has no greatest element in $A$. If $A^C$ does not have a least element, then $A^C = C$ and $C$ does not have a least element. If $A^C$ does have a least element, say $q$, then the claim is that $C= A^C - {q}$ has no least element. By the lemma, $A^C$ is the set of upper bounds of $A$. In particular, since $q \in A^C$, it is an upper bound. Given any number $r \in C$, $r > q$ as $q$ is the least element of $A^C$. Since $m = \frac{q+r}{2}$ is between $r$ and $q$, it is the case that $r > m > q > t$ for all $t \in A$. Thus, $m$ is an upper bound of $A$ and therefore $m \in A^C$. Since $m$ is not equal to $q$, $m \in C$. As $m$ is less than $r$ and $r$ was an arbitrary element of $C$, there is no least element of $C$. 
     \end{enumerate}
 \end{proof}
@@ -310,8 +316,8 @@ Is this a cut? Yes:
     \item Nonempty. Existence yields an $x$-interval $a:b$. By relabeling, $a \leq b$. Then $a-1< a$, $b+1 > b$. By definition of the cut, $a-1 \in \qlt$ and $b+1 \in \qgt$.
     \item Ordered. Let $a \in \qlt$ and $b \in \qgt$.  Then there exists $c, m$ such that $a < c < m$ and $c \xrel m$. There is also a $d, n$ such that $d < n< b$  and $d \xrel n$. By Proposition \ref{br:intersect}, $c \xrel m$ and $d \xrel n$ intersect. Let $p$ be an element of that intersection. Then $a < c \leq p \leq n < b$ implying $a < b$.  If $\qeq$ is not empty, then let $q$ be the element of $\qeq$. By Proposition \ref{br:rooted}, $c \xrel m$ and $d \xrel n$ implies that both $a:c:q:m$ and $d:q:n:b$ hold true. Thus, $a < q$ and $q < b$.  
     \item Comprehensive. Given any rational $a$, Proposition \ref{br:existence} yields the existence of $b$ such that $a \xrel b$. Proposition \ref{br:something-inside} establishes the existence of a $c \neq a$ such that $a:c:b$ with $c \xrel b$ unless $a \xrel a$ in which case $a \in \qeq$. In the other case, $a \in \qlt$ if $a < c$ while $a  \in \qgt$ if $a > c$. 
-    \item Singular. As mentioned above, the Singular property of the relation prevents $\qeq$ from having more than one element. 
-    \item Open. Let $a\in \qlt$ and $b \in \qgt$. The task is to establish that there exists $m \in \qlt, n \in \qgt$ such that $a < n$ and $m < b$. Let $c$ and $d$ be such that $a:c:d:b$ with $c:b$ and $a:d$ being $x$-intervals. Since $c$ or $d$ could be roots of the relation, it is necessary to look at other elements. Let $m = \frac{a+c}{2}$ and $n = \frac{d+b}{2}$. Then $m \in \qlt$ and $n \in \qgt$ as $c$ and $d$, respectively, still fill the same role as required in the definition. Thus $\qlt$ has no greatest element and $\qgt$ has no least element. 
+    \item Singular. By the Singular property of the relation, there is at most one $q$ such that $q \xrel q$. Thus $\qeq$ is either empty or consists of one element. 
+    \item Open. Let $a\in \qlt$ and $b \in \qgt$. The task is to establish that there exists $m \in \qlt, n \in \qgt$ such that $a < m$ and $n < b$. By assumption, there exists an $x$-interval the excludes $a$ from above and an $x$-interval that excludes $b$ from below. By Proposition \ref{br:intersect}, those intervals intersect in a $x$-interval which can be taken to be $c:d$ with $c \leq d$. This implies $a:c:d:b$. Since $c$ or $d$ could be roots of the relation, it is necessary to look at other elements. Let $m = \frac{a+c}{2}$ and $n = \frac{d+b}{2}$. Then $m \in \qlt$ and $n \in \qgt$ as $c$ and $d$, respectively, still fill the same role as required in the definition. Thus $\qlt$ has no greatest element and $\qgt$ has no least element. 
 \end{enumerate}
 
 In the other direction, given the Dedekind $x$-cut, the associated $x$-betweenness relation is defined by, for $a \leq b$, $a \xrel b$ exactly when $a \in \qleq$ and $b \in \qgeq$. This automatically takes care of singletons and representing rationals. 
@@ -319,10 +325,10 @@ In the other direction, given the Dedekind $x$-cut, the associated $x$-betweenne
 Is this a betweenness relation? Yes: 
 \begin{enumerate}
     \item Existence. By the Nonempty property, we have the existence of $a \in \qlt$ and $b \in \qgt$ which implies $a \xrel b$. 
-    \item Separation. Let $a \xrel b$ with $a \leq b$.  Then $a \in \qleq$ and $b \in \qgeq$. Let $c$ be given such that $a:c:b$. By the Comprehensive property, there are three possible cases: $c \in \qlt$, $c \in \qgt$, and $c \in \qeq$. If $c \in \qlt$, then  $c \xrel b$. It is also the case that \sout{$a \xrel c$} as both $a$ and $c$ are in $\qlt$ implying neither of them are in $\qgeq$. Similarly, if $c \in \qgt$, then \sout{$c \xrel b$} and $a \xrel c$. If $c \in \qeq$, then $c \in \qleq$ and $c \in \qgeq$ which implies $c \xrel c$. 
+    \item Separation. Let $a \xrel b$ with $a \leq b$.  Then $a \in \qleq$ and $b \in \qgeq$. Let $c$ be given such that $a:c:b$. By the Comprehensive property, there are three possible cases: $c \in \qlt$, $c \in \qgt$, or $c \in \qeq$. If $c \in \qlt$, then  $c \xrel b$. It is also the case that \sout{$a \xrel c$} as both $a$ and $c$ are in $\qlt$ implying neither of them are in $\qgeq$. Similarly, if $c \in \qgt$, then \sout{$c \xrel b$} and $a \xrel c$. If $c \in \qeq$, then $c \in \qleq$ and $c \in \qgeq$ which implies $c \xrel c$. 
     \item Consistency. Let $c:a:b:d$ with $ a \xrel b$. The claim is that $c \xrel d$. By relabeling, take $a \leq b$ which implies $a \in \qleq$ and $b \in \qgeq$.  The betweenness leads to $c \leq a$ and $ b \leq d$. By Proposition \ref{br:cut-unbounded},  $c \in \qleq$ and $ d \in \qgeq$. Thus, $c \xrel d$.
     \item Singular. The three pieces of the cut are disjoint. The only way to get an $x$-singleton $q:q$ is if $q \in \qeq$. That set has at most one element. 
-    \item Closed. Assume that $c$ is such that, for any $a$, $b$, if $a \xrel b$, then $a:c:b$. Since the three cut sets disjointly span the rationals by the Comprehensive property, $c$ is in exactly one of those sets. If $c \in \qlt$, then, by the Open property, there exists $a \in \qlt$ such that $c < a$. Take any $b \in \qgt$ which can be done by the Nonempty property. Then $a \xrel b$ by definition, but $c: a:b$ and therefore \sout{$a:c:b$}. Similarly, if $c \in \qgt$, then there would exist $b \in \qgt$ with $b < c$ and any $a \in \qlt$ would lead to $a:b:c$ with $a \xrel b$. With neither of these options available, it must be the case that $c \in \qeq$ implying $c \xrel c$.    
+    \item Closed. Assume that $c$ is such that, for any $a$, $b$, if $a \xrel b$, then $a:c:b$. Since the three cut sets disjointly span the rationals by the Comprehensive property, $c$ is in exactly one of those sets. If $c \in \qlt$, then, by the Open property, there exists $a \in \qlt$ such that $c < a$. Take any $b \in \qgt$ which can be done by the Nonempty property. Then $a \xrel b$ by definition, but $c: a:b$ and therefore \sout{$a:c:b$}. Similarly, if $c \in \qgt$, then there would exist $b \in \qgt$ with $b < c$ and any $a \in \qlt$ would lead to \sout{$a:c:b$} with $a \xrel b$. With neither of these options available, it must be the case that $c \in \qeq$ implying $c \xrel c$.    
 \end{enumerate}
 
 The final task is to establish that these two are bijections and, in particular, they are the inverses of one another. 
@@ -335,6 +341,7 @@ Let $a \in \qlt[z]$ and $b \in \qgt[z]$. Part of the task is to show $a \in \qlt
 
 The only set left to explore is $\qeq[z]$. This is two parts. If $\qeq[z]$ is empty, then that implies that $c:c$ is not a $y$-interval for all rational $c$. Since singletons $c:c$ are a $y$-interval exactly when $c$ is in both $\qleq$ and $\qgeq$, that intersection is empty. Since the elements of $\qeq$ are common to both unions, this implies $\qeq$ is empty. The other part is if $c \in \qeq[z]$. This means $c \yrel c$. But that means that $c$ was an element of the intersection of $\qleq$ and $\qgeq$. Since $\qlt$, $\qeq$, and $\qgt$ are disjoint, this implies $c \in \qeq$ as was needed to be shown. 
 
+Thus, given a cut, it maps to a relation that maps to the given cut. The two mappings are inverses to each other.
 
 We have established that
 \begin{theorem}
@@ -345,11 +352,11 @@ From this point on, using $x$ in the relation notation $\xrel$ and the cut notat
 
 \section{Ordering the Relations}
 
-Dedekind cuts have been established to be a complete ordered field. This paper will establish that for the betweenness relations by showing that the natural operations on the betweenness relations is mapped to those operations on their associated cuts. This section will be on the order relations. The following section will detail the arithmetic. 
+Dedekind cuts are a complete ordered field as shown in, for example, \cite{rudin}. This paper will establish that claim for the betweenness relations by showing that the natural operations on the betweenness relations is mapped to those operations on their associated cuts. This section will be on the order relations.  
 
 Given two intervals $a:b$ and $c:d$, the notion that $a:b < c:d$ is that given any $p$ and $q$ such that $a:p:b$ and $c:q:d$, it can be concluded that $p < q$. This includes the endpoints and can be determined by comparing endpoints. Indeed, if $a\leq b$ and $c \leq d$, then $a:b < c:d$ exactly when $b < c$. 
 
-From the relation perspective, $x < y$ occurs, by definition, exactly when there exists an $x$-interval $a:b$ and a $y$-interval $c:d$ such that $a:b < c:d$. By Proposition \ref{br:different}, given two distinct relations $\xrel$ and $\yrel$, there exists disjoint intervals $a:b$ and $c:d$ such that $a \xrel b$ and $c \yrel d$. Disjointness means that one of the intervals is wholly greater than the other. By Proposition \ref{br:intersect}, that order relation cannot be reversed. For example, if $a \xrel b$, $c \xrel[y] d$, $u \yrel v$, and $a:b < c:d$, then $u:v \nless a:b$ as $u:v \nless c:d$.  The inequality of the relations may be denoted as $\xrel < \yrel$. 
+From the rational betweenness relation perspective, $x < y$ occurs, by definition, exactly when there exists an $x$-interval $a:b$ and a $y$-interval $c:d$ such that $a:b < c:d$. By Proposition \ref{br:different}, given two distinct relations $\xrel$ and $\yrel$, there exists disjoint intervals $a:b$ and $c:d$ such that $a \xrel b$ and $c \yrel d$. Disjointness means that one of the intervals is wholly greater than the other. By Proposition \ref{br:intersect}, that order relation cannot be reversed. For example, if $a \xrel b$, $c \xrel[y] d$, $u \yrel v$, and $a:b < c:d$, then $u:v \nless a:b$ as $u:v \nless c:d$.  To emphasize it as a relation, the inequality may be denoted as $\xrel  \:<\: \yrel$. 
 
 If both relations happen to be  rooted with roots $p$ and $q$, respectively to the relations $\xrel$ and $\yrel$, then $x<y$ if and only if $p < q$ if and only if $p:p < q:q$. 
 
@@ -357,15 +364,15 @@ For Dedekind cuts, $x < y$ occurs, by definition, exactly when $\qlt \subsetneq 
 
 The ordering definition of Dedekind cuts is well-established to obey all the desired properties. The task here is to show that the relation ordering and the Dedekind ordering correspond under the bijection which implies the relation ordering also has the same desired properties. 
 
-Assume that $\xrel < \yrel$ which implies there exists an $x$-interval $a:b$, $a \leq b$,  and a $y$-interval $c:d$, $c \leq d$, such that $a:b < c:d$. Then $a \in \qleq$, $b \in \qgeq$, $c \in \qleq[y]$, $d \in \qgeq[y]$. Since $ b< c$, Proposition \ref{br:cut-unbounded} implies $b \in \qlt[y]$. Since all elements of $q \in \qlt$ are less than $b$, $\qlt \subset \qlt[y]$. Because $b\notin \qlt$ while in $\qlt[y]$, it is that case that $\qlt \neq \qlt[y]$. Thus,  $\cut < \cut[y]$. 
+Assume that $\xrel  \:<\: \yrel$ which implies there exists an $x$-interval $a:b$, $a \leq b$,  and a $y$-interval $c:d$, $c \leq d$, such that $a:b < c:d$. Then $a \in \qleq$, $b \in \qgeq$, $c \in \qleq[y]$, $d \in \qgeq[y]$. Since $ b< c$, Proposition \ref{br:cut-unbounded} implies $b \in \qlt[y]$. Since all elements of $q \in \qlt$ are less than $b$, $\qlt \subset \qlt[y]$. Because $b\notin \qlt$ while in $\qlt[y]$, it is that case that $\qlt \neq \qlt[y]$. Thus,  $\cut < \cut[y]$. 
 
-For the other direction, assume $\cut < \cut[y]$. By the meaning of the inequality, there exists $b \in \qlt[y]$ which is not in $\qlt$; this implies $b \in \qgeq$. Let $a \in \qlt$ and $d \in \qgt[y]$.  Because there is no greatest element of $\qlt[y]$, let $c\in \qlt[y]$ such that $b < c$. By the definition of the bijection,  $a \xrel b$ and $c \yrel d$. Because $a < b < c < d$, it is that case that $a:b < c:d$ so that $\xrel < \yrel$, as was to be shown. 
+For the other direction, assume $\cut < \cut[y]$. By the meaning of the inequality, there exists $b \in \qlt[y]$ which is not in $\qlt$; this implies $b \in \qgeq$. Let $a \in \qlt$ and $d \in \qgt[y]$.  Because there is no greatest element of $\qlt[y]$, let $c\in \qlt[y]$ such that $b < c$. By the definition of the bijection,  $a \xrel b$ and $c \yrel d$. Because $a < b < c < d$, it is that case that $a:b < c:d$ so that $\xrel  \:<\: \yrel$, as was to be shown. 
 
 \begin{theorem}
-For relations $\xrel$ and $\yrel$, $\xrel < \yrel$ if and only if $\cut < \cut[y]$.
+For relations $\xrel$ and $\yrel$, $\xrel  \:<\: \yrel$ if and only if $\cut < \cut[y]$.
 \end{theorem}
 
-\subsection{Least Upper Bound}
+\section{Least Upper Bound}
 
 With an ordering, the least upper bound of a set can be queried as to whether it exists or not. Given a non-empty set $E$ of cuts that is bounded above by a cut $z$, then the least upper bound $\alpha$ of $E$ is defined by $\qlt[\alpha] = \bigcup_{x \in E} \qlt$. This is a lower cut: 
 \begin{enumerate}
@@ -383,23 +390,23 @@ The above has shown that Dedekind cuts are complete. For the relations, the bije
 By definition of the bijection, $a \xrel[\alpha] b$, $a \leq b$, exactly when $a \in \qleq [\alpha]$ and $b \in \qgeq[\alpha]$. In words, $b$ is a rational upper bound of of $E$ while $a$ is a rational lower bound of the set of upper bounds of $E$. This is what one would expect of the least upper bound of the relations. 
 
 \begin{theorem}
-    The set of rational betweenness relations satisfies the least upper bound property. 
+    The set of rational betweenness relations with the interval ordering satisfies the least upper bound property. 
 \end{theorem}
 
-\subsection{Density}
+\section{Density}
 
 Having established ordering and thus the concept of betweenness for the real numbers, the question of the rationals being dense in them can be addressed.
 
-For rational betweenness relations, given $\xrel < \yrel$, the task is to show that there is a rational between those two. The inequality implies there exists $a,b,c,d$ such that $a \xrel b$, $c \xrel[y] d$, and $a:b:c:d$ with $b < c$. Let $m = \frac{b+c}{2}$ be the average of $b$ and $c$. This is a rational number and its representative $\xrel[m]$ satisfies $b < m < c$ which implies $a:b < m:m < c:d$. Thus, rationals are dense in the betweenness relations. 
+For rational betweenness relations, given $\xrel < \yrel$, the task is to show that there is a rational between those two. The inequality implies there exists $a,b,c,d$ such that $a \xrel b$, $c \xrel[y] d$, and $a:b:c:d$ with $b < c$. Let $m = \frac{b+c}{2}$ be the average of $b$ and $c$. This is a rational number and its representative $\xrel[m]$ satisfies $\xrel  \:<\: \xrel[m]  \:<\: \xrel[y]$ because $a:b < m:m < c:d$ due to $b < m < c$. Thus, the rooted relations are dense in the ordered set of betweenness relations. 
 
-For Dedekind cuts, if $\cut < \cut[y]$, then this implies $\qlt \subsetneq \qlt[y]$. Let $q \in \qlt[y]$ which is not in $\qlt$; the existence of $q$ is what is implied by the relation $\subsetneq$. Then the cut $\cut[q]$ is a rational cut which satisfies $\cut < \cut[q] < \cut[y]$ as $\qlt \subsetneq \qlt[q] \subsetneq \qlt[y]$.  Thus, the rationals are dense in the Dedekind cuts. 
+For Dedekind cuts, if $\cut < \cut[y]$, then this implies $\qlt \subsetneq \qlt[y]$. Let $q \in \qlt[y]$ which is not in $\qlt$; the existence of $q$ is what is implied by the relation $\subsetneq$. Then the cut $\cut[q]$ is a rational cut which satisfies $\cut < \cut[q] < \cut[y]$ as $\qlt \subsetneq \qlt[q] \subsetneq \qlt[y]$.  Thus, the rooted cuts are are dense in the ordered set of Dedekind cuts. 
 
 
 \section{The Arithmetic of Relations}
 
 The arithmetic of the relations is most simply described as doing the arithmetic on the endpoints of intervals. This creates a core of intervals for which Consistency and the Closed property expands to the full relation. The most efficient process is to describe that interval arithmetic, but then link it to the well-established Dedekind arithmetic. 
 
-To make the correspondence easier, the intervals in the core of the arithmetic will be taken to be Spaced intervals. An $x$-\textbf{Spaced interval} in a relation $\xrel$ is an interval $a:b$, $a < b$, such that $a \in \qlt$ and $b \in \qgt$. This is essentially stating that neither $a$ nor $b$ are roots of the relation. 
+To make the correspondence easier, the intervals in the core of the arithmetic will be taken to be Spaced intervals. An $x$-\textbf{Spaced interval} is an $x$-related interval $a:b$ with $a < b$; this implies that $a \in \qlt$ and $b \in \qgt$. The term is asserting that neither $a$ nor $b$ are roots of the relation. 
 
 In what follows, the intervals discussed are the core intervals of defining the arithmetic operations. To fully define the relation, Consistency and the Closed property would require adding more intervals. This is done in this paper by defining the operations using the lower endpoints of the core intervals to define the lower cut associated with the operation; this aligns with the customary Dedekind cut definition. Using the bijection, the cuts being defined then complete the definition of the relation.  
 
@@ -431,7 +438,7 @@ The next step after rationals is that of the $n$-th root. Given positive $q$, th
 
 A Cauchy sequence $x_n$ converges to $x$ if $\xrel$ is defined by $a \xrel b$ exactly when $a:b$ contains the tail of the sequence. In particular, given $a\xrel b$, there must exist an $N$ such that for any $x_n$ with $n \geq N$, there exists $a_n \xrel[x_n] b_n$ such that $a:\{a_n, b_n\}:b$. That such an $N$ can happen follows from the Cauchy criterion. From an interval perspective, the Cauchy sequence could alternatively by given as a double sequence, namely, $x_n, \varepsilon_n$ where the intervals $x_n-\varepsilon_n : x_n + \varepsilon_n$  all overlap and the $\varepsilon_n \to 0$. 
 
-With Cauchy sequences, one can then have convergent sums fairly easily. Let a sequence of betweenness relations $a_n$ be given. The goal is to make sense of $\sum_{n=0}^{\infty} a_n$. Assume that there exists a sequence $\varepsilon_n > 0$ which is going to 0 as $n$ gets large such that $\sum_{i=0}^n a_i - \varepsilon_n \leq \sum_{i=0}^m a_i \leq \sum_{i=0}^n + \varepsilon_n$ for all $m > n$. Then  $a \xrel[\sum_{i=0}^{\infty} a_i] b$ if $a:b$ contains an interval of the form $u:v$ where $u$ is a lower endpoint of a $\xrel[\sum_{i=0}^n a_i - \varepsilon_n ]$-interval and $v$ is an upper endpoint of a $\xrel[\sum_{i=0}^n a_i + \varepsilon_n ]$-interval for some $n$. This would be one way of understanding infinite sums in this framework. 
+With Cauchy sequences, one can then have convergent sums fairly easily. Let a sequence of betweenness relations $a_n$ be given. The goal is to make sense of $\sum_{n=0}^{\infty} a_n$. Assume that there exists a sequence $\varepsilon_n > 0$ which is going to 0 as $n$ gets large such that $\sum_{i=0}^n a_i - \varepsilon_n \leq \sum_{i=0}^m a_i \leq \sum_{i=0}^n a_i+ \varepsilon_n$ for all $m > n$. Then  $a \xrel[\sum_{i=0}^{\infty} a_i] b$ if $a:b$ contains an interval of the form $u:v$ where $u$ is a lower endpoint of a $\xrel[\sum_{i=0}^n a_i - \varepsilon_n ]$-interval and $v$ is an upper endpoint of a $\xrel[\sum_{i=0}^n a_i + \varepsilon_n ]$-interval for some $n$. This would be one way of understanding infinite sums in this framework. 
 
 The inspiration of the Separation property is that of the Intermediate Value Theorem. If a function is continuous and strictly monotonic on an interval $a:b$ with $f(a)*f(b) \leq 0$, then there exists a unique $x$ in $a:b$ such that $f(x) = 0$. Indeed, the interval $c:d$ is an $x$-interval exactly when $c:d$ intersects $a:b$ and letting $m:n$ be the intersection interval, it is also the case that $f(m)*f(n) \leq 0$. The conditions allows the Separation property to hold. Without continuity but with $f$ defined on the whole interval, this setup would still work to find the $x$ where a change from one sign to the other  happens, but it would not necessarily be an $x$ such that $f(x) = 0$.
 
@@ -445,7 +452,7 @@ All of these results, and more, are explored and established in \cite{taylor23ma
 
 \section{Relations versus Cuts}
 
-There are many definitions of real numbers; see \cite{ittay-2015} for an excellent overview of many of them. Most have a flavor in common with the decimal presentation and Cauchy sequences, that is, there is an element of computation in the very definition of the numbers. Often the representation is not unique; Cauchy sequences are extremely non-unique while decimals only falter on the trailing 9s vs trailing 0s; decimals do have, however, in this definition, the arbitrary choice of using base 10. 
+There are many definitions of real numbers; see \cite{ittay-2015} for an excellent overview of many of them. Most have a flavor in common with the decimal presentation and Cauchy sequences, that is, there is an element of computation in the very definition of the numbers. Often the representation is not unique; Cauchy sequences are extremely non-unique while decimals only falter on the trailing 9s vs trailing 0s; decimals do have, however, the arbitrary choice of using base 10. 
 
 There are also definitions related to intervals. A nested sequence of intervals being a real number was proposed around the same time as Cauchy sequences and Dedekind cuts. The constructivists, such as in \cite{bridger}, use families of intersecting, arbitrarily fine intervals to represent real numbers. Both of those approaches also lack uniqueness of representatives. 
 
@@ -464,11 +471,11 @@ The rational betweenness relations as presented here conform perfectly to the ty
 
 Take, for example, asking whether $\sqrt{2}^2 = 2$. By the explicit definitions, one can argue that this is true. But given just the relations or just the contents of a lower cut, could one argue this? One can easily produce intervals $a \xrel[\sqrt{2}] b$ as small as one likes and then computationally verify that $a^2 : 2 :b^2$ will be true. There are no intervals, however, of the form $2 \xrel[2] b$ that come from squaring the $\sqrt{2}$-intervals. It is a matter of proof and completion to accomplish that. 
 
-This is a problem with both the relations and the Dedekind cuts. For the relations, it is not always possible to answer for every singleton whether it is in the relation or not. The Separation property fails to apply. For the cuts, it is not possible to always answer which of the three sets a given rational number is part of. 
+This is a problem with both the relations and the Dedekind cuts. For the relations, it is not always possible to answer for every singleton whether it is in the relation or not. The Separation property fails to be usable. For the cuts, it is not possible to always answer which of the three sets a given rational number is part of. 
 
-The solution to this is to give a bit of fuzziness. It requires recasting this into more of a procedure that yields an answer when asked about a number, with an error tolerance also provided. The relation definition is modified in part by adding to the Separation property a little region around the dividing number $c$ to focus on instead of $c:c$. This is explored and developed in \cite{taylor23main}.
+The solution to this is to give a bit of fuzziness. It requires recasting the relations into more of a procedure that yields an answer when asked about a number, with an error tolerance also provided. The relation definition is modified in part by adding to the Separation property a little region around the dividing number $c$ to focus on instead of $c:c$. This is explored and developed in \cite{taylor24oraclerbr}.
 
-There is an alternate version of the Separation property in which two rational numbers are given in the interval and the property requires there be an interval in the relation which excludes at least one of those numbers. This property is not as crisp as the one presented here, but it does have the advantage of handling the fuzziness automatically as well as generalizing to metric spaces, as explored in \cite{taylor23metric}. Intervals are replaced with closed balls. 
+There is an alternate version of the Separation property in which two rational numbers are given in the interval and the property requires there be an interval in the relation which excludes at least one of those numbers. This property is not as crisp as the one presented here, but it does have the advantage of handling the fuzziness automatically as well as generalizing to metric spaces, as explored in \cite{taylor23metric}. Intervals are replaced with inclusive balls. 
 
 A more speculative work is exploring whether this idea of betweenness can be used in the realm of Tim Maudlin's Theory of Linear Structures \cite{maudlin}. That theory is, in part, inspired by Dedekind cuts and has betweenness as a central theme. The theory is an attempt to have lines be the heart of physically applicable topology and have a topology that equally applies to finite, discrete, and continuous spaces. Whether the betweenness spirit of this paper extends to that realm is an open question currently being worked on in \cite{taylor23maudlin}.
 
