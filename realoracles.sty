@@ -9,6 +9,7 @@
 \RequirePackage{ulem} %underlining, normalem is to allow for normal bibtex emphasis
 \RequirePackage{graphicx} %used for the wall symbol rotation
 
+
 % the 3 vertical dots come from mathabx. but that clobbered some stuff so this is a way to have that symbol
 %https://tex.stackexchange.com/questions/176941/conflict-between-mathabx-and-other-packages
 \DeclareFontFamily{U}{mathb}{\hyphenchar\font45}
@@ -56,14 +57,32 @@
 \DeclareMathSymbol{\col}{\mathord}{operators}{"3A}  %gives usual colon
 %do \mathrel{\col} for more spaced colon. 
 %want small less than for colon replacement
-\newcommand{\lt}{\mathord{<}}
-\newcommand{\lte}{\Ddots}{%\mathord{\leq}}
-\newcommand{\gte}{\DDdots}
+%\newcommand{\lt}{\mathord{<}}
+%\newcommand{\lte}{\mathord{\rotatebox[orign=c]{135}{\ensuremath{:}} }}
+\newcommand{\lte}{\mathord{\mkern1mu\Ddots}}{%\mathord{\leq}}
+\newcommand{\gte}{\mathord{\DDdots\mkern1mu}}
 \newcommand{\base}[1]{\duln #1 }
 \newcommand{\wall}[1]{\dln #1}
 \newcommand{\lge}{\mathbin{?}}
 
 \newcommand{\closeto}{\mathord{\rightarrow}}
+
+
+\newcommand{\betneq}{\mathord{\div}}
+\newcommand{\lt}{\mathbin{\mkern-5mu\rotatebox[origin=c]{135}{\ensuremath{\div}}\mkern-5mu}}
+\newcommand{\gt}{\mathbin{\mkern-5mu\rotatebox[origin=c]{45}{\ensuremath{\div}}\mkern-5mu}}
+\newcommand{\testdots}[2]{ $#1:#2$ |  $#1 \lte #2$  | $#1 \gte #2$ | $#1 \lt #2$ | $#1\gt #2$ | $#1 \betneq #2$}
+
+%    \testdots{a}{b}
+    
+ %   \testdots{c}{d}
+    
+  %  \testdots{\alpha}{\beta}
+
+
+%\newcommand{\betneq}{\mathbin{\mkern-2mu\scalebox{0.9}{$\div$}\mkern-2mu}}
+%\newcommand{\ltneq}{\mathbin{\mkern-5mu\rotatebox[origin=c]{135}{\scalebox{0.9}{$\div$}}\mkern-5mu}}
+
 
 %https://tex.stackexchange.com/questions/32501/how-to-get-a-good-divisible-by-symbol and
 %https://tex.stackexchange.com/questions/147355/how-to-type-tensor-multiplication-with-vertical-dots
@@ -96,7 +115,7 @@
 \newcommand{\xoraish}[1][x]{\ensuremath{\mathrel{\vdddots\widetilde{#1}\vdddots}}}
 \newcommand{\oracle}[2][x]{\ensuremath{R_{#1}(#2)}}
 
-
+\newcommand{\halo}[2][\delta]{[#2]_{#1}}
 %\newcommand{\xrelold}{\ensuremath{:\underline{x}:}}
 
 %For Katex, the following macros can substitue in for the triple dot and slanted dots: 

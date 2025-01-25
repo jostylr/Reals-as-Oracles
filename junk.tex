@@ -1,3 +1,94 @@
+
+Attempt at doing arithmetic oracles without fonsi.  Just too complicated and redoes fonsi
+
+
+Let oracles $R_x$ and $R_y$ be given. The oracle $R_{x \cdot y}$ is defined by the following. Given $a:b$ and $\delta$, take an interval $c:d = (e:f) \odot (g:h)$ such that $e:f$ is a prophecy of $R_x$, $g:h$ is a prophecy of $R_y$, and $|c:d| < \delta$. Then $R_{x \cdot y}(a:b, \delta) = c:d$ if $c:d$ intersects $a:b$ and is the empty set otherwise. 
+The existence of an interval of the form $c:d$ follows from the computational bounds on the arithmetic operators as well as the Bisection Algorithm applied to $R_x$ and $R_y$. For addition, that choice is ensured by choosing the lengths of each to be less than $\frac{\delta}{2}$. For multiplication, let $M$ be a bound on given intervals of $R_x$ and $R_y$. Then choose intervals of $R_x$ and $R_y$ such that their lengths are less than $\frac{\delta}{2M}$. 
+
+ A variant of this is to enlarge this to use the Yes intervals of $x$ and $y$; the choice to use the prophecies is to keep the arithmetic constructive. It will be the case that using equivalent oracles leads to an equivalent oracle for the result; this will be established below. 
+
+\begin{lemma}
+    Let $a:b, a':b' \in R_{x}$, $c:d, c':d' \in R_y$, $A =  a:b \odot c:d$, $A' =  a':b' \odot c':d'$. Then $A$ and $A'$ intersect. Furthermore, if $|A'| < \delta$, then $A' \subset \halo{A}$.
+\end{lemma}
+
+\begin{proof}   
+    As prophecies of the same oracle intersect, let $p$ be in the intersection of $a:b$ and $a':b'$ and let $q$ be in the intersection of $c:d$ and $c':d'$. Then $p \cdot q = r$ is contained in both $A$ and $A'$. 
+    
+    Since the length of $|A'| < \delta$, the distance of any element in $A'$ is less than $\delta$ from $r$. As $r$ is in $A$, any element of $A'$ is within $\delta$ of an element of $A$. This means that $A' \subset \halo{A}$.
+\end{proof}
+
+
+\begin{lemma}
+    Given oracles $R_x$, $R_y$, the operator $\odot$, and a length $\delta$, there exists an interval $c:d$ whose length is less than $\delta$ and which is the result of applying the operator $\odot$ to two prophecies, one from each oracle. 
+\end{lemma}
+
+\begin{proof}
+    Let $\delta$ be given. 
+
+    If $\odot = \oplus$, choose $\delta'$ and $\delta''$ such that $\delta' + \delta'' < \delta$, such as $\frac{\delta}{3}$ for both of them. i
+
+    If $\odot = \otimes$, let $a':b'$ be a prophecy of $R_x$ and $a'':b''$ be a prophecy of $R_y$. let $M$ be an absolute upper bound on the intervals $a':b'$ and $a'':b''$. Then choose $\delta'$ and $\delta''$ such that $M (\delta' + \delta'') + \delta' \delta'' < \delta$. Taking $M> 1$ and letting $\varepsilon = \min(1, \delta)$, then using $\frac{\varepsilon}{3M}$ for both $\delta'$ and $\delta''$ works as the $M$ terms combine to become $\frac{2 \varepsilon}{3}$ and the last term becomes $\frac{\varepsilon^2}{9M^2} \leq \frac{\varepsilon}{9}$. Thus the sum will be less than $\delta$.
+
+    Choose intervals $c':d' \in R_x$ and $c'':d'' \in R_y$  such that their lengths are less than $\delta'$ and $\delta''$, respectively, as allowed by the Bisection Algorithm. Define $c:d = c':d' \odot c'':d''$ Then $|c:d| < \delta$ per the respective operators bounds. 
+
+    
+    
+\end{proof}
+
+Before proving the properties of arithmetic, it is necessary to establish that these are oracles. 
+
+\begin{proposition}
+    Given $R_x$ and $R_y$, define $R_{x \cdot y}$ as above. Then $R_{x \cdot y}$ is an oracle. 
+\end{proposition}
+
+\begin{proof}
+    
+
+\begin{enumerate}
+    \item Range. If the return is not the empty set, then the prophecy is known to intersect $a:b$ by definition. It is also an interval whose length is less than $\delta$. That implies $c:d \subset \halo{a:b}$. 
+    \item Existence. Let $a:b \in R_x$ and $c:d \in R_y$. Let $A = a:b \odot c:d$. Consider $R_{x\cdot y}(A, \delta)$. To show that it is never equal to the empty set, consider $a':b' \odot c':d' = A'$ such that $|A'| < \delta$. The lemma states that $A'$ intersects $A$. establishes. Thus, $R(A, \delta) = A'$. As this holds for all possible cases that the procedure may return, the empty set is never returned for $A$. THIS REQUIRES SHOWING THE EXISTENCE OF ARBITRARILY SMALL INTERVALS --- Another lemma. 
+    \item Separation. Let $a:b$ be the result of $a':b' \odot a'':b''$ for $a':b' \in R_x$ and $a'': b'' \in R_y$. Let $m$ be contained in $a:b$ and let $\delta$ be given. 
+    
+    %Because $m$ is strictly contained, there exists $m'$ and $m''$ such that $m = m' \cdot m''$ with $m'$ strictly contained in $a':b'$ and $m''$ strictly contained in $a'':b''$. 
+    
+    For $\odot = \oplus$, choose $\delta'$ and $\delta''$ such that $\delta' + \delta'' < \delta$, such as $\frac{\delta}{3}$ for both of them. 
+    
+    For $\odot = \otimes$, let $M$ be an absolute upper bound on the intervals $a':b'$ and $a'':b''$. Then choose $\delta'$ and $\delta''$ such that $M (\delta' + \delta'') + \delta' \delta'' < \delta$. Taking $M> 1$ and letting $\varepsilon = \min(1, \delta)$, then using $\frac{\varepsilon}{3M}$ for both $\delta'$ and $\delta''$ works as the $M$ terms combine to become $\frac{2 \varepsilon}{3}$ and the last term becomes $\frac{\varepsilon^2}{9M^2} \leq \frac{\varepsilon}{9}$. Thus the sum will be less than $\delta$.
+    
+    Choose intervals $c':d' \in R_x$ and $c'':d'' \in R_y$  such that their lengths are less than $\delta'$ and $\delta''$, respectively, as allowed by the Bisection Algorithm. Define $c:d = c':d' \odot c'':d''$ Then $|c:d| < \delta$ per the respective operators bounds. 
+    
+    Since $a':b'$ and $c':d'$ must intersect as both are in the range of $R_x$, it must be the case, given the length of $c':d'$, that $c':d'$ is contained in $(a':b')_{\delta'}$. Similarly, $c'':d'' \subset (a'':b'')_{\delta''}$. The goal is to show that $c:d \subset \halo{a:b}$. Since the interval arithmetic operators preserve containment, it is the case that $c:d \subset (a':b')_{\delta'} \odot (a'':b'')_{\delta''}$. Thus, we are done if we can show that  $(a':b')_{\delta'} \odot (a'':b'')_{\delta''} \subset \halo{a:b}$. Let $p' \in a':b'$, $|r'| < \delta'$, $p'' \in a'':b''$, and $|r''| < \delta''$.  The task is to show $(p'+r') \cdot (p''+ r'') \in \halo{a:b}$. Note that $p' \cdot p'' \in a:b$ by definition of of these intervals. 
+
+    For $\odot = \oplus$, the computation is $s = (p'+r') + (p''+ r'') = (p' + p'') + (r' + r'')$ and as $|r'+r''| < \delta$, it is definitional that $s \in \halo{a:b}$. 
+
+    For $\odot = \otimes$, $t = (p'+r')(p''+ r'') = p'p'' + p'r'' + r' p'' + r' r''$ . The first term is in $a:b$ and the need is to show that $|p'r'' + r'p'' + r' r''|< \delta$. For this, the triangle inequality applies along with the bound $M > |p'|, |p''|$ to yield $|p'r'' + r'p'' + r' r''| < M \delta'' + M \delta' + \delta' \delta'' < \delta$ where the last inequality follows from the definition of $\delta'$ and $\delta''$.  Thus, $t \in \halo{a:b} $
+
+    The claim of containment has been established. 
+
+    If $m$ is contained in $c:d$, then since its length is less than $\delta$, it is contained in $\halo{m}$ and it serves in the role of $e:f$ in the property. If $m$ is not in $c:d$, let $a:c:d:m$ by relabeling. Then take $e$ to be the average of $d$ and $m$. Let $f$ be on the other side of $m$ and within $\halo{m}$. The interval $c:d$ is then wholly contained in ${}_\delta |a:e$, satisfying the property. 
+
+    Note that the Separation property on the input oracles was used via the Bisection Algorithm to generate the intervals of sufficiently small length. 
+    
+    \item Disjointness. Let $a:b \in R_{x\cdot y}$ and $c:d$ disjoint from $a:b$. Let $L$ be the distance from $c:d$ to $a:b$; this is positive as they are disjoint. Take $\delta < L$. The claim is that $R_{x \cdot y} (c:d, \delta) = \emptyset$. 
+    
+    Let $a':b' \in R_x$ and $a'':b'' \in R_y$ be such that $a':b' \odot a'':b'' = a:b$; this is what being in the range of $R$ means for $a:b$. Choose $e':f' \in R_x$ and $e'':f'' \in R_y$ such that $e:f = e':f' \odot e'' : f'' $ and that $|e:f| < \delta$; this can be done using the operator bounds as done before.  There will be $p'$ and $p''$ such that $e':p':f'$, $a':p':b'$, $e'':p'':f''$, and $a'':p'':b''$. Thus, $p' \cdot p''$ will be in both $e:f$ and $a:b$. Since $|e:f|< L$, there exists no point $p$ which is in $c:d$. As $e:f$ is disjoint from $c:d$ and is not wholly contained in $(c:d)_\delta$, the procedure for the operator yields the empty set. 
+
+    The above also establishes that all intervals in $R_{x \cdot y}$ intersect. 
+
+    \item Consistency. Let $a:b \in \mathbb{I}_{R_{x\cdot y}}$. This means there exists $c:d$ contained in $a:b$ such that $c:d = e':f' \odot e'':f''$ for $e':f' \in R_x$ and $e'':f'' \in R_y$. By definition, $R_{x \cdot y}(a:b,\delta)$ is allowed to be $ c:d$ for any $\delta$. Furthermore, if $g':h' \in R_x$ and $g'':h'' \in R_y$, then they intersect $e':f'$ and $e'':f''$. This implies $g':h' \odot g'' : h''$ intersects $c:d$. Thus, it can never be disjoint from $a:b$ and the result of $R(a:b, \delta)$ can never be the empty set. 
+        
+    \item Closed.  Let $\halo{a} \in \mathbb{I}_{R_{x\cdot y}}$ for all $\delta$. Let $a:b$ and $\delta$ be given. The task is to show $R(a:b, \delta) \neq \emptyset$. The empty set can be a result only happen if there exists $c:d = c':d' \odot c'':d''$ such that $c:d$ is disjoint from $a:b$ where $c':d' \in R_x$, $c'':d'' \in R_y$. 
+    
+    Let $c:d$ be given and disjoint from $a:b$. Then there exists a $\delta'$ such that the distance from $c:d$ to $a:b$ is more than $\delta'$. This would imply that $\halo[\delta']{a}$ is disjoint from $c:d$. By assumption, there exists an interval $e:f \in R_{x \cdot y}$ contained in $\halo[\delta']{a}$. As $e:f$ is disjoint from $c:d$ and all intervals in $R_{x \cdot y}$ intersect as established above, $c:d$ is not in $R_{x \cdot y}$. Thus, the procedure never yields the empty set for any input interval of the from $a:b$. 
+
+    Practically speaking, this ensures that if one computes out $c':d' \in R_x$ and $c'':d'' \in R_y$ such that $c:d = c':d' \odot c'':d''$ has length less than $\delta$, then $c:d$ will be contained in $\halo{a:b}$ which is all that is required. It will, in fact, also intersect $a:b$ as it should.
+    
+\end{enumerate}
+
+\end{proof}
+--------------------
+
+
     
 Our definition is designed to be a tool for using a real number. Some of the other definitions are designed at giving the approximations as the number. This definition resists doing so because of the issue of uniqueness and not having to actually compute the infinite amount required by other definitions. 
 
