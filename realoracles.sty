@@ -59,7 +59,7 @@
 %want small less than for colon replacement
 %\newcommand{\lt}{\mathord{<}}
 %\newcommand{\lte}{\mathord{\rotatebox[orign=c]{135}{\ensuremath{:}} }}
-\newcommand{\lte}{\mathord{\mkern1mu\Ddots}}{%\mathord{\leq}}
+\newcommand{\lte}{\mathord{\mkern1mu\Ddots}}%\mathord{\leq}}
 \newcommand{\gte}{\mathord{\DDdots\mkern1mu}}
 \newcommand{\base}[1]{\duln #1 }
 \newcommand{\wall}[1]{\dln #1}
@@ -68,7 +68,8 @@
 \newcommand{\closeto}{\mathord{\rightarrow}}
 
 
-\newcommand{\betneq}{\mathord{\div}}
+%\newcommand{\betneq}{\mathbin{\raisebox{1.5pt}{\scalebox{0.75}{\ensuremath\div}}}}
+\newcommand{\betneq}{\mathbin{\rotatebox[origin=c]{90}{\ensuremath{\div}}}}
 \newcommand{\lt}{\mathbin{\mkern-5mu\rotatebox[origin=c]{135}{\ensuremath{\div}}\mkern-5mu}}
 \newcommand{\gt}{\mathbin{\mkern-5mu\rotatebox[origin=c]{45}{\ensuremath{\div}}\mkern-5mu}}
 \newcommand{\testdots}[2]{ $#1:#2$ |  $#1 \lte #2$  | $#1 \gte #2$ | $#1 \lt #2$ | $#1\gt #2$ | $#1 \betneq #2$}
