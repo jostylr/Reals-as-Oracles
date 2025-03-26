@@ -10,6 +10,7 @@
 \RequirePackage{graphicx} %used for the wall symbol rotation
 
 
+
 % the 3 vertical dots come from mathabx. but that clobbered some stuff so this is a way to have that symbol
 %https://tex.stackexchange.com/questions/176941/conflict-between-mathabx-and-other-packages
 \DeclareFontFamily{U}{mathb}{\hyphenchar\font45}
@@ -18,6 +19,11 @@
       <10.95> mathb10 <12> <14.4> <17.28> <20.74> <24.88> mathb12
       }{}
 \DeclareSymbolFont{mathb}{U}{mathb}{m}{n}
+
+
+% From https://tex.stackexchange.com/questions/688181/smaller-odot-for-pointwise-product
+\newcommand*{\centerodot}[1]{\boldsymbol{\vcenter{\hbox{\scalebox{#1}{\ensuremath{\odot}}}}}}
+\newcommand*{\pdot}[1][.5]{\mathbin{{\centerodot{#1}}}}
 
 
 %https://tex.stackexchange.com/questions/432778/reduce-spacing-around-colons-in-math-mode
@@ -33,6 +39,13 @@
 \def\Ddots{\mathinner{\mkern1mu\raise\p@
 \vbox{\kern7\p@\hbox{.}}\mkern-3mu
 \raise4\p@\hbox{.}\mkern-2.87mu\raise6.8\p@\hbox{.}\mkern1mu}}
+\makeatother
+
+%makes an odot in the middle
+\makeatletter
+\def\Dodots{\mathinner{\mkern1mu\raise\p@
+\vbox{\kern7\p@\hbox{.}}\mkern-3mu
+\raise1\p@\hbox{\ensuremath{\pdot}}\mkern-2.87mu\raise5.8\p@\hbox{.}\mkern1mu}}
 \makeatother
 
 %% Should modify this one too to match the -2.87 and 6.8, but need an example. not sure if we use this
@@ -58,9 +71,13 @@
 %do \mathrel{\col} for more spaced colon. 
 %want small less than for colon replacement
 %\newcommand{\lt}{\mathord{<}}
-%\newcommand{\lte}{\mathord{\rotatebox[orign=c]{135}{\ensuremath{:}} }}
-\newcommand{\lte}{\mathord{\mkern1mu\Ddots}}%\mathord{\leq}}
-\newcommand{\gte}{\mathord{\DDdots\mkern1mu}}
+\newcommand{\rintlow}{{\mathbin{\rotatebox[origin=c]{90}{\ensuremath{\cdot\mkern-5mu\cdot\mkern-5mu\cdot}}}}}
+\newcommand{\rint}{\raisebox{1pt}{\ensuremath{\rintlow}}}
+\newcommand{\lte}{\mathbin{\mkern-5mu\raisebox{1pt}{\rotatebox[origin=c]{150}{\ensuremath{\rintlow}}}\mkern-5mu}}
+\newcommand{\gte}{\mathbin{\mkern-5mu\raisebox{1pt}{\rotatebox[origin=c]{30}{\ensuremath{\rintlow}}}\mkern-5mu}}
+%\newcommand{\lte}{\mathord{\rotatebox[orign=c]{150}{}}
+%\newcommand{\lte}{\mathord{\mkern1mu\Ddots}}%\mathord{\leq}}
+%\newcommand{\gte}{\mathord{\DDdots\mkern1mu}}
 \newcommand{\base}[1]{\duln #1 }
 \newcommand{\wall}[1]{\dln #1}
 \newcommand{\lge}{\mathbin{?}}
@@ -69,9 +86,14 @@
 
 
 %\newcommand{\betneq}{\mathbin{\raisebox{1.5pt}{\scalebox{0.75}{\ensuremath\div}}}}
-\newcommand{\betneq}{\mathbin{\rotatebox[origin=c]{90}{\ensuremath{\div}}}}
-\newcommand{\lt}{\mathbin{\mkern-5mu\rotatebox[origin=c]{135}{\ensuremath{\div}}\mkern-5mu}}
-\newcommand{\gt}{\mathbin{\mkern-5mu\rotatebox[origin=c]{45}{\ensuremath{\div}}\mkern-5mu}}
+% comments were using div symbol --looks terible. 
+%\newcommand{\betneq}{\mathbin{\rotatebox[origin=c]{90}{\ensuremath{\div}}}}
+
+\newcommand{\betneq}{\mathbin{\rotatebox[origin=c]{90}{\ensuremath{\cdot\mkern-5mu\pdot\mkern-5mu\cdot}}}}
+\newcommand{\lt}{\mathbin{\mkern-5mu\raisebox{2pt}{\rotatebox[origin=c]{150}{\ensuremath{\betneq}}}\mkern-5mu}}
+%\newcommand{\lt}{\mathbin{\mkern-5mu\rotatebox[origin=c]{135}{\ensuremath{\div}}\mkern-5mu}}
+\newcommand{\gt}{\mathbin{\mkern-5mu\raisebox{2pt}{\rotatebox[origin=c]{30}{\ensuremath{\betneq}}}\mkern-5mu}}
+%\newcommand{\gt}{\mathbin{\mkern-5mu\rotatebox[origin=c]{45}{\ensuremath{\div}}\mkern-5mu}}
 \newcommand{\testdots}[2]{ $#1:#2$ |  $#1 \lte #2$  | $#1 \gte #2$ | $#1 \lt #2$ | $#1\gt #2$ | $#1 \betneq #2$}
 
 %    \testdots{a}{b}
@@ -101,7 +123,10 @@
 
 
 \newcommand{\xrelte}{\betrelte{x}{0.5}}
-\DeclareMathSymbol{\vdddots}{\mathalpha}{mathb}{"33} 
+%\DeclareMathSymbol{\vdddots}{\mathalpha}{mathb}{"33} 
+\newcommand{\rintlowal}{{\mathalpha{\rotatebox[origin=c]{90}{\ensuremath{\cdot\mkern-5mu\cdot\mkern-5mu\cdot}}}}}
+\newcommand{\vdddots}{\raisebox{1pt}{\ensuremath{\rintlowal}}}
+
 \newcommand{\xrel}[1][x]{\ensuremath{\mathrel{\vdddots\underline{#1}\vdddots}}}
 \newcommand{\xnan}[1][x]{%
     \ensuremath{\mathrel{\vdddots\vtop{ \offinterlineskip \ialign{

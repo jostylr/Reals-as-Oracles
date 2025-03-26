@@ -10,7 +10,7 @@
 
 \title{Elementary Analysis with Function Oracles}
 \jtauthor
-\date{December 19, 2023}
+\date{February 14, 2025}
 
 
 
@@ -21,6 +21,48 @@ Real numbers can be viewed as oracles that say Yes to an interval which contains
 \end{abstract}
 
 \tableofcontents
+
+Functions are generally defined as a relation between two sets such that given any element in the domain, there is exactly one pair in the relation with that element as its first entry. Anything can be used for those sets. 
+
+The pursuit in this paper is to consider functions that respect the definitional nature of the underlying sets. These preserve some aspects of a structure and are a restricted class of morphism. The functions here are interested in preserving the structure that defines what the set is itself. Often morphisms are about preserving some structure defined on top of the point set, such as a group structure. The term that will be used here for such morphisms will be natural functions. 
+
+The particular set of concern here is the real numbers. The question is, to what extent do the different definitions of real numbers lead to different natural functions. The main focus will be on the rational betweenness relation definitions and oracle definitions of \cite{taylor24oraclerbr}.
+
+But first, what do the classical definitions lead to? 
+
+The Dedekind cut definition of real numbers provides a set of rational numbers all of which are supposed to be strictly less than the given real number. For a function to map a lower cut to another lower cut and do so for any cut, would suggest that it is monotonically increasing on the rationals and defined on all rational numbers. As an upper cut implies knowing a lower cut, this could be extended to montonically decreasing functions. A further extension would be to be able to restrict it to intervals of monotonicity as locally knowing the cut can be extended to the full cut without any difficulty. 
+
+The Cauchy sequence definition of real numbers would have its natural morphisms be those functions that map rational Cauchy sequences to Cauchy sequences. Since any Cauchy sequence can be replaced with a rational Cauchy sequence, this implies that the morphisms are the continuous functions, at least if the domain is all of the real numbers. For lesser domains, the requirement would be that the input Cauchy sequences are sequences in the domain and have to converge to an element of that domain. The decimal definition can be subsumed into this. 
+
+The axiomatic approach to real numbers does not have an underlying notion. So either it is the standard functions or perhaps would want to preserve the arithmetic and order structure which would imply just the identity function. 
+
+What of the rational betweenness relations and oracle notions? If $f(a:b)=A:B$ is to be an interval in a new rational betweenness relation, then picking a rational $M$ in $f(a:b)$ should lead to an interval $c:d$ contained in $a:b$ and in the rational betweenness relation such that $f(c:d) =C:D$ is either contained in $A:M$ or $M:B$ or it is $M:M$. It should also ideally yield all the possible rational intervals in the new rational betweenness relation. As with the arithmetic operators, what tends to happen is not this fullness, but rather some subset of relational pairs that then need to be extended by Consistency. 
+
+This suggests that the structure to focus on are the oracles. These already have a built-in limited nature. In fact, giving an oracle, a new oracle, \textbf{the restricted oracle to $a:b$}, can always be formed by taking a Yes interval $a:b$ and, given a return value prophecy, replacing that return value with the prophecy intersected with $a:b$. That is, it is always possible to limit an oracle's prophecies in a way which is not possible with rational betweenness relations. This is similar to the difference in Dedekind cuts of a full lower cut and a limited lower cut which still goes up to the cut but does not extend all the way down to negative infinity. The essential information is still present, but uniqueness gets lost.
+
+In any event, the goal would then be to map oracles to oracles. The input oracles may be required to be restricted oracles. This raises the question of whether one can restrict it to a singleton. This could only apply to rational oracles. But even in that case, knowing the singleton to restrict it to is knowing the number in full. And much of the point is that the number is not known, even if it happens to be rational. Thus, for this paper, the restricted oracles will be restricted to neighborly intervals. 
+
+A related issues is whether the oracle can be one of the endpoints of the restricted interval which is most relevant in a domain situation where an endpoint is allowed. The answer here is that it is. It may happen that the prophecies of the endpoint oracle all extend outside the interval and not into the interior. The result would be the singleton oracle for the endpoint which is acceptable as happenstance. The difference with the above is that it was not possible to know what the number is; here, if it happens to be so, then it happens to be so, but it is not known about beforehand. 
+
+What would it mean for a function to map oracles to oracles? If $x$ is an oracle, then $f(x)$ would also be an oracle. The natural notion is that given an $f(x)$ Yes-interval $A:B$ and a $\delta >0$, there should exist a prophecy $a:b$ such that the intervalized $f(a:b)$ is contained in $\halo{A:B}$ intersecting $A:B$. For No intervals, there should exist an input prophecy that leads to an interval that is disjoint from the No interval. 
+
+
+For oracles, the function is producing prophecies of the oracles. The input may be prophecies though it could be intervals. 
+
+$R_{f(R_x)}(c:d, \delta)$  this is ultimately what we want the function to be producing: an oracle for the output.  
+
+A function oracle is a way of obtaining that. We have one precise version which is more analoguous to the rational betweenness relation. Need a fuzzy version. 
+
+Use $F$ for the oracle function to represent the pure function $f$. $F(a:b \times c:d, \delta)$ will either be the empty set or produce a \textbf{prophecy rectangle} $a':b' \times c':d'$ that is contained in $\halo{a:b \times c:d}$ and intersects $a:b \times c:d$. A prophecy rectangle should represent that all of the oracles that are contained in the base have its output as in the wall of the rectangle. This is how the oracle output gets defined. There are properties that need to make sense of this. 
+
+\begin{enumerate}
+    \item Range. As above.
+    \item Existence. There exists a rectangle $a:b \times c:d$ and $\delta$ such that $F(a:b \times c:d, \delta) \neq \emptyset$.
+    \item Separation. Given a prophecy $M$ of $F$, an oracle $\alpha$ in the base of $M$, and two rational values $r$ and $s$ in the wall of $M$, and a $\delta$, then there exists a prophecy $N$ contained in $\halo{M}$ such that the base contains $\alpha$ and at least one of the two rational values is not in the wall of $N$.  
+    \item Intersecting. If $M$ and $N$ are two $\alpha$-based prophecies, then their walls intersect. 
+    \item Elongating Consistency. If the wall of rectangle $M$ contains the union of the walls of a collection of prophecies such that the union of the bases of the prophecies is the base of $M$, then $F(M, \delta) \neq \emptyset$ for all $\delta$.
+    \item Narrowing Consistency. 
+\end{enumerate}
 
 
 \section{Pointwise Oracles}
