@@ -53,7 +53,7 @@ The notations above will also be used to indicate betweenness. For example, if $
 
 If $b$ and $c$ are between $a$ and $d$, but it is not clear whether $b$ is between $a$ and $c$ or between $c$ and $d$, then the notation $a\rint \{b,c\}\rint d$ can be used. This can also be extended to have, for example, $a\rint b\rint \{c,d\}$ which would be shorthand for saying that both $a\rint b\rint c$ and $a\rint b\rint d$ hold true. In addition, the notation \sout{$a\rint b\rint c$} will be used to indicate that $b$ is not between $a$ and $c$. One could also indicate this by $b\rint \{a,c\}$ which could be said in words that $a$ and $c$ are on the same side of $b$. 
 
-Rational numbers satisfy the fact that, given three distinct rational numbers, $a, b, c$, exactly one of the following holds true\rint  $a\rint b\rint c$, $a\rint c\rint b$, or $b\rint a\rint c$. That is, exactly one of them is between the other two. It can be written in notation as $a\rint b\rint c$ holds true if and only if both \sout{$a\rint c\rint b$} and \sout{$b\rint a\rint c$} hold true. This follows from the pairwise ordering of each of them as provided by the Trichotomy property for rational numbers along with the Transitive property. 
+Rational numbers satisfy the fact that, given three distinct rational numbers, $a, b, c$, exactly one of the following holds true:  $a\rint b\rint c$, $a\rint c\rint b$, or $b\rint a\rint c$. That is, exactly one of them is between the other two. It can be written in notation as $a\rint b\rint c$ holds true if and only if both \sout{$a\rint c\rint b$} and \sout{$b\rint a\rint c$} hold true. This follows from the pairwise ordering of each of them as provided by the Trichotomy property for rational numbers along with the Transitive property. 
 
 In this paper, often a potential relabeling will be invoked. This is to indicate that there are certain assumptions that are needed to be made, but they are notational assumptions and, in fact, some arrangement of the labels of that kind must hold. For example, if $\{a,d\}\rint b\rint c$ holds true, then either $a\rint d\rint b\rint c$ or $d\rint a\rint b\rint c$ holds true. If these are generic elements, then relabeling could be used to have $a\rint d\rint b\rint c$  be  true for definiteness, avoiding breaking the argument into separate, but identical, cases. If $a$ and $d$ were distinguished in some other way, such as being produced by different processes, then relabeling would not be appropriate to use. 
 
@@ -78,7 +78,7 @@ Throughout the paper, unless noted otherwise, the letters $a$ through $w$ will r
 The definition of a \textbf{rational betweenness relation}, with relational symbol $\xrel$, is that it is a symmetric relation on rational numbers which satisfies the properties listed below. If $a \xrel b$, then the interval $a\rint b$ is said to be an \textbf{$x$-interval} and $a$ and $b$ are \textbf{$x$-related}.
 \begin{enumerate}
     \item Existence. There exists $a$ and $b$ such that $a\xrel b$.
-    \item Separation. If $a \xrel b$ and $c$ is strictly between $a$ and $b$, then exactly one of the following holds\rint  1) $a \xrel c$ and \sout{$c \xrel b$}, 2) $c \xrel b$ and \sout{$a \xrel c$}, or 3) $c \xrel c$. 
+    \item Separation. If $a \xrel b$ and $c$ is strictly between $a$ and $b$, then exactly one of the following holds:  1) $a \xrel c$ and \sout{$c \xrel b$}, 2) $c \xrel b$ and \sout{$a \xrel c$}, or 3) $c \xrel c$. 
     \item Consistency. If $c \rint  a \rint  b \rint  d$ and $a \xrel b$, then $c \xrel d$. 
     \item Singular. If $c \xrel c$ and $d \xrel d$, then $c=d$. 
     \item Closed. If $c$ is a rational number such that $c$ is included in every $x$-interval $a\rint b$, then  $c \xrel c$. 
@@ -107,43 +107,59 @@ Arithmetic is defined using interval arithmetic, as will be discussed later, but
 
 \section{Oracles}
 
-An \textbf{oracle} is a procedure $R$, satisfying the properties listed below, which should be able to handle any input of the form of a rational interval along with a positive rational number. The output, which is not necessarily exclusively defined by the input, should be either a rational interval or the empty set. To make it into a function, one could view it as $R \mathbin{\col} \mathbb{I} \times \mathbb{Q}^+ \to \mathcal{P}(\mathbb{I} \cup \{\emptyset\})$. This would suggest, however, computing the full output of $R$ for a given input which is not something generally needed nor desired. The expression $R(a\rint b, \delta) = c\rint d$ means that one of the outputs for that pair of inputs is $c\rint d$; $c\rint d$ can then be said to be in the range of $R$, denoted as $c\rint d \in R$. The whimsical language of calling the nonempty interval $c\rint d \in R$ a \textbf{prophecy} of the oracle may also be used. The expression $R(a\rint b, \delta) \neq \emptyset$ means that none of the outputs for that input pair is $\emptyset$. The notation $\mathbb{I}_R$ will be all of the intervals that have a subinterval in the range of $R$. 
+An \textbf{oracle} is a procedure $R$, satisfying the properties listed below, which should be able to handle any input of the form of a rational interval along with a positive rational number. The output, which is not necessarily exclusively defined by the input, should be an ordered pair where the first entry is one of three values:  $-1, 0 , 1$ while the second entry is either a rational interval or the empty set. The intention is that $-1$ will indicate that the real number is not in the input interval while both $0$ and $1$ indicate it could be while $1$ additionally indicates that the returned interval is small enough in relation to the given positive rational number and given interval. 
 
-To be an oracle, the procedure must satisfy six properties.  The properties are\rint 
+%To make it into a function, one could view it as $R \mathbin{\col} \mathbb{I} \times \mathbb{Q}^+ \to \mathcal{P}( \{-1, 0, 1\} \times \mathbb{I})$ where $\mathcal{P}$ is the power set operator. This would suggest, however, computing the full output of $R$ for a given input which is not something generally needed nor desired. 
+
+The idea for the returned intervals is that they are considered to contain the real number. Any interval $c\rint d$ that appears as the second entry of a pair for an input will be said to be in the range of $R$, denoted as $c\rint d \in R$. The whimsical language of calling the nonempty interval $c\rint d \in R$ a \textbf{prophecy} of the oracle may also be used.
+
+Writing $R(a\rint b, \delta)=(m ,A)$ implies that one of the possible outputs for that input is $(m, A)$. The expression $R(a\rint b, \delta) = c\rint d$ will be shorthand to imply that one of the outputs for that pair of inputs is $(1, c\rint d$).  The expression $R(a \rint b, \delta) = m$ implies that there is an output pair for that input such that $m$ is the first entry of the pair. The expression $R(a\rint b, \delta) \neq m$ means that none of the outputs for that input pair has $m$ as its first entry.  
+
+The notation $\mathbb{I}_R$ represents the set of all intervals that contain a prophecy, that is, there is a subinterval in the range of $R$. 
+
+To be an oracle, the procedure must satisfy six properties.  The properties are
 \begin{enumerate}
-    \item Range. 
-    $R(a\rint b, \delta)$ should either be $\emptyset$ or be a subinterval of $\halo{a\rint b}$ that intersects $a\rint b$. 
-    \item Existence. 
-    There exists $a\rint b$ and $\delta$ such that $R(a\rint b, \delta) \neq \emptyset$.
+    \item Range. If $R(a\rint b, \delta) = (n, c\rint d)$, then one of the following must hold
+    \begin{itemize}
+        \item $n=1$. $c\rint d$ is a subinterval of $\halo{a\rint b}$ and intersects $a\rint b$. 
+        \item $n=0$. $c\rint d$ is not contained in $\halo{a\rint b}$ but does intersect $a \rint b$.
+        \item $n=-1$. $c\rint d$ is disjoint from $a\rint b$.
+    \end{itemize} 
+    If $R(a \rint b, \delta) = (n, \emptyset)$, then $n = -1$. 
+    \item Existence. There exists $a \rint b$ and $\delta$ such that $R(a \rint b, \delta)$ has an output whose second entry is a rational interval. That is, there exists $c\rint d \in R$. 
     \item Separation. 
-    If $a\rint b \in R$, then for a given $m$ contained in $a\rint b$ and given a $\delta$, there exists an $\halo{m}$ compatible interval $e\rint f$ such that exactly one of the following holds true\rint   ${}_\delta |a\rint e \in \mathbb{I}_R$, $e\rint f \in \mathbb{I}_R$,  or $f\rint b|_\delta \in \mathbb{I}_R$.
+    If $a\rint b \in R$, then for a given $m$ contained in $a\rint b$ and given a $\delta$, there exists an $\halo{m}$ compatible interval $e\rint f$ such that exactly one of the following holds true:   ${}_\delta |a\rint e \in \mathbb{I}_R$, $e\rint f \in \mathbb{I}_R$,  or $f\rint b|_\delta \in \mathbb{I}_R$.
    \item Disjointness. 
-   If $a\rint b \in R$ and $c\rint d$ is disjoint from $a\rint b$, then there exists a $\delta$ such that $R(c\rint d, \delta) = \emptyset$.
+   If $c\rint d \in R$ and $a\rint b$ is disjoint from $c\rint d$, then there exists a $\delta$ such that $R(a\rint b, \delta) = -1$. %If $R(a\rint b, \delta) = -1$, then there exists $c \rint d \in R$ such that $a\rint b$ and $c\rint d$ are disjoint. 
     \item Consistency. 
-    If $a\rint b  \in \mathbb{I}_R$, then $R(a\rint b, \delta) \neq \emptyset$ for all $\delta$.
+    If $a\rint b  \in \mathbb{I}_R$, then for all $\delta$, $R(a\rint b, \delta) \neq -1$  and $R(a\rint b, \delta) = 1$.
     \item Closed. 
-    If $\halo{a} \in \mathbb{I}_R$ for all $\delta $, then $R(a\rint b, \delta) \neq \emptyset$ for all $\delta$ and $b$. Such an $a$ is called a \textbf{root} of the oracle. 
+    If $\halo{a} \in \mathbb{I}_R$ for all $\delta $, then, for all $\delta$ and $b$, $R(a\rint b, \delta) \neq -1$  and $R(a \rint b, \delta)=1$. Such an $a$ is called a \textbf{root} of the oracle. 
 \end{enumerate}
 
-If multiple oracles representing distinct real numbers are being discussed, such as $x$ and $y$, then $R_x$ and $R_y$ will represent their respective oracles. If multiple oracles that represent the same real number are used, then a prime will be used such as $R'_x$ representing a different oracle than $R_x$ but both are representing $x$. 
+Oracles may also take additional inputs, such as a starting interval for a process that is different than the given interval. This allows for more flexibility and is particularly helpful for moving from the ambiguous $n=0$ situation to the more definite $n=1$ or $n=-1$ responses. The Separation property implies that all oracles can be used in some fashion in an iterative fashion, such as in the Bisection Algorithm established later, but many oracles naturally come along with an iterative process. 
 
-The expression $R(a\rint b, \delta) \neq \emptyset$ implies that the empty set is not in the range of $R$ for that input. The expression $R(a\rint b, \delta) = \emptyset$ is implying that the range for that input into $R$ contains the empty set; it need not be exclusively the empty set.
+If multiple oracles representing distinct real numbers are being discussed, such as $x$ and $y$, then $R_x$ and $R_y$ will represent their respective oracles. If multiple oracles that represent the same real number are used, then a prime will be used such as $R'_x$ representing a different oracle than $R_x$ but both are representing $x$. A later section will explore establishing when two oracles represent the same real number or not. 
 
-The range of $R$ can be thought of as intervals that are known to include the real number through some computation or property. The set $\mathbb{I}_R$ contains all the intervals that contain an interval in the range of $R$. Consistency ensures that the empty set is not assigned to any such interval and this is possible since all intervals in $\mathbb{I}_R$ contain an interval that can be returned for any $\delta$.
+The expression $R(a\rint b, \delta) \neq -1$ implies that neither the empty set nor intervals disjoint from $a\rint b$ are part of any output of $R$ for that input. The expression $R(a\rint b, \delta) = -1$ is asserting that there is an output of $R$ for that input that either has the empty set or an interval disjoint from $a \rint b$, but there may be other outputs for that input which could have overlapping intervals with $a \rint b$.
 
- For example, if approximating the square root of 2 and the interval is $1.3\rint 1.4$ with a $\delta$ of $0.1$, then the procedure might generate $1.39\rint 1.42$, but another computation with the procedure might generate $1.41\rint 1.42$. Both $R(1.3\rint 1.4, 0.1) = 1.39\rint 1.42$ and $R(1.3\rint 1.4, 0.1) = \emptyset$ would be valid outputs given these computations. Only the latter would be definitive in excluding $1.3\rint 1.4$ from containing the square root. The interval $1.3\rint 1.4$ would not be in $\mathbb{I}_R$ while $1.39\rint 1.43$ would be as it contains $1.39\rint 1.42$ which was a returned output of $R$. Note that $1.41\rint 1.42$ would not work just yet based on the above computations as it was not returned by an output though presumably with different inputs, it could be returned as a prophecy. 
+The range of $R$ can be thought of as intervals that are known to include the real number. The set $\mathbb{I}_R$ contains all the intervals that contain an interval in the range of $R$. Consistency ensures that intersecting intervals are always assigned which is possible since all intervals in $\mathbb{I}_R$ contain an interval that can be returned for any $\delta$.
 
-A rational interval $a\rint b$ is a \textbf{Yes interval} of the oracle $R$ if $R(a\rint b, \delta) \neq \emptyset$ for all $\delta >0$. This includes all intervals that are in  $\mathbb{I}_R$, but it also includes the \textbf{$a$-rooted} intervals where $a$ is a root of the oracle.   A rational interval $a\rint b$ is a \textbf{No interval} if $a\rint b$ is disjoint from a prophecy. The oracle property Disjointness then implies $R(a\rint b, \delta) = \emptyset$ for some $\delta > 0$. In the examples below, the way the empty set arises is that a prophecy is generated by the procedure which is disjoint from the interval in question. It is not the case that an oracle applied to a No interval always returns an empty set; it just has to at least once. 
+ For example, if approximating the square root of 2 and the interval is $1.3\rint 1.4$ with a $\delta$ of $0.1$, then the procedure might generate $(1, 1.39\rint 1.42$), but another computation with the procedure might generate $(-1, 1.41\rint 1.42)$. Both $R(1.3\rint 1.4, 0.1) = 1.39\rint 1.42$ and $R(1.3\rint 1.4, 0.1) = -1$ would be valid statements given these computations. Only the latter would be definitive in excluding $1.3\rint 1.4$ from containing the square root. The interval $1.3\rint 1.4$ would not be in $\mathbb{I}_R$ while $1.39\rint 1.43$ would be as it contains $1.39\rint 1.42$ which was a returned output of $R$.
 
-In a nonconstructive sense, each interval $a\rint b$ is either a Yes interval or a No interval. If an interval is disjoint from a prophecy, it is a No interval and if it contains a prophecy, then it is a Yes interval. But it is possible for an interval to intersect all prophecies without containing any of them. Thus, testing a given interval against a finite amount of prophecies may be indeterminate. It is the case that one can argue nonconstructively that if an interval intersects every prophecy, it is a Yes interval; see Proposition \ref{os:inter}. Both knowing that it intersects every prophecy and the proposition itself are nonconstructive ideas. 
+A rational interval $a\rint b$ is a \textbf{Yes interval} of the oracle $R$ if $R(a\rint b, \delta) \neq -1$ for all $\delta >0$. By Conistency, this includes all intervals that are in  $\mathbb{I}_R$, but, by Closure, it also includes the \textbf{$a$-rooted} intervals where $a$ is a root of the oracle.   A rational interval $a\rint b$ is a \textbf{No interval} if $R(a\rint b, \delta) = -1$ for some $\delta$. It can be argued nonconstructively that every No interval is disjoint from at least one prophecy.  
+
+In a nonconstructive sense, each interval $a\rint b$ is either a Yes interval or a No interval. Given any interval, one can take a prophecy and test it against the interval. If the interval is disjoint from the prophecy, then the interval is a No interval. If the interval contains the prophecy, then it is a Yes interval. But if the prophecy only overlaps with the interval, part of it in, part of it out, then there is no conclusion. This latter indeterminate state can only happen for all prophecies if the given interval has a root for one of its endpoints. If that is the case, however, then the Closure property would indicate that the interval is  Yes interval. The difficulty is that there is no finite testing that leads to this conclusion; it must be proven by other means. The above reasoning does lead to a  nonconstructive argument that if an interval intersects every prophecy, it is a Yes interval; see Proposition \ref{os-inter}. As, nonconstructively, every interval either intersects all prophecies or is disjoint from at leat one, it is the case that all intervals nonconstructively are either a Yes or a No interval. 
 
 If an interval $a\rint b$ is a Yes interval for $R$ and $R$ is to represent the real number $x$, then this can be expressed with the notation $a \xora b$. For No intervals, the notation is \sout{$a \xora b$}. The notation $a\rint c|_\delta$ extends to the Yes intervals as $a \xora c|_\delta$. These notations reflect that the Yes / No interval designation has created an $x$-betweenness relation on the rational numbers as will be established later.
 
-It may be helpful to expand a little on what the properties mean. The basic idea is that a Yes interval ought to contain the real number; since this is defining the real number, this becomes more of a guiding idea rather than a deduction. The concept of the oracle is that a possible Yes interval is given along with a little error tolerance. The oracle ought to respond with a Yes interval which helps move the process along in ascertaining what the real number is. If it cannot respond with a Yes interval, then the given interval is a No interval. 
+It may be helpful to expand a little on what the properties mean. The basic idea is that a Yes interval ought to contain the real number; since this is defining the real number, this becomes more of a guiding idea rather than a deduction. The concept of the oracle is that a possible Yes interval is given along with a little error tolerance. The oracle ought to respond with a prophecy which helps move the process along in ascertaining what the real number is and will determine if the fuzzy version of the given interval may contain the real number or not. If it happens to not be able to respond with a prophecy, then the given interval is a No interval. 
 
-Here is a bit of explanation for the properties\rint 
+Here is a bit of explanation for the properties: 
 \begin{enumerate}
-    \item Range. Returning a subinterval of $a\rint b$ means $x$ is definitively in $a\rint b$ which is ensured by Consistency. Returning $\emptyset$ means that $x$ is not in $a\rint b$. The return of subintervals of $\halo{a\rint b}$ that are not contained in $a\rint b$ are ambiguous on the question of $a\rint b$ containing $x$ though it is in the returned subinterval. The requirement to intersect $a\rint b$ is based on the fact that if the subinterval was disjoint from $a\rint b$ then Disjointness would say that $a\rint b$ does not contain $x$. This just helps bring that to the forefront. 
+    \item Range. The idea of the oracle is that its first entry indicates success (1), indeterminate (0), or failure (-1). Thanks to Separation, given a prophecy, one can make a smaller prophecy. Thus, if a 0 is returned, there is an iterative procedure for continuing on. The Bisection Algorithm gives an explicit amount of computations to definitively reach a given size for a prophecy. When the size of the prophecy is less than $\delta$, then either a 1 is guaranteed to be a response or a -1 is. 
+    
+    Given an interval for a second entry, Separation allows for further refinement. If an empty set is returned, then that does not yield in any further direction, but the Existence property promises that there is always something to be used. 
     
     \item Existence. Without this, the oracle could always return the empty set. Such a procedure would not represent any $x$. On a practical level, having a prophecy returned is the starting point of where to start narrowing in on the real number. It can be quite a large interval which makes this doable if some very rough knowledge of the number is known. 
     
@@ -176,7 +192,7 @@ A common situation for real number estimates is that the real number is computed
 
 This particular way of using Newton's method leads to a family of procedures. Given a different $a_0$, the intervals computed will differ and will lead to some computed intervals overlapping the endpoints of some intervals that other starting points would not overlap with. The Yes / No determination, however, would not  change. If the root is the rational $p$, that is, $p^n = q$,  then intervals of the form $p\rint b$ will never be returned by this procedure unless $a_0 = p = b_0$. Nevertheless, the procedure will never return the empty set for an interval that contains $p$. All Yes intervals in this case will contain $p$. 
 
-More general uses of Newton's method can be discussed, but it is more efficient to discuss a general construct based on interval families. This is discussed in Section \ref{os:fonsis} about fonsis. 
+More general uses of Newton's method can be discussed, but it is more efficient to discuss a general construct based on interval families. This is discussed in Section \ref{os-fonsis} about fonsis. 
 
 Cauchy sequences can be viewed as pairs of rationals $a_n, \varepsilon_n$ where $a_n$ is the $n$-th element of the sequence and $\varepsilon_n$ is a bound for all future elements to be within $\varepsilon_n$ of $a_n$. This leads to the sequence of intervals $a_n-\varepsilon_n\rint a_n+\varepsilon_n = \halo[ \varepsilon_n]{a_n}$. The Cauchy criterion ensures that the $\varepsilon_n$ exists and that they can be taken to approach 0. An oracle procedure would then be to select, possibly arbitrarily, some $n$ such that $\varepsilon_n < \delta$, and then  $R(b\rint c, \delta) = \halo[ \varepsilon_n]{a_n}$ if $\halo[\varepsilon_n]{a_n}$ intersects $b\rint c$; it returns the empty set otherwise. If $R(b\rint c, \delta) \neq \emptyset$, this implies that the entire tail of the sequence of intervals intersects $b\rint c$ and thus the sequence converges to a real number that is in $b\rint c$.  
 
@@ -198,7 +214,7 @@ To approximate a real number well, one needs a very small interval in which it i
 \end{proposition}
 
 \begin{proof}
-    By Existence, there exists a prophecy $a_0\rint b_0$, that is, an interval in the range of $R$. If $|a_0\rint b_0| < \varepsilon$, then that interval is sufficient. Otherwise, the desired interval is found via iteration. The iterative step for determining $a_{i+1}$ and $b_{i+1}$ given $a_i\rint b_i$ begins with letting $m_i$ be the average of $a_i$ and $b_i$. Apply Separation to $a_i\rint b_i$ with $m_i$ the dividing point and choose a subwidth $\delta < \min(|a_i\rint b_i|/6, \varepsilon /2)$. By Separation and definition of $\mathbb{I}_R$, there exists an interval $e_i\rint f_i$ in $\halo{m_i}$ and a prophecy $a_{i+1}\rint b_{i+1}$ such that one of the following holds\rint  
+    By Existence, there exists a prophecy $a_0\rint b_0$, that is, an interval in the range of $R$. If $|a_0\rint b_0| < \varepsilon$, then that interval is sufficient. Otherwise, the desired interval is found via iteration. The iterative step for determining $a_{i+1}$ and $b_{i+1}$ given $a_i\rint b_i$ begins with letting $m_i$ be the average of $a_i$ and $b_i$. Apply Separation to $a_i\rint b_i$ with $m_i$ the dividing point and choose a subwidth $\delta < \min(|a_i\rint b_i|/6, \varepsilon /2)$. By Separation and definition of $\mathbb{I}_R$, there exists an interval $e_i\rint f_i$ in $\halo{m_i}$ and a prophecy $a_{i+1}\rint b_{i+1}$ such that one of the following holds:  
     \begin{enumerate}
         \item $a_{i+1}\rint b_{i+1}$ is in $e_i\rint f_i$. Since the length of $\halo{m_i}$ is less than $\varepsilon$, this interval works as the desired interval.  
         \item  $a_{i+1}\rint b_{i+1}$ is in ${}_\delta|a_i \rint e_i$. The length will be no more than $\frac{|a_i\rint b_i|}{2}  + \frac{|a_i\rint b_i|}{6} = 2|a_i\rint b_i|/3$.
@@ -207,14 +223,14 @@ To approximate a real number well, one needs a very small interval in which it i
     The length of $a_n\rint b_n$ will be at most $(2/3)^n |a_0\rint b_0|$. To find the $n$ in which this procedure has definitively achieved the goal of $|a_n\rint b_n|<\varepsilon$,  take, in reduced form, $p/q = \varepsilon/|a_0\rint b_0|$ and let $m$ be the number of digits in $q$ expressed in base 10. Then $n \geq  6m$ leads to  $(2/3)^n \leq (2/3)^{6m} < 10^{-m} < 1/q \leq p/q$. Thus, $n \geq 6m$ would have $|a_n\rint b_n| \leq (2/3)^n |a_0\rint b_0| < \varepsilon$ as desired. 
 \end{proof}
 
-Since every prophecy is a Yes interval, this immediately implies\rint 
+Since every prophecy is a Yes interval, this immediately implies: 
 \begin{corollary}
     Given an oracle $R$, there are arbitrarily small Yes intervals. 
 \end{corollary}
 
 The following statement is independent of the Bisection Algorithm, but it is needed in the proof of the following proposition. 
 
-\begin{proposition}\label{os:prointer}
+\begin{proposition}\label{os-prointer}
     Given an oracle $R$, any pair of prophecies $a\rint b$ and $c\rint d$ will intersect. 
 \end{proposition}
 
@@ -224,7 +240,7 @@ Given a procedure that is potentially an oracle, this can be a quick item to che
     If they were disjoint, then the Disjointness property would say, for example, that $R(c\rint d, \delta)= \emptyset$ for some $\delta$. But $c\rint d \in \mathbb{I}_R$ as it contains itself. Thus, Consistency says that $R(c\rint d, \delta) \neq \emptyset$. This is a contradiction and the two intervals must intersect. 
 \end{proof}
 
-\begin{proposition}\label{os:yescat}
+\begin{proposition}\label{os-yescat}
     Let an oracle $R$ be given. If $a\rint b$ is a Yes interval, then either $a\rint b$ strictly contains a prophecy of $R$ or an endpoint of $a\rint b$ is a root of $R$. 
 \end{proposition}
 
@@ -238,12 +254,12 @@ Given a procedure that is potentially an oracle, this can be a quick item to che
     Thus, as this holds for arbitrarily small $\delta$ and prophecies $e\rint f$, $a$ is a root of $R$ as was to be shown in this case. 
 \end{proof}
 
-\begin{proposition}\label{os:singular}
+\begin{proposition}\label{os-singular}
     If an oracle $R$ has a root $q$, then that root is unique and an interval is a Yes interval exactly when $q$ is in the interval.
 \end{proposition}
 
 \begin{proof}
-    There are three possible cases for how an interval $a\rint b$ can be related to $q$\rint 
+    There are three possible cases for how an interval $a\rint b$ can be related to $q$: 
 
     \begin{enumerate}
         \item $q$ is an endpoint of $a\rint b$. Since $q$ is a root, any interval of the form $q\rint r$ is a Yes interval by the Closed property.
@@ -255,7 +271,7 @@ Given a procedure that is potentially an oracle, this can be a quick item to che
 \end{proof}
 
 
-\begin{proposition}\label{os:rootsmallpro}
+\begin{proposition}\label{os-rootsmallpro}
     If $q$ is contained in arbitrarily small prophecies of an oracle, then $q$ is the root of the oracle. 
 \end{proposition}
 
@@ -263,7 +279,7 @@ Given a procedure that is potentially an oracle, this can be a quick item to che
     Given $\delta$, let $a\rint b$ be a prophecy whose length is less than $\delta$ and contains $q$; this exists by assumption. Since $q$ is contained in $a\rint b$, $a\rint b$ is contained in $\halo{q}$. Thus, $\halo{q} \in \mathbb{I}_R$. As this was an arbitrary $\delta$, the Closed property applies to conclude  $q$ is the root of the oracle. 
 \end{proof}
 
-\begin{corollary}\label{os:root}
+\begin{corollary}\label{os-root}
     If $q$ is contained in every prophecy of an oracle, then $q$ is the root of that oracle. 
 \end{corollary}
 
@@ -291,7 +307,7 @@ Given a procedure that is potentially an oracle, this can be a quick item to che
 The Yes intervals are united by supposedly containing the real number being represented. Thus, intersecting two such intervals should lead to a further narrowing towards the real number. This is indeed what happens. This section deals with various statements involving intersections and oracles. 
 
 
-\begin{proposition}\label{os:yesinter}
+\begin{proposition}\label{os-yesinter}
     Given an oracle $R$, all Yes intervals intersect. 
 \end{proposition}
 
@@ -302,7 +318,7 @@ The Yes intervals are united by supposedly containing the real number being repr
 \end{proof}
 
 
-\begin{proposition}\label{os:inter}
+\begin{proposition}\label{os-inter}
     If $a\rint b$ is an interval that intersects every prophecy of an oracle, then, nonconstructively, $a\rint b$ is a Yes interval. 
 \end{proposition}
 
@@ -328,11 +344,11 @@ A useful idea is that every pair of disjoint intervals has at least one No inter
 \end{proposition}
 
 \begin{proof}
-    If there are Yes intervals that do not contain a prophecy, then by Proposition \ref{os:yescat}, it is a rooted oracle. If the oracle is rooted with root $q$, then the Yes intervals all contain $q$. Thus, they intersect and the intersection is an interval that contains $q$. Thus, it is a Yes interval as well. 
+    If there are Yes intervals that do not contain a prophecy, then by Proposition \ref{os-yescat}, it is a rooted oracle. If the oracle is rooted with root $q$, then the Yes intervals all contain $q$. Thus, they intersect and the intersection is an interval that contains $q$. Thus, it is a Yes interval as well. 
 
     The other situation is that all Yes intervals contain a prophecy. This will be assumed for what follows below. Note that there is no assumption that the oracle is not rooted; it can be the case that all Yes intervals contain prophecies and  the oracle is rooted. 
 
-    Up to relabeling, the various cases are\rint  
+    Up to relabeling, the various cases are:  
     \begin{enumerate}
         \item $a\rint c\rint d\rint b$. In this case, the intersection is $c\rint d$ which is a Yes interval. 
         \item $a\rint b \betneq c\rint d$. This is the case of two disjoint Yes intervals. That was established to not be possible. 
@@ -340,11 +356,11 @@ A useful idea is that every pair of disjoint intervals has at least one No inter
 
         \item $a\rint (b=c)\rint d$. In this case, $b=c$ is the intersection.  If $a=b$ or $c=d$, then the intersection is a Yes interval as it is one of the given (singleton) intervals. Assume, therefore, that $a \neq b$ and $c \neq d$. 
         
-        By assumption, $a\rint b$ and $c\rint d$ both contain prophecies. The prophecies must intersect and their intersection can only be the rational $b=c$. Since all prophecies must intersect both of these prophecies, they must all contain $b=c$. Any rational that is  contained in arbitrarily small prophecies is a root of the oracle by Proposition \ref{os:rootsmallpro}.
+        By assumption, $a\rint b$ and $c\rint d$ both contain prophecies. The prophecies must intersect and their intersection can only be the rational $b=c$. Since all prophecies must intersect both of these prophecies, they must all contain $b=c$. Any rational that is  contained in arbitrarily small prophecies is a root of the oracle by Proposition \ref{os-rootsmallpro}.
         
         \item $a\rint c \betneq b\rint d$. By assumption there is a prophecy $a'\rint b'$ in $a\rint b$ and a prophecy $c'\rint d'$ in $c\rint d$. The goal is to establish that there is a prophecy in $c\rint b$. This would then imply $c\rint b$ is a Yes interval. 
         
-        If $a'\rint b'$ is contained in $c\rint b$ or $c'\rint d'$ is contained in $c\rint b$, then $c\rint b$ is a Yes interval. In the case that they are not, this implies, by potentially relabeling, that $a'$ and $d'$ are outside of $c\rint b$. Furthermore, as  $a'\rint b'$ and $c'\rint d'$ must intersect from being prophecies, it can be inferred that $c\rint c'\rint b'\rint b$. Thus, the following holds\rint   $a\rint a' \betneq c\rint c'\rint b'\rint b \betneq d'\rint d$. If $c'=b'$, then the case before can be adapted to claim that $c'=b'$ is the root of the oracle implying $c\rint b$ is a Yes interval. 
+        If $a'\rint b'$ is contained in $c\rint b$ or $c'\rint d'$ is contained in $c\rint b$, then $c\rint b$ is a Yes interval. In the case that they are not, this implies, by potentially relabeling, that $a'$ and $d'$ are outside of $c\rint b$. Furthermore, as  $a'\rint b'$ and $c'\rint d'$ must intersect from being prophecies, it can be inferred that $c\rint c'\rint b'\rint b$. Thus, the following holds:   $a\rint a' \betneq c\rint c'\rint b'\rint b \betneq d'\rint d$. If $c'=b'$, then the case before can be adapted to claim that $c'=b'$ is the root of the oracle implying $c\rint b$ is a Yes interval. 
 
         Assuming $b' \neq c'$, let $\delta$ be a length less than half the distance between $b'$ and $c'$. Note that $\halo{b'}$ and $\halo{c'}$ are disjoint. Thus, at least one of them is a No interval. By potentially relabeling, let $\halo{c'}$ be a No interval. 
 
@@ -362,7 +378,7 @@ A useful idea is that every pair of disjoint intervals has at least one No inter
 
 A common trick is to look at small enough Yes intervals, or prophecies, such that they are all contained within a known interval. This is an immediate consequence of them all intersecting. 
 
-\begin{proposition}\label{os:yescontain}
+\begin{proposition}\label{os-yescontain}
     Let $a\rint b$ be a Yes interval of a given oracle. Then any Yes interval of that oracle whose length is less than a given $\delta$ will be contained in $\halo{a\rint b}$.
 \end{proposition}
 
@@ -370,7 +386,7 @@ A common trick is to look at small enough Yes intervals, or prophecies, such tha
     Given any Yes interval $c\rint d$ whose length is less than $\delta$, it is the case that $c\rint d$ intersects $a\rint b$ as they are both Yes intervals of the same oracle. Since the maximum distance an element of $c\rint d$ can be from another element in $c\rint d$ is less than $\delta$, the maximum distance an element can be from $a\rint b$ is less than $\delta$. Thus, $c\rint d$ is contained in $\halo{a\rint b}$.
 \end{proof}
 
-\section{Fonsis}\label{os:fonsis}
+\section{Fonsis}\label{os-fonsis}
 
  A \textbf{Family of Overlapping, Notionally Shrinking Intervals} (fonsi, pronounced faan-zee,) is a set of rational intervals such that any pair of rational intervals in the set intersect and, given a rational $\varepsilon >0$, there exists at least one interval in the fonsi such that its length is less than $\varepsilon$. Sequences of nested intervals whose lengths approach 0 is an example of a fonsi. In constructivist works, such as \cite{bridger}, these objects are often taken as the definition of a real number and are likened to a set of measurements. 
 
@@ -389,7 +405,7 @@ Fonsis cover a range of examples. They can be thought of as the set of prophecie
     
     The intervals in the range of $R$ are precisely the elements of the fonsi. That the range is contained in the fonsi is clear from the definition. That every element of the fonsi is in the range follows by considering $R(c\rint d, |c\rint d|+1)$ for a given interval $c\rint d$ of the fonsi. Since $|c\rint d| < |c\rint d|+1$, $c\rint d$ itself matches the procedure constraint and is therefore in the range of $R$. 
 
-    The properties are verified as follows\rint  
+    The properties are verified as follows:  
     \begin{enumerate}
         \item Range. Satisfied by definition. 
         \item Existence. The fonsi must be non-empty since given a length, it is required to produce an interval. Let $a\rint b$ be any element of the fonsi and $\delta =1$. Let $c\rint d$ be any element of the fonsi whose length is less than 1. By definition of a fonsi, $c\rint d$ and $a\rint b$ intersect. Thus, $R(a\rint b, 1) 
@@ -416,7 +432,7 @@ The above shows that a fonsi gives rise to an oracle whose prophecies is the fon
 \end{corollary}
 
 \begin{proof}
-    The bisection algorithm establishes the notionally shrinking portion of the fonsi. That the intersection of the prophecies is nonempty was established in Proposition \ref{os:prointer}.
+    The bisection algorithm establishes the notionally shrinking portion of the fonsi. That the intersection of the prophecies is nonempty was established in Proposition \ref{os-prointer}.
 \end{proof}
 
 
@@ -425,7 +441,7 @@ The above shows that a fonsi gives rise to an oracle whose prophecies is the fon
 \end{corollary}
 
 \begin{proof}
-    The containment of the prophecies handles the notionally shrinking. The intersection of the Yes intervals is the claim of Proposition \ref{os:yesinter}.
+    The containment of the prophecies handles the notionally shrinking. The intersection of the Yes intervals is the claim of Proposition \ref{os-yesinter}.
 \end{proof}
 
 
@@ -449,7 +465,7 @@ The complete set of Yes intervals for an oracle is the rational betweenness rela
 
 In this, properties from the oracle may be prepended with the term Oracle for clarity while those of the rational betweenness relations may have RBR prepended. 
 
-\begin{lemma}[Consistency]\label{os:con}
+\begin{lemma}[Consistency]\label{os-con}
     Let an oracle $R$ be given representing $x$. Assume $c\rint a\rint b\rint d$. If $a \xora b$, then $c \xora d$. If \sout{$c \xora d$}, then \sout{$a \xora b$}. 
 \end{lemma}
 
@@ -464,7 +480,7 @@ In this, properties from the oracle may be prepended with the term Oracle for cl
 The Separation property as postulated does not apply to all Yes intervals; this makes being an oracle easier to verify, but harder to use. Separation, however, can be extended to all Yes intervals though potentially non-constructively for rooted oracles that are not established as such.
 
 \begin{lemma}[Yes Interval Separation]
-    If $a\rint  b$ is a Yes interval for an oracle $R$, $m$ is a rational number strictly between $a$ and $b$, and a subwidth $\delta > 0$ is given, then there exists an $\halo{m}$ compatible interval $e\rint f$ such that one of the following holds true\rint 
+    If $a\rint  b$ is a Yes interval for an oracle $R$, $m$ is a rational number strictly between $a$ and $b$, and a subwidth $\delta > 0$ is given, then there exists an $\halo{m}$ compatible interval $e\rint f$ such that one of the following holds true: 
     \begin{enumerate}
         \item $a \xora e$, \sout{$e\xora f$}, \sout{$f\xora b$};
         \item $e \xora f$, \sout{$a\xora e$}, \sout{$f\xora b$};
@@ -485,12 +501,12 @@ The Separation property as postulated does not apply to all Yes intervals; this 
 
     If the produced $e'\rint f'$ is not in $\mathbb{I}_R$, then, by relabeling, it can be assumed that ${}_{\delta'} |c\rint e' \in \mathbb{I}_R$. Then $e$ can be chosen to be strictly contained in $e'\rint m$ so that \sout{$e\xora f$} and \sout{$f\xora b$} by Disjointness. If $a\rint \halo[\delta']{c}\rint e$, then $a \xora e$. If not, then a non-constructive approach is needed.
 
-    If there is any Yes interval contained in $a\rint e$, then that is sufficient to conclude $a\rint e$ is a Yes interval. So assume there is not; this is a nonconstructive step. This means that while every Yes interval must intersect both $a\rint b$ and $a\rint e'$, none of them can be contained in $a\rint e$. Intervals whose lengths are less than the distance between $e'$ and $b$ imply that $a$ is the common point of intersection for all of these intervals. As established in Corollary \ref{os:root}, this implies $a$ is a root of the oracle. Thus, $a \xora e$ is a Yes interval. 
+    If there is any Yes interval contained in $a\rint e$, then that is sufficient to conclude $a\rint e$ is a Yes interval. So assume there is not; this is a nonconstructive step. This means that while every Yes interval must intersect both $a\rint b$ and $a\rint e'$, none of them can be contained in $a\rint e$. Intervals whose lengths are less than the distance between $e'$ and $b$ imply that $a$ is the common point of intersection for all of these intervals. As established in Corollary \ref{os-root}, this implies $a$ is a root of the oracle. Thus, $a \xora e$ is a Yes interval. 
 
 \end{proof}
 
-\begin{lemma}[RBR Separation]\label{os:intsep}
-  If $a \xora b$, then exactly one of the following holds\rint  
+\begin{lemma}[RBR Separation]\label{os-intsep}
+  If $a \xora b$, then exactly one of the following holds:  
   \begin{enumerate}
         \item $a\xora m$, \sout{$m \xora b$};
         \item $m \xora m$; 
@@ -515,13 +531,13 @@ If $e\rint f$ is the Yes interval for each $\delta$, then $\halo{m} \in \mathbb{
 \begin{proof}
     By assumption, $\xora$ is a relation on all pairs of rational numbers. It is symmetrical as the outputs of $R(a\rint b, \delta)$ are the same as the outputs of $R(b\rint a, \delta)$; this holds for all intervals $a\rint b$ and positive rationals $\delta$.
 
-    The properties are established as follows\rint  
+    The properties are established as follows:  
     \begin{enumerate}
         \item RBR Existence. By Oracle Existence, there exists $a\rint b$  and a $\delta$ such that $R(a\rint b, \delta) \neq \emptyset$. This implies there exists a prophecy $c\rint d$ such that $R(a\rint b, \delta) = c\rint d$. The interval $c\rint d \in \mathbb{I}_R$ which, by Oracle Consistency, implies $R(c\rint d, \delta) \neq \emptyset$ for all $\delta$.  
-        \item RBR Separation. This is Lemma \ref{os:intsep}.
-        \item RBR Consistency. This is Lemma \ref{os:con}.
-        \item RBR Singular. Since $c \xora c$ is equivalent to saying that $c$ is a root of the oracle, Proposition \ref{os:singular}  states that $c$ is unique. Thus, if $d \xora d$, then $d$ must be $c$. 
-        \item RBR Closed. Assume $c$ is such that $a \xora b$ implies $c \in a\rint b$. This is equivalent to saying that $c$ is in every Yes interval. By Corollary \ref{os:root}, $c$ is a root of the oracle. By the Oracle Closed property, $R(c\rint c, \delta) \neq \emptyset$ for all $\delta$. Thus, $c \xora c$.
+        \item RBR Separation. This is Lemma \ref{os-intsep}.
+        \item RBR Consistency. This is Lemma \ref{os-con}.
+        \item RBR Singular. Since $c \xora c$ is equivalent to saying that $c$ is a root of the oracle, Proposition \ref{os-singular}  states that $c$ is unique. Thus, if $d \xora d$, then $d$ must be $c$. 
+        \item RBR Closed. Assume $c$ is such that $a \xora b$ implies $c \in a\rint b$. This is equivalent to saying that $c$ is in every Yes interval. By Corollary \ref{os-root}, $c$ is a root of the oracle. By the Oracle Closed property, $R(c\rint c, \delta) \neq \emptyset$ for all $\delta$. Thus, $c \xora c$.
     \end{enumerate}
 \end{proof}
 
@@ -533,12 +549,12 @@ Having established that a given oracle does have an associated rational betweenn
 Let $R_x$ and $R_y$ be two oracles. All of the prophecies of $R_x$ will intersect all of the prophecies of $R_y$ if and only if $R_x \equiv R_y$.
 \end{proposition}
 
-\begin{proof}\label{os:equal}
+\begin{proof}\label{os-equal}
     If $R_x \equiv R_y$, then they have the same Yes intervals, which will include both sets of prophecies. Since all Yes intervals of a given oracle intersect each other, the two sets of prophecies intersect as well. 
     
     The other direction is to assume that all of the prophecies of $R_x$ intersect all of the prophecies of $R_y$. The proof will proceed to establish that the Yes intervals of $R_x$ are Yes intervals of $R_y$ and that the No intervals of $R_x$ are No intervals of $R_y$. Switching $x$ and $y$ then gives both directions.  
 
-    Assume $a \xora b$. By the non-constructive Proposition \ref{os:yescat}, either there exists a prophecy $c\rint d$ strictly contained in $a\rint b$ or one of the endpoints, say $a$, is a root of the oracle. In the first case, consider a prophecy $e\rint f$ of $R_y$ whose length is less than the distance from $c\rint d$ to $a\rint b$ (this is the smallest distance between the endpoints). By assumption, $e\rint f$ intersects $c\rint d$ and by choice of length, $e\rint f$ must be strictly contained in $a\rint b$. Thus, $a\rint b$ is a Yes interval of $R_y$.
+    Assume $a \xora b$. By the non-constructive Proposition \ref{os-yescat}, either there exists a prophecy $c\rint d$ strictly contained in $a\rint b$ or one of the endpoints, say $a$, is a root of the oracle. In the first case, consider a prophecy $e\rint f$ of $R_y$ whose length is less than the distance from $c\rint d$ to $a\rint b$ (this is the smallest distance between the endpoints). By assumption, $e\rint f$ intersects $c\rint d$ and by choice of length, $e\rint f$ must be strictly contained in $a\rint b$. Thus, $a\rint b$ is a Yes interval of $R_y$.
 
     In the case that $a$ is the root of $R_x$, this implies that every prophecy of $R_x$ contains $a$. Assume that there is a prophecy $c\rint d$ of $R_y$ which does not contain $a$. Then by letting $\delta$ be less than the distance from $c\rint d$ to $a$, there exists, by $a$ being a root, a prophecy $e\rint f$ of $R_x$ in $\halo{a}$. It is disjoint from $c\rint d$ due to the choice of $\delta$. But it should intersect $c\rint d$ by the assumption. Thus, all of the prophecies of $R_y$ contain $a$. That means it is also rooted at $a$  and the Yes intervals of both $R_x$ and $R_y$ are exactly the intervals that contain $a$. 
     
@@ -589,7 +605,7 @@ While this is basically a postulate for oracles, it is a deduction for rational 
 \begin{proof}
     The only case, after relabeling, of the two intervals being disjoint is $a\rint b\rint m\rint c\rint d$. It will be shown that $b = m = c$. This will then imply that the intervals intersect. 
     
-    By RBR Consistency, $a \xrel d$. By RBR Separation using $m$, exactly one of the following holds true\rint  1) $a \xrel m$ with \sout{$m \xrel d$}, 2) $d \xrel m$ with \sout{$m \xrel a$}, or 3) $m \xrel m$. By RBR Consistency, since $c \xrel d$, it is the case that $m \xrel d$. This rules out case 1. Also since $a \xrel b$, it is also the case by RBR Consistency that $a \xrel m$. This rules out case 2. Thus, case 3 must hold which is $m \xrel m$. 
+    By RBR Consistency, $a \xrel d$. By RBR Separation using $m$, exactly one of the following holds true:  1) $a \xrel m$ with \sout{$m \xrel d$}, 2) $d \xrel m$ with \sout{$m \xrel a$}, or 3) $m \xrel m$. By RBR Consistency, since $c \xrel d$, it is the case that $m \xrel d$. This rules out case 1. Also since $a \xrel b$, it is also the case by RBR Consistency that $a \xrel m$. This rules out case 2. Thus, case 3 must hold which is $m \xrel m$. 
     
     Next use RBR Separation on $a \xrel m$ with $b$ the Separation point. Since $a \xrel b$ by assumption and $b \xrel m$ by RBR Consistency using $m \xrel m$, it must be the case that $b \xrel b$. But the RBR Singular property would then assert that $m = b$. The same argument applies for $c$. Therefore, $b = m = c$ in the one possible case where the intervals could have been disjoint. 
 \end{proof}
@@ -633,7 +649,7 @@ Two oracles $R_x$ and $R_y$ are inequivalent if there are disjoint intervals $a\
 
 On the interval level, $a\rint b < c\rint d$ means that for every $p \in a\rint b$ and every $q \in c\rint d$, it is the case that $p < q$. Necessarily, the intervals must be disjoint to have this be possible and, for any two disjoint intervals, they will be related by one inequality. 
 
-We define the inequality relations as\rint 
+We define the inequality relations as: 
 \begin{enumerate}
     \item $R_x < R_y$ and $x < y$, if there exists $a \xora b$ and $c \xora[y] d$ such that $a\rint b<c\rint d$.
     \item $R_x > R_y$ and $x > y$, if there exists $a \xora b$ and $c \xora[y] d$ such that $a\rint b > c\rint d$.
@@ -664,25 +680,25 @@ It does need to be shown that there can be no contradiction.
 
     The other task is to show there are no Yes intervals that yield the opposite inequality. Let $p\lte q$ be a Yes interval for $x$ and $r \lte s$ be a Yes interval for $y$. If $p\rint q$ and $r\rint s$ overlap, then there is no contradictory information. 
 
-    Assume, therefore, that they are disjoint. There are exactly two configurations for disjoint intervals\rint  $p \lte q < r \lte s$ or $ r \lte s < p \lte q$. Since $p\rint q$ must intersect $a\rint b$ due to both being Yes intervals of the same oracle, let $m$ be in their intersection. Similarly, let $n$ be in the intersection of $r\rint s$ and $c\rint d$. Since $a\rint b < c\rint d$, it is the case that $m < n$. This is only compatible with $p \lte q < r \lte s$ which was to be shown. 
+    Assume, therefore, that they are disjoint. There are exactly two configurations for disjoint intervals:  $p \lte q < r \lte s$ or $ r \lte s < p \lte q$. Since $p\rint q$ must intersect $a\rint b$ due to both being Yes intervals of the same oracle, let $m$ be in their intersection. Similarly, let $n$ be in the intersection of $r\rint s$ and $c\rint d$. Since $a\rint b < c\rint d$, it is the case that $m < n$. This is only compatible with $p \lte q < r \lte s$ which was to be shown. 
 
 \end{proof}
 
 
 
-The classical story is that the real numbers satisfy the Trichotomy property\rint  Given $x$ and $y$, exactly one of the following holds\rint  $x<y$, $x>y$, or $x=y$. This holds non-constructively for the oracles. If there exists two disjoint Yes intervals, one for $x$ and one for $y$, then one of the inequality holds as was just explored. The other case is that every Yes interval of $x$ intersects every Yes interval of $y$. Proposition \ref{os:equal} establishes that $x=y$ in that situation. 
+The classical story is that the real numbers satisfy the Trichotomy property:  Given $x$ and $y$, exactly one of the following holds:  $x<y$, $x>y$, or $x=y$. This holds non-constructively for the oracles. If there exists two disjoint Yes intervals, one for $x$ and one for $y$, then one of the inequality holds as was just explored. The other case is that every Yes interval of $x$ intersects every Yes interval of $y$. Proposition \ref{os-equal} establishes that $x=y$ in that situation. 
  
 
 This was non-constructive as, generically, it requires potentially checking infinitely many intervals. 
 
 \begin{corollary}
-    Let $x$ and $y$ be two oracles. Then, nonconstructively, exactly one of the following holds true\rint  $x<y$, $x>y$, or $x=y$.
+    Let $x$ and $y$ be two oracles. Then, nonconstructively, exactly one of the following holds true:  $x<y$, $x>y$, or $x=y$.
 \end{corollary}
 
 The constructivists use a property called $\varepsilon$-Trichotomy. This allows a definite determination with a finite, predictable amount of work. 
 
 \begin{proposition}[$\varepsilon$-Trichotomy]
-    Given oracles $x$ and $y$ and a positive rational $\varepsilon$, exactly one of the following holds\rint  $x<y$, $x>y$, or there exists an interval $a\rint b$ of length no more than $\varepsilon$ such that $a\rint b$ is a Yes interval for both $x$ and $y$.
+    Given oracles $x$ and $y$ and a positive rational $\varepsilon$, exactly one of the following holds:  $x<y$, $x>y$, or there exists an interval $a\rint b$ of length no more than $\varepsilon$ such that $a\rint b$ is a Yes interval for both $x$ and $y$.
 \end{proposition}
 
 \begin{proof}
@@ -698,7 +714,7 @@ It is also the case that given $x < y$, there exists a length such that all Yes 
 \begin{proof}
     Assume $e \xora f$ and $g \xora[y] h$ are such that $e\lte f < g \lte h$. Let $L = g-f$. Then $\delta = L/2$ will satisfy the requirements of the statement. 
 
-    Let $a \xora b$ with $|a\rint b| < \delta$ and $c \xora d$ with $|c\rint d| < \delta$. By Proposition \ref{os:yescontain}, $a\rint b$ is contained in $\halo{e\rint f}$ and $c\rint d$ is contained in $\halo{g\rint h}$. By choice of $\delta$, $\halo{e\rint f}$ and $\halo{g\rint h}$ are disjoint and thus obey the same inequality as $e\rint f$ and $g\rint h$. Their subintervals are therefore disjoint and related in the same fashion. Thus, $a\rint b < c\rint d$. 
+    Let $a \xora b$ with $|a\rint b| < \delta$ and $c \xora d$ with $|c\rint d| < \delta$. By Proposition \ref{os-yescontain}, $a\rint b$ is contained in $\halo{e\rint f}$ and $c\rint d$ is contained in $\halo{g\rint h}$. By choice of $\delta$, $\halo{e\rint f}$ and $\halo{g\rint h}$ are disjoint and thus obey the same inequality as $e\rint f$ and $g\rint h$. Their subintervals are therefore disjoint and related in the same fashion. Thus, $a\rint b < c\rint d$. 
 \end{proof}
 
 In this section, the focus has been on the Yes intervals. It is also the case that if two oracles have Yes intervals that are disjoint, then there are prophecies of each that are disjoint from each other.
@@ -745,7 +761,7 @@ Notationally, if $a \lte b$ is an $x$-Yes interval, then $a \leq x \leq b$ is un
 
 \subsection{Completeness}
 
-Completeness is a defining feature of real numbers. It can come in a variety of guises as wonderfully detailed by James Propp in \cite{propp}. While any of the equivalent versions could be used, this paper will go with the choice Propp suggests as a good foundation\rint  the Cut property. It is a simplified and symmetrized version of the least upper bound property. 
+Completeness is a defining feature of real numbers. It can come in a variety of guises as wonderfully detailed by James Propp in \cite{propp}. While any of the equivalent versions could be used, this paper will go with the choice Propp suggests as a good foundation:  the Cut property. It is a simplified and symmetrized version of the least upper bound property. 
 
 For this section, the letters $x$ and $y$ will represent relations. That is, $x$ is used instead of $\xrel$. For rational numbers, the symbols such as $q$ will also represent the relation version $\xrel[q]$. Thus, rational $q \in A$ means the relation $\xrel[q]$ is an element of the set of relations $A$. 
 
@@ -758,7 +774,7 @@ Note that if $a \leq b$ and $a-\delta \in B$, then $\halo{a\rint b}$ is entirely
 \begin{proof}
 This property can be established for the rational betweenness relations by using a single-valued procedure which returns intervals that intersect both $A$ and $B$. In particular, given $a \lte b$ and a length $\delta$, if $a-\delta \in A$ and $b+\delta \in B$, then $R(a\rint b, \delta) = \halo{a\rint b}$. Otherwise, the empty set is returned. The expansion beyond $a\rint b$ facilitates dealing with rational cut points as detailed by the Closed property. 
 
-To establish this is an oracle, the properties follow by\rint  
+To establish this is an oracle, the properties follow by:  
 \begin{enumerate}
     \item Range. By definition, a prophecy will be the interval $\halo{a\rint b}$ which contains $a\rint b$. 
     
@@ -843,7 +859,7 @@ Rather than prove that the above procedure defines an oracle, the path here is t
 
     Choose intervals $a\rint b \in R_x$ and $c\rint d \in R_y$  such that  $|a\rint b| < \delta'$ and $|c\rint d| < \delta''$. This is allowed by the Bisection Algorithm. Let $e\rint f = a\rint b \oplus c\rint d$.
      
-    Earlier, the interval length of a sum was computed\rint   $|a\rint b \oplus c\rint d| \leq |b-a| + |c-d| < \delta' + \delta'' < \delta$. Therefore, there are arbitrarily small summed prophecies in $\mathcal{A}$. By the lemma, any pair of summed prophecies in $\mathcal{A}$ intersect. Thus, it is a fonsi. 
+    Earlier, the interval length of a sum was computed:   $|a\rint b \oplus c\rint d| \leq |b-a| + |c-d| < \delta' + \delta'' < \delta$. Therefore, there are arbitrarily small summed prophecies in $\mathcal{A}$. By the lemma, any pair of summed prophecies in $\mathcal{A}$ intersect. Thus, it is a fonsi. 
     
 \end{proof}
 
@@ -863,7 +879,7 @@ The associated oracle with this fonsi will be denoted as $R_{x + y}$; it has the
 
     Choose intervals $a\rint b \in R_x$ and $c\rint d \in R_y$  such that  $|a\rint b| < \min(\delta', 1)$ and $|c\rint d| < \min(\delta'', 1)$. This is allowed by the Bisection Algorithm. As all prophecies of length no greater than $1$ are within the $1$-halo of a given prophecy, it is the case that $|a|, |b|, |c|, |d| < M$. 
      
-    Earlier, the interval length of a product interval was bounded\rint   $|a\rint b \otimes c\rint d| \leq M (|b-a| + |c-d|) < M (\delta' + \delta'') < \delta$. Therefore, there are arbitrarily small product prophecies in $\mathcal{P}$. By the lemma, any pair of product prophecies in $\mathcal{P}$ intersect. Thus, it is a fonsi. 
+    Earlier, the interval length of a product interval was bounded:   $|a\rint b \otimes c\rint d| \leq M (|b-a| + |c-d|) < M (\delta' + \delta'') < \delta$. Therefore, there are arbitrarily small product prophecies in $\mathcal{P}$. By the lemma, any pair of product prophecies in $\mathcal{P}$ intersect. Thus, it is a fonsi. 
     
 \end{proof}
 
@@ -930,7 +946,7 @@ Taken as a whole, all of the above translates into the following theorem.
 
 \section{Concluding Thoughts}
 
-The idea was quite simple\rint  a real number is best represented by the intervals that contain it. To do this, there are three distinct structures. 
+The idea was quite simple:  a real number is best represented by the intervals that contain it. To do this, there are three distinct structures. 
 
 The initial structure is that of the rational betweenness relations. While Dedekind cuts emphasize, in some sense, being away from the real number, the relations suggest enclosing the real number. The idea is that if one knows which rational intervals contain the real number, then it is reasonable to say that one knows the real number. Unfortunately, this is not achievable for all real numbers by finite processes. 
 
