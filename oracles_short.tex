@@ -107,25 +107,25 @@ Arithmetic is defined using interval arithmetic, as will be discussed later, but
 
 \section{Oracles}
 
-An \textbf{oracle} is a procedure $R$, satisfying the properties listed below, which should be able to handle any input of the form of a rational interval along with a positive rational number. The output, which is not necessarily exclusively defined by the input, should be an ordered pair where the first entry is one of three values:  $-1, 0 , 1$ while the second entry is either a rational interval or the empty set. The intention is that $-1$ will indicate that the real number is not in the input interval while both $0$ and $1$ indicate it could be while $1$ additionally indicates that the returned interval is small enough in relation to the given positive rational number and given interval. 
+An \textbf{oracle} is a procedure $R$, satisfying the properties listed below, whose core input is a rational interval along with a positive rational number. The core output, which is not necessarily exclusively defined by the core input, should be an ordered pair where the first entry is one of three values:  $-1, 0 , 1$ while the second entry is either a rational interval or the empty set. The intention is that $-1$ will indicate that the real number is not in the input interval while both $0$ and $1$ indicate it could be while $1$ additionally indicates that the returned interval is small enough in relation to the given positive rational number and given interval. 
 
 %To make it into a function, one could view it as $R \mathbin{\col} \mathbb{I} \times \mathbb{Q}^+ \to \mathcal{P}( \{-1, 0, 1\} \times \mathbb{I})$ where $\mathcal{P}$ is the power set operator. This would suggest, however, computing the full output of $R$ for a given input which is not something generally needed nor desired. 
 
-The idea for the returned intervals is that they are considered to contain the real number. Any interval $c\rint d$ that appears as the second entry of a pair for an input will be said to be in the range of $R$, denoted as $c\rint d \in R$. The whimsical language of calling the nonempty interval $c\rint d \in R$ a \textbf{prophecy} of the oracle may also be used.
+The idea for the returned intervals is that they are considered to contain the real number. Any interval $c\rint d$ that appears as the second entry of a core output is a \textbf{prophecy} of the oracle and it will be denoted as $c\rint d \in R$. 
 
-Writing $R(a\rint b, \delta)=(m ,A)$ implies that one of the possible outputs for that input is $(m, A)$. The expression $R(a\rint b, \delta) = c\rint d$ will be shorthand to imply that one of the outputs for that pair of inputs is $(1, c\rint d$).  The expression $R(a \rint b, \delta) = m$ implies that there is an output pair for that input such that $m$ is the first entry of the pair. The expression $R(a\rint b, \delta) \neq m$ means that none of the outputs for that input pair has $m$ as its first entry.  
+Writing $R(a\rint b, \delta)=(k ,A)$ implies that one of the possible core outputs for that core input is $(k, A)$. The expression $R(a\rint b, \delta) = c\rint d$ will be shorthand to imply that one of the outputs for that pair of inputs is $(1, c\rint d$).  The expression $R(a \rint b, \delta) = k$ implies that there is an output pair for that input such that $k$ is the first entry of the pair. The expression $R(a\rint b, \delta) \neq k$ means that none of the outputs for that input pair has $k$ as its first entry.  
 
-The notation $\mathbb{I}_R$ represents the set of all intervals that contain a prophecy, that is, there is a subinterval in the range of $R$. 
+The notation $\mathbb{I}_R$ represents the set of all intervals that contain a prophecy. 
 
 To be an oracle, the procedure must satisfy six properties.  The properties are
 \begin{enumerate}
-    \item Range. If $R(a\rint b, \delta) = (n, c\rint d)$, then one of the following must hold
+    \item Range. If $R(a\rint b, \delta) = (k, c\rint d)$, then one of the following must hold
     \begin{itemize}
-        \item $n=1$. $c\rint d$ is a subinterval of $\halo{a\rint b}$ and intersects $a\rint b$. 
-        \item $n=0$. $c\rint d$ is not contained in $\halo{a\rint b}$ but does intersect $a \rint b$.
-        \item $n=-1$. $c\rint d$ is disjoint from $a\rint b$.
+        \item $k=1$. $c\rint d$ is a subinterval of $\halo{a\rint b}$ and intersects $a\rint b$. 
+        \item $k=0$. $c\rint d$ is not contained in $\halo{a\rint b}$ but does intersect $a \rint b$.
+        \item $k=-1$. $c\rint d$ is disjoint from $a\rint b$.
     \end{itemize} 
-    If $R(a \rint b, \delta) = (n, \emptyset)$, then $n = -1$. 
+    If $R(a \rint b, \delta) = (n, \emptyset)$, then $k = -1$. Furthermore, for $a:b$ and $\delta$, there exists at least one output pair such that either $k=1$ or $k=-1$.
     \item Existence. There exists $a \rint b$ and $\delta$ such that $R(a \rint b, \delta)$ has an output whose second entry is a rational interval. That is, there exists $c\rint d \in R$. 
     \item Separation. 
     If $a\rint b \in R$, then for a given $m$ contained in $a\rint b$ and given a $\delta$, there exists an $\halo{m}$ compatible interval $e\rint f$ such that exactly one of the following holds true:   ${}_\delta |a\rint e \in \mathbb{I}_R$, $e\rint f \in \mathbb{I}_R$,  or $f\rint b|_\delta \in \mathbb{I}_R$.
