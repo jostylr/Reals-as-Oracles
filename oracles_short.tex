@@ -68,7 +68,7 @@ An \textbf{$a$-rooted} interval is an interval who has an endpoint that is $a$, 
 For rational $\delta > 0$, the notation $\halo{a}$ represents the \textbf{$\delta$-halo of $a$} which is defined as $(a -\delta \rint  a+ \delta)$. An interval is $\halo{a}$ \textbf{compatible }if it is strictly contained in $\halo{a}$ and is an $a$-neighborly interval. That is, the interval $c \lt d$ is $\halo{a}$ compatible if $a- \delta < c < a < d < a+ \delta$. The halo notation can be extended to any interval. The notation $\halo{a\rint b}$ will refer to $\halo{a} \cup a\rint b \cup b_\delta$. If $a \leq b$, this is the same as the interval $(a-\delta\rint b+\delta)$. The notation $[a:b]_{\delta}$ will be the \textbf{inclusive $\delta$-halo} of $a:b$ and it includes the $\delta$ shifted endpoints which for $a \lt b$ would be any rational $q$ that satisfies $a - \delta \leq q \leq b+ \delta$. 
 
 
-The notation $b\rint a|_\delta$ will indicate that the interval goes from $b$ to the farthest endpoint of $\halo{a}$ from $b$. If, for example, $b < a$, then $b\rint a|_\delta$ is the same as $b\rint a+\delta$ while ${}_\delta|b\rint a$ would be the interval $b-\delta\rint a$. Also, ${}_\delta|a \rint  b$ is the same as $b\rint a|_\delta$. This notation makes the most sense for $b$ outside of $\halo{a}$. The intent of this notation is to avoid having to specify the inequality relation of $a$ and $b$ while still being able to expand outside of $a\rint b$ in the specified direction. The potential notation of ${}_\delta | a\rint b|_\delta$ would have the same meaning as $[a\rint b]_\delta$; this paper will generally use the halo notation. 
+The notation $b\rint a|_\delta$ will indicate that the interval goes from $b$ to the farthest endpoint of $\halo{a}$ from $b$. If, for example, $b < a$, then $b\rint a|_\delta$ is the same as $b\rint a+\delta$ while ${}_\delta|b\rint a$ would be the interval $b-\delta\rint a$. Also, ${}_\delta|a \rint  b$ is the same as $b\rint a|_\delta$. This notation makes the most sense for $b$ outside of $\halo{a}$. The intent of this notation is to avoid having to specify the inequality relation of $a$ and $b$ while still being able to expand outside of $a\rint b$ in the specified direction. The potential notation of ${}_\delta | a\rint b|_\delta$ would have the same meaning as $[a\rint b]_\delta$; this paper will generally use the halo notation. Outside of an interval, a similar notation will be used to indicate a stand-alone number that is a $\delta$-step from one number to another. For example, $a|_{\delta,c}$ would represent the number $a + \frac{c-a}{|c-a|}\delta$. For smooth reading, it might also be written as ${}_{c, \delta}|a$ in case $c \rint a$ was used earlier. 
 
 Given $m$ in $a \rint  b$, a \textbf{subwidth} $\delta$ shall mean a positive rational number such that $\halo{m}$ is strictly contained in $a\rint b$. For a subwidth to exist, it must be case that $m$ is strictly contained in $a\rint b$. A notation that can express this is $a \betneq \halo{m} \betneq b$ which is asserting that if $p \in \halo{m}$, then $p \in a\rint b$, $p \neq a$ and $p \neq b$. 
 
@@ -133,7 +133,7 @@ To be an oracle, the procedure must satisfy the following properties.  The prope
     \item Separation. If $a\rint b$ is a prophecy of $R$, $m$ is contained in $a\rint b$, and $\delta > 0$, then at least one of the following holds true: $R(a \rint m, \delta) =1$, $R(m \rint m, \delta) = 1$, or $R(m \rint b, \delta) = 1$.
    \item Disjointness. 
    If $c\rint d$ is a prophecy of $R$ and $a\rint b$ is disjoint from $c\rint d$, then there exists a $\delta$ such that $R(a\rint b, \delta) = 0$.
-    \item Consistency. If $a\rint b$ intersects a prophecy of $R$ that is contained in $\halo{a\rint b}$, then $R(a\rint b, \delta) = 1$. If $a\rint b$ contains a prophecy of $R$, then $R(a\rint b) \neq 0$.
+    \item Consistency. If $a\rint b$ contains a prophecy of $R$, then $R(a\rint b) \neq 0$.
     \item Closed. 
     If for each $\delta >0$, $\halo{a}$ contains a prophecy, then, for all $b$, $R(a\rint b) \neq 0$. Such an $a$ is called the \textbf{root} of the oracle. 
 \end{enumerate}
@@ -155,7 +155,7 @@ Here is a bit of explanation for the properties:
     \item Range. The idea of the oracle is that its first entry indicates success ($1$) or failure ($0$). The outputs with the first entry being $1$ are called Yes answers while if it is $0$, then it is a No answer. The assumption is that there is always a result, but a $1$ is less definitive than $0$. As will be shown, Separation allows for the computation of a prophecy smaller than $\delta$. Such an interval is either going to be disjoint from $a \rint b$ or contained in $\halo{a\rint b}$. Thus, the assertion that there is always a result is in line with the computational capabilities embedded in the Separation assumption. 
 
     Any procedure satisfying the Range property will be called a Ranged procedure. 
-    
+
 
     \item Separation. This property is inspired by the Intermediate Value Theorem. The inspiration is that a Yes interval should be able to be continually narrowed down by selecting a rational number $m$ inside of it and then testing which of the two created intervals is a Yes interval and the other one would then be a No interval. Because of the possibility of not being able to decide the issue at $m$, there is a $\delta$-halo in which to examine it. 
 
@@ -166,7 +166,7 @@ Here is a bit of explanation for the properties:
  
     \item Disjointness. Disjointness ensures that a single real number is being discussed. Without an assertion of negativity, one could have multiple disjoint regions.  As an example, imagine a procedure which returns small intervals around 2 and small intervals around 5. Done correctly, this will be able to satisfy the other properties, including the Separation property because that property only applies to prophecies. Consistency does not help as that is about intervals containing prophecies, but does not demand that there is a prophecy containing other prophecies.  Since rational betweenness relations do not make this distinction between prophecies and Yes intervals, it does not need this postulated as it can be deduced via Consistency and the exclusionary aspect of Separation. 
     
-    \item Consistency. Consistency asserts that the oracle never contradicts itself. Since a prophecy is supposed to contain the real number, if another interval contains it, then that containing interval should also contain the real number and ought to be a Yes interval. The first statement is expressing that if it is possible to return a Yes, then that ought to happen. Note that $R(a\rint b, \delta)=1$ just gives the existence of one core output that is saying Yes. There can be other core outputs that say No. The Yes core output required by Consistency need not contain the prophecy triggering the rule. The second statement says that if an interval contains a prophecy then every core output, regardless of $\delta$, is a Yes answer. 
+    \item Consistency. Consistency asserts that the oracle never contradicts itself. Since a prophecy is supposed to contain the real number, if another interval contains it, then that containing interval should also contain the real number and ought to be a Yes interval. This property says that if an interval contains a prophecy then every core output, regardless of $\delta$, is a Yes answer. 
     
     \item Closed. This ensures that if there is a narrowing in to a single rational number, then the intervals with that rational number as endpoint are Yes intervals. It does not require that the interval in question be a prophecy nor contain one. The assumption that $\halo{a}$ is in $\mathbb{I}_R$ for all $\delta >0$ implies that $R$ can always return a subinterval of $\halo{a}$ for $R(a\rint b, \delta)$. Disjointness forces $a$ to be in those prophecies in this case. 
 
@@ -225,13 +225,23 @@ Some of the following conclusions use the assumption that given two rational int
 
 From now on, $R(a:b)=1$ will be freely used where $R(a:b) \neq 0$ was used before. 
 
+
 Given any interval $a\rint b$ and oracle $R$, there always exists a Yes interval $c\rint d$ that intersects $a\rint b$. This follows from taking a prophecy $e\rint f$, which exists by Existence, and making a unionized interval, namely $\min(a,b,e,f)\rint \max(a,b,e,f)$ and calling that $c\rint d$. The interval $c\rint d$ contains a prophecy and thus $R(c\rint d) = 1$, making it a Yes interval. It contains $a\rint b$ and thus intersects it. 
 
 It is also the case that if $R(a\rint b, \delta) = (0, c\rint d)$ for some prophecy $c\rint d$, then there exists a positive rational $\varepsilon$ such that for any $\delta' < \varepsilon$, $R(a\rint b, \delta') = 0$. To see this, start with $c\rint d$ being disjoint from $a\rint b$ by the Ranged property. Then let $\varepsilon$ be less than the positive distance between $c\rint d$ and $a\rint b$. If $\delta' < \varepsilon$, then by Ranged, $R(a\rint b, \delta') = (k, e\rint f)$. The goal would be to show $k=0$. If $k=1$, then $e\rint f$ is a prophecy that intersects $a\rint b$ and is in $\halo[\delta']{a\rint b}$. Since that halo is disjoint from $c\rint d$ due to the choice of $\varepsilon$, $e\rint f$ and $c\rint d$ would be two disjoint prophecies which cannot happen as shown above. Thus, $e\rint f$ cannot intersect $a\rint b$ and $k=0$.
 
 If an interval $a\rint b$ has the property that $R(a\rint b, \delta) = (0, c\rint d)$ for some $\delta$ and some core output, then $a\rint b$ cannot contain a prophecy and $a\rint b \notin \mathbb{I}_R$. 
 
-There is also another version of Separation which is very useful. 
+\begin{proposition}
+    Let $R$ be a Ranged procedure satisfying Disjointness and Consistency. If $a:b:c$ and both $a:b$ and $b:c$ are prophecies, then $R(b:b)=1$.
+\end{proposition}
+
+\begin{proof}
+   Given any prophecy $e:f$, by Disjointness, it must intersect both $a:b$ and $b:c$. Let $m$ be an element in common to both $e:f$ and $a:b$. Let $n$ be an element in common to both $e:f$ and $b:c$. Thus, by potentially relabeling, the only possibility is $\{a, e\}:m:b:n:\{f, c\}$ demonstrating that $b$ is in $e:f$ and there exists no prophecy that is disjoint from $b:b$. Since the Ranged procedure always produces a prophecy given a $\delta$ and that prophecy cannot be disjoint, it must then be the case that the answer is a Yes answer. Hence, $R(b:b)=1$. 
+\end{proof}
+
+
+There is also another version of Separation which is very useful. The proof the equivalence is long, tedious, and not very illuminating. 
 
 \begin{proposition}
     Given a Ranged procedure satisfying Disjointness and Consistency, then the following statements are equivalent: 
@@ -241,28 +251,53 @@ There is also another version of Separation which is very useful.
     \end{enumerate}
 \end{proposition}
 
+To be clear, the equivalence is not per $\delta$, but rather each statement holding for all $\delta$. The reason for pursuing this equivalence is that Procedure-Separation is easy to establish while Yes-Separation is easy to use. 
+
+To save space on the proof, if any of the intervals strictly contains a prophecy, then the other two do not contain a prophecy per Disjointness. This will generally not be pointed out to avoid belaboring the point. 
+
 \begin{proof}
     For both, let $a \rint b$ be a prophecy, $m$ be contained in it, and $\delta >0 $ be given.
 
-    Apply Yes-Separation with $\delta$. In the case of $e\rint f \in \mathbb{I}_R$, let $c:d$ be a prophecy contained in $e:f$ whose existence is what being in $\mathbb{I}_R$ implies. If $c:m:d$, then  $R(m\rint m, \delta) = 1$ by Consistency as $c:d$ intersects $m:m$ and is contained in $\halo{m}$. If $m$ is not between $c$ and $d$, then by relabeling, we can assume $a:e:c:d:m$ as the other case. Consistency then implies that $R(a:m) = 1$ as $a:m$ would contain a prophecy. 
+    The situation of main interest is when $\halo{m}$ is strictly contained in $a:b$. This implies $m$ is not one of the endpoints and $\delta$ is smaller than $\min(|a-m|, |b-m|)$. First assume that $a \betneq m \betneq b$ which also assumes $a \neq b$. Let $\delta'$ be any number less than $\min(|a-m|, |b-m|, \delta)$. 
     
+    Assume Yes-Separation holds and apply it with $\delta'$. Then there are two cases, after relabeling: 
+
+    \begin{enumerate}
+        \item Prophecy $c:d \subset e\rint f$ such that $a\betneq \fuzbleft[\delta']{m} \betneq e : c : \{m, d\} \betneq f : \fuzbright[\delta']{m} \betneq b$. If $c:d:m$, then $c:d$ is contained in $a:m$ and $R(a:m)=1$ by Consistency. If $c:m:d$, then by Ranged, either $R(m:m, \delta) = 1$ or $R(m:m, \delta) = (0, u:v)$ with $u:v$ disjoint from $m:m$. The first case is a desired result. The second case is very much a possibility. Being prophecies, $u:v$ and $c:d$ intersect. By relabeling to have $u:v$ on the same side of $m$ as $a$, the possibilities are 1) $a:u:c:v:m:d$ or  2) $u \betneq a:c:v \betneq m:d$. Item 1 leads to $R(a:m) = 1$ by Consistency. Item 2 requires using Yes Separation for the interval $u:v$. Let $\delta'' = \min(|{}_{\delta'}\wall m:c|, |v:m|)/3 $. Apply Yes Separation in $u:v$ with ${}_{a,\delta''}|c$ as the separation point and $\delta''$ as the fuzziness coming up with an interval $e':f'$ satisfying the Yes Separation. If either $e':f'$ or $f':v|_{\delta''}$ are the ones containing a prophecy, say $c':d'$, then $c':d'$ is strictly contained in $a:m$ and $R(a:m) = 1$. In the case of ${}_{\delta''}|u:e'$, this is an interval disjoint from the prophecy $c:d$ and thus it cannot have a prophecy in it.
+        \item Prophecy $c:d \subset {}_\delta'|a:e$. If $a:c:d:e$, then $a:m$ contains the prophecy $c:d$ and hence $R(a:m)=1$. Since $a:b$ is a prophecy, it must intersect $c:d$ so that the other case, after relabeling, is ${}_\delta'|a :c  \betneq a:d:e \betneq m$. As before, the problematic case is if $R(a:m, \delta) = (0, u:v)$ for a prophecy $u:v$ disjoint from $a:m$. Since $a:b$ is a prophecy as well, $u:v$ must intersect $a:b$. By $u:v$ intersecting $a:b$ but not $a:m$, the one possibility is $c:a:d:m \betneq u: \{v, b\}$. Clearly, $u:v$ does not intersect $c:d$ and this contradiction leads to concluding $R(a:m, \delta) = 1$. 
+    \end{enumerate}
+
+
+    This establishes that Yes-Separation implies Procedure-Separation when $m$ is strictly contained in the prophecy $a:b$.
+
+    Assuming Yes-Separation holds for $\delta' < \delta$ also implies it holds for $\delta$. Indeed, let $e':f'$ be the $\delta'$ interval given by Yes-Separation. Then $e':f'$ is both $\halo{m}$ compatible and $\halo[\delta']{m}$ compatible. Since ${}_{\delta}|a : {}_{\delta'}|a : a : e':m: f':b:b|_{\delta'} : b|_{\delta}$, it is the case that the prophecy for $\delta'$ will satisfy the needed prophecy properties for $\delta $. Thus, in what follows, assume that $\delta$ is such that $\halo{m}$ is strictly contained in $a:b$. 
+
+    Assume Procedure-Separation holds and apply it for $m$ and $\delta$. The cases to consider are, after relabeling:
     
-    If $e \rint f \notin \mathbb{I}_R$, then relabeling allows for the remaining case to be that ${}_\delta|a:e$ contains a prophecy $c:d$. If $a:c:d:e$, then $a:m$ contains the prophecy $c:d$ and hence $R(a:m)=1$. Since $a:b$ is a prophecy, it must intersect $c:d$ so that the other case is ${}_\delta|a :c :a:d:e$. The other part of Consistency yields $R(a:m, \delta)=1$ as $a:m$ intersects a prophecy that is contained in $\halo{a:m}$.
-
-    This establishes that Yes-Separation implies Procedure-Separation using Consistency.
-
-    If, by relabeling, $b=m$, then Yes-Separation is satisfied automatically by taking a $\halo[\delta/2]{a:b}$ compatible interval $e:f$ and as $a:b$ is a prophecy, no interval that does not intersect $a:b$ can be a prophecy. Thus, both    ${}_\delta |a\rint e \notin \mathbb{I}_R$ and $f\rint b|_\delta \notin \mathbb{I}_R$ hold true.  
-
-    In the case of $m$ being strictly contained in $a:b$, apply Procedure-Separation using $\delta' = \min(|a-m|, |b-m|, \delta)/2$.  If $R(m \rint m, \delta') = (1, c \rint d)$, then $c \rint d$ is a prophecy contained in $\halo[\delta']{m}$ and contains $m$. This would then imply $e=m-2\delta/3$ and $f=m+2\delta/3$ would satisfy being a $\halo{m}$ compatible interval such that $e:f \in \mathbb{I}_R$. Any interval disjoint from $c:d$ could not be a prophecy by Disjointness. This implies that any interval in $\mathbb{I}_R$ must overlap $c:d$ which is strictly contained in $e:f$. Thus, both    ${}_\delta |a\rint e \notin \mathbb{I}_R$ and $f\rint b|_\delta \notin \mathbb{I}_R$ hold true. 
+    \begin{enumerate}
+    \item $R(m \rint m, \delta) = (1, c \rint d)$. From Ranged, $c \rint d$ is a prophecy strictly contained in $\halo{m}$ containing $m$. The strict containment allows for the choice of an interval $e:f$ containing it that satisfies the requirements. 
     
-    The other case, by relabeling, is that $R(a:m, \delta') = (1, c:d)$. This prophecy must intersect $a:m$ and be contained in $\halo[\delta']{a:m}$. If $\{a,c\}:d\betneq m$, then taking $e$ to be the midpoint between $d$ and $m$ and $f$ being $m|_{\delta'}$, then ${}_\delta|a:e$ will contain a prophecy and, by Disjointness, neither $e:f$ nor $f:b|_{\delta}$ will contain a prophecy. 
+    \item $R(m \rint m, \delta) = (0, c \rint d)$, $c \in \halo{a:m}$ where  $\{a, c\}: d \betneq m$. Relabeling in this case is having $d$ be closest to $m$; prophecies intersecting and $c:d$ being disjoint from $m:m$ resolves the rest. Choosing $e$ between $d$ and $m$ allows for the choice of $e:f$ satisfying the requirements with the prophecy being contained in ${}_{\delta}|a:e$.
 
-    Another easy case is that of $a:{}_{\delta'}|m:c:\{d,m\}:m|_{\delta'}$. In that case $e={}_{\delta'}|m$ and $f=m|_{\delta'}$ will have the property of $e:f\in \mathbb{I}_R$ but both    ${}_\delta |a\rint e \notin \mathbb{I}_R$ and $f\rint b|_\delta \notin \mathbb{I}_R$ hold true.  
+    \item $R(m \rint m, \delta) = (0, c \rint d)$, $c \notin \halo{a:m}$ where  $c \betneq {}_{\delta}|a : a :  d \betneq m$. Choose $\delta' = \min( |d:m|, |c:\fuzbleft[c, \delta]{a} |,  \delta)/5$ and $n = \fuzbleft[c, 3 \delta']{a}$. Apply Procedure-Separation to $c:d$ with separation point $n$ and fuzziness $\delta'$. Procedure-Separation says that one of $R(c:n, \delta') = 1$, $R(n:n, \delta') = 1$, or $R(n:d, \delta')=1$. If $R(c:n, \delta') = (1, c':d')$, then $c':d'$ is disjoint from the prophecy $a:b$. Thus, that cannot be so. If either $R(n:n, \delta') = (1, c':d')$ or $R(n:d, \delta') = (1, c':d')$, then the prophecy $c':d'$ is contained in  $\fuzbleft{a} :  e$ by choice of $\delta'$ and a suitable $e$ strictly in $\fuzbright[m,\delta']{d} :m$, as was to be shown. 
+    
+    \end{enumerate} 
+    
+    This establishes the equivalence of the two propositions when $m$ is strictly contained in the prophecy $a:b$. If $m$ is an endpoint, there are two distinct cases to consider. 
 
-    The other case is that ${a,c}:m:d$. Since $c$ can be far away from $m$, the trick is to apply Procedure-Separation again, but to the prophecy $c:d$ with Separation point $n$ which is either the average of $c$ and $m$ or it is ${}_{\delta'}|m$, whichever is close to $m$.
+    The first case is $a=b$ implying $a=m=b$. Procedure-Separation clearly holds as $R(a:m)=R(m:m)=R(m:b)=R(a:b) =1$ by Consistency. Yes-Separation holds by taking $e:f$ to be any $\halo{m}$ compatible interval and noting that it contains the prophecy $m:m$. The other two intervals, not intersecting $m:m$, do not contain prophecies. 
+
+    The second case is $a \neq b$ implying, after relabeling, that $m=b$. This immediately gives $R(a:m)=1$ by Consistency since it contains the prophecy $a:b=a:m$. Thus, Procedure-Separation simply holds in this case. 
+
+    To establish Yes-Separation, consider $R(b:b, \delta/2)$. If $R(b:b, \delta/2) = (1, c:d)$ then $c:d$ is contained in $\halo[\delta/2]{b}$ and the conditions of Yes-Separation can be established.  If $R(b:b, \delta/2) = (0,c:d)$ then $c:d$ is a prophecy that does not include $b$. Since $a:b$ is a prophecy, $c:d$ must intersect $a:b$. Thus, by relabeling, it can be taken to be $\{a,c\}:d \betneq b$.  Let $e:f$ be a $\halo{m}$ compatible interval that excludes $c:d$. This is possible as $d$ is away from $b$ towards $c$ and $a$.  The claim to establish is that $\fuzbleft{a} : e$ strictly contains a prophecy. It is already the case that $d$ is in that interval. If $c$ is as well, then the claim is established. 
+
+    Thus, assume $c \betneq \fuzbleft{a} : a$. 
     
-    Let $\delta'' = \min(\delta', |m-n|)/2$.  Then Procedure-Separation says that one of the following must hold:  1) $R(c:n,\delta'') = (1:c':d')$, 2) $R(n:n, \delta'') = (1, c':d')$, or 3) $R(n:d, \delta'') = (1:c':d')$. In case 1, $c':d'$ is strictly contained within ${}_{\delta'}|a:m$. This allows for using $\halo[\delta'']{m}$, which is disjoint from $\halo[\delta'']{a:n}$, as $e:f$ with ${}_{\delta}|a:e$ being the interval with the prophecy and the other two possible intervals of interest not containing a prophecy due to Disjointness. In case 2, $\delta''$ has been chosen so that $\halo[\delta'']{n}$ is strictly contained in ${}_{\delta'}|a:m$ and the same considerations as before lead to the same choice of $e:f$ with the conclusion that the only interval containing a prophecy of the three intervals under consideration is ${}_{\delta}|a:e$. For case 3, the fact that $n$ and $d$ are within $\halo[\delta']{m}$ implies that $\halo[\delta'']{n:d}$, and by extension, $c':d'$, is within $\halo[\delta]{m}$. This implies that there exists $e,f$ such that ${}_{\delta}|m:e:\{c', m, d'\}:f:m|_\delta$. This implies $e:f$ is compatible with $m$ and $\delta$, strictly contains a prophecy, and the other two intervals of interest cannot contain prophecy by Disjointness. 
-    
+
+    If $a=d$, then since $c:a$ and $a:b$ are prophecies with $c:a:b$, it is the case that $R(a:a)=1$. In particular, if $\delta' = \min(\delta/2, |a-b|/2)$, then $R(a:a, \delta') = (1,c':d')$ with $c':d'$ strictly contained in $\halo[\delta']{a}$. Thus, there exists an $\halo{m}$ compatible interval $e:f$ such that ${}_{\delta}|a:e$ contains a prophecy and both $e:f$ and $f:b|_{\delta}$ do not. 
+
+    The final case to consider for an endpoint $m$ is that of $c \betneq a \betneq d$. Then use the Procedure-Separation to Yes-Separation above with $\delta' = \min(\delta, |c:a|, |a:d|. |d:e|)/2$  and $a$ as the Separation point. The result is an $\halo[\delta']{a}$ compatible interval $e':f$ with exactly one of ${}_{\delta'}|c:e'$, $e':f'$, or $f':d|_{\delta'}$ having a prophecy. Any interval in ${}_{\delta'}|c:e'$ is disjoint from $a:b$ and thus cannot be a prophecy. The other two interval are both within ${}_{\delta}|a:e$ and thus Yes Separation is established.
+
 \end{proof}
 
 These two properties will be used interchangeably as the Separation property. The Procedure-Separation version is easier to establish while the Yes-Separation property is generally more succinct in usage. 
@@ -277,13 +312,13 @@ A few examples can be helpful in understanding oracles. Rational numbers as orac
 Given a rational number $q$, the rational betweenness relation representing $q$ is defined by $a \xrel[q] b$ exactly when $a \rint q \rint b$. This condition is straightforward to check given explicit $a, q, b$. It is also quick to verify the rational betweenness relation properties. This is the only rational betweenness relation that represents $q$. The oracles, however, have a number of different options for representing $q$. Below are some of the more illuminating ones to ponder. 
 
 \begin{itemize}
-    \item Singular Oracle of $q$. The procedure $R$ is defined as $R(a \rint b,\delta) = (1, q \rint q)$ if $a \rint q \rint b$ and $(0, q \rint q)$ otherwise. All of the properties are easily verified. The key is that if $c \rint d \in \mathbb{I}_R$, then $q \rint q$, as the only prophecy, is in that interval which means $R(c \rint d, \delta) = (1, q \rint q)$. For the closed property, the check that has to be done is that if $\halo{a} \in \mathbb{I}_R$ for every $\delta$, then $a = q$. By considering $a \neq q$ and letting $\delta < |a-q|$, it is the case that $\halo{a} \notin \mathbb{I}_R$ as that interval does not contain $q$. The only exception is $a = q$. While there is a single prophecy, the Yes intervals are exactly the intervals that contain $q$. 
+    \item Singular Oracle of $q$. The procedure $R$ is defined as $R(a \rint b,\delta) = (1, q \rint q)$ if $a \rint q \rint b$ and $(0, q \rint q)$ otherwise. All of the properties are easily verified. The key is that if $c \rint d \in \mathbb{I}_R$, then $q \rint q$, as the only prophecy, is in that interval which means $R(c \rint d, \delta) = (1, q \rint q)$. For the closed property, the check that has to be done is that if $\halo{a} \in \mathbb{I}_R$ for every $\delta$, then $a = q$. By considering $a \neq q$ and letting $\delta < |a-q|$, it is the case that $\halo{a} \notin \mathbb{I}_R$ as that interval does not contain $q$. The only exception is $a = q$ and $R(q:a) =(1, q:q)$ for all $a$. While there is a single prophecy, the Yes intervals are exactly the intervals that contain $q$. 
 
-    \item Reflexive Oracle of $q$. The procedure $R$ is defined as $R(a\rint b, \delta) = (1, a\rint b)$ if $a\rint q \rint b$ and $(0, q \rint q)$ otherwise. The prophecies are exactly those intervals that contain $q$ and they coincide with the Yes intervals. Again, the properties of an oracle are easily verified, amounting to a translation of whether $q$ is an interval.
+    \item Reflexive Oracle of $q$. The procedure $R$ is defined as $R(a\rint b, \delta) = (1, a\rint b)$ if $a\rint q \rint b$ and $(0, q \rint q)$ otherwise. The prophecies are exactly those intervals that contain $q$ and they coincide with the Yes intervals. Again, the properties of an oracle are easily verified, amounting to a translation of whether $q$ is in  an interval.
     
     \item Fuzzy Oracle of $q$. The procedure $R$ is defined as $R(a\rint b, 2\delta) = (1, \halo{q})$ if $\halo{q}$ intersects $a\rint b$ and returns $(0, \halo{q})$ otherwise. The length of $\halo{q}$ is $2\delta$ and thus if any part of it intersects $a \rint b$, then it is contained in $\halo[2\delta]{a \rint b}$. The prophecies are the intervals $\halo{q}$; this does not include any intervals rooted at $q$ though they all contain $q$ and are centered on $q$. If $a \rint b$ contains $q$, then $\halo{a \rint b}$ contains $\halo{q}$. Thus, if $q \in a \rint b$, $R(a \rint b, 2\delta) = (1, \halo{q})$ for all $\delta$. These are the Yes intervals. If $a \rint b$ does not contain $q$, then take $\delta$ such that $0 < \delta < |q; a \rint b|$. Then $\halo{q}$ will be disjoint from $a \rint b$ and $R(a \rint b, 2\delta) = (0, \halo{q})$. Note that $q \in \halo[2\delta]{a \rint b}$ is quite possible and yet the return is a $0$. This is perfectly fine as the goal is to determine whether $q \in a \rint b$ which it would not be if the return is 0. The oracle properties follow from the Yes and No interval characterization of whether the interval contains $q$. 
     
-    \item Fuzzy Random Oracle of $q$. This is an oracle with an extra input of a function $f$ that, when given a positive rational number $\delta$, it generates a random rational $r$ such that $0 < r < \delta$. The procedure $R$ is then defined as $R(a\rint b, 2\delta, f) = (1, \halo[f(\delta)]{q})$ if $\halo{q}$ intersects $a\rint b$ and returns $(0, \halo[f(\delta)]{q})$ otherwise. The considerations of the Fuzzy Oracle of $q$ apply here equally well. This allows for the potential of both $1$ and $0$ being returned. 
+    \item Fuzzy Random Oracle of $q$. This is an oracle with an extra input of a function $f$ that, when given a positive rational number $\delta$, it generates a random rational $r$ such that $0 < r < \delta$. The procedure $R$ is then defined as $R(a\rint b, 2\delta, f) = (1, \halo[f(\delta)]{q})$ if $\halo{f(q)}$ intersects $a\rint b$ and returns $(0, \halo[f(\delta)]{q})$ otherwise. The considerations of the Fuzzy Oracle of $q$ apply here equally well. This allows for the potential of both $1$ and $0$ being returned. 
     
     \item Bisection Oracle of $q$. The procedure $R$ includes an extra input of $r_0$ and an extra output of $r_i$. Let $a \rint b$ and $\delta$ be given. The procedure then does an iterative procedure.  At each step, $R$ checks $q \rint r_i$ in relation to $a \rint b$ and $\delta$. If $q \rint r_i$ intersects $a \rint b$ and is contained in $\halo{a \rint b}$, then $R(a \rint b, \delta, r_0) = (1, q \rint r_i, r_i)$. If $q \rint r_i$ and $a \rint b$ are disjoint, then $R$ returns $(0, q \rint r_i, r_i)$. Otherwise, $R$ computes $r_{i+1} = \frac{q + r_i}{2}$ and then runs the check again. This will have a definite answer when $|q \rint r_i| < \delta$ which will happen after enough bisections. The prophecies are the rooted intervals of $q$, including $q \rint q$ which would occur only if $r_0 = q$ is chosen. Note that any interval in $\mathbb{I}_R$ contains $q \rint r$ for some $r$ and thus contains $q$. For the Closed property, the only rational to which all its halos contain a prophecy is $q$ and all of the intervals of the form $q \rint a$ do return a value of 1 as required. All of the properties are easily verified and the Yes intervals are again exactly those intervals that contain $q$.
 \end{itemize}
@@ -533,19 +568,17 @@ Fonsis cover a range of examples. They can be thought of as the set of prophecie
 \end{proposition}
 
 \begin{proof}
-    Let $a\rint b$ and rational $\delta>0$ be given. Choose an interval $c\rint d$ from the fonsi such that $|c\rint d| < \delta$. 
+    Let $a\rint b$ and rational $\delta>0$ be given. Choose an interval $c\rint d$ from the fonsi such that $|c\rint d| < \delta$. This will be the interval that the oracle responds with. 
 
-    The procedure $R$ will have it that if $c\rint d$ intersects $a\rint b$, then $R(a\rint b, \delta) = c\rint d$; otherwise it is equal to the empty set. Given the that length is less than $\delta$, the intersection with $a\rint b$ forces $c\rint d$ to be contained in $\halo{a\rint b}$.
+    The procedure $R$ will have it that if $c\rint d$ intersects $a\rint b$, then $R(a\rint b, \delta) = (1, c\rint d)$; otherwise it returns $(0, c \rint d)$.  Given the that length is less than $\delta$, if $c\rint d$ intersects $a\rint b$, then  $c\rint d$ is contained in $\halo{a\rint b}$.
 
-    Whenever it is required to show that $R(a\rint b, \delta) \neq \emptyset$, it will be necessary to demonstrate that every element of the fonsi whose length is less than $\delta$ intersects $a\rint b$. 
+    Whenever it is required to show that $R(a\rint b, \delta) \neq 0$, it will be necessary to demonstrate that every element of the fonsi whose length is less than $\delta$ intersects $a\rint b$. 
     
     The prophecies of $R$ are precisely the elements of the fonsi. That every prophecy is contained in the fonsi is clear from the definition. That every element of the fonsi is a prophecy follows by considering $R(c\rint d, |c\rint d|+1)$ for a given interval $c\rint d$ of the fonsi. Since $|c\rint d| < |c\rint d|+1$, $c\rint d$ itself matches the procedure constraint and is therefore a prophecy of $R$. 
 
     The properties are verified as follows:  
     \begin{enumerate}
         \item Range. Satisfied by definition. 
-        \item Existence. The fonsi must be non-empty since given a length, it is required to produce an interval. Let $a\rint b$ be any element of the fonsi and $\delta =1$. Let $c\rint d$ be any element of the fonsi whose length is less than 1. By definition of a fonsi, $c\rint d$ and $a\rint b$ intersect. Thus, $R(a\rint b, 1) 
-        \neq \emptyset$.
         \item Separation. 
         Let $a\rint b \in R$, that is, it is an element of the fonsi. Let $m$ and a subwidth $\delta$ be given such that $a\rint m\rint b$. Let $c\rint d$ be an element of the fonsi whose length is less than $\delta$. Since $a\rint b$ and $c\rint d$ are in the fonsi, they intersect. This implies $c\rint d$ is contained in $\halo{a\rint b}$. If $c\rint m\rint d$, then, because of the length being less than $\delta$, $c\rint d$ is wholly contained in $\halo{m}$. Thus, take $\halo{m}$ as the $e\rint f$ with $a\rint e\rint f\rint b$ and $e\rint f \in \mathbb{I}_{R}$ as required. 
         
