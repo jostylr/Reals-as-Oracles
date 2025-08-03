@@ -65,7 +65,7 @@ An interval $b\rint c$ \textbf{strictly contains} $a$ if $a$ is between $b$ and 
 
 An \textbf{$a$-rooted} interval is an interval who has an endpoint that is $a$, that is, they are of the form $a\rint b$ for some $b$. An  \textbf{$a$-neighborly} interval is an interval that strictly contains $a$. The set of all $a$-rooted intervals will be denoted $\mathbb{I}_a$ while the set of all $a$-neighborly intervals will be denoted by $\mathbb{I}_{(a)}$
 
-For rational $\delta > 0$, the notation $\halo{a}$ represents the \textbf{$\delta$-halo of $a$} which is defined as $(a -\delta \rint  a+ \delta)$. An interval is $\halo{a}$ \textbf{compatible }if it is strictly contained in $\halo{a}$ and is an $a$-neighborly interval. That is, the interval $c \lt d$ is $\halo{a}$ compatible if $a- \delta < c < a < d < a+ \delta$. The halo notation can be extended to any interval. The notation $\halo{a\rint b}$ will refer to $\halo{a} \cup a\rint b \cup b_\delta$. If $a \leq b$, this is the same as the interval $(a-\delta\rint b+\delta)$. The notation $[a:b]_{\delta}$ will be the \textbf{inclusive $\delta$-halo} of $a:b$ and it includes the $\delta$ shifted endpoints which for $a \lt b$ would be any rational $q$ that satisfies $a - \delta \leq q \leq b+ \delta$. 
+For rational $\delta > 0$, the notation $\halo{a}$ represents the \textbf{$\delta$-halo of $a$} which is defined as $(a -\delta \rint  a+ \delta)$. An interval is $\halo{a}$ \textbf{compatible }if it is strictly contained in $\halo{a}$ and is an $a$-neighborly interval. That is, the interval $c \lt d$ is $\halo{a}$ compatible if $a- \delta < c < a < d < a+ \delta$. The halo notation can be extended to any interval. The notation $\halo{a\rint b}$ will refer to $\halo{a} \cup a\rint b \cup b_\delta$. If $a \leq b$, this is the same as the interval $(a-\delta\rint b+\delta)$. The notation $\clhalo{a:b}$ will be the \textbf{inclusive $\delta$-halo} of $a:b$ and it includes the $\delta$ shifted endpoints which for $a \lt b$ would be any rational $q$ that satisfies $a - \delta \leq q \leq b+ \delta$. 
 
 
 The notation $b\rint \fuzbright{a}$ will indicate that the interval goes from $b$ to the farthest endpoint of $\halo{a}$ from $b$. If, for example, $b < a$, then $b\rint \fuzbright{a}$ is the same as $b\rint a+\delta$ while $\fuzbleft{b} \rint a$ would be the interval $b-\delta\rint a$. Also, $\fuzbleft{a} \rint  b$ is the same as $b\rint \fuzbright{a}$. This notation makes the most sense for $b$ outside of $\halo{a}$. The intent of this notation is to avoid having to specify the inequality relation of $a$ and $b$ while still being able to expand outside of $a\rint b$ in the specified direction. The potential notation of $\fuzbleft{a}\rint \fuzbright{b}$ would have the same meaning as $[a\rint b]_\delta$; this paper will generally use the halo notation. Outside of an interval, a similar notation will be used to indicate a stand-alone number that is a $\delta$-step from one number to another. For example, $\fuzbright[\delta,c]{a}$ would represent the number $a + \frac{c-a}{|c-a|}\delta$. For smooth reading, it might also be written as $\fuzbleft[c, \delta]{a}$ in case $c \rint a$ was used earlier. 
@@ -117,7 +117,7 @@ A \textbf{real number oracle} is a procedure $R$, satisfying the properties list
 
 The idea for the returned intervals is that they are considered to contain the real number. Any interval $c\rint d$ that appears as the second entry of a core output is a \textbf{prophecy} of the oracle and this is denoted as $c\rint d \in R$. 
 
-Writing $R(a\rint b, \delta)=(k ,A)$ implies that one of the possible core outputs for that core input is $(k, A)$. The expression $R(a\rint b, \delta) = c\rint d$ will be shorthand to imply that one of the outputs for that pair of inputs is $(1, c\rint d$).  The expression $R(a \rint b, \delta) = k$ implies that there exists some output pair for that input such that $k$ is the first entry of the pair. The expression $R(a\rint b, \delta) \neq k$ means that none of the outputs for that input pair has $k$ as its first entry. Since $k$ is either $1$ or $0$, not every being the one implies it is always the other. Writing $R(a \rint b) = k$ is similarly taken to imply that for every $\delta$, there is a core output that has $k$ as its first entry. Writing $R(a \rint b) \neq k$ implies that there is never a core output with $k$ as a first entry for any $\delta$, implying the other value is always present. 
+Writing $R(a\rint b, \delta)=(k ,A)$ implies that one of the possible core outputs for that core input is $(k, A)$. The expression $R(a\rint b, \delta) = c\rint d$ will be shorthand to imply that one of the outputs for that pair of inputs is $(1, c\rint d$).  The expression $R(a \rint b, \delta) = k$ implies that there exists some output pair for that input such that $k$ is the first entry of the pair. The expression $R(a\rint b, \delta) \neq k$ means that none of the outputs for that input pair has $k$ as its first entry, but there is an output. Since $k$ is either $1$ or $0$, not ever being the one implies it is always the other. Writing $R(a \rint b) = k$ is similarly taken to imply that for every $\delta$, there is a core output that has $k$ as its first entry. Writing $R(a \rint b) \neq k$ implies that there is never a core output with $k$ as a first entry for any $\delta$, implying the other value is always present. 
 
 The notation $\mathbb{I}_R$ represents the set of all intervals that contain a prophecy. The property of Consistency is based on the idea that since prophecies ought to contain $x$ then the intervals that contain prophecies, namely those in $\mathbb{I}_R$,  also ought to contain $x$. 
 
@@ -125,15 +125,19 @@ The term core input is used to allow for the procedure $R$ to have additional in
 
 To be an oracle, the procedure must satisfy the following properties.  The properties are:
 \begin{enumerate}
-    \item Range. Given $a \rint b$ and $\delta$, there is at least one output for that input. If $R(a\rint b, \delta) = (k, c\rint d)$, then one of the following must hold:
+    \item Range. $R(a\rint b, \delta)$  always gives an answer and is one of the following forms: 
     \begin{itemize}
-        \item $k=1$. $c\rint d$ is a subinterval of $\halo{a\rint b}$ and intersects $a\rint b$. 
-        \item $k=0$. $c\rint d$ is disjoint from $a\rint b$.
+        \item $(1, c\rint d)$. $c\rint d$ is a subinterval of $\halo{a\rint b}$ and intersects $a\rint b$. 
+        \item $(0, c\rint d)$ is disjoint from $a\rint b$.
+        \item $0$. 
+        \item $-1$. 
     \end{itemize} 
-    \item Separation. If $a\rint b$ is a prophecy of $R$, $m$ is contained in $a\rint b$, and $\delta > 0$, then at least one of the following holds true: $R(a \rint m, \delta) =1$, $R(m \rint m, \delta) = 1$, or $R(m \rint b, \delta) = 1$.
+    \item Existence. There exists $a \rint b$ and $\delta$ such that $R(a \rint b, \delta) = (1, c:d)$. 
+    \item Separation. If $a\rint b$ is a prophecy of $R$, $m$ is contained in $a\rint b$, and $\delta > 0$, then one or both of $R(a \rint m, \delta) =1$  and $R(m \rint b, \delta) = 1$ holds true. 
    \item Disjointness. 
-   If $c\rint d$ is a prophecy of $R$ and $a\rint b$ is disjoint from $c\rint d$, then there exists a $\delta$ such that $R(a\rint b, \delta) = 0$.
+   If $c\rint d$ is a prophecy of $R$ and $a\rint b$ is disjoint from $c\rint d$, then if $\delta < |c \rint d; a\rint b|$, then $R(a\rint b, \delta)$ is either $0$ or $(0, e \rint f)$ for some prophecy $e \rint f$.
     \item Consistency. If $a\rint b$ contains a prophecy of $R$, then $R(a\rint b) \neq 0$. 
+    \item Reasonable. If $R(a:b, \delta) \neq -1$ , then $R(a:b, \delta') \neq -1$ for any $\delta' > \delta$.
     \item Closed. 
     If for each $\delta >0$, $\halo{a}$ contains a prophecy, then, for all $b$, $R(a\rint b) \neq 0$. Such an $a$ is called the \textbf{root} of the oracle. 
 \end{enumerate}
@@ -144,7 +148,7 @@ The expression $R(a\rint b, \delta) \neq 0$ implies that no intervals disjoint f
 
  For example, if approximating the square root of 2 and the interval is $1.3\rint 1.4$ with a $\delta$ of $0.1$, then the procedure might generate $(1, 1.39\rint 1.42$), but another computation with the procedure might generate $(0, 1.41\rint 1.42)$. Both $R(1.3\rint 1.4, 0.1) = 1.39\rint 1.42$ and $R(1.3\rint 1.4, 0.1) = 0$ would be valid statements given these computations. Only the latter would be definitive in excluding $1.3\rint 1.4$ from containing the square root. The interval $1.3\rint 1.4$ would not be in $\mathbb{I}_R$ while $1.39\rint 1.43$ would be as it contains $1.39\rint 1.42$ which was a returned output of $R$.
 
-A rational interval $a\rint b$ is a \textbf{Yes interval} of the oracle $R$ if $R(a\rint b) \neq  0$; this is a check across all $\delta$. By Consistency, this includes all intervals that are in  $\mathbb{I}_R$, but, by the Closed property, it also includes the \textbf{$a$-rooted} intervals where $a$ is the root of the oracle.   A rational interval $a\rint b$ is a \textbf{No interval} if $R(a\rint b, \delta) = 0$ for some $\delta$. In a nonconstructive sense, every interval is a Yes or No interval, but determining that in a particular case may not be possible via a finite set of computations. 
+A rational interval $a\rint b$ is a \textbf{Yes interval} of the oracle $R$ if $R(a\rint b) \neq  0$; this is a check across all $\delta$. By Consistency, this includes all intervals that contain prophecies, but, by the Closed property, it also includes the \textbf{$a$-rooted} intervals where $a$ is the root of the oracle.   A rational interval $a\rint b$ is a \textbf{No interval} if $R(a\rint b, \delta) = 0$ for some $\delta$. In a nonconstructive sense, every interval is a Yes or No interval, but determining that in a particular case may not be possible via a finite set of computations. 
 
 If an interval $a\rint b$ is a Yes interval for $R$ and $R$ is to represent the real number $x$, then this can be expressed with the notation $a \xora b$. For No intervals, the notation is \sout{$a \xora b$}. The notation $a\rint \fuzbright{c}$ extends to the Yes intervals as $a \xora \fuzbright{c}$. These notations reflect that the Yes / No interval designation has created an $x$-betweenness relation on the rational numbers as will be established later.
 
@@ -152,14 +156,17 @@ It may be helpful to expand a little on what the properties mean. The basic idea
 
 Here is a bit of explanation for the properties: 
 \begin{enumerate}
-    \item Range. The idea of the oracle is that its first entry indicates success ($1$) or failure ($0$). The outputs with the first entry being $1$ are called Yes answers while if it is $0$, then it is a No answer. The assumption is that there is always a result, but a $1$ is less definitive than $0$. As will be shown, Separation allows for the computation of a prophecy smaller than $\delta$. Such an interval is either going to be disjoint from $a \rint b$ or contained in $\halo{a\rint b}$. Thus, the assertion that there is always a result is in line with the computational capabilities embedded in the Separation assumption. 
+    \item Range. The idea of the oracle is that its first entry indicates success ($1$) or failure ($0$). The outputs with the first entry being $1$ are called Yes answers while if it is $0$, then it is a No answer. A $1$ is less definitive than $0$. As will be shown, Separation allows for the computation of a prophecy smaller than $\delta$. Such an interval is either going to be disjoint from $a \rint b$ or contained in $\halo{a\rint b}$. This is what allows for a non-constructive deduction that the ordered pair result is always possible. 
 
-    Any procedure satisfying the Range property will be called a Ranged procedure. 
+    The result of just $0$ arises in oracles based on direct testing of whether the interval contains the number or not. It does not necessarily produce a prophecy disjoint from that interval in the testing. Thus, it would be an additional burden to compute out a prophecy disjoint from it. 
 
+    The result of $-1$ is a null result. This should be taken as not being able to answer the question. It can be argued that the oracle properties combine so that an oracle never has a null result. 
 
-    \item Separation. This property is inspired by the Intermediate Value Theorem. The inspiration is that a Yes interval should be able to be continually narrowed down by selecting a rational number $m$ inside of it and then testing which of the two created intervals is a Yes interval and the other one would then be a No interval. Because of the possibility of not being able to decide the issue at $m$, there is a $\delta$-halo in which to examine it. 
+    Procedures in this paper should be assumed to have this Range property unless otherwise noted. 
 
-    Prophecies are used as it is easier to verify on a more limited set of intervals. The exclusivity of one option versus the other is not needed as a stricter formulation including that can be established using Disjointness. It is shown later that Separation does apply to Yes intervals as well. 
+    \item Existence. This prevents the procedure of $R(a:b, \delta)$ having no answer for all $a:b$ and $\delta$. As soon as there is an answer, there is a prophecy, but nothing else requires there to be some input that has an output. 
+
+    \item Separation. This property is inspired by the Intermediate Value Theorem. The inspiration is that a Yes interval should be able to be continually narrowed down by selecting a rational number $m$ inside of it and then testing which of the two created intervals is a Yes interval and the other one would then be a No interval. Because of the possibility of the number of interest being near or at $m$, it is possible for both to be Yes. In that case, $R(m:m, \delta) = 1$ holds true due to Consistency and Disjointness. 
     
     It can also be the case that while $a\rint b$ is a prophecy, none of its subintervals are. For example, let $R(a \lte  b, \delta) = (1, 2\rint  b+ \delta)$ if $a \leq 2$ and $b + \delta > 2$,  $R(1\rint 1.5, 0.5) = (1, 1\rint 2)$, and is $(0, 2\rint 2+\epsilon)$ otherwise where $\epsilon$ is either $\frac{2+a}{2}$ if $a > 2$ or is, say, $\delta$ if $b+\delta < 2$. Then the prophecies of $R$ are  $1\rint 2$ along with intervals of the form $2 \lt  c$. Does the prophecy $1\rint 2$ satisfy the Separation property? Given $m \in 1\rint 2$ and $\delta$, $R(m \rint 2, \delta) = 2\rint 2+\delta$ and thus it does satisfy Separation. The Yes intervals of this oracle are all the intervals that contain $2$. That claim and that this is an oracle is straightforward to check.  
     
@@ -167,12 +174,118 @@ Here is a bit of explanation for the properties:
     \item Disjointness. Disjointness ensures that a single real number is being discussed. Without an assertion of negativity, one could have multiple disjoint regions.  As an example, imagine a procedure which returns small intervals around 2 and small intervals around 5. Done correctly, this will be able to satisfy the other properties, including the Separation property because that property only applies to prophecies. Consistency does not help as that is about intervals containing prophecies, but does not demand that there is a prophecy containing other prophecies.  Since rational betweenness relations do not make this distinction between prophecies and Yes intervals, it does not need this postulated as it can be deduced via Consistency and the exclusionary aspect of Separation. 
     
     \item Consistency. Consistency asserts that the oracle never contradicts itself. Since a prophecy is supposed to contain the real number, if another interval contains it, then that containing interval should also contain the real number and ought to be a Yes interval. This property says that if an interval contains a prophecy then every core output, regardless of $\delta$, is a Yes answer. 
+
+    \item Reasonable. In the case of Yes intervals, the properties of Consistency and Closed demand the oracle always answers Yes. For No intervals, however, it could be the case that larger fuzziness incorporates the real number and the option of saying Yes becomes possible though not required. This is an attempt to say that if there is a more narrow fuzziness with an answer than the larger fuzziness still gives an answer though it may be different. It is not a property that is essential to have, but it feels mostly harmless and convenient. 
     
     \item Closed. This ensures that if there is a narrowing in to a single rational number, then the intervals with that rational number as endpoint are Yes intervals. It does not require that the interval in question be a prophecy nor contain one. The assumption that $\halo{a}$ is in $\mathbb{I}_R$ for all $\delta >0$ implies that $R$ can always return a subinterval of $\halo{a}$ for $R(a\rint b, \delta)$. Disjointness forces $a$ to be in those prophecies in this case. 
 
 \end{enumerate}
 
 The term procedure is being used instead of function to suggest a more constructive approach. While it is perfectly fine for an $R$ to be given as an explicit function, the more typical case is that $R$ is computed out as needed and may not return the same result for the same core inputs. For example, if a procedure is based on Newton's method restricted to a region of unique convergence but no specific starting point is given, then different choices of starting points could lead to different returned intervals. The design here is to smoothly allow for that variation. 
+
+
+\section{Examples}
+
+A few examples can be helpful in understanding oracles. Rational numbers as oracles allows one to explore a variety of oracle notions in a concrete way. After exploring rationals, then the oracle exploration is roughly divided into oracles in which an interval is being tested directly versus oracles in which an iterative process is creating small enough intervals to definitively answer the question that the oracle is being asked. This section concludes with a discussion of non-computable numbers in relation to oracles with the conclusion that it is largely the same conversation as with other real number representations. 
+
+\subsection{Rational Oracles}
+
+Given a rational number $q$, the rational betweenness relation representing $q$ is defined by $a \xrel[q] b$ exactly when $a \rint q \rint b$. This condition is straightforward to check given explicit $a, q, b$. It is also quick to verify the rational betweenness relation properties. This is the only rational betweenness relation that represents $q$. The oracles, however, have a number of different options for representing $q$. Below are some of the more illuminating ones to ponder. 
+
+\begin{itemize}
+    \item Singular Oracle of $q$. The procedure $R$ is defined as $R(a \rint b,\delta) = (1, q \rint q)$ if $a \rint q \rint b$ and $(0, q \rint q)$ otherwise. All of the properties are easily verified: 1) Ranged is by definition; 2) Existence is $R(q:q, 1) = (1, q:q)$; 3) Separation follows from the fact that $q$ is in the prophecy and thus wherever $q$ lands in $a:m:b$ decides which of them have a Yes answer; 4) Disjointness follows from $q$ not being in an interval disjoint from a prophecy; 5) An interval that contains $q$ will pass that property onto anything that contains it; 6) Since $q$ is either in $a:b$ or not, if there is an output for some $\delta$, then all $\delta$ will have that result; 7) If $a \neq q$, then there is a separation distance and $\halo{a}$ cannot contain $q$ for smaller fuzziness which implies the Closed condition only applies to $a=q$ for which the conclusion does hold. 
+    
+    \item Reflexive Oracle of $q$. The procedure $R$ is defined as $R(a\rint b, \delta) = (1, a\rint b)$ if $a\rint q \rint b$ and $(0, q \rint q)$ otherwise. The prophecies are exactly those intervals that contain $q$ and they coincide with the Yes intervals. The properties of an oracle are easily verified as before, amounting to a translation of whether $q$ is in  an interval and noting that $\delta$ plays no role again.
+
+    \item Fuzzy Reflexive Oracle of $q$. The procedure $R$ is defined as $R(a\rint b, \delta) = (1, \halo{a\rint b})$ if $q \in \halo{a\rint  \rint b}$ and $(0, q \rint q)$ otherwise. An alternate version which fails to be an oracle because of the Reasonable property would be to have $1$ if $q \in a \rint b$, but $0$ only if $q \notin \halo{a \rint b}$. This would fail to give an answer for large enough $\delta$ for any interval that does not include $q$. 
+    
+    \item Halo Oracle of $q$. The procedure $R$ is defined as $R(a\rint b, 2\delta) = (1, \halo{q})$ if $\halo{q}$ intersects $a\rint b$ and returns $(0, \halo{q})$ otherwise. The length of $\halo{q}$ is $2\delta$ and thus if any part of it intersects $a \rint b$, then it is contained in $\halo[2\delta]{a \rint b}$. The prophecies are the intervals $\halo{q}$; this does not include any intervals rooted at $q$ though they all contain $q$ and are centered on $q$. If $a \rint b$ contains $q$, then $\halo{a \rint b}$ contains $\halo{q}$. Thus, if $q \in a \rint b$, $R(a \rint b, 2\delta) = (1, \halo{q})$ for all $\delta$. These are the Yes intervals. If $a \rint b$ does not contain $q$, then take $\delta$ such that $0 < \delta < |q; a \rint b|$. Then $\halo{q}$ will be disjoint from $a \rint b$ and $R(a \rint b, 2\delta) = (0, \halo{q})$. Note that $q \in \halo[2\delta]{a \rint b}$ is quite possible and yet the return is a $0$. This is perfectly fine as the goal is to determine whether $q \in a \rint b$ which it would not be if the return is 0. The oracle properties follow from the Yes and No interval characterization of whether the interval contains $q$. 
+    
+    \item Random Halo Oracle of $q$. This is an oracle with an extra input of a function $f$ that, when given a positive rational number $\delta$, it generates a random rational $r$ such that $0 < r < \delta$. The procedure $R$ is then defined as $R(a\rint b, 2\delta, f) = (1, \halo[f(\delta)]{q})$ if $\halo{f(q)}$ intersects $a\rint b$ and returns $(0, \halo[f(\delta)]{q})$ otherwise. The considerations of the Fuzzy Oracle of $q$ apply here equally well. This allows for the potential of both $1$ and $0$ being returned. 
+    
+    \item Bisection Oracle of $q$. The procedure $R$ includes an extra input of $r_0$ and an extra output of $r_i$. Let $a \rint b$ and $\delta$ be given. The procedure then does an iterative procedure.  At each step, $R$ checks $q \rint r_i$ in relation to $a \rint b$ and $\delta$. If $q \rint r_i$ intersects $a \rint b$ and is contained in $\halo{a \rint b}$, then $R(a \rint b, \delta, r_0) = (1, q \rint r_i, r_i)$. If $q \rint r_i$ and $a \rint b$ are disjoint, then $R$ returns $(0, q \rint r_i, r_i)$. Otherwise, $R$ computes $r_{i+1} = \frac{q + r_i}{2}$ and then runs the check again. This will have a definite answer when $|q \rint r_i| < \delta$ which will happen after enough bisections. The prophecies are the rooted intervals of $q$, including $q \rint q$ which would occur only if $r_0 = q$ is chosen. Note that any interval in $\mathbb{I}_R$ contains $q \rint r$ for some $r$ and thus contains $q$. For the Closed property, the only rational to which all its halos contain a prophecy is $q$ and all of the intervals of the form $q \rint a$ do return a value of 1 as required. All of the properties are easily verified and the Yes intervals are again exactly those intervals that contain $q$.
+\end{itemize}
+
+\subsection{Testing Oracles}
+
+Some oracles are based on being able to directly test whether an interval ought to contain $x$. The Singular and Reflexive Oracles of $q$ are clearly of this nature. The Fuzzy Oracles of $q$ could also be seen as doing this, but those examples use an auxiliary interval and its intersection to test. 
+
+The classic non-rational example of this is also the primary example used in Dedekind cuts, namely, $n$-th roots. The $x$ to represent is the positive real number such that $x^n$ ought to be the positive rational $q$. The natural oracle $R$ for this is that $R(a\lte b, \delta) = (1, a\rint b)$ whenever $b > 0$ and $\max(a, 0)^n\rint q\rint b^n$; it returns $0$ otherwise. 
+
+A more general framework which covers a variety of cases of interest, can be cast in the language of a rational function $f$. Define $a:b$ to be a \textbf{$f$-zero interval} whenever $f(a):0:f(b)$ holds true. Assume there is an interval $A \rint B$ for $f$ that has the following properties: 1) $A \rint B$ is an $f$-zero interval; 2) given any two disjoint intervals in $A \rint B$, at most one of them is an $f$-zero interval; 3) any interval in $A \rint B$ containing an $f$-zero interval is an $f$-zero interval. Given that, one can find a rational betweenness relation $x$ such that for any $f$-zero interval $r:s$ contained in $A \rint B$, it will be the case that $r \xrel s$ holds true. This is basically the definition of $x$ as a rational betweenness relation, but it has an issue with if $x$ is rational and $f$ actually jumps at $x$. That is, if $x=q$ and $f(q) \neq 0$ because of the jump, then it is not clear how $q \xrel q$ might get defined. 
+
+The oracle approach allows for a fuzzier definition that allows for practical progress to be made. Define the oracle in the following way. Given $a \rint b$ and $\delta$, let $a' \rint b'$ be the intersection of $a\rint b$ with $A \rint B$. If there is no such intersection, then $R(a \rint b, \delta) = 0$. With $a' \rint b'$, let $c \rint d$ be $\clhalo[\delta/2]{a' \rint b'}$ intersected with $A \rint B$. If $c \rint d$ is not an $f$-zero interval, then $R(a \rint b, \delta) = 0$. If $c \rint d$ is an $f$-zero interval, then $R(a \rint b, \delta) = (1, c \rint d)$.
+
+In what follows, given an interval $a:b$, the interval $a':b'$ will be $a:b$ restricted to $A:B$. The expression $\clhalo[\delta/2]{a' \rint b'}'$ will be the closed $\delta/2$-halo of $a':b'$ intersected with $A:B$
+
+The properties are straightforward to verify:
+
+\begin{enumerate}
+\item Range. The only two types of returns are $0$ and $(1, c \rint d)$. 
+
+\item Existence. By assumption, $A \rint B$ is an $f$-zero interval and $\clhalo[\delta/2]{A':B'}' = A \rint B$ for any $\delta$. Thus, $R(A \rint B, \delta) = (1, A \rint B)$ for all $\delta$. 
+
+\item Separation. Given a prophecy $a \rint b$, either $f(a)$ and $f(b)$ are of different sign or one of them is zero. Let $m$ and $\delta > 0$ be given. By relabeling, if $f(a) =0$, then $\clhalo[\delta/2]{a:m}'$ will contain the $f$-zero interval $f(c):f(c)$ and is therefore an $f$-zero interval, leading to $R(c:m$ and $\delta$, compute $f(m)$. If neither are zero, then, by relabeling, it can be assumed that  $f(a) < 0 < f(b)$. Compute $f(m)$. If $f(m) = 0$, then both $a:m$ and $b:m$ will be $f$-zero intervals. If $f(m) < 0$, then $b:m$ is an $f$-zero interval while if $f(m) > 0$ then $a:m$ is an $f$-zero interval. In all of the cases, either $R(a:m, \delta) =1$ or $R(m:b, \delta) =1$
+
+This works well and is independent of $\delta$ assuming that $f(m)$ can be precisely computed. Since that is often not practically possible to determine, the idea would to compute $f(\halo{m})$ in terms of whether it contains $0$, is in $f(c):0$, or is in $f(d):0$. One of these is true allowing for precise enough computation. 
+
+\item Disjointness. Let $a \rint b$ be disjoint from a prophecy $c:d$ and $\delta < |c:d, a:b|$ be given. Then $\clhalo[\delta/2]{a':b'}'$ is disjoint from the $f$-zero interval $c:d$ in $A:B$ which, by assumption, means it is not an $f$-zero interval. Thus, $R(a:b, \delta) = 0$
+
+\item Consistency. A prophecy $c:d$ is an $f$-zero interval contained in $A \rint B$. If $a:b$ contains $c:d$, then $\clhalo[\delta/2]{a':b'}$ does as well. By assumption, this means it is an $f$-zero interval. Thus $R(a:b, \delta) = (1, clhalo[\delta/2]{a':b'})$.
+
+\item Reasonable. Every interval and $\delta$ has an answer of $0$ or $(1, c : d)$.
+
+\item Closed. Assume $\halo{a}$ always contains a prophecy. This would mean that for each $\halo{a}$ there exists an $f$-zero interval $c:d$ inside of it. That in turn implies that $A : a: B$ since otherwise there would be a distance between $a$ and $A:B$ and a halo whose size was less than that would be disjoint from $A:B$ prohibiting a prophecy from being in it. Let $R(a:b, \delta)$ be given. The closed halo $\clhalo[\delta/2]{a:b'}'$ contains $\halo[\delta/5]{a}$ which contains a prophecy by assumption. As any interval in $A:B$ that contains an $f$-zero interval is an $f$-zero interval, this implies the close halo is an $f$-zero interval. Hence, $R(a:b, \delta) = (1, \clhalo[\delta/2]{a:b'}') $. This holds for all $b$ and all $\delta$.
+
+\end{enumerate}
+
+One particular application is any rational function that satisfies being monotonic on an $f$-zero interval $A:B$. To conclude that $f(x)=0$, a rationalized version of continuity of $f$ is required. For real functions, this approach can be suitably adapted as will be explored in \cite{taylor23funora}. One change is to have a bit of fuzziness for how $f(m)$ is computed. 
+
+For roots, taking $f(x) = x^n - q$ on the interval $0:\max(q, 1)$ satisfies the conditions as can be easily checked. 
+
+\subsection{Algorithmic Oracles}
+
+
+A common situation for real number estimates is that the real number is computed as a sequence of intervals. For example, the $n$-th root can be computed using Newton's method. Let $a_0 >0$ be some positive rational. Given $a_m$, define $b_m = q/a_m^{n-1}$. It can be shown that $a_m^n \rint  q \rint  b_m^n$ will hold true. The iteration is defined as $a_{m+1} = a_m + (b_m - a_m)/n$. This is what results from applying Newton's method to $x^n - q$. The oracle procedure $R$ would then be to compute $m, a_m, b_m$ such that $|a_m - b_m| < \delta$.  Then $R(a\rint b, \delta) = a_m\rint b_m$ if $a_m\rint b_m$ intersects $a\rint b$ and is the the empty set otherwise. Due to the length, $a_m\rint b_m$ will be in $\halo{a\rint b}$ if it intersects $a\rint b$. 
+
+This particular way of using Newton's method leads to a family of procedures. Given a different $a_0$, the intervals computed will differ and will lead to some computed intervals overlapping the endpoints of some intervals that other starting points would not overlap with. The Yes / No determination, however, would not  change. If the root is the rational $p$, that is, $p^n = q$,  then intervals of the form $p\rint b$ will never be returned by this procedure unless $a_0 = p = b_0$. Nevertheless, the procedure will never return the empty set for an interval that contains $p$. All Yes intervals in this case will contain $p$. 
+
+More general uses of Newton's method can be discussed, but it is more efficient to discuss a general construct based on interval families. This is discussed in Section \ref{os-fonsis} about fonsis. 
+
+Cauchy sequences can be viewed as pairs of rationals $a_n, \varepsilon_n$ where $a_n$ is the $n$-th element of the sequence and $\varepsilon_n$ is a bound for all future elements to be within $\varepsilon_n$ of $a_n$. This leads to the sequence of intervals $a_n-\varepsilon_n\rint a_n+\varepsilon_n = \halo[ \varepsilon_n]{a_n}$. The Cauchy criterion ensures that the $\varepsilon_n$ exists and that they can be taken to approach 0. An oracle procedure would then be to select, possibly arbitrarily, some $n$ such that $\varepsilon_n < \delta$, and then  $R(b\rint c, \delta) = \halo[ \varepsilon_n]{a_n}$ if $\halo[\varepsilon_n]{a_n}$ intersects $b\rint c$; it returns the empty set otherwise. If $R(b\rint c, \delta) \neq \emptyset$, this implies that the entire tail of the sequence of intervals intersects $b\rint c$ and thus the sequence converges to a real number that is in $b\rint c$.  
+
+For a set $E$ of rationals bounded above, the least upper bound can be defined as $R(a \lte b, \delta)$ to be $a\rint b$ when $a$ is bounded above by an element of $E$ and $b$ is an upper bound of $E$; it would be the empty set otherwise. For practical reasons, it may not be easy to determine this. Therefore, one could extend it such that if $\halo{a}$ or $\halo{b}$ contains both elements of $E$ and upper bounds, then $\halo{a}$, respectively $\halo{b}$, is returned. 
+
+The last example of this section are the real numbers produced by the Intermediate Value Theorem. Let $f(x)$ be a function which is continuous and monotonic on $a\rint b$ with $f(a)*f(b) < 0$. For rational intervals $c\rint d$ contained in $a\rint b$, define the oracle $R$ by $R(c\rint d, \delta) = c\rint d$ if $f(c)*f(d) \leq 0$ and the empty set otherwise. For intervals that are not contained in $a\rint b$, take the intersection with $a\rint b$ and return its result. Monotonicity is required for the Disjointness property. Continuity is required to show that the oracle produced here is a zero of $f$. Without continuity, the most that can be said is that the oracle is the location of a sign change for the function. The initial $a\rint b$ yields Existence.
+
+The above is assuming that a sign can be determined for $f(q)$ for any rational $q$ in $a\rint b$. It is possible that if $f(q)$ is close to zero, something which is desired, then computing $f(q)$ leads to fuzziness which prevents a sign determination. In that case, the continuity of the function allows, given $\varepsilon > 0$, the existence of a $\delta$ such that $f(\halo{q})$ is contained in the interval $\halo[\varepsilon]{0}$. Thus, one could specify an $\varepsilon$ tolerance and if $f$ is in that region, then $\halo{q}$ is returned by the procedure. Practically speaking, this is when a process will terminate, having hit the resolution limits of the computational system. 
+
+Without monotonicity, uniqueness potentially fails. Some other mechanism or condition needs to be added to make it into an oracle. One can still do the usual process of dividing up the interval and testing the signs to create a sequence of nested intervals. That sequence could be used to define an oracle particularly if, after finitely many steps, it wanders into a subinterval with a unique solution contained in it. The oracle that is found would generally be path dependent on the choice of division points. 
+
+\subsection{Non-computable Oracles}
+
+As is well-known, most of the reals are non-computable. For decimal expansions, this means there is no algorithm for determining the digit expansion up to an arbitrary $n$. For Dedekind cuts, this means given a rational $q$, there is no computable way, in general, of determining whether $q < x$, $q = x$m or $q > x$. 
+
+For oracles, the analog would be whether $R$ is computable or not. $R$ is computable if, given any rational interval $a\rint b$ and rational $\delta > 0$, then there exists an algorithm which yields an output of $R(a\rint b, \delta)$. A non-computable oracle is one which does not have this property. 
+
+Not being able to produce an output would seem to violate the purpose and spirit of the oracle definition. But it is not any more severe of a problem than not being able to produce a digit expansion or determining set membership. It is a matter of mathematical taste as to what extent to embrace the existence of non-computable real numbers. The oracle approach is not particularly illuminating on this question. 
+
+The main question is whether an oracle is well-defined or not. Compare Collatz conjecture encoding versus halting program encoding. 
+
+
+\section{Overlapping and Notionally Shrinking}
+
+\subsection{Overlapping}
+
+\subsection{Notionally Shrinking}
+
+
+
+
+
+\subsection{Fonsis}
+
+----
 
 \subsection{Pedantic Properties }
 
@@ -313,82 +426,6 @@ Now the proof of the equivalence can be done.
 These two properties will be used interchangeably as the Separation property. The Procedure-Separation version is easier to establish while the Yes-Separation property is generally more succinct in usage. The lemma is also useful to keep in mind. 
 
 
-\section{Examples}
-
-A few examples can be helpful in understanding oracles. Rational numbers as oracles allows one to explore a variety of oracle notions in a concrete way. After exploring rationals, then the oracle exploration is roughly divided into oracles in which an interval is being tested directly versus oracles in which an iterative process is creating small enough intervals to definitively answer the question that the oracle is being asked. This section concludes with a discussion of non-computable numbers in relation to oracles with the conclusion that it is largely the same conversation as with other real number representations. 
-
-\subsection{Rational Oracles}
-
-Given a rational number $q$, the rational betweenness relation representing $q$ is defined by $a \xrel[q] b$ exactly when $a \rint q \rint b$. This condition is straightforward to check given explicit $a, q, b$. It is also quick to verify the rational betweenness relation properties. This is the only rational betweenness relation that represents $q$. The oracles, however, have a number of different options for representing $q$. Below are some of the more illuminating ones to ponder. 
-
-\begin{itemize}
-    \item Singular Oracle of $q$. The procedure $R$ is defined as $R(a \rint b,\delta) = (1, q \rint q)$ if $a \rint q \rint b$ and $(0, q \rint q)$ otherwise. All of the properties are easily verified. The key is that if $c \rint d \in \mathbb{I}_R$, then $q \rint q$, as the only prophecy, is in that interval which means $R(c \rint d, \delta) = (1, q \rint q)$. For the closed property, the check that has to be done is that if $\halo{a} \in \mathbb{I}_R$ for every $\delta$, then $a = q$. By considering $a \neq q$ and letting $\delta < |a-q|$, it is the case that $\halo{a} \notin \mathbb{I}_R$ as that interval does not contain $q$. The only exception is $a = q$ and $R(q:a) =(1, q:q)$ for all $a$. While there is a single prophecy, the Yes intervals are exactly the intervals that contain $q$. 
-
-    \item Reflexive Oracle of $q$. The procedure $R$ is defined as $R(a\rint b, \delta) = (1, a\rint b)$ if $a\rint q \rint b$ and $(0, q \rint q)$ otherwise. The prophecies are exactly those intervals that contain $q$ and they coincide with the Yes intervals. Again, the properties of an oracle are easily verified, amounting to a translation of whether $q$ is in  an interval.
-    
-    \item Fuzzy Oracle of $q$. The procedure $R$ is defined as $R(a\rint b, 2\delta) = (1, \halo{q})$ if $\halo{q}$ intersects $a\rint b$ and returns $(0, \halo{q})$ otherwise. The length of $\halo{q}$ is $2\delta$ and thus if any part of it intersects $a \rint b$, then it is contained in $\halo[2\delta]{a \rint b}$. The prophecies are the intervals $\halo{q}$; this does not include any intervals rooted at $q$ though they all contain $q$ and are centered on $q$. If $a \rint b$ contains $q$, then $\halo{a \rint b}$ contains $\halo{q}$. Thus, if $q \in a \rint b$, $R(a \rint b, 2\delta) = (1, \halo{q})$ for all $\delta$. These are the Yes intervals. If $a \rint b$ does not contain $q$, then take $\delta$ such that $0 < \delta < |q; a \rint b|$. Then $\halo{q}$ will be disjoint from $a \rint b$ and $R(a \rint b, 2\delta) = (0, \halo{q})$. Note that $q \in \halo[2\delta]{a \rint b}$ is quite possible and yet the return is a $0$. This is perfectly fine as the goal is to determine whether $q \in a \rint b$ which it would not be if the return is 0. The oracle properties follow from the Yes and No interval characterization of whether the interval contains $q$. 
-    
-    \item Fuzzy Random Oracle of $q$. This is an oracle with an extra input of a function $f$ that, when given a positive rational number $\delta$, it generates a random rational $r$ such that $0 < r < \delta$. The procedure $R$ is then defined as $R(a\rint b, 2\delta, f) = (1, \halo[f(\delta)]{q})$ if $\halo{f(q)}$ intersects $a\rint b$ and returns $(0, \halo[f(\delta)]{q})$ otherwise. The considerations of the Fuzzy Oracle of $q$ apply here equally well. This allows for the potential of both $1$ and $0$ being returned. 
-    
-    \item Bisection Oracle of $q$. The procedure $R$ includes an extra input of $r_0$ and an extra output of $r_i$. Let $a \rint b$ and $\delta$ be given. The procedure then does an iterative procedure.  At each step, $R$ checks $q \rint r_i$ in relation to $a \rint b$ and $\delta$. If $q \rint r_i$ intersects $a \rint b$ and is contained in $\halo{a \rint b}$, then $R(a \rint b, \delta, r_0) = (1, q \rint r_i, r_i)$. If $q \rint r_i$ and $a \rint b$ are disjoint, then $R$ returns $(0, q \rint r_i, r_i)$. Otherwise, $R$ computes $r_{i+1} = \frac{q + r_i}{2}$ and then runs the check again. This will have a definite answer when $|q \rint r_i| < \delta$ which will happen after enough bisections. The prophecies are the rooted intervals of $q$, including $q \rint q$ which would occur only if $r_0 = q$ is chosen. Note that any interval in $\mathbb{I}_R$ contains $q \rint r$ for some $r$ and thus contains $q$. For the Closed property, the only rational to which all its halos contain a prophecy is $q$ and all of the intervals of the form $q \rint a$ do return a value of 1 as required. All of the properties are easily verified and the Yes intervals are again exactly those intervals that contain $q$.
-\end{itemize}
-
-\subsection{Testing Oracles}
-
-Some oracles are based on being able to directly test whether an interval ought to contain $x$. The Singular and Reflexive Oracles of $q$ are clearly of this nature. The Fuzzy Oracles of $q$ could also be seen as doing this, but those examples use an auxiliary interval and its intersection to test. 
-
-The classic non-rational example of this is also the primary example used in Dedekind cuts, namely, $n$-th roots. 
-
-The $x$ to represent is the positive real number such that $x^n$ ought to be the positive rational $q$. The natural oracle $R$ for this is that $R(a\lt b, \delta) = (1, a\rint b)$ whenever $b > 0$ and $\max(a, 0)^n\rint q\rint b^n$; it returns the empty set otherwise. The testing oracles benefit greatly from not having to return a prophecy in the No case. 
-
-The properties are fairly easy to verify:
-
-\begin{enumerate}
-\item Range. The setup obviously gives a result for each interval as the No is a catch-all. The role of $\delta$ is non-existent. If $k=1$, the return is the interval itself which obviously satisfies that requirement. The value $k=0$ is exactly when the second return value is the empty set. 
-
-\item Existence. Let $r = \max(q,1)$. Then the interval $0\rint r$ works  as $0^n \rint  q \rint  r^n$ holds true for all positive rational numbers $q$ and natural numbers $n$ as $q^n > q$ for $q > 1$ and if $q\leq 1$, then $q \leq 1^n$.
-
-\item Separation. 
-
-\item Disjointness.
-
-\item Consistency. If $a \lte b$ is in $\mathbb{I}_R$, then there exists an interval $c \lte d$ such that $R(c \lte d) = 1$.  
-
-\item Closed. 
-
-\end{enumerate}
-
-The Range is immediate as the form fits perfectly and every interval can be assessed as to satisfying the criteria or not. The $\delta$ has no purpose for this one. Existence is given by $0\rint \max(q, 1)$ as $0^n \rint  q \rint  (\max(1, 1))^n$ holds true for all positive rational numbers $q$ and natural numbers $n$. The prophecies are just the Yes intervals. Disjointness holds largely 
-
-
-\subsection{Algorithmic Oracles}
-
-
-A common situation for real number estimates is that the real number is computed as a sequence of intervals. For example, the $n$-th root can be computed using Newton's method. Let $a_0 >0$ be some positive rational. Given $a_m$, define $b_m = q/a_m^{n-1}$. It can be shown that $a_m^n \rint  q \rint  b_m^n$ will hold true. The iteration is defined as $a_{m+1} = a_m + (b_m - a_m)/n$. This is what results from applying Newton's method to $x^n - q$. The oracle procedure $R$ would then be to compute $m, a_m, b_m$ such that $|a_m - b_m| < \delta$.  Then $R(a\rint b, \delta) = a_m\rint b_m$ if $a_m\rint b_m$ intersects $a\rint b$ and is the the empty set otherwise. Due to the length, $a_m\rint b_m$ will be in $\halo{a\rint b}$ if it intersects $a\rint b$. 
-
-This particular way of using Newton's method leads to a family of procedures. Given a different $a_0$, the intervals computed will differ and will lead to some computed intervals overlapping the endpoints of some intervals that other starting points would not overlap with. The Yes / No determination, however, would not  change. If the root is the rational $p$, that is, $p^n = q$,  then intervals of the form $p\rint b$ will never be returned by this procedure unless $a_0 = p = b_0$. Nevertheless, the procedure will never return the empty set for an interval that contains $p$. All Yes intervals in this case will contain $p$. 
-
-More general uses of Newton's method can be discussed, but it is more efficient to discuss a general construct based on interval families. This is discussed in Section \ref{os-fonsis} about fonsis. 
-
-Cauchy sequences can be viewed as pairs of rationals $a_n, \varepsilon_n$ where $a_n$ is the $n$-th element of the sequence and $\varepsilon_n$ is a bound for all future elements to be within $\varepsilon_n$ of $a_n$. This leads to the sequence of intervals $a_n-\varepsilon_n\rint a_n+\varepsilon_n = \halo[ \varepsilon_n]{a_n}$. The Cauchy criterion ensures that the $\varepsilon_n$ exists and that they can be taken to approach 0. An oracle procedure would then be to select, possibly arbitrarily, some $n$ such that $\varepsilon_n < \delta$, and then  $R(b\rint c, \delta) = \halo[ \varepsilon_n]{a_n}$ if $\halo[\varepsilon_n]{a_n}$ intersects $b\rint c$; it returns the empty set otherwise. If $R(b\rint c, \delta) \neq \emptyset$, this implies that the entire tail of the sequence of intervals intersects $b\rint c$ and thus the sequence converges to a real number that is in $b\rint c$.  
-
-For a set $E$ of rationals bounded above, the least upper bound can be defined as $R(a \lte b, \delta)$ to be $a\rint b$ when $a$ is bounded above by an element of $E$ and $b$ is an upper bound of $E$; it would be the empty set otherwise. For practical reasons, it may not be easy to determine this. Therefore, one could extend it such that if $\halo{a}$ or $\halo{b}$ contains both elements of $E$ and upper bounds, then $\halo{a}$, respectively $\halo{b}$, is returned. 
-
-The last example of this section are the real numbers produced by the Intermediate Value Theorem. Let $f(x)$ be a function which is continuous and monotonic on $a\rint b$ with $f(a)*f(b) < 0$. For rational intervals $c\rint d$ contained in $a\rint b$, define the oracle $R$ by $R(c\rint d, \delta) = c\rint d$ if $f(c)*f(d) \leq 0$ and the empty set otherwise. For intervals that are not contained in $a\rint b$, take the intersection with $a\rint b$ and return its result. Monotonicity is required for the Disjointness property. Continuity is required to show that the oracle produced here is a zero of $f$. Without continuity, the most that can be said is that the oracle is the location of a sign change for the function. The initial $a\rint b$ yields Existence.
-
-The above is assuming that a sign can be determined for $f(q)$ for any rational $q$ in $a\rint b$. It is possible that if $f(q)$ is close to zero, something which is desired, then computing $f(q)$ leads to fuzziness which prevents a sign determination. In that case, the continuity of the function allows, given $\varepsilon > 0$, the existence of a $\delta$ such that $f(\halo{q})$ is contained in the interval $\halo[\varepsilon]{0}$. Thus, one could specify an $\varepsilon$ tolerance and if $f$ is in that region, then $\halo{q}$ is returned by the procedure. Practically speaking, this is when a process will terminate, having hit the resolution limits of the computational system. 
-
-Without monotonicity, uniqueness potentially fails. Some other mechanism or condition needs to be added to make it into an oracle. One can still do the usual process of dividing up the interval and testing the signs to create a sequence of nested intervals. That sequence could be used to define an oracle particularly if, after finitely many steps, it wanders into a subinterval with a unique solution contained in it. The oracle that is found would generally be path dependent on the choice of division points. 
-
-\subsection{Non-computable Oracles}
-
-As is well-known, most of the reals are non-computable. For decimal expansions, this means there is no algorithm for determining the digit expansion up to an arbitrary $n$. For Dedekind cuts, this means given a rational $q$, there is no computable way, in general, of determining whether $q < x$, $q = x$m or $q > x$. 
-
-For oracles, the analog would be whether $R$ is computable or not. $R$ is computable if, given any rational interval $a\rint b$ and rational $\delta > 0$, then there exists an algorithm which yields an output of $R(a\rint b, \delta)$. A non-computable oracle is one which does not have this property. 
-
-Not being able to produce an output would seem to violate the purpose and spirit of the oracle definition. But it is not any more severe of a problem than not being able to produce a digit expansion or determining set membership. It is a matter of mathematical taste as to what extent to embrace the existence of non-computable real numbers. The oracle approach is not particularly illuminating on this question. 
-
-The main question is whether an oracle is well-defined or not. Compare Collatz conjecture encoding versus halting program encoding. 
 
 \section{Oracle Propositions}
 
