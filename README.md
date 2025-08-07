@@ -44,35 +44,33 @@ It is hoped that oracles feel less abstract and more to the point.
 
 ## Definition
 
-We consider rational intervals whose endpoints are included. We write a:b to indicate the rational interval bounded by a and b. A singleton is a rational interval where the endpoints are equal. The notion of the delta-spark of c is the closed interval bounded by c-delta and c+delta, namely, c-delta:c+delta. 
 
-An oracle assigns a Yes or No to each rational interval and satisfies the following properties: 
+We consider rational intervals whose endpoints are included. We write a:b to indicate the rational interval bounded by a and b. A singleton is a rational interval where the endpoints are equal. The notion of the delta-halo of c is the  interval bounded by c-delta and c+delta, namely, c-delta:c+delta, but NOT including the endpoints. 
 
-1. Existence. There is a Yes interval.
-2. Interval Separation. If you take a Yes interval a:b and a rational c in it and provide a delta > 0, then there exists an interval e:f in the delta-spark of c such that exactly one of a:e, e:f, or f:b is a Yes interval with the others being known to be No. 
-3. Consistency. If an interval contains a Yes interval, then it is a Yes interval too. If an interval is contained in a No interval, then it is a No interval.
-4. Closed. If the delta spark of c is a Yes interval for all delta>0, then the singleton c:c is a Yes interval. If c:c is a No interval, then there exists a delta>0 such that the delta spark of C is a No interval.
+The real numnber itself is defined as a rational betweenness relation (RBR). An RBR is a symmetric relation on rational numbers such that it ought to include the real number between them. In what follows, x will represent the relation. So a:x:b is saying that a and b are x-related. This is defining x. If a and b are related by x, then a:b is an x-interval. If a and b are not x-related, then this could be written as ~a:x:b~
 
-Here are the properties of the original version. These work assuming one can get answers about a singleton, which is not always possible. 
+An RBR must satisfy the following properties: 
+1. Existence. There is an x-interval.
+2. Separtion. If a:x:b and c is strictly contained in a:b, then exactly one of the following holds: 1) a:x:c, ~c:x:b~; 2) c:x:c; 3) b:x:c, ~a:x:c~. 
+3. Consistency. If a:b contains the x-interval c:d, then a:b is an x-interval.
+4. Singular. If c:x:c and d:x:d, then c=d.
+5. Closed. If c is contained in every x-interval, then c:c. 
 
-1. Consistency. If an interval contains a Yes interval, then it is a Yes interval too. 
-2. Existence. There is a Yes interval. 
-3. Interval Separation. If you take a Yes interval and a rational c in it, then either the singleton of c is a Yes or it divides the Yes interval into two intervals for which exactly one of them is a Yes interval. 
-4. Rooted. There is at most one rational number c whose singleton is Yes. 
-5. Closed. If a rational c is in every Yes interval, then the singleton c is a Yes. 
+It can be shown that theoretically the relations form the real number field. It is, however, difficult to be precise with real numbers. Thus, the structure that is proposed and relied on the most is that of an oracle. This is a multi-valued function that takes in a rational interval and a rational tolerance delta, asking the question whether the real number is, more or less, in that interval. The more or less is the delta fuzziness. Sometimes the oracle returns an interval. Such an interval is a prophecy and the real number is supposed to be in that interval. The same input could have multiple different outputs. 
 
-If the singleton c is a Yes, then the oracle represents the rational number c. 
+This function ought to satisfy the follow properties to be an oracle: 
+1. Range. It should return i) (1, c:d), ii) (0, c:d), iii) (0), or iv) (-1) depending on if i) prophecy c:d intersects a:b and is contained in delta-halo of a:b, ii) prophecy c:d is disjoint from a:b, iii) there is a delta' such that i) definitely does not happen, or iv) kind of a null result. Doesn't actually happen but was necessary to avoid hidden assumptions in stating the range.
+2. Existence. There exists a:b and delta such that R(a:b, delta) = (1, c:d).
+3. Separation. If a:b is a prophecy of R, m is contained in a:b, and delta >0, then one or both of R(a:m, delta) =1 and R(m:b, delta) = 1 holds true.
+4. Disjointness. If a:b is disjoint from a prophecy c:d, then delta < (distance between a:b and c:d) implies R(a:b, delta) = 0  (maybe with a returned prophecy, maybe not).
+5. Consistency. If a:b contains a prophecy of R, then R(a:b, delta) always returns a 1 with a prophecy.
+6. Closed. If for every delta, the delta-halo of a contains a prophecy, then R(a:b, delta) always returns a 1 with a prophecy for all b and delta. The root of the oracle is then a.
+7. Reasonableness. Basically, -1 is never returned, but the specific language is that if R(a:b, delta) is not -1 for a small delta, than R(a:b, DELTA) does not return -1 either where DELTA > delta. 
 
-## What's in the main paper
-
-The paper explores this idea. It establishes a variety of deductions, such as two Yes intervals must intersect and their intersection must be a Yes interval. The paper gives explicit examples such as roots, pi, and e.  In sections 4 and 5, an arithmetic of oracles is defined. Basically, combine the intervals with the arithmetic operations applied to the endpoints. Since we can narrow the input representative intervals, we can get the output as narrowed as we want. The paper then establishes that the oracles are an ordered field with the rationals as a dense sub-field. It also establishes that the oracles are complete in the sense of Cauchy sequences always having limits as well as every set bounded above having a least upper bound. 
-
-There is a little pause after that to explore using mediants to do interval narrowing. Some discussion related to continued fractions and the Stern-Brocot tree are also given. 
-
-The paper then concludes with comparisons to other real number definitions.
+Multiple oracles can represent the same rational betweenness relation. All the standard analysis real number examples can easily be cast into an oracle form. Arithmetic is easy to define for them. They are practical and provide the foundational entry point into working with real numbers. 
 
 ## Future directions
 
-In addition to the papers, I am also working on a site for [Rational Mathematics](https://ratmath.com/) and probably companion libraries in JavaScript and Elixir. That's a stretch goal.
+In addition to the papers, I am also working on a site for [Rational Mathematics](https://ratmath.com/) and probably companion libraries in JavaScript. That's a stretch goal. 
 
 
