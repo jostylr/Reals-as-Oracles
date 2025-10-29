@@ -1,3 +1,31 @@
+
+
+    
+    Let $a\rint b$ and rational $\delta>0$ be given. For any interval $c\rint d$ from the fonsi such that $|c\rint d| < \delta$, define $R(a \rint b, \delta) = (k, c\rint d)$ where $k=1$ if $c\rint d$ intersects $a \rint b$ and $k=0$ if $c \rint d$ is disjoint from $a \rint b$. The potential multi-valued nature of $R$ is convenient here. 
+
+    Given that the length is less than $\delta$, if $c\rint d$ intersects $a\rint b$, then  $c\rint d$ is contained in $\halo{a\rint b}$. 
+
+    Whenever it is required to show that $R(a\rint b, \delta) \neq 0$, it will be necessary to demonstrate that every element of the fonsi whose length is less than $\delta$ intersects $a\rint b$. 
+    
+    The prophecies of $R$ are precisely the elements of the fonsi. That every prophecy is contained in the fonsi is clear from the definition. That every element of the fonsi is a prophecy follows by considering $R(c\rint d, |c\rint d|+1)$ for a given interval $c\rint d$ of the fonsi. Since $|c\rint d| < |c\rint d|+1$, $c\rint d$ itself matches the procedure constraint and is therefore a prophecy of $R$. 
+
+    The properties are verified as follows:  
+    \begin{enumerate}
+        \item Range. Satisfied by definition. 
+        \item Existence. Let $c \rint d$ be an element of the fonsi whose length is less than, say, 1. Then $R(c \rint d, 2) = (1, c \rint d)$.
+        \item Separation. 
+        Let $a\rint b \in R$, that is, it is an element of the fonsi. Let $m$ and $\delta$ be given such that $a\rint m\rint b$. Let $c\rint d$ be any element of the fonsi whose length is less than $\delta$. Since $a\rint b$ and $c\rint d$ are in the fonsi, they intersect. By relabeling, assume $c \rint d$ intersects at least $a \rint m$. Then by definition, $R(a \rint m, \delta) = (1, c \rint d)$ as was to be shown. 
+        
+        \item Disjointness. Let $c\rint d \in R$ and $a\rint b$ be disjoint from $c\rint d$. Let $\delta < |c\rint d; a \rint b|$. Let $e\rint f$ be any element of the fonsi whose length is less than $\delta$. Since $e\rint f$ must intersect $c\rint d$, it cannot intersect $a\rint b$ given the lengths. Thus, by definition, $R(c\rint d, \delta) = (0, e \rint f)$. 
+    
+        \item Consistency. Let $a\rint b \in \mathbb{I}_R$ which implies there exists an element $c\rint d$ of the fonsi which is a subinterval of $a\rint b$. Let  $ \delta$ be given. The task is to show $R(a\rint b, \delta) \neq 0$. Let $e\rint f$ be any element of the fonsi whose length is less than $\delta$. Since $e\rint f$ and $c\rint d$ intersect as they are both in the fonsi and as $c\rint d$ is contained in $a\rint b$, it is the case that $e\rint f$ intersects $a\rint b$ and is contained in $\halo{a \rint b}$. Therefore, the procedure returns $R(a\rint b, \delta) = (1, e\rint f)$ in this instance. As $e\rint f$ was arbitrary given the length, $R(a\rint b, \delta) \neq 0$. 
+        
+        \item Closed. Assume that $a$ is given such that $\halo{a} \in \mathbb{I}_R$ for all $\delta$. Given $a\rint b$ and $\delta$, the task is to show $R(a\rint b, \delta) \neq 0$. Let $c\rint d$ be an element of the fonsi whose length is less than $\delta$. The question is whether $c\rint d$ intersects $a\rint b$ or not. Suppose $a\rint b$ does not intersect $c\rint d$, then let $\delta'$  be less than the length from $c\rint d$ to $a\rint b$. This implies that $\halo[\delta']{a}$ is disjoint from $c\rint d$. Since $\halo[\delta']{a} \in \mathbb{I}_R$, there exists an interval $e\rint f$ in the fonsi which is contained in $\halo[\delta']{a}$. But being an element of the fonsi, it must intersect $c\rint d$. As this is not possible if $\halo[\delta']{a}$ is disjoint from $c\rint d$, it must be the case that $\halo[\delta']{a}$ and $c\rint d$ intersect. As this is a contradiction of the choice of $\delta'$ whose existence is based on $c\rint d$ being disjoint from $a\rint b$, it must be the case that $c\rint d$ intersects $a\rint b$. Thus, $R(a\rint b, \delta) = (1, c \rint d)$. As a side note, since this is true for all $b$ and elements $c\rint d$ of the fonsi, it must be the case that $a$ is contained in every element of the fonsi. 
+
+        \item Reasonableness. Nothing is defined with a $-1$ response. 
+    \end{enumerate}
+
+
 \subsection{Mountain Climbing a Real Number}
 
 There are many different oracles for a given real number. The collection of all the Yes intervals is potentially unknowable from finite means. The practical exploration of a real number is the use of the procedures to get increasingly narrower Yes intervals.  
