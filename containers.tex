@@ -1,0 +1,115 @@
+\documentclass[12pt]{article}
+\usepackage{personal}
+\usepackage{realoracles}
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{proposition}{Proposition}[section]
+
+\title{Exploring Completions}
+\jtauthor
+\date{\today}
+
+
+
+
+%\sloppy%\openup-.1\jot
+\begin{document}\maketitle
+\begin{abstract}
+Given a space X, an additional structure is that of containers. The structure may simply be the set of subsets. It could be closed balls in metric spaces. It could be convex spaces in linear topological spaces. This paper explores what the appropriate conditions are for controlled and meaningful completions. There is also discussion of when there are practical helpers, called oracles, that help with making the completions accessible to finite beings. 
+\end{abstract}
+
+\tableofcontents
+
+
+\section{Sketch}
+
+This may be a bit categorical without using categories. 
+
+A structure on a space $X$ is a \textbf{container structure} if it satisfies the following properties:
+\begin{enumerate}
+    \item Subsets. Each container is a subset of $X$; $X$ may be a possible container though not necessarily. The empty set is not a member of the container structure. 
+    \item Intersection. The intersection of two containers, if not empty, must contain a container. There is a maximum container in an intersection that contains all containers in the intersection. This will be called the containment intersection of the two containers. 
+    \item Union. The union of two containers is contained in a container. There is a minimum container that contains the union in that all containers containing the two containers will contain this minimum containers. This will be call the containment union of the two containers. 
+    \item Minimality. A minimal container is one such that no other container is contained in it. Every point $p$ in $X$ must be in a minimal container and it is called the House of $p$. By the Intersection property, $p$ has at most one house. If $p$ is in a container $A$, then the House of $P$ is a subset of $A$.
+\end{enumerate}
+
+
+
+A completion collection is a set of containers that satisfy the following properties (mostly filter properties): 
+\begin{enumerate}
+    \item Existence. There exists a container in the collection. 
+    \item Consistency. Any container that contains a container in the collection is in the collection. 
+    \item Intersecting. Two containers in the container must intersect in the container and the containment intersection is in the collection. 
+    \item Closed. If a point $p$ is contained in every container in the collection, then the House of $p$ is in the collection. 
+    \item House Separation. Given a non-house container in the collection and two distinct houses in the container, then there exists a container in the collection which excludes at least one of the houses. 
+\end{enumerate}
+
+
+By the use of House Separation and contradiction, the intersection of all of the containers in a collection is either a House or the empty set. Any collection whose intersection is a rooted collection and the root is the House. The others are new completion points. 
+
+This is the theoretical ideal. For just using sets, this can be extraordinarily messy and potentially pointless. Most of the time, their is a structure on $X$ that the completion space should inherit and this controls the choice of containers. 
+
+One desire is to be able to have a fuzziness about a container. A fuzzing of a container structure is a way of associating a fuzzy halo around a container which can be shrunk down to the container. Halos need not be containers, but they must contain any house that has a point in the halo.  The halo collection around a container $M$ has the property that $M$ is contained in all of them, that given a halo and a house not contained in $M$, then there is a sub-halo which contains $M$ but not the house.  The halos should be fat in some sense, but it is not clear what that might mean in general. Maybe something like given any two containers containing a house of $M$ there must be a halo that contains them or contains the intersection or union or something. 
+
+Oracles are functions that take in a container, a halo around the container, and, optionally, extra information and they return a tuple whose first entry is either $0$, $1$, or $-1$; the second entry which is optional for $0$ and not present for $-1$, is a container $P$ called a prophecy and that ought to contain the new mythical point; there may be a third entry in implementations for carrying extra information for further computations. Both the third argument and third entry will be notationally suppressed. The notation is $R(M, H_M)$ to denote the value of the oracle $R$ when queried with $M$ and $H_M$.
+
+\begin{enumerate}
+    \item Range. $R(M, H_M)$  always gives an answer and is one of the following forms: 
+    \begin{itemize}
+        \item $(1, P)$. $P$ is a container contained in $H_M$ and intersects $M$. 
+        \item $(0, P)$. $P$ is disjoint from $M$.
+        \item $(0)$.  There exists a $H_M$ such that no prophecy both intersects $M$ and is contained in $H_M$. 
+        \item $(-1)$. There should be no other core output for this core input. 
+    \end{itemize} 
+    \item Existence. There exists $M$ and $H_M$ such that $R(M, H_M) = (1, P)$. 
+    \item Separation. If $P$ is a prophecy of $R$, and two distinct houses $A$ and $B$ are in $P$, then there is a container $N$ excluding at least one of those houses and a halo $H_N$ such that $R(N, H_N) =1 $.
+   \item Disjointness. If $P$ is a prophecy of $R$ and $M$ is disjoint from $P$, then there exists a halo $H_M$ such that $R(M, H_M) \neq 1$.
+    \item Consistency. If $M$ contains a prophecy of $R$, then $R(M, H_M) \neq 0$ for all $H_M$. 
+    \item Closed. If $A$ is a house such that $H_A$ contains a prophecy all halos of $A$, then $R(A, H_A) \neq 0$. Such a house is call a root of the oracle. 
+    \item Reasonableness. If $R(M, H_M) \neq -1$, then $R(M, H'_M) \neq -1$ for any $H'_M$ that contains $H_M$. 
+\end{enumerate}
+
+$M$ is a Yes container if $R(M, H_M) \neq 0$ for all $H_M$. $M$ is a No container if $R(M, H_M)= 0$ for some $H_M$. 
+
+The set of all Yes containers for a given oracle is a completion collection. Given a complete collection, the reflexive oracle is one such that $R(M, H_M) = (1,M)$ if $M$ is in the collection and is equal to $0$ otherwise. 
+
+Is a completion complete, that is, does the container structure transfer over (it should?), and if transferred does the completion collections in the new space just result in itself (just root-based collections). 
+
+A skeleton of a collection is a subset of the collection such that every element of the collection contains at least one element in the skeleton. 
+
+Given two completion spaces, a mapping f respects the completion if f(alpha) = beta has the property that given any container in the collection of beta, there is a container in the collection of alpha such that f applied to that alpha-container is mapped into the beta-container. If one takes "small" beta containers and establishes this is true, then it is true for all larger beta containers. In particular, if there is a skeleton of beta for which this applies, then it applies to the whole collection. 
+
+Question: when is a map from the underlying spaces liftable up to a map to the completion spaces? 
+
+To what extent is container structure versus what collections to consider relevant?
+
+Maybe the trivial is all singletons plus X. The minimal sets are the singletons. None intersect and they are all contained in X. 
+
+Examples to explore: 
+
+metric
+
+uniform
+
+natural number line with infinity added
+
+approach
+
+maudlin's toplogy based on lines
+
+compaction
+
+convergence spaces?
+
+
+
+
+\medskip
+
+\normalem %restoring normal emphasis in bibliography 
+\printbibliography
+
+\end{document}

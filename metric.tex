@@ -23,6 +23,13 @@ Completing a metric space using equivalence classes of Cauchy sequences is a sta
 
 \tableofcontents
 
+
+\section{Introduction}
+
+The goal is to expand the ideas of \cite{taylor24oraclerbr} to more general spaces. The basic structure on the space will be a scale-indexed set of indistinguishability relations. This structure is equivalent to the structure of approach spaces, a structure which covers metric spaces, uniform spaces, and even general topological spaces in a certain trivializing sense. 
+
+
+
 \section{Introduction}
 
 Our primary task is to explore how to complete metric spaces using the notion of oracles. Oracles are defined on a collection of containers of points in a space. For completing the rationals to real numbers, these containers were inclusive rational intervals, including singleton intervals consisting of exactly one rational. For metric spaces, the containers will be nominally closed balls with the data being the center point and the radius. For more general topological spaces, these ideas lead to the well-trodden theory of ultrafilters \cite{samuel}. But metric spaces allow for slightly simpler structures to consider. 
@@ -385,6 +392,47 @@ While the basic calculation is the same as in the proof of a fixed point using C
     The usual proof of there is a unique fixed point applies. In particular, given two fixed points, $\alpha$ and $\beta$, we have $d(\alpha, \beta) = d(f (\alpha), f(\beta)) = k d(\alpha, \beta)$ implying either $k=1$ or $d(\alpha, \beta) = 0$.  Since $k$ is not 1, we have that the distance is zero and thus they are equal. 
     
 \end{proof}
+
+
+\section{Convergence Spaces}
+
+convergence spaces do not have the structure needed. 
+
+Current idea. 
+
+A set of containers. The intersection of two noncontainers either is empty or has a container in it. Two points p and q  are distinguishable if there are two disjoint containers such that p is in one and q is in another. Being indistinguishable forms a reflexive, symmetric, and transitive relation. Not sure if disjointness is needed or provable by something. Maybe just distinct containers that do not contain the other points. A distinguishment is a set consisting of all mutually indistinguishable points. Every distinguishment is a container. Given a container and a distinguishment, the distinguishment is either all in it or not. 
+
+A convergence is a set of containers that satisfy existence, consistency, intersecting. Closed is the statement the if a point p is in all Yes containers, then the distinguishment of p is a Yes container. Two point separation is given a Yes-container and two distinguishments in there, there exists a Yes-container strictly contained in the given container that excludes one of the distinguishments. 
+
+The hope that this is enough to give a convergence to something. 
+
+An oracle ought to be a potential skeleton of a convergence. Need to understand what the expanded delta range would be. something like given a a container, a nbhd container is one in which every distinguishment in the original is contained in a separate container fully ocntained in the other. Doesn't seem to reall make sense. 
+
+
+
+\section{Approach Spaces}
+
+This is a space with a family of distance functions, say $d_x (A)$ where A is a subset and x is a point in the space. It produces a non-negative real number.
+
+
+given topology, approach to recover is  $d(x, A) = 0$ if $x \in \bar{A}$, the closure of $A$ and is $\infty$ otherwise. Then a set is closed exactly when $\{x | d(x, A) = 0\} = A$. 
+
+
+
+All metrics and uniform structures provide such a thing, but it is more general. We will talk about completing it. 
+
+The balls $B[p, r]$ are defined as the the union of the sets whose distances to $p$ are less than or equal to $r$. 
+
+
+\section{Uniform Spaces}
+
+Uniform spaces are a generalization beyond metric spaces. There is a uniform structure that allows for comparing closeness across the space. In a metric space, the set $U_{\varepsilon} = \{(x,y) | d(x,y) < \varepsilon\}$ is the canonical example. Balls are then formed by $U_\varepsilon [x] = \{y | d(x,y) < \varepsilon\}$. Note that the triangle inequality leads to $U_\varepsilon \circ U_\varepsilon \subset U_{2 \varepsilon}$.  A topological space has a uniformity if and only if it is completely regular, that is, given a point and a closed set that does not contain that point, there is a continuous function $f$ that separates the point from the closed set. It need not be Hausdorff, but will be if it is a separated uniformity which also happens if every point is distinguishable from every other point. 
+
+Define entourages in general. 
+
+Define a fonsi relation, basically. Given a U[x], there should be a q and V such that V[q] circ V[q] is contained in U[x] and is a Yes ball. 
+
+A 
 
 
 \section{General Topological Spaces}
