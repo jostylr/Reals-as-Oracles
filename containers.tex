@@ -32,8 +32,8 @@ A structure on a space $X$ is a \textbf{container structure} if it satisfies the
 \begin{enumerate}
     \item Subsets. Each container is a subset of $X$; $X$ may be a possible container though not necessarily. The empty set is not a member of the container structure. 
     \item Intersection. The intersection of two containers, if not empty, must contain a container. There is a maximum container in an intersection that contains all containers in the intersection. This will be called the containment intersection of the two containers. 
-    \item Union. The union of two containers is contained in a container. There is a minimum container that contains the union in that all containers containing the two containers will contain this minimum containers. This will be call the containment union of the two containers. 
-    \item Minimality. A minimal container is one such that no other container is contained in it. Every point $p$ in $X$ must be in a minimal container and it is called the House of $p$. By the Intersection property, $p$ has at most one house. If $p$ is in a container $A$, then the House of $P$ is a subset of $A$.
+    \item Union. The union of two intersecting containers is contained in a container. There is a minimum container that contains the union in that all containers containing the two containers will contain this minimum containers. This will be called the containment union of the two containers. 
+    \item Minimality. A minimal container is one such that no other container is contained in it. Every point $p$ in $X$ must be in a minimal container and it is called the House of $p$. By the Intersection property, $p$ has at most one house. If $p$ is in a container $A$, then the House of $p$ is a subset of $A$.
 \end{enumerate}
 
 
@@ -42,29 +42,31 @@ A completion collection is a set of containers that satisfy the following proper
 \begin{enumerate}
     \item Existence. There exists a container in the collection. 
     \item Consistency. Any container that contains a container in the collection is in the collection. 
-    \item Intersecting. Two containers in the container must intersect in the container and the containment intersection is in the collection. 
+    \item Intersecting. Two containers in the collection must intersect and the containment intersection is in the collection. 
     \item Closed. If a point $p$ is contained in every container in the collection, then the House of $p$ is in the collection. 
-    \item House Separation. Given a non-house container in the collection and two distinct houses in the container, then there exists a container in the collection which excludes at least one of the houses. 
+    \item House Separation. Given any container in the collection and two distinct houses in the container, then there exists a container in the collection which excludes at least one of the houses. 
 \end{enumerate}
 
 
-By the use of House Separation and contradiction, the intersection of all of the containers in a collection is either a House or the empty set. Any collection whose intersection is a rooted collection and the root is the House. The others are new completion points. 
+By the use of House Separation and contradiction, the intersection of all of the containers in a collection is either a House or the empty set. Any collection whose collective intersection is a House is called a \textbf{rooted collection}; the \textbf{root} is defined to be the House in the intersection. The others are new completion points. 
 
-This is the theoretical ideal. For just using sets, this can be extraordinarily messy and potentially pointless. Most of the time, their is a structure on $X$ that the completion space should inherit and this controls the choice of containers. 
+This is the theoretical ideal. For just using sets, this can be extraordinarily messy and potentially pointless. Most of the time, there is a structure on $X$ that the completion space should inherit and this controls the choice of containers. 
 
 One desire is to be able to have a fuzziness about a container. A fuzzing of a container structure is a way of associating a fuzzy halo around a container which can be shrunk down to the container. Halos need not be containers, but they must contain any house that has a point in the halo.  The halo collection around a container $M$ has the property that $M$ is contained in all of them, that given a halo and a house not contained in $M$, then there is a sub-halo which contains $M$ but not the house.  The halos should be fat in some sense, but it is not clear what that might mean in general. Maybe something like given any two containers containing a house of $M$ there must be a halo that contains them or contains the intersection or union or something. 
+
+The goal is that if $p$ is on the ``boundary'' of the container, then the halo can be asked about as the boundary is where crisp answers are hard to have. That is, it is a kind of neighborhood. In general, it is hard to specify what would be needed and it is possible that the halos of $M$ reduce to just $M$, but this allows for more flexibility if needed. 
 
 Oracles are functions that take in a container, a halo around the container, and, optionally, extra information and they return a tuple whose first entry is either $0$, $1$, or $-1$; the second entry which is optional for $0$ and not present for $-1$, is a container $P$ called a prophecy and that ought to contain the new mythical point; there may be a third entry in implementations for carrying extra information for further computations. Both the third argument and third entry will be notationally suppressed. The notation is $R(M, H_M)$ to denote the value of the oracle $R$ when queried with $M$ and $H_M$.
 
 \begin{enumerate}
     \item Range. $R(M, H_M)$  always gives an answer and is one of the following forms: 
     \begin{itemize}
-        \item $(1, P)$. $P$ is a container contained in $H_M$ and intersects $M$. 
+        \item $(1, P)$. $P$ is a container contained in $H_M$ and intersects $M$. If there exists at least one output of this form, a shortened notation of $R(M, H_M)=1$ may be used. 
         \item $(0, P)$. $P$ is disjoint from $M$.
-        \item $(0)$.  There exists a $H_M$ such that no prophecy both intersects $M$ and is contained in $H_M$. 
+        \item $(0)$.  There exists an $H_M$ such that no prophecy both intersects $M$ and is contained in $H_M$. 
         \item $(-1)$. There should be no other core output for this core input. 
     \end{itemize} 
-    \item Existence. There exists $M$ and $H_M$ such that $R(M, H_M) = (1, P)$. 
+    \item Existence. There exists a container $M$,  and halo $H_M$ such that $R(M, H_M) = (1, P)$. 
     \item Separation. If $P$ is a prophecy of $R$, and two distinct houses $A$ and $B$ are in $P$, then there is a container $N$ excluding at least one of those houses and a halo $H_N$ such that $R(N, H_N) =1 $.
    \item Disjointness. If $P$ is a prophecy of $R$ and $M$ is disjoint from $P$, then there exists a halo $H_M$ such that $R(M, H_M) \neq 1$.
     \item Consistency. If $M$ contains a prophecy of $R$, then $R(M, H_M) \neq 0$ for all $H_M$. 
