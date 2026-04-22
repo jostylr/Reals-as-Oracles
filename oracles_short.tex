@@ -20,10 +20,10 @@
 %\sloppy%\openup-.1\jot
 \begin{document}\maketitle
 \begin{abstract}
-Irrational numbers cannot be known in a precise way in the same fashion that rational numbers can be. But one can be precise about the uncertainty. The assertion is that if one knows whether or not a real number is in any given rational interval, then one can claim to know the real number. This insight leads to a two tiered definition of real number. The top tier is the idealized rational betweenness relation which details what properties a relation on rational numbers must satisfy to qualify as a real number. The other tier is the practical approach to real numbers. These are non-unique procedures that give definite pathways to bringing forth the rational betweenness relations. Through these procedures, it will be established that the rational betweenness relations satisfy the axioms of the real numbers. 
+Irrational numbers cannot be known in a precise way in the same fashion that rational numbers can be. But one can be precise about the uncertainty. The assertion is that if one can ascertain whether or not a real number is in any given rational interval, then one can claim to know the real number. This insight leads to a two tiered definition of real number. The top tier is the idealized rational betweenness relation which details what properties a relation on rational numbers must satisfy to qualify as a real number. The other tier is the practical approach to real numbers. These are non-unique procedures that give definite pathways to bringing forth the rational betweenness relations. Through these procedures, it will be established that the rational betweenness relations satisfy the axioms of the real numbers. 
 \end{abstract}
 
-Real numbers are a fundamental part of mathematics. There are many different definitions and they each have their own inadequacies. This paper will present a new definition based on intervals. Intervals have been used before, but the definitions here should be more flexible and hopefully give a clearer structure in dealing with the tension of a real number as an infinite entity that practically is often only glimpsed at with finite means. 
+Real numbers are a fundamental part of mathematics. There are many different definitions and they each have their own inadequacies. This paper will present a new definition based on intervals. Intervals have been used before, but the definitions here are more flexible and reveling in dealing with the tension of a real number as an infinite entity being worked with by finite means. 
 
 Decimals are the first presentation of real numbers that most people are introduced to and, for non-mathematicians, often the only one. They seem nice at first, giving a good intuitive sense as to where the real number is roughly located on a number line. But the issue is that computing out a decimal to $n$ places of known accuracy may not be possible in finite time. A primary example is that of adding two numbers whose decimals happen to add up to 9 for many places. Until a non-9 is found or a proof is made that they will always be 9, there is uncertainty in all of those decimal places. Multiplication compounds this difficulty. A nice example is computing $1/9 * 1/9$ purely in terms of decimals; Norm Wildberger has a video entitled ``Fractions and repeating decimals'' which has a section, about 40 minutes in, on this computation. The multiplication has arbitrarily large carries forming a pattern which is hard to deduce from the decimal version alone. In producing the decimals, even as the uncertainty in the $n$-th decimal place may continue for awhile, the further computation is narrowing on an interval that contains the real number. This naturally leads one to thinking of a sequence of nested intervals being generated. This is a valid way of defining a real number as Bachmann essentially did in 1892 and as reviewed in the survey of real number definitions \cite{ittay-2015}. This is one generalization of the decimal approach; it introduces an extreme abundance of different representations for a given real number. 
 
@@ -278,10 +278,10 @@ A common situation for real number estimates is that the real number is computed
 
 This particular way of using Newton's method leads to a family of procedures. Given a different $a_0$, the intervals computed will differ and will lead to some computed intervals overlapping the endpoints of some intervals that other starting points would not overlap with. While this may generate different core outputs for the same core input, the ultimate determination of whether any given interval $a\rint b$ is a Yes interval or a No interval is not dependent on these difference.  If the root is the rational $p$, that is, $p^n = q$,  then intervals of the form $p\rint b$ will never be returned by this procedure unless $a_0 = p = b_0$. Nevertheless, the procedure will always return $1$ for any interval that contains $p$. The Yes intervals in this case will be exactly those that contain $p$. 
 
-More general uses of Newton's method can be discussed, but it is more efficient to discuss a general construct. Let $F(\varepsilon)$ be a procedure that given any $\varepsilon > 0$, it returns an interval whose length is less than $\varepsilon$. It may be the case that $F$ returns various different intervals for the same $\varepsilon$; the ideas of core input and core output can be implemented here as well. Such a procedure is a \textbf{linked} procedure if it has the property that any pair of intervals returned from $F$ must intersect. 
+More general uses of Newton's method can be discussed, but it is more efficient to discuss a general construct. A \textbf{refinement funnel} will be a procedure $F$ that takes in a positive rational $\varepsilon$ and returns an interval whose length is less than $\varepsilon$. A further requirement is that all output intervals of $F$ must intersect. It may be the case that $F$ returns various different intervals for the same $\varepsilon$; the ideas of core input and core output can be implemented here as well. 
 
 \begin{proposition}\label{os-linked}
-    Given a linked procedure $F$, there is an oracle whose prophecies are exactly the returned intervals of $F$. 
+    Given a refinement funnel $F$, there is an oracle whose prophecies are exactly the returned intervals of $F$. 
 \end{proposition}
 
 \begin{proof}
@@ -596,11 +596,11 @@ A common trick is to look at small enough Yes intervals, or prophecies, such tha
 
 In short, an interval is a No interval exactly when there exists a prophecy that is disjoint from. This follows from the above proposition as well as the Disjointness property. 
 
-\subsection{Fonsis}\label{os-fonsis}
+\subsection{Fonsis and Refinement Funnels}\label{os-fonsis}
 
  A \textbf{Family of Overlapping, Notionally Shrinking Intervals} (fonsi, pronounced faan-zee,) is a set of rational intervals such that any pair of rational intervals in the set intersect and, given a rational $\varepsilon >0$, there exists at least one interval in the fonsi such that its length is less than $\varepsilon$. A sequence of nested intervals whose length approaches $0$ would be an  examples of a fonsi. In constructivist works, such as \cite{bridger}, these objects, called fine families, are often taken as the definition of a real number and are likened to a set of measurements. 
 
-One can think of a fonsi as a function that takes in positive rational numbers and returns an interval whose length is less than the given number; this is what was used in Section \ref{os-sect-algo}. Different requests may lead to different intervals. The requirements on the output is that every returned interval must intersect every other returned interval. 
+These are closely related to the refinement funnels of Section \ref{os-sect-algo}. The range of a refinement funnel is a fonsi by definition of both of these terms. Given a fonsi, one can abstractly define a refinement funnel as one that, given a positive rational number, the return value is one of the intervals in the fonsi whose length is less than that given number.
 
 \begin{proposition}
     A set of intervals $\mathcal{F}$ is a fonsi if and only if there is an oracle $R$ whose set of prophecies equals $\mathcal{F}$.
@@ -611,7 +611,7 @@ One can think of a fonsi as a function that takes in positive rational numbers a
 
     For the other direction, let $\mathcal{F}$ be a fonsi. The task is to define an oracle whose prophecies are exactly the elements of $\mathcal{F}$. Define the procedure $F$ by given $\delta >0$, an arbitrary interval from the fonsi whose length is less than $\delta$ is given as the result of $F(\delta)$. In general, this will be multi-valued. 
 
-    Because the elements of the fonsi all pairwise intersect one another, it is a linked procedure. Thus, Proposition \ref{os-linked} applies and yields the desired oracle. 
+    Because the elements of the fonsi all pairwise intersect one another, it is a refinement funnel. Thus, Proposition \ref{os-linked} applies and yields the desired oracle. 
 \end{proof}
 
 \begin{corollary}
@@ -623,12 +623,16 @@ One can think of a fonsi as a function that takes in positive rational numbers a
 \end{proof}
 
 \begin{corollary}
-    Given an oracle, the complete set of all Yes intervals forms a maximal fonsi.
+    Given an oracle, the complete set of all Yes intervals forms a maximal fonsi which in turn forms a maximal refinement funnel.
 \end{corollary}
 
 \begin{proof}
-A maximal fonsi is one which is not contained in any other fonsi. That is equivalent to the fonsi having the property that every interval not in the fonsi is disjoint from at least one element of the fonsi. Since any interval that intersects arbitrarily small prophecies is a Yes interval, for an interval to not be a Yes interval, then non-constructively, there must exists a prophecy that the interval is disjoint from. Thus, that interval cannot be added to the fonsi. 
+A maximal fonsi is one which is not contained in any other fonsi. That is equivalent to the fonsi having the property that every interval not in the fonsi is disjoint from at least one element of the fonsi. Since any interval that intersects arbitrarily small prophecies is a Yes interval, for an interval to not be a Yes interval, then non-constructively, there must exist a prophecy that the interval is disjoint from. Thus, that interval cannot be added to the fonsi. 
+
+A maximal refinement funnel is one such that no interval can be added to the range and maintain the intersection compatibility. The refinement funnel associated with the maximal fonsi is a maximal refinement funnel. 
+
 \end{proof}
+
 
 
 \section{Oracles and Rational Betweenness Relations}
@@ -758,6 +762,38 @@ There is also a slightly different approach that can be used to establish equiva
 
 \begin{proof}
     It is necessary to show that all the prophecies intersect. Let $a\rint b$ be any prophecy of $R_x$ and $c\rint d$ be any prophecy of $R_y$. Either $a\rint b$ and $c\rint d$ intersect or they are disjoint. The unwelcome case is that of being disjoint. If they are disjoint, then, by the hypothesis, there is a prophecy of $R_y$ disjoint from $c\rint d$. But all prophecies of the oracle $R_y$ must intersect each other. Thus,  $a\rint b$ and $c\rint d$ cannot be disjoint. As these were arbitrary prophecies of their respective oracles, all of the prophecies must intersect. 
+\end{proof}
+
+For oracles, the canonical refinement funnel is a little abstract and somewhat relies on being able to make a random choice across an infinite set of intervals that may not be explicitly known. An alternative is to use the oracle and the Bisection Algorithm logic to give a more concrete refinement funnel. That is, given a rational length, bisect a given starting interval, say the one associated with Existence, and repeatedly use Separation to form an interval smaller than the given length. To the extent that the oracle procedure is concrete and reproducible, so will this procedure be particularly if given a concrete choice of which of the subintervals to examine first. 
+
+\begin{proposition}
+    Given an oracle $R$ and a refinement funnel $F$, the generated oracle from $F$ will be equivalent to $R$ if and only if the range of $F$ is a set of $R$-Yes intervals.
+\end{proposition}
+
+A refinement funnel $F$ is said to be $R$-compatible when its generated oracle is equivalent to $R$. 
+
+\begin{proof}
+    The generated oracle, $R_F$, has the property that the prophecies are $R$ is the range of $F$. For two oracles to be equivalent, all of their prophecies must intersect and are Yes intervals of the other oracle. So if $R_F$ is equivalent to $R$, then the range of $F$ is a set of $R$-Yes intervals. If the range of $F$ is a set of $R$-Yes intervals, then they intersect every prophecy of $R$. Since these are the prophecies of $R_F$, it is the case that $R$ and $R_F$ are equivalent as oracles. 
+\end{proof}
+
+
+
+\begin{corollary}
+    Given equivalent oracles $R$ and $R'$, a refinement funnel $F$ is compatible with $R$ if and only if it is compatible with $R'$.
+\end{corollary}
+
+\begin{proof}
+    Equivalent oracles have the same Yes intervals so if $F$ is compatible with one of the oracles, then it is for the other since its range will be a set of Yes intervals for both. 
+\end{proof}
+
+Two refinement funnels are said to be equivalent if they generate equivalent oracles. This can be denoted by $F_x \equiv F_y$. They are compatible if each of the output intervals of one funnel intersects each of the output intervals of the other funnel. 
+
+\begin{proposition}\label{os-prop-refine-equiv}
+    Two refinement funnels are equivalent if and only if they are compatible. 
+\end{proposition}
+
+\begin{proof}
+    Equivalent oracles have the same set of Yes intervals. The ranges of refinement funnels are subsets of the Yes intervals of the generated oracles. Thus, if the generated oracles are equivalent, then the ranges of the refinement funnels are subsets of the same set of Yes intervals and thus pairwise intersect. In the other direction, if they do pairwise intersect, then the prophecies of the generated oracles are the ranges. If two oracles have prophecies that pairwise intersect, then they are equivalent oracles. 
 \end{proof}
 
 
@@ -1031,7 +1067,7 @@ Let oracles $R_x$ and $R_y$ be given. One way to define an oracle $R_{x \cdot y}
 
 The existence of an interval of the form $c\rint d$ follows from the computational bounds on the arithmetic operators as well as the Bisection Algorithm applied to $R_x$ and $R_y$. For addition, that choice is ensured by choosing the lengths of each to be less than $\delta/2$. For multiplication, let $M$ be a bound on some fattened Yes intervals of $R_x$ and $R_y$ such that they strictly contain other Yes intervals. Then use the Bisection Algorithm on $R_x$ and $R_y$ to obtain Yes intervals whose lengths are less than $\delta/(2M)$ and are strictly contained in the bounding Yes intervals. 
 
-The proof that the above is an oracle is straightforward, but longer than desired and not different than what has been done earlier. Instead, the path chosen below is to recognize that when the prophecies of two oracles are combined either under addition or multiplication, the newly formed set is a fonsi. The oracle and relation then follows from the fonsi. 
+The proof that the above is an oracle is straightforward, but longer than desired and not different than what has been done earlier. Instead, the path chosen below is to use refinement funnels which work well with requiring intervals of a restricted size. The oracle and rational betweenness relation then follows from the refinement funnel. 
 
 \begin{lemma}
     Let $a\rint b, a'\rint b' \in R_{x}$, $c\rint d, c'\rint d' \in R_y$, $I =  a\rint b \odot c\rint d$, $I' =  a'\rint b' \odot c'\rint d'$. Then $I$ and $I'$ intersect. Furthermore, if $|I'| < \delta$, then $I' \subset \halo{I}$.
@@ -1045,82 +1081,89 @@ The proof that the above is an oracle is straightforward, but longer than desire
 
 
 \begin{proposition}
-    Given oracles $R_x$, $R_y$, the set $\mathcal{S} = \{a\rint b \oplus c\rint d| a\rint b \in R_x, c\rint d \in R_y\}$ is a fonsi. 
+    Given oracles $R_x$, $R_y$ and any compatible refinement funnels $F_{x}$ and $F_{y}$, respectively, the procedure $F_{x+y} (\delta) = F_x (\delta') \oplus F_y (\delta'')$ is a refinement funnel where $\delta' + \delta'' \leq \delta$. 
 \end{proposition}
+
+Section \ref{os-sect-equiv} ends with a discussion of compatible refinement funnels. 
 
 \begin{proof}
 
-    Let $\delta > 0$ be given. 
+    Let $\delta > 0$ be given and compute $F_{x+y}(\delta)$. 
 
-    Choose $\delta'$ and $\delta''$ such that $\delta' + \delta'' < \delta$, e.g., $\frac{\delta}{3}$ for both of them. 
+    By definition, this is $F_x(\delta') \oplus F_y(\delta'')$ where $\delta'$ and $\delta''$ satisfy the requirements of the statement. 
 
-    Choose intervals $a\rint b \in R_x$ and $c\rint d \in R_y$  such that  $|a\rint b| < \delta'$ and $|c\rint d| < \delta''$. This is allowed by the Bisection Algorithm. Let $e\rint f = a\rint b \oplus c\rint d$.
-     
-    Earlier, the interval length of a sum was computed:   $|a\rint b \oplus c\rint d| \leq |b-a| + |c-d| < \delta' + \delta'' < \delta$. Therefore, there are arbitrarily small summed prophecies in $\mathcal{S}$. 
-    
-    By the lemma, any pair of summed prophecies in $\mathcal{S}$ intersect. Thus, it is a fonsi. 
+    $F_x( \delta')$ will produce an $x$-interval whose length is less than $\delta'$; similarly for $F_y(\delta'')$. As discussed before, the length of an interval of a sum of intervals is the sum of the lengths. This gives $|F_x(\delta') \oplus F_y(\delta'')| < \delta'+\delta'' \leq \delta$. Thus, $F_{x+y}$ produces arbitrarily small intervals. 
+         
+    By the lemma, the range of $F_{x+y}$ will pairwise intersect. Thus, $F_{x+y}$ is a refinement funnel. 
     
 \end{proof}
 
 
-The associated oracle with this fonsi will be denoted as $R_{x + y}$; it is equivalent to the oracle sketched previously as can be seen by comparing prophecies. The associated rational betweenness relation will simply be written as $x+y$. 
+The associated oracle with this refinement funnel will be denoted as $R_{x + y}$; it is equivalent to the oracle sketched previously as can be seen by comparing prophecies. The associated rational betweenness relation will simply be written as $x+y$. 
+
+Given two oracles $R_x$ and $R_y$, let an absolute bound $M$ mean a number such that there exists an $x$-interval $a:b$ and $y$-interval $c:d$ such that $\max(|a|, |b|, |c|, |d|)  < M$. Furthermore, let $\varepsilon_{x,M}$ represent a length such that any $x$-interval whose length is less than $\varepsilon_{x, M}$ has the property that the interval is absolutely bounded by $M$.  
 
 \begin{proposition}
-    Given oracles $R_x$, $R_y$, the set $\mathcal{P} = \{a\rint b \otimes c\rint d| a\rint b \in R_x, c\rint d \in R_y\}$ is a fonsi. 
+    Given oracles $R_x$, $R_y$, an absolute bound $M$, and any compatible refinement funnels $F_{x}$ and $F_{y}$, respectively, the procedure $F_{xy} (\delta) = F_x(\delta') + F_y(\delta'')$ is a refinement funnel where $M(\delta' + \delta'') \leq \delta$, $\delta' < \varepsilon_{x, M}$, and $\delta'' < \varepsilon_{y,M}$. 
 \end{proposition}
 
 \begin{proof}
 
-    Let $\delta > 0$ be given. Let intervals $e'\rint f' \in R_x$ and $e''\rint f'' \in R_y$ be chosen as allowed by the existence property. Let $M = \max(|e'|, |f'|, |e''|, |f''|) +1$. 
+    Let $\delta > 0$ be given and compute $F_{xy}(\delta)$.
 
-    Choose $\delta'$ and $\delta''$ such that $M(\delta' + \delta'') < \delta$, e.g., $\frac{\delta}{3M}$ for both of them. 
-
-    Choose intervals $a\rint b \in R_x$ and $c\rint d \in R_y$  such that  $|a\rint b| < \min(\delta', 1)$ and $|c\rint d| < \min(\delta'', 1)$. This is allowed by the Bisection Algorithm. As all prophecies of length no greater than $1$ are within the $1$-halo of a given prophecy, it is the case that $|a|, |b|, |c|, |d| < M$. 
-     
-    Earlier, the interval length of a product interval was shown to have the bound   $|a\rint b \otimes c\rint d| \leq M (|b-a| + |c-d|) < M (\delta' + \delta'') < \delta$. Therefore, there are arbitrarily small product prophecies in $\mathcal{P}$. 
+    By definition, this is $F_x(\delta') \otimes F_y(\delta'')$ where $\delta'$ and $\delta''$ satisfy the requirements of the statement. Let $F_x(\delta') = a:b$ and $F_y(\delta'') = c:d$. As $\delta' < \varepsilon_{x, M}$ and $\delta'' < \varepsilon_{y,M}$ hold true, it is the case that $a:b$ and $c:d$ are absolutely bounded by $M$. Their lengths are also bounded by $\delta'$ and $\delta''$ respectively. As discussed above, this implies that $|a:b \otimes c:d| \leq M(|a:b| + |c:d|) < M(\delta' + \delta'') \leq \delta$. Thus, $F_{xy}$ produces arbitrarily small intervals. 
+         
+    By the lemma, the intervals in the range of $F_{xy}$ will pairwise intersect. 
     
-    By the lemma, any pair of product prophecies in $\mathcal{P}$ intersect. Thus, it is a fonsi. 
+    $F_{xy}$ is, therefore, a refinement funnel. 
+
     
 \end{proof}
 
-The associated oracle with this fonsi will be denoted as $R_{xy}$; it is equivalent to the oracle sketched previously as can be seen by comparing prophecies. The associated rational betweenness relation will simply be written as $xy$. In the case that the lack of a symbol is awkward, the notation $x * y$ may be used as well. 
+The associated oracle to the refinement funnel will be denoted as $R_{xy}$; it is equivalent to the oracle sketched previously as can be seen by comparing prophecies. The associated rational betweenness relation will simply be written as $xy$. In the case that the lack of a symbol is awkward, the notation $x * y$ may be used as well. 
 
-One also has to establish that different oracles for a real number lead to an equivalent oracle under these operations. 
+One also has to establish that using different compatible refinement funnels as operands results in equivalent oracles.
 
 \begin{proposition}
-    Let $R_x \equiv R'_x$ and $R_y \equiv R'_y$, then $R_{x \cdot y} \equiv R'_{x \cdot y}$.
+    Let $F_x \equiv F_x'$ and $F_y \equiv F_y'$ be pairs of equivalent refinement funnels. Then $F_{x \cdot y} \equiv F_{x \cdot y}$. 
 \end{proposition}
 
 \begin{proof}
-The task is to show that the prophecies of $R_{x \cdot y}$ intersect the prophecies of $R'_{x \cdot y}$. By the equivalence, all the prophecies of $R_x$ intersect all the prophecies of $R'_x$ and all the prophecies of $R_y$ intersect the prophecies of $R'_y$. Let $a\rint b \in R_{x \cdot y}$ which means there exists $c\rint d \in R_x$ and $e\rint f \in R_y$ such that $a\rint b = c\rint d \odot e\rint f$. Similarly, let $a'\rint b'\in R'_{x \cdot y}$ with $c'\rint d' \in R'_x$, $e'\rint f' \in R'_y$ such that $a'\rint b' = c'\rint d' \odot e'\rint f'$. Then by assumption of the equivalences, there exists $p$ that is in both $c\rint d$ and $c'\rint d'$ along with a $q$ in both $e\rint f$ and $e'\rint f'$. Then $p \cdot q$ will be in both $a\rint b$ and $a'\rint b'$. Thus, they intersect. This shows that all prophecies of $R_{x \cdot y}$ intersect all the prophecies of $R_{x' \cdot y'}$ which implies they are equivalent. 
+The task is to show that the intervals of $F_{x \cdot y}$ intersect the intervals of $F'_{x \cdot y}$. By the equivalence, all the intervals of $F_x$ intersect all the intervals of $F'_x$ and all the intervals of $F_y$ intersect the prophecies of $F'_y$. Let $a\rint b \in F_{x \cdot y}$ which means there exists $c\rint d \in F_x$ and $e\rint f \in F_y$ such that $a\rint b = c\rint d \odot e\rint f$. Similarly, let $a'\rint b'\in F'_{x \cdot y}$ with $c'\rint d' \in F'_x$, $e'\rint f' \in F'_y$ such that $a'\rint b' = c'\rint d' \odot e'\rint f'$. Then by assumption of the equivalences, there exists $p$ that is in both $c\rint d$ and $c'\rint d'$ along with a $q$ in both $e\rint f$ and $e'\rint f'$. Then $p \cdot q$ will be in both $a\rint b$ and $a'\rint b'$. Thus, they intersect. This shows that all intervals of $F_{x \cdot y}$ intersect all the intervals of $F_{x' \cdot y'}$ which implies they are equivalent. 
+\end{proof}
+
+\begin{corollary}
+    Given equivalent oracles $R_x \equiv R'_x$ and $R_y \equiv R'_y$, the oracles $R_{x \cdot y} \equiv R'_{x \cdot y}$.
+\end{corollary}
+
+\begin{proof}
+    Given the equivalent oracles, the refinement funnels compatible with them are equivalent. Thus, the proposition applies to have the generated refinement funnels being equivalent. By Proposition \ref{os-prop-refine-equiv}, this implies their generated oracles are equivalent. 
 \end{proof}
 
 The equivalence implies that they represent the same completed rational betweenness relation.
 
-Having established that these are oracles, it is necessary to check the field properties. The key fact to use is that if two oracles have prophecies that are always intersecting, and below they will often be identical, then they are equivalent oracles and their corresponding rational betweenness relations are identical. 
+Having established that these are oracles, it is necessary to check the field properties. The idea is to demonstrate that the oracles as expressed in different ways by the properties are, in fact, equivalent and thus the properties hold. One can use intersecting prophecies of the oracles, but it is both sufficient and equivalent to argue that the respective refinement funnels are compatible. Often, they are identical. 
 
 \begin{enumerate}
-    \item Commutativity. To show $x\cdot y = y \cdot x$, the interval fact that $a\rint b \odot c\rint d = c\rint d \odot a\rint b$ establishes that the two have the same set of prophecies and hence are equivalent. The interval equality follows from the commutativity of $\cdot$  on the rationals. 
-    \item Associativity. To show $(x\cdot y) \cdot z = x \cdot (y \cdot z)$, the interval fact to use is that $(a\rint b \odot c\rint d) \odot e\rint f = a\rint b \odot (c\rint d \odot e\rint f)$. This establishes that the two have the same set  of prophecies and hence are equivalent. The interval equality follows from the associativity of $\cdot$ on the rationals. 
-    \item Identities. Let $R_0$ be the Singular Oracle of $0$ and $R_1$ be the Singular Oracle of $1$. The task is to show $x+0=x$ and $1x  = x$.  Since $a\rint b \oplus 0\rint 0 = a\rint b$, the prophecies of $R_{x+0}$ and $R_x$ are identical. As $a\rint b \otimes 1\rint 1 = a\rint b$, the prophecies of $R_{x*1}$ and $R_x$ are identical. This establishes the additive identity as 0 and the multiplicative identity as 1. 
-    \item Distributive Property. As previously mentioned, $( a\rint b \otimes ( c\rint d \oplus e\rint f) \subset (a\rint b \otimes c\rint d) \oplus (a\rint b \otimes e\rint f)$. Thus, the prophecies of $R_{x(y+z)}$ are contained in the prophecies of $R_{xy + yz}$. Since that means they intersect, these are equivalent oracles and the Distributive Property holds. 
-    \item Additive Inverse.  The additive inverse for $x$ can be given by the procedure $R_{-x}(a\rint b, \delta) = (1, \ominus (c\rint d))$ where $R_x (\ominus (a\rint b), \delta) = (1, c\rint d)$  and is $(0)$  if $R_x$ is $0$  for those inputs. It can be shown that it is an oracle basically because the procedure returns $0$ under the same conditions as the original procedure.
+    \item Commutativity. To show $x\cdot y = y \cdot x$, consider $F_x \cdot F_y$ versus $F_y \cdot F_x$. If $F_x(\delta') = a \rint b$ and $F_y(\delta') = c \rint d$, and letting $a \rint p \rint b$ and $c \rint q \rint d$, it is clear that since $p \dot q = q \dot p$, that $a:b \cdot c:d = c:d \cdot a:b$. Thus, $F_x \cdot F_y = F_y \cdot F_x$. Thus, $F_{x \cdot y} \equiv F_{y \cdot x}$, establishing that commutativity holds. 
+    \item Associativity. To show $(x\cdot y) \cdot z = x \cdot (y \cdot z)$, the interval fact to use is that $(a\rint b \odot c\rint d) \odot e\rint f = a\rint b \odot (c\rint d \odot e\rint f)$. Using the same logic as before, it is the case that $F_{(x \cdot y) \cdot z} = F_{x \cdot (y \cdot z)}$. 
+    \item Identities. Let $R_0$ be the Singular Oracle of $0$ and $R_1$ be the Singular Oracle of $1$. The only refinement funnel that generates the singular oracles is $F_0(\delta) = 0:0$ and $F_1(\delta) = 1:1$. The task is to show $x+0=x$ and $1x  = x$.  Since $F_x(\delta') \oplus F_0(\delta'') = a\rint b \oplus 0\rint 0 = a\rint b$, the refinement funnels $F_{x+0}$ and $F_x$ are compatible and generate equivalent oracles. As $F_x(\delta') \otimes F_1 (\delta'') = a\rint b \otimes 1\rint 1 = a\rint b$, the refinement funnels $F_{x + 1}$ and $F_x$ are compatible and generate equivalent oracles.  This establishes the additive identity as 0 and the multiplicative identity as 1. 
+    \item Distributive Property. As previously mentioned, $( a\rint b \otimes ( c\rint d \oplus e\rint f) \subset (a\rint b \otimes c\rint d) \oplus (a\rint b \otimes e\rint f)$. Thus, $F_{x(y+z)} \subset F_{xy + yz}$ implying they are compatible refinement funnels that generate equivalent oracles which demonstrates that the Distributive Property holds. 
+    \item Additive Inverse. Given oracle $x$ with compatible refinement funnel $F_x$, define $-x$ to be the oracle generated from the refinement funnel $F_{-x} (\delta ) = \ominus F_x(\delta)$. The procedure $F_{-x}$ is a refinement funnel as $|a \rint b| = |\ominus a \rint b|$ and if $p \in a \rint b$, then $-p \in a \rint b$. Thus, there are arbitrarily small outputs and all the outputs intersect, using those facts being true of $F_x$.
 
-    Alternatively, given the fonsi that is the set of prophecies of $R_x$, define the additive inverse fonsi as $\{-a\rint -b| a\rint b \in R_x\}$. This is a fonsi as $|-a\rint -b| = |a\rint b|$ and  $q \in a\rint b$ if and only if $-q \in -a\rint -b$ which implies that the intersection of two intervals is non-empty if and only if the intersection of the two negated intervals is. 
+    Therefore $F_{-x}$ as defined above is a refinement funnel which generates an oracle $R_{-x}$ which generates the betweenness relation denoted as $-x$. 
+    
+    To verify that this is the additive inverse, note that $F_x(\delta') \oplus F_{-x}( \delta'') = F_x(\delta') \oplus  (\ominus F_{x}( \delta'') ) = a \rint b \oplus (\ominus c\rint d ) = a \rint b \oplus -c \rint -d$. Since $F_x$ is a refinement funnel there exists $p$ such that $a : p : b$ and $c : p :d$ implying $-c: -p : -d$. Thus $p -p = 0$ is an element of  $F_x(\delta') \oplus F_{-x}( \delta'')$. This is true for all $\delta'$ and $\delta''$. Hence, $0$ is an element of all of the outputs of $F_{x -x}$. This means they intersect $0:0$ which implies this is equivalent to the singular oracle $0$'s refinement funnel. Thus, $x-x = 0$. 
+    
+    \item Multiplicative Inverse. For the multiplicative inverse of $x$, it is slightly more complicated. The multiplicative inverse only exists if $x \neq 0$. Being not $0$, there exists at least one prophecy $u\rint v$ of $x$ that does not contain 0. Define $F_{1/x}(\delta) = 1 \oslash (u \rint v \cap F_x(\delta')$). The intersection will be a Yes interval of $x$ that excludes 0. 
+    
+    Let $m = \min(|u|, |v|)$ and $a \rint b = u \rint v \cap F_x(\delta)$. Then $|a|, |b| > m$ and $ab > 0$. Thus, $|1 \oslash (a \rint b)| = |1/a : 1/b| = |b-a|/ab < |b-a|/m^2 < \delta'/m^2$. Thus, if $\delta' < \min(m^2 \delta, \delta)$, then $|1 \oslash (a \rint b)| < \delta$. This shows that $F_{1/x}$ yields arbitrarily small intervals. 
 
-    By either method, there is an oracle $R_{-x}$ whose prophecies are the negated versions of the prophecies of $R_x$. The corresponding rational betweenness relation will be denoted by $-x$.
-    
-    To verify that this is the additive inverse, compute $x + (-x)$ by looking at $a\rint b \oplus c\rint d$ where $a \lte b \in R_x$ and $c \lte d \in R_{-x}$. For $c\rint d \in R_{-x}$, it must be the case that $-c\rint -d \in R_x$. The intervals $-c \rint  -d$ and $a\rint b$ must intersect as they are both prophecies of $R_x$. Let $p$ be a point of that intersection which implies $a\rint p\rint b$ and $c\rint -p\rint d$. Then $a\rint b \oplus c\rint d$, which is $(a+c) \lte (b+d)$, has $(a+c) \rint  ( p + (-p) =0 ) \rint  (b+d)$ in its interval. Since $a\rint b$ and $c\rint d$ were random prophecies of their oracles, it must be true that all intervals in the range of the sum procedure must contain 0. This leads to the prophecies of $R_{x-x}$ all containing 0 which means 0 is the root of the oracle $R_{x-x}$ which in turn means $R_{x-x} \equiv R_0$.  Thus, $-x$ is the additive inverse of $x$. 
-    
-    \item Multiplicative Inverse. For the multiplicative inverse of $x$, it is slightly more complicated. This only applies if $x \neq 0$. Being not 0, there exists at least one prophecy $u\rint v$ of $x$ that does not contain 0. Once one has that prophecy, then if $2L$ is the distance to 0 from $u\rint v$, which would be $\min(|u|, |v|)$, any prophecy whose size is less than $L$ also excludes 0 as any such prophecy must intersect $u \rint v$ and thus is contained in $\halo[L]{u \rint v}$. This also means that if $p$ is in such a prophecy, then $|p| > L$. 
-    
-    Define a fonsi to be $\mathcal{F} = \{1/a \rint  1/b | a\rint b \in R_x \wedge |a\rint b| < L \}$. To show this is a fonsi, let $a\lte b$ and $c \lte d$ be two intervals in $\mathcal{F}$. It is required to show that they intersect. Since $1/a\rint 1/b \in R_x$ and $1/c\rint 1/d \in R_x$, those reciprocated intervals intersect. Let $\{1/a, 1/c\} \rint  p \rint  \{1/b, 1/d\}$. Then $\{a, c\} \rint  1/p \rint  \{b, d\}$ as all of these are the same sign. Thus, $1/p$ is in both $a\rint b$ and $c\rint d$. 
+    As for them intersecting, assume $a:b$ and $c:d$ are two outputs of $F_{1/x}$. This implies that $1/a:1/b$ and $1/c:1/d$ are Yes intervals of $x$. Thus, they intersect. Let $p$ be in that intersection. Then $1/a : p : 1/b$ implies $a : 1/p : b $; the betweenness relation holds as $a$ and $b$ have the same sign. Similarly, $c: 1/p : d$. Thus, $1/p$ is common to both intervals and they do intersect. 
+        
+    Therefore $F_{1/x}$ as defined above is a refinement funnel which generates an oracle $R_{1/x}$ which generates the betweenness relation denoted as $1/x$. 
 
-    The other aspect of a fonsi is to have arbitrarily small intervals in it. Let $\delta > 0$ be given. By the Bisection Algorithm, let $a\rint b \in R_x$ be such that $|a\rint b| < \min(L, \delta L^2)$. By the length of $a\rint b$, it does not contain 0, and thus its reciprocal is an interval in $\mathcal{F}$ and $ab > 0$. Then $|1/a\rint  1/b| = |b:a|/ab$. As note above, $|a|, |b| > L$, it is the case that $1/(ab) < 1/L^2$. Thus, $|1/a\rint 1/b| = |a\rint b|/ab < |a\rint b|/L^2 < L^2 \delta/L^2 = \delta$. This demonstrates that there are arbitrarily small intervals in $\mathcal{F}$ and completes the proof that $\mathcal{F}$ is a fonsi. 
-    
-    The fonsi generates an oracle $R_{1/x}$ which generates the betweenness relation denoted as $1/x$. 
-
-    To verify that this is the multiplicative inverse, compute $R_{x*1/x}$. As with the additive inverse, given $a\rint b \in R_x$ and $c\rint d \in R_{1/x}$, there exists $p$ that is common to both $a\rint b$ and $1 \oslash (c\rint d)$. Thus, the multiplication of these intervals leads to $p *1/p = 1$ being in the product interval and, as this is true for all pairings of small enough prophecies of $R_{x}$ with $R_{1/x}$, it is the case that $R_{x*1/x} \equiv R_1$. Thus, $1/x$ is the multiplicative inverse of $x$; this exists for all $x \neq 0$. 
+    To verify that this is the multiplicative inverse, compute $F_{x*1/x}$. As with the additive inverse, compute $F_x(\delta') \otimes F_{1/x}(\delta'') = a\rint b \otimes c\rint d$. There exists $p$ that is common to both $a\rint b$ and $1 \oslash (c\rint d)$. Thus, the multiplication of these intervals leads to $p *1/p = 1$ being in the product interval and therefore $F_{x*1/x}$ is compatible with the refinement funnel of the Singular Oracle of 1. Thus, $1/x$ is the multiplicative inverse of $x$; this exists for all $x \neq 0$. 
 
 \end{enumerate}
 
@@ -1146,19 +1189,23 @@ Taken as a whole, all of the above translates into the following theorem.
 
 \section{Concluding Thoughts}
 
-The idea was quite simple:  a real number is best represented by the intervals that contain it. To do this, there are three distinct structures. 
+The idea was quite simple:  a real number is best represented by the intervals that contain it. To unpack this idea, several levels of tools were used.
 
-The initial structure is that of the rational betweenness relations. While Dedekind cuts emphasize, in some sense, being away from the real number, the relations suggest enclosing the real number. The idea is that if one knows which rational intervals contain the real number, then it is reasonable to say that one knows the real number. Unfortunately, this is not achievable for all real numbers by finite processes. 
+The idealized version of real numbers are the rational betweenness relations. While Dedekind cuts emphasize, in some sense, being away from the real number, the relations suggest enclosing the real number. The idea is that if one knows which rational intervals contain the real number, then it is reasonable to say that one knows the real number. Unfortunately, this is not achievable for all real numbers by finite processes. 
 
-What is achievable is the structure of oracles. They are more computationally accessible. They are best thought of as a prescription as to what to compute and do rather than some given completed object. 
+A more practical version is that of the oracles. They are the rational betweenness relations with a bit of fuzziness built in as well as having more of a just-in-time emphasis. One does computations upon demand and there is no suggestion of being presented an infinitely complete object. 
 
-But given some attempt to represent a particular real number, many oracles are possible. This suggests trying to find a structure that oracles are approximating. This is the betweenness relations. These are pure. They represent the intervals that contain the real number. In order to compute out all the Yes intervals for a given oracle, it may be necessary to check infinitely many intervals. This can mean that to state the relations is to delve into nonconstructivist territories. 
+There are infinitely many oracles that can represent the same rational betweenness relation. This defines a useful equivalence relation on oracles, a relation that can be established by considering the intersections of the prophecies. 
 
-Both versions have their trade offs. In terms of practical uses, the oracles are more compatible with using  a computer program. The betweenness relations are very useful in theoretical uses. 
+There is a third layer which is the layer of objects that generate oracles. There are two major divisions in how real numbers arise. 
 
-The third structure that emerges is that of fonsis. While algorithms generally fit the oracles better, the fonsi notion naturally arises in arithmetic. The fonsis are the prophecies of the oracles and they are a partial, but functional, version of the rational betweenness relations. 
+The first is that of the algorithmic way. Cauchy sequences are based on this idea as are most of the definitions of real numbers. The presentation here used refinement funnels and fonsis to explore the idea of objects that are notionally shrinking and overlapping. The fonsis can be useful abstractly as the range of the refinement funnels, but it is the refinement funnels that enabled defining arithmetic of real numbers efficiently. 
 
-A famous motivation for Dedekind was to prove that $\sqrt{2} \sqrt{3} = \sqrt{6}$. How might that go with the relations? The Yes intervals for $\sqrt{p}$ are those intervals $\{0, a\} \lte b$ that satisfy $\max(0,a)^2 \rint  p \rint  b^2$. Let $0\rint 0 < a \lte b$ be a $\sqrt{2}$-Yes interval and $0\rint 0 < c\lte d$ be a $\sqrt{3}$-Yes interval. Multiplication of them leads to $ac \lte bd$. Squaring the multiplication leads to $a^2 c^2 \lte b^2 d^2$. Since $a^2 \lte 2 \lte b^2$ and $c^2 \lte 3 \lte d^2$, multiplication leads to $a^2 c^2 \lte 6 \lte b^2 d^2$. Thus, $\sqrt{2} \sqrt{3} = \sqrt{6}$. This can obviously be generalized to any $n$-th roots. 
+The other way oracles get generated is by testing intervals. This often arises in connection with inequalities. Dedekind cuts are inspired by this viewpoint. A common way to define testing oracles is to use a function $f$ which, on a defining interval of interest, is negative on one side of the desired real and positive on the other side. This is naturally expressed by oracles. 
+
+It is in this way that oracles bridge the main disparate identities of real numbers. They bring a practical, finite approach to exploring objects that are inherently infinite. 
+
+A famous motivation for Dedekind was to prove that $\sqrt{2} \sqrt{3} = \sqrt{6}$. How might that go with the relations? The Yes intervals for $\sqrt{p}$ are those intervals $\{0, a\} \lte b$ that satisfy $\max(0,a)^2 \rint  p \rint  b^2$. Let $0\rint 0 < a \lte b$ be a $\sqrt{2}$-Yes interval and $0\rint 0 < c\lte d$ be a $\sqrt{3}$-Yes interval. Multiplication of them leads to $ac \lte bd$. Squaring the multiplication rational betweenness relation leads to intervals, where primes are used to denote another set of intervals satisfying the same conditions as their unprimed counterparts,  of the form $aa' cc' \lte bb' dd'$. Since $aa' \lte 2 \lte bb'$ and $cc' \lte 3 \lte dd'$, multiplication leads to $aa' cc' \lte 6 \lte bb' dd'$. Thus, $\sqrt{2} \sqrt{3} = \sqrt{6}$. This can obviously be generalized to any $n$-th roots. 
 
 In general, using intervals is how arithmetic can be explored. The computation of $e + \pi$ can be explored with intervals. One would take Yes intervals of $e$ and Yes intervals of $\pi$ and then add them together. The intervals can be shrunk as small as one likes if one has the computational power to do it. There is nothing infinite in the computation up to a certain desired level of precision. Using fractions allows for accurate precision. 
 
