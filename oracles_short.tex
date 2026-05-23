@@ -26,17 +26,17 @@ Irrational numbers cannot be known in a precise way in the same fashion that rat
 
 Real numbers are typically defined as completed infinite objects, yet in practice they are accessed only through finite computations. This creates a tension in which formal definitions present real numbers as fully determined entities while computational methods only ever produce partial, interval-based information. Decimals, Cauchy sequences, and related constructions all reflect this reality, but they obscure the interval information and often introduce significant redundancy or ambiguity in representation. Dedekind cuts lean more into the completed infinite object presentation with a corresponding decrease in practical usefulness.
 
-The viewpoint adopted in this paper is that this interval-based knowledge is the correct foundation and not just an approximation. To know a real number is to know whether it lies within any given rational interval. This leads naturally to a two-tiered framework. On the one hand, there is an idealized notion of a real number as a rational betweenness relation which is a structure that records exactly which rational intervals contain the number. On the other hand, there are practical representations, called oracles, which are procedures that answer interval membership queries through finite means.
+To know a real number is to know whether it lies within any given rational interval. Here a real number is defined as the unique full collection of rational intervals that ought to contain the number; these are the rational betweenness relations. The practical versions are procedures that answer fuzzy interval membership queries via a finite number of computational steps; these are the oracles. There are infinitely many different oracles representing a real number and is a matter of practicalities as to which one is used. 
 
-A central feature of this framework is that while the idealized representation is unique, the practical representations are not. Different procedures may yield different pathways for refining information about the same real number. This non-uniqueness is a reflection of the computational reality of working with real numbers.
+Section 1 introduces notation for rational intervals and betweenness which provides a convenient language for the rest of the paper. Section 2 defines rational betweenness relations and presents them as the canonical representation of real numbers. 
 
-Section 1 introduces notation for rational intervals and betweenness which provides a convenient language for the rest of the paper. Section 2 defines rational betweenness relations and presents them as the canonical representation of real numbers. Section 3 introduces oracles, which serve as the computational counterpart to these relations, and states the properties they must satisfy. Oracles themselves are split into the fully realizable proto-oracles and their own idealized counterparts which are the full oracles. 
+Section 3 introduces oracles, which serve as the computational counterpart to these relations, and states the properties they must satisfy. Oracles themselves are split into proto-oracles, coarse oracles, and complete oracles. Coarse oracles are the fully realizable oracles that finite beings can access computationally. They do not fully specify the real number. Proto-oracles have the ability to narrow down the approximate interval as finely as desired. They are focused on the refinement and may not always have known answers. Complete oracles are proto-oracles that have answers for every interval. 
 
 Section 4 develops examples of oracles and shows how familiar constructions of real numbers fit into this framework. In particular, two broad classes emerge. Testing oracles determine interval membership directly, while algorithmic oracles operate by generating families of increasingly refined intervals. The latter are formalized through refinement funnels, which capture the common structure underlying many numerical procedures.
 
 Section 5 establishes key properties of oracles, including computational techniques such as the bisection algorithm. Section 6 connects oracles to rational betweenness relations and defines when two oracles represent the same real number. Section 7 completes the development by defining arithmetic and proving that the resulting structure satisfies the axioms of a complete ordered field.
 
-Throughout the paper, attention is given to distinguishing what can be known through finite, computational means versus that which is more in the realm of the proof and infinity. The goal is not to restrict to computable procedures, but to clarify what information could be obtained through finite interaction with an oracle. Proto-oracles are generally what can be known by computational means and oracles are where proof becomes important. 
+Throughout this paper, attention is given to the tension of what is achievable via finite computations versus what is on the level of proof or infinite processes. The goal is to provide a format that comfortably fits with numerical methods while also serving well for theoretical arguments. 
 
 
 
@@ -163,41 +163,62 @@ Arithmetic is defined using interval arithmetic, as will be discussed later, but
 
 \section{Oracles}
 
-A \textbf{real number oracle} is a procedure $R$, satisfying the properties listed below, whose core input is a rational interval along with a positive rational number. There are two types of core output. The first is an ordered pair where the first entry is a boolean in the form of either $1$ or $0$ while the second entry is a rational interval. The second type is either $(0)$ or $(-1)$. For a given core input, there may be multiple core outputs. An oracle is trying to answer the question of whether the real number under consideration is contained in the given interval. A $0$ would say No and a $1$ is almost a Yes, where the almost is where the positive rational number is used. A $-1$ indicates an inability to answer either Yes or No. In this paper, the word oracle will always refer to a real number oracle and the word core will generally be implied for the inputs and outputs of an oracle.
+A \textbf{real number oracle-type} is a procedure $R$ whose core input is a rational interval along with a positive rational number. There are two types of core output. The first is an ordered pair where the first entry is a boolean in the form of either $1$ or $0$ while the second entry is a rational interval. The second type is either $(0)$ or $(-1)$. For a given core input, there may be multiple core outputs which is why this is a procedure rather than a function. An oracle-type procedure is trying to answer the question of whether the real number under consideration is contained in the given interval. A $0$ would say No and a $1$ is almost a Yes, where the almost is where the positive rational number is used. A $-1$ indicates an inability to answer either Yes or No. In this paper, the variations on the word oracle will always refer to a real number oracle. The word core will generally be implied for the inputs and outputs of an oracle-type.
 
+When computing $R(a\rint b, \delta)$, an oracle-type $R$ will give an output that satisfies one of the following: 
+\begin{itemize}
+        \item $(1, c\rint d)$. $c\rint d$ is a subinterval of $\halo{a\rint b}$ and intersects $a\rint b$. 
+        \item $(0, c\rint d)$. $c \rint d$ is disjoint from $a\rint b$.
+        \item $(0)$.  There exists a $\delta'$ such that no prophecy both intersects $a \rint b$ and is contained in $\halo[\delta']{a \rint b}$. 
+        \item $(-1)$. This is for when the procedure fails to return when of the above results. Ideally, there should be no other core output for this core input, but that is not strictly required in this property. 
+\end{itemize} 
+This may be referred to as the \textbf{Range} property. 
 
 The idea for the returned intervals is that they are considered to contain the real number. Any interval $c\rint d$ that appears as the second entry of a core output is a \textbf{prophecy} of the oracle and this is denoted as $c\rint d \in R$. 
 
-Writing $R(a\rint b, \delta)=(k ,A)$ implies that one of the possible core outputs for that core input is $(k, A)$. The expression $R(a\rint b, \delta) = c\rint d$ will be shorthand to imply that one of the outputs for that pair of inputs is $(1, c\rint d$).  The expression $R(a \rint b, \delta) = 1$ implies that there exists some output pair for that input such that $1$ is the first entry of the pair. Returning $R(a\rint b, \delta) = 0$ implies there exists an output such that either it is an output pair with $0$ as the first entry or it is the singleton $(0)$. The expression $R(a\rint b, \delta) \neq k$ means that none of the outputs for that input pair has $k$ as its first entry; it will also mean that it is not $-1$.  Writing $R(a \rint b) = k$ is stating that $R(a \rint b, \delta) = k$ for all $\delta$.  Writing $R(a \rint b) \neq k$ is stating that  $R(a\rint b, \delta) \neq k$ for every $\delta$. 
+Writing $R(a\rint b, \delta)=(k ,A)$ implies that one of the possible core outputs for that core input is $(k, A)$. The expression $R(a\rint b, \delta) = c\rint d$ will be shorthand to imply that one of the outputs for that pair of inputs is $(1, c\rint d$).  The expression $R(a \rint b, \delta) = 1$ implies that there exists some output pair for that input such that $1$ is the first entry of the pair. Returning $R(a\rint b, \delta) = 0$ implies there exists an output such that either it is an output pair with $0$ as the first entry or it is the singleton $(0)$. The expression $R(a\rint b, \delta) \neq k$ means that none of the outputs for that input pair has $k$ as its first entry. Writing $R(a \rint b) = k$ is stating that $R(a \rint b, \delta) = k$ for all $\delta$.  Writing $R(a \rint b) \neq k$ is stating that  $R(a\rint b, \delta) \neq k$ for every $\delta$. Writing $R(a \rint b, \delta) \equiv k$ implies that all core outputs for that core input have $k$ as the first entry of the output; $R(a \rint b) \equiv k$ implies that statement holds for all $\delta$.
 
 The notation $\mathbb{I}_R$ represents the set of all intervals that contain a prophecy of $R$. The property of Consistency below is based on the idea that since prophecies ought to contain $x$ then the intervals that contain prophecies, namely those in $\mathbb{I}_R$,  also ought to contain $x$. 
 
 The term core input is used to allow for the procedure $R$ to have additional inputs, such as a starting guess for Newton's method. The core output is used to allow for additional outputs, such as a computed next guess in the application of Newton's method. Thus, a slightly more suggestive version of $R$ might be presented as $R(a \rint b, \delta, \ldots) = (k, c \rint d, \ldots)$. In a Newton's method example, $R(a \rint b, \delta, x_n) = (k, c \rint d, x_m)$ could be used. The interval $c \rint d$ could be an interval centered on $x_m$ whose extent is given by an error estimate, such as from the Newton-Kantorovich Theorem. The boolean $k$ would then be determined based on comparing $c \rint d$ and $a \rint b$. The use of $m$ indicates that there might be multiple iterations used before the interval $c \rint d$ has enough resolution to decide on the value of $k$. In the theoretical development of oracles, these additional inputs and outputs are not generally relevant and will generally be ignored for convenience.  
 
-In a practical implementation, a $-1$ might be returned if the computational ability of the device has been exceeded without a resolution of the question. The property Separation would fail to be resolvable in this circumstance. The oracles are a halfway point between the theoretical purity of the rational betweenness relations and the computationally limited procedures of actual finite computations. 
+There are three families of oracles that will be considered which correspond to different levels of knowability. Proto-oracles are infinitely precise, but somewhat minimal. Coarse oracles are finite in their knowledge. Complete oracles can answer any question with confidence. 
 
-To be an oracle, the procedure must satisfy the following properties:
+
+REMOVE PROBABLY The first is the proto-oracle. This contains sufficient information to isolate a real number, but it is not complete in the sense that it may not be able to answer every question posed. This is the minimal idealized computational object for representing a real number. The second are the coarse oracles. These are oracle-types that lack infinite resolvability. Hence, they are compatible with multiple real numbers. For processes that are purely computational, the finite nature of human existence leads inevitably to the coarse oracles. In the other direction from proto-oracles are the complete oracles which will simply be called oracles. These have enough structure to be able to theoretically read off the connected rational betweenness relation. 
+
+A \textbf{proto-oracle} is an oracle-type procedure that satisfies the following three properties: 
 \begin{enumerate}
-    \item Range. $R(a\rint b, \delta)$  always gives an answer and is one of the following forms: 
-    \begin{itemize}
-        \item $(1, c\rint d)$. $c\rint d$ is a subinterval of $\halo{a\rint b}$ and intersects $a\rint b$. 
-        \item $(0, c\rint d)$. $c \rint d$ is disjoint from $a\rint b$.
-        \item $(0)$.  There exists a $\delta'$ such that no prophecy both intersects $a \rint b$ and is contained in $\halo[\delta']{a \rint b}$. 
-        \item $(-1)$. There should be no other core output for this core input. 
-    \end{itemize} 
     \item Existence. There exists $a \rint b$ and $\delta$ such that $R(a \rint b, \delta) = (1, c\rint d)$. 
     \item Separation. If $a\rint b$ is a prophecy of $R$, $m$ is contained in $a\rint b$, and $\delta > 0$, then one or both of $R(a \rint m, \delta) =1$  and $R(m \rint b, \delta) = 1$ holds true. 
    \item Disjointness. 
-   If $c\rint d$ is a prophecy of $R$ and $a\rint b$ is disjoint from $c\rint d$, and $\delta < |c \rint d; a\rint b|$, then $R(a\rint b, \delta) \neq 1$.
-    \item Consistency. If $a\rint b$ contains a prophecy of $R$, then $R(a\rint b) \neq 0$. 
-    \item Closed. 
-    If for each $\delta >0$, $\halo{a}$ contains a prophecy, then, for all $b$, $R(a\rint b) \neq 0$. Such an $a$ is called a \textbf{root} of the oracle. 
-    \item Reasonableness. If $R(a\rint b, \delta) \neq -1$, then $R(a\rint b, \delta') \neq -1$ for any $\delta' > \delta$.
+   If $c\rint d$ is a prophecy of $R$ and $a\rint b$ is disjoint from $c\rint d$, and $\delta < |c \rint d; a\rint b|$, then $R(a\rint b, \delta) \equiv 0$.
 \end{enumerate}
+These are the procedures that will narrow down on a real number. Separation will yield the Bisection Algorithm while Disjointness coupled with Separation will imply that all of the prophecies will intersect. Proto-oracles, however, may return $-1$ something which the complete oracles do avoid. Proto-oracles are a natural fit for algorithmic computations. 
+
+Given $a \rint b$ and $\delta$, let the \textbf{effective length} of $\halo{a \rint b}$ mean $|\halo{a \rint b}|$ and be denoted by $\efflen{a \rint b}$. A \textbf{coarse oracle} is an oracle-type procedure that has a minimum threshold $\eta > 0$ that satisfies: 
+\begin{enumerate}
+    \item $\eta$-Certainty. If $\efflen{a \rint b} \geq \eta$, then $R(a:b, \delta) \neq -1$.
+    \item Existence. There exists $a \rint b$ and $\delta$ such that $R(a \rint b, \delta) = (1, c\rint d)$. 
+    \item $\eta$-Separation. If $a\rint b$ is a prophecy of $R$, $m$ is contained in $a\rint b$, $\efflen{a \rint m} \geq \eta$, and $\efflen{m \rint b} \geq \eta$, then one or both of $R(a \rint m, \delta) =1$  and $R(m \rint b, \delta) = 1$ holds true. 
+   \item $\eta$-Disjointness. If $c\rint d$ is a prophecy of $R$, $a \rint b$ disjoint from $c \rint d$, $\efflen{a\rint b} \geq \eta$, and $\delta < |c \rint d; a\rint b|$, then $R(a\rint b, \delta) \equiv 0$.
+   \item $\eta$-Consistency. If $a\rint b \in \mathbb{I}_R$ and $\efflen{a \rint b}\geq \eta$, then $R(a \rint b, \delta) \neq 0$.
+\end{enumerate}
+While proto-oracles assert an infinitely refinable process, coarse oracles introduce certainty for large enough intervals, but cannot guarantee infinite refinement. Below $\eta$, coarse oracles may return $-1$. $\eta$-Separation leads to a Bisection Algorithm which need not produce any interval smaller than $2\eta$. $\eta$-Separation and $\eta$-Disjointness lead to all prophecies being within $\eta$ distance of each other. It can be argued that coarse oracles, while not picking out a unique real number, do give an interval of length no more than $2 \eta$ in which it must reside. Coarse oracles are a natural fit for measurements and exploring the very real physical constraints of arithmetic on arbitrarily large digits. 
+
+
+A \textbf{complete oracle} is a proto-oracle that satisfies the following completion properties: 
+\begin{enumerate}
+    \item Certainty. $R(a \rint b) \neq -1$ for all $a\rint b$. 
+    \item Consistency. If $a\rint b$ contains a prophecy of $R$, then $R(a\rint b) \neq 0$. 
+    \item Closed. If for each $\delta >0$, $\halo{a}$ contains a prophecy, then, for all $b$, $R(a\rint b) \neq 0$. Such an $a$ is called a \textbf{root} of the oracle. 
+\end{enumerate}
+A complete oracle takes the infinite refinement ability of a proto-oracle and merges that with the certainty of a coarse oracle. It then adds in a closure property to ensure that if a rational is the real number under consideration, then it is identified as such. 
+
 
 If multiple oracles representing distinct real numbers are being discussed, such as $x$ and $y$, then $R_x$ and $R_y$ will represent their respective oracles. If multiple oracles that represent the same real number are used, then a prime will be used such as $R'_x$ representing a different oracle than $R_x$ but both are representing $x$. A later section will explore establishing when two oracles represent the same real number or not. 
 
-A rational interval $a\rint b$ is a \textbf{Yes interval} of the oracle $R$ if $R(a\rint b) \neq  0$; this is a check across all $\delta$. By Consistency, this includes all intervals that contain prophecies, but, by the Closed property, it also includes the \textbf{$a$-rooted} intervals where $a$ is the root of the oracle.   A rational interval $a\rint b$ is a \textbf{No interval} if $R(a\rint b, \delta) = 0$ for some $\delta$. In a nonconstructive sense, every interval is a Yes or No interval, but determining that in a particular case may not be possible via a finite set of computations. 
+A rational interval $a\rint b$ is a \textbf{Yes interval} of the oracle $R$ if $R(a\rint b) \equiv 1$; this is a check across all $\delta$ and all outputs. When Consistency applies, this includes all intervals that contain prophecies, but, by the Closed property, it also includes the \textbf{$a$-rooted} intervals where $a$ is the root of the oracle.   A rational interval $a\rint b$ is a \textbf{No interval} if $R(a\rint b, \delta) = 0$ for some $\delta$. For complete oracles, the completeness is there so that every interval is a Yes or No interval though determining that in a particular case may not be possible via a finite set of computations. 
 
 If an interval $a\rint b$ is a Yes interval for $R$ and $R$ is to represent the real number $x$, then this can be expressed with the notation $a \xora b$. For No intervals, the notation is \sout{$a \xora b$}. The notation $a\rint \fuzbright{c}$ extends to the Yes intervals as $a \xora \fuzbright{c}$. These notations reflect that the Yes / No interval designation has created an $x$-betweenness relation on the rational numbers as will be established later.
 
@@ -205,7 +226,7 @@ It may be helpful to expand a little on what the properties mean. The basic idea
 
 Here is a bit of explanation for the properties: 
 \begin{enumerate}
-    \item Range. The idea of the oracle is that its first entry indicates success ($1$) or failure ($0$). The outputs with the first entry being $1$ are called Yes answers while if it is $0$, then it is a No answer. A $1$ is less definitive than $0$. As will be shown, Separation allows for the computation of a prophecy smaller than $\delta$. Such an interval is either going to be disjoint from $a \rint b$ or contained in $\halo{a\rint b}$. This is what allows for a non-constructive deduction that the ordered pair result is always possible. 
+    \item Range. The idea of the oracle is that its first entry indicates success ($1$) or failure ($0$). The outputs with the first entry being $1$ are called Yes answers while if it is $0$, then it is a No answer. A $1$ is less definitive than $0$. As will be shown, Separation allows for the computation of a prophecy smaller than $\delta$. Such an interval is either going to be disjoint from $a \rint b$ or contained in $\halo{a\rint b}$. This is what allows for a deduction that the ordered pair result is always possible. 
 
     The result of just $0$ arises in oracles based on direct testing of whether the interval contains the number or not. It does not necessarily produce a prophecy disjoint from that interval in the testing. Thus, it would be an additional burden to compute out a prophecy disjoint from it. 
 
@@ -213,7 +234,7 @@ Here is a bit of explanation for the properties:
 
     Procedures in this paper should be assumed to have this Range property unless otherwise noted. 
 
-    \item Existence. This prevents the procedure of $R(a\rint b, \delta) = (0)$ for all $a\rint b$ and $\delta$. It was challenging to get the right formulation of Ranged to avoid an implicit assumption of existence. 
+    \item Existence. This prevents the procedure of $R(a\rint b, \delta) = (0)$ for all $a\rint b$ and $\delta$. It also ensures a starting point for further refinement. 
 
     \item Separation. This property is inspired by the Intermediate Value Theorem. The inspiration is that a Yes interval should be able to be continually narrowed down by selecting a rational number $m$ inside of it and then testing which of the two created intervals is a Yes interval and the other one would then be a No interval. Because of the possibility of the number of interest being near or at $m$, it is possible for both to be Yes. In that case, it can, and will, be shown that $R(m\rint m, \delta) = 1$ holds true. 
     
@@ -222,6 +243,16 @@ Here is a bit of explanation for the properties:
  
     \item Disjointness. Disjointness ensures that a single real number is being discussed. Without an assertion of negativity, one could have multiple disjoint regions.  As an example, imagine a procedure which returns small intervals around 2 and small intervals around 5. Done correctly, this will be able to satisfy the other properties, including the Separation property because that property only applies to prophecies. Consistency does not help as that is about intervals containing prophecies, but does not demand that there is a prophecy containing other prophecies.  Since rational betweenness relations do not make this distinction between prophecies and Yes intervals, it does not need this postulated as it can be deduced via Consistency and the exclusionary aspect of Separation. 
     
+    \item Consistency. Consistency asserts that the oracle never contradicts itself. Since a prophecy is supposed to contain the real number, if another interval contains it, then that containing interval should also contain the real number and ought to be a Yes interval. This property says that if an interval contains a prophecy then every core output, regardless of $\delta$, is a Yes answer. 
+
+    
+    \item Closed. This ensures that if there is a narrowing in to a single rational number, then the intervals with that rational number as endpoint are Yes intervals. It does not require that the interval in question be a prophecy nor contain one. The assumption that $\halo{a}$ is in $\mathbb{I}_R$ for all $\delta >0$ implies that $R$ can always return a subinterval of $\halo{a}$ for $R(a\rint b, \delta)$. Disjointness forces $a$ to be in those prophecies in this case. 
+
+
+    \item Reasonableness. In the case of Yes intervals, the properties of Consistency and Closed demand the oracle always answers Yes. For No intervals, however, it could be the case that larger fuzziness incorporates the real number and the option of saying Yes becomes possible though not required. This is an attempt to say that if there is a more narrow fuzziness with an answer than the larger fuzziness still gives an answer though it may be different. This is an attempt to be explicit in always having an answer. This property can fail in practical implementations due to computational limitations. 
+
+
+
     \item Consistency. Consistency asserts that the oracle never contradicts itself. Since a prophecy is supposed to contain the real number, if another interval contains it, then that containing interval should also contain the real number and ought to be a Yes interval. This property says that if an interval contains a prophecy then every core output, regardless of $\delta$, is a Yes answer. 
 
     
