@@ -286,7 +286,10 @@ As a check, it is the case that that $A \rint  a\rint  B$. Indeed, if $0 < \delt
 
 One particular application is any rational function that satisfies being monotonic on an $f$-zero interval $A\rint B$. To conclude that $f(x)=0$, a rationalized version of continuity holding on $f$ is required. For real functions, this approach can be suitably adapted as will be explored in \cite{taylor23funora} where real functions in this context are explored. One change is to rely more on a bit of fuzziness for how $f(m)$ is computed. 
 
-For roots, taking $f(x) = x^n - q$ on the interval $0\lte \max(q, 1)$ satisfies the conditions as can be easily checked. 
+For $n$-th roots, taking $f(x) = x^n - q$ on the interval $0 \lte
+ \max(q, 1)$ satisfies the conditions as can be easily checked. 
+A more general set that covers all the algebraic numbers are represented by testing oracles using a polynomial $P$, one with just simple zeros, and a $P$-zero interval. Once the arithmetic operators are defined, this can then shown to be a closed field using the usual arguments to generate a polynomial that demonstrates the algebraic combination of zeros is also a zero of a polynomial. To ensure that all zeros of a polynomial do come from a polynomial with simple zeros, note that any polynomial $P$ can be reduced using $P/\gcd(P, P')$ noting that $P'$ and the greatest common divisor computations are all algebraic operations. 
+
 
 Given this framework, the bisection algorithm established later establishes that there exists arbitrarily small prophecies for these $f$-zero oracles. This allows one to have arbitrary precision available for as long as the Separation step can be completed. 
 
