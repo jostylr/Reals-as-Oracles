@@ -26,22 +26,25 @@
 %\sloppy%\openup-.1\jot
 \begin{document}\maketitle
 \begin{abstract}
-How well known a real number is can be specified by a rational interval that contains the real number. Flipping this leads to defining a real number by a rational betweenness relation. Specifically, two rational numbers are $x$-related if $x$ ought to be, inclusively, between them. These betweenness relations represent a new way to define the real numbers. There are five properties that characterize such relations. The key property is the Separation property which states that given two rationals in relation, then any number in between is either $x$-related to exactly one of the two endpoints or is $x$-related to itself. To prove that the set of such relations can be taken to be the real numbers, it will be demonstrated that the betweenness relations with the natural order and arithmetic of intervals is canonically isomorphic as a complete ordered field to Dedekind cuts. 
+How well known a real number is can be specified by a rational interval that contains the real number. Flipping this leads to defining a real number by a rational betweenness relation. Specifically, two rational numbers are $x$-related if $x$ ought to be, inclusively, between them. These betweenness relations tap into the long history of using rational intervals to define real numbers. The distinction here is the simple properties that characterize such relations. The key property is the Separation property which states that given two rationals in relation, then any number in between is either $x$-related to exactly one of the two endpoints or is $x$-related to itself. After establishing the customary ordered field structures, a canonical field isomorphism is established with Dedekind cuts. 
 \end{abstract}
 
 \section{Introduction}
 
-The purpose of this paper is to give a new definition of real numbers and establish that this definition works. 
+Rational intervals as definitions of real numbers has a long history, starting with Bachmann's nested intervals in the late 1800s as mentioned in the real numbers overview of Ittay Weiss \cite{ittay-2015}. More recently, the constructivists, as explored by Mark Bridger \cite{bridger}, consider families of overlapping, arbitrarily small closed intervals. There are also more topologically related approaches using open intervals such as in negri and in asd and minimal cauchy filters...
 
-The first task is to define the term rational betweenness relation. After establishing the definition and some useful properties, the second task is to give the definition of Dedekind cut to use and its relevant properties. The first main result is to establish the explicit canonical bijection from the space of Dedekind cuts to the space of rational betweenness relations. 
+For some reason, there has been little use in defining real numbers as rational intervals in this way in the classroom. The hope of this paper is that the definition presented here is elementary and enticing enough to get more general adoption as a real number definition. It has a natural presentation of giving information about a real number as being between two rational numbers. This replaces the usual ``$\pi$
+is approximately $3.14$'' with ``$\pi$ is known to be between $3.14$ and $3.15$''.  The latter is a crisp, explicit statement with real content. The former is common but only has meaning if one understands it to mean that $\pi$ being approximately $3.14$ has an implication of being between $3.135$ to $3.145$. By focusing on intervals as the very foundation of real numbers, it encourages better habits of approximate understanding. 
 
-An important part of defining real numbers is defining the order relation and arithmetic operators. Interval ordering and arithmetic naturally carry over to the relations. The bijection to the Dedekind cuts will be shown to respect the order relations. For the  arithmetic operators, the bijection is used to define them, but in a way which aligns with what would seem to be the natural way to use the arithmetic of intervals in doing so.  The bijection is then used to establish the real number properties, including the completeness property.   This establishes that the space of rational betweenness relations is a valid model of the real numbers. 
+The definition in this paper has the virtue of having no equivalence classes to discuss; there is exactly one rational betweenness relation which represents a given real number $x$. It also facilitates direct arithmetic computation using interval arithmetic. The properties defining the relations are easy to understand. Existence demands that there is at least one interval containing the real number. Separation is the ability to divide that interval into a smaller interval that contains the real number. Those two combine to already give the necessary ingredients to refine the knowledge of the number to as arbitrarily small interval width as desired and computationally feasible. Consistency is the simple observation that if an interval contains the real number, then any other interval containing that interval also contains the real number. The final two properties, Singular and Inward, ensure that rational numbers are represented correctly by the relations. 
+
+The approach of using closed intervals to represent real numbers is done so that rational real numbers can be represented by the singleton consisting of just the rational number itself. This makes arithmetic exactly if dealing with rational numbers. The difficulty is that, in general, a real number that is rational cannot always be established to be that rational number. This is the standard decidability problem. This paper ignores this and assumes decidability in all instances is possible. For a related approach that gives a stronger ability to discuss decidability, see \cite{taylor24oraclerbr}.
 
 Throughout this paper and generally without further explicit comment, the letters $a, b, c, d$ will always be rational numbers and often take the role of endpoints of intervals. The letters $m, n, p, q, r, s$ will also always be rational numbers and often take the role of numbers in an interval. The symbols $\varepsilon$ and $\delta$ will be non-negative rational numbers. The letters $x, y, z, \alpha, \beta$ will notionally represent real numbers.
 
  A \textbf{rational interval} $a \rint b$ is the set of all rationals $q$ such that $q$ is between $a$ and $b$, inclusively. A \textbf{rational singleton} $a:a$ is a set consisting of just $a$ and it is accepted as a rational interval. The empty set is not a rational interval. 
 
-Similar notation will be used to indicate betweenness such as $a \rint b\rint c$ implying $b$ is, inclusively, between $a$ and $c$. It is easy to extend this notation such as $a \rint b \rint c \rint d$ implying either $a \leq b \leq c \leq d$ or $d \leq c \leq b \leq a$. Replacing $\rint$ with $\betneq$ implies strict inequality. A bracketed expression in a chain such as $\{b, c\}$ is used to indicate common betweenness relations around $b$ and $c$ without deciding the relative ordering of $b$ and $c$. Thus, $a \betneq \{b, c \} \rint d$ would be interpreted as $a$ is not equal to $b$ or $c$ and that both $b$ and $c$ are between $a$ and $d$. 
+Similar notation will be used to indicate betweenness such as $a \rint b\rint c$ implying $b$ is, inclusively, between $a$ and $c$. It is easy to extend this notation such as $a \rint b \rint c \rint d$ implying either $a \leq b \leq c \leq d$ or $d \leq c \leq b \leq a$. Replacing $\rint$ with $\betneq$ implies strict inequality. A bracketed expression in a chain such as $\{b, c\}$ is used to indicate common betweenness relations around $b$ and $c$ without deciding the relative ordering of $b$ and $c$. Thus, $a \betneq \{b, c \} \rint d$ would be interpreted as $a$ is not equal to $b$ or $c$ and that both $b$ and $c$ are between $a$ and $d$. As an illustration, a strictly monotonic function $f$ can be described as one in which $a \betneq c \betneq b$ implies $f(a) \betneq f(c) \betneq f(b)$ for all $a,b,c$ in the domain of $f$, assuming at least three points in the domain. Replacing $\betneq$ with $\rint$ gives the monotonic functions. 
 
 If $b$ is not between $a$ and $c$, this could be indicated either by \sout{$a \rint b\rint c$} or by $b\rint \{a,c\}$.
 
@@ -52,152 +55,268 @@ A rational betweenness relation is a relation on pairs of rational numbers that 
 Since this is defining the real number $x$, the above is only a notional idea behind the definition. The definition is that a \textbf{rational betweenness relation} is a symmetric relation on rational numbers 
 which satisfies the following properties:
 \begin{enumerate}
-    \item Existence. There exists $a$ and $b$ such that $a\xrel b$.
-    \item Interval Separation. If $a \xrel b$ and $a \rint  c \rint  b$, then exactly one of the following holds: 1) $a \xrel c$ and \sout{$c \xrel b$}, 2) $c \xrel b$ and \sout{$a \xrel c$}, or 3) $c \xrel c$. 
+    \item Existence. There exist $a$ and $b$ such that $a\xrel b$.
+    \item Separation. If $a \xrel b$ and $a \rint  c \rint  b$, then exactly one of the following holds: 1) $a \xrel c$ and \sout{$c \xrel b$}, 2) $c \xrel b$ and \sout{$a \xrel c$}, or 3) $c \xrel c$. 
     \item Consistency. If $c \rint  a \rint b \rint  d$ and $a \xrel b$, then $c \xrel d$. 
     \item Singular. If $c \xrel c$ and $d \xrel d$, then $c=d$. 
-    \item Closed. If $c$ is a rational number such that $c$ is included in every $x$-interval $a \rint b$, then  $c \xrel c$. 
+    \item Inward. If \sout{$a \xrel a$} and $a \xrel b$, then there exists $c \neq a$ between $a$ and $b$ such that $c \xrel b$. 
 \end{enumerate}
 
 If $q \xrel q$, then $x$ represents the rational number $q$ and $q$ is the \textbf{root of the relation}.
 If such a $q$ exists, then $x$ is said to be rational. Also note that the Singular property implies that $q$ would be unique. If no such $q$ exists, then $x$ is said to be irrational. 
 
-The Interval Separation property is at the heart of this procedure being computationally useful. It is modeled on how the Intermediate Value Theorem is often operationalized. For example, if $f$ is strictly monotonic, defined on all rational numbers, and has both positive and negative values, then the rational betweenness relation $x$ representing the location where the sign changes is defined as $a \xrel b$ exactly when $f(a)*f(b) \leq 0$. To describe the positive $n$-th root of $q$, the relation is $a \xrel b$ for $a \leq b$, exactly when $\max(0, a)^n \rint q \rint b^n$. For a Cauchy sequence, the relation can be described prosaically as the intervals that contain the tail of the sequence. 
+In a betweenness chain, the presence of $\xrel$ asserts the $x$-relation for the immediate rationals on either side, but Consistency allows for the conclusion of $x$-relatedness for any pair enclosing them. For example, Inward could have its concluding clause stated as there exists $c$ such that $a \betneq c \xrel b$. That betweenness chain implies $a \xrel b$, $c \xrel b$, $a \rint c \rint b$, and $a \neq c$.
 
-\section{Useful Statements for Rational Betweenness Relations}
+Inward can be applied twice to conclude that if $a \xrel b$ and neither endpoints are roots, then there exists $c\ xrel d$ such that $a \betneq c \rint d \betneq b$. Any interval $a \rint b$ is contained in an $x$-interval; Consistency is the main reason, but Separation is important for the case of $a \rint b$ overlapping an $x$-interval as Separation can then break the $x$-interval on the overlapping endpoint into an $x$-interval that could then be extended with Consistency to contain $a \rint b$. 
 
-Here are some useful general statements about rational betweenness relations. 
+The Separation property is at the heart of this procedure being computationally useful. It is modeled on how the Intermediate Value Theorem is often operationalized. For example, if a continuous function $f \col\  \mathbb{Q} \to \mathbb{Q}$ is strictly monotonic and $f(a) \rint u \rint f(b)$ for some rational $u$, then define $x$ as $c \xrel d$ exactly when  $f(c) \rint u \rint f(d)$. The relation $x$ is a rational betweenness relation as demonstrated by checking that the required properties hold:
+\begin{enumerate}
+    \item Existence. Established with the original interval $a \rint b$ that satisfies $f(a) \rint u \rint f(b)$.
+    \item Separation. Given $c \xrel d$ and $c \rint m \rint d$, then either $f(m) = u$ implying $m \xrel m$, $f(c) \rint f(m) \betneq u \rint f(d)$ implying $m \xrel d$ and \sout{$c \xrel m$}, or $f(c) \rint u \betneq f(m) \rint f(d)$ implying $c \xrel m$ and \sout{$m \xrel d$}.
+    \item Consistency. From monotonicity,  if $m \rint c \rint d \rint n$ with $c \xrel d$, then $f(m) \rint f(c) \rint u \rint f(d) \rint f(n)$ which implies $m \xrel n$.
+    \item Singular. Since  $c \xrel c$ holds exactly when $f(c) \rint u \rint f(c)$ which is exactly when $f(c) = u$, the strict monotonicity yields the Singular property.
+    \item Inward. Continuity implies, by standard $\varepsilon$-$\delta$ arguments, that if $f(c) \betneq u \rint f(d)$, then there exists $m$ such that $c\betneq m \betneq d$ and $f(c) \rint f(m) \betneq u \rint f(d)$. This translates directly to the Inward property. 
+\end{enumerate}
 
-\begin{lemma}\label{br--rooted}
-    If the $x$-between relation has a rational root $q$, then $a \xrel b$ if and only if $a \rint q \rint b$.
+To describe the positive $n$-th root of the positive rational $q$, the relation is $a \xrel b$  exactly when $\max(0, a)^n \rint q \rint \max(0, b)^n$. For a Cauchy sequence whose limit is not a rational, the relation can be described prosaically as the intervals that contain some tail of the sequence. To handle rational limits as well as arithmetic, the concept of a fonsi will be introduced and explored. 
+
+All of the properties are independent: 
+\begin{enumerate}
+    \item Existence. The empty relation satisfies the other four properties vacuously. In practical computations, Existence supplies the first interval upon which Separation then refines. 
+    \item Separation. Define $a \sim b$ if there exists $c$ such that $a\betneq c \betneq b$ and $0 \betneq c \betneq 1$. Existence and Consistency apply easily. Singular holds vacuously as there are no roots. Separation fails as $0 \xrel 1$ splits into $0\xrel c$ and $c \xrel 1$ for any $0 \betneq c \betneq 1$ despite \sout{$c\xrel c$}. Inward applies as the defining $c$ is the inward point needed; it lies strictly between $0$ and $1$ and thus there is another point between $c$ and $b$ that strictly lies within $(0,1)$.
+    \item Consistency. Let $x$ be a rational betweenness relation and $a \xrel b$. Then define $c \sim d$ to mean $a \rint c \rint d \rint b$ and $c \xrel d$. Then Existence, Separation, and Inward all apply to $\sim$ as those are internal to $c \rint d$. Singular applies as $\sim$ is a restriction and so cannot add anything. Consistency is the only one that fails. It should be noted that for purposes of describing a real number, the relation $\sim$ would be fine. Consistency is used to make a unique, maximal representative. It alleviates having to track whether an interval has been arbitrarily included in the definition or not. 
+    \item Singular. Let $a \xrel b$ hold true if there exists $a \rint c \rint b$ such that $0 \rint c \rint 1$. All of the rationals in $0\rint 1$ would then be roots. Existence and Consistency are clear. For Inward, if $a$ is not a root, then it is outside the unit interval. One could then take the midpoint between $a$ and the closest endpoint of the unit interval as the desired $c$. Separation works because of the clause $c \xrel c$. Any separation point chosen in $0 \rint 1$ will be a root and hence the failure to create an exclusive or separate intervals is not a problem. For a $c$ outside of the unit interval, it would be on one side of that interval and thus exactly one of the divided parts meets the unit interval. 
+    \item Inward. Let $a \xrel b$ with $a \leq b$ be such that $a \leq q < b$. Then \sout{$q \xrel q$}. Consistency is clear as is existence such as $q\xrel q+1$. There are no roots so Singular applies vacuously. For Separation holding, if $a \rint c \rint q \betneq b$, then $c\xrel b$ and \sout{$a \xrel c$}. If $q \betneq c \rint b$, then $a \xrel c$ and \sout{$c \xrel b$}. Inward fails as if $q < b$, then $q \xrel b$, \sout{$q \xrel q$}, and there is no $c > q$ such that $c \xrel b$.
+\end{enumerate}
+
+
+\section{Families of Overlapping, Notionally Shrinking Intervals}
+
+A \textbf{Family of Overlapping, Notionally Shrinking Intervals} (fonsi) is a non-empty set of rational intervals that pairwise intersect and that there are arbitrarily small intervals in the family. As will be established, each rational betweenness relation is a maximal fonsi and all maximal fonsis are rational betwenness relations. The smallest fonsi is one consisting of just a singleton. Equivalence classes of fonsis are used by constructivists as the definition of a real number and they naturally represent ideal measurements and Cauchy sequences can be easily converted to a fonsi. Every fonsi gives rise to a unique maximal fonsi. Fonsis are the natural foundations in implementing the arithmetic of rational betweenness relations. 
+
+
+\begin{lemma}[Touching]\label{br--cor--endpointed}
+    If $a \xrel p$, $p \xrel b$, and $a \rint p \rint b$, then $p$ is a root.
 \end{lemma}
 
-Note that $a \xrel b$ is stating that the interval $a \rint b$ is in the relation while $a \rint q \rint b$ is stating that the rational number $q$ is between the rational numbers $a$ and $b$.
-
 \begin{proof}
-    Let $a \rint b$ be given such that $a \rint q \rint b$ which is the same as $a\rint q\rint q\rint b$. Since $q \xrel q$, Consistency implies that $a \xrel b$. For the other direction, assume that \sout{$a \rint q \rint b$} which implies $q$ is distinct from both $a$ and $b$. By Trichotomy and without loss of generality, assume that $a$ is between $q$ and $b$. By Consistency using $q \xrel q$, $q \xrel b$ and $q\xrel a$.  Singular implies that \sout{$a \xrel a$}. Since $q \xrel a$ and $q \rint a \rint b$, Separation, using $a$ as the Separation point, states that \sout{$ a \xrel b$}. Since either $a \rint q \rint b$ or \sout{$a \rint q \rint b$} must hold in general, this has exhausted the cases and the result holds.  
+    By Consistency, $a \xrel b$ as it contains an $x$-interval. Apply Separation to $a \rint b$ with separation point $p$. Since both $a \rint p$ and $p \rint b$ are $x$-intervals, the only compatible option is $p \xrel p$.
 \end{proof}
 
-Every rational is $x$-related to some other rational for every betweenness relation $x$. 
 
-\begin{lemma}\label{br--existence}
-    Given $\xrel$ and rational $a$, there exists $b$ such that $a \xrel b$. 
-\end{lemma}
-
-\begin{proof}
-    Let $u \xrel v$ be an $x$-interval; that such an interval exists follows from the Existence property. If $a$ is not between $u$ and $v$, then without loss of generality, it can be assumed that $a\rint u\rint v\rint v$. Then Consistency tells us that $a \xrel v$. In this case, $v$ is the required $b$. 
-
-    The other case is $u\rint a\rint v$. Apply Separation, using $a$ as the Separation point, to obtain that either 1) $u \xrel a$, 2) $a \xrel v$, or $a \xrel a$. In all three cases, there exists the desired $b$. 
-\end{proof}
-
-Two $x$-related intervals that intersect just at an endpoint leads to that endpoint being the root of $x$. 
-
-\begin{proposition}\label{br--endpointed}
-    If $a \xrel p$ and $p \xrel b$ with $a\rint p\rint b$, then $p \xrel p$.
-\end{proposition}
-
-\begin{proof}
-    By Consistency, $a \xrel b$ as $a\rint a\rint p\rint b$.  By Separation, using $p$ as the Separation point, exactly one of the following holds true: $p \xrel p$,  \sout{$a \xrel p$}, or \sout{$p \xrel b$}. Since both $a\rint p$ and $p\rint b$ are in the relation by assumption, it must be the case that $p \xrel p$, as was to be shown. 
-\end{proof}
-
-All $x$-intervals overlap and their intersection is itself an $x$-interval. This makes it possible to condense the information from multiple $x$-intervals. 
-
-\begin{proposition}\label{br--intersect}
+\begin{proposition}[Intersection]\label{br--intersect}
     If $a \xrel b$ and $c \xrel d$, then $a \rint b$ and $c\rint d$ intersect in an $x$-interval. If it is also the case that  $\{a, c\} \rint \{b, d\}$, then  $c \xrel b$ and $a \xrel d$.
 \end{proposition}
 
+This uses only Separation, Consistency, and Singular. 
+
 \begin{proof}
-    The betweenness of the four rational numbers $a$, $b$, $c$, $d$ is well handled by cases. To minimize the cases, without loss of generality, assume that $a$ is one of the outer endpoints and $c$ is closer in the betweenness string to $a$ than $d$ is. We have the following cases: 
+    Without loss of generality, it can be assumed that $a \rint \{b, c, d\}$ and $a \rint c \rint d$. 
+
+    If $a \rint c \rint d \rint b$, then $c\rint d$ is the intersection and it is given as an $x$-interval. Both $c \xrel b$ and $a \xrel d$ follow from Consistency.
+
+    The other possibility is that $a \rint \{b, c\} \rint d$. In this case, $a \xrel d$ by Consistency. There are three cases to consider:
 
     \begin{enumerate}
-        \item $a \rint b \betneq c\rint d$. Let $m = \frac{b+c}{2}$. This is a rational number strictly between $b$ and $c$ with the strictness following from them not being equal to each other. Thus, $a \rint b\rint m\rint c\rint d$. By Consistency, $a\xrel m$ and $m \xrel d$. From Proposition \ref{br--endpointed}, this implies $m \xrel m$. But then lemma \ref{br--rooted} states that since $m$ is not in $a \rint b$ nor $c\rint d$, they cannot be $x$-intervals. Having arrived at a contradiction, this case is incompatible with the assumptions of the statement. 
-        \item $a\rint (b=c)\rint d$. By Proposition \ref{br--endpointed}, $b\rint b$ is an $x$-singleton. This is the intersection of the two intervals and it is an $x$-interval. Note that $c \xrel b$ and, as $a \rint d$ contains it, by Consistency $a \xrel d$.
-        \item $a\rint c\rint d\rint b$. The interval $c\rint d$ is the intersection and it was given as an $x$-interval. By Consistency, both $a \xrel d$ and $b \xrel c$.
-        \item $a\rint c\betneq b\rint d$. The interval $c\rint b$ is the intersection. By applying Separation, with $c$ as the Separation point in the interval $a \rint b$, one of the following holds true: 
-        
-\begin{enumerate}
-            \item $c \xrel b$. Since $c\rint b$ is the intersection, this case is exactly what is desired.
-            \item $c \xrel c$. Consistency then implies $c \xrel b$ which is the intersection. 
-            \item $a \xrel c$. Since $c \xrel d$ and $a\rint c\rint d$, Proposition \ref{br--endpointed} implies $c \xrel c$. The previous case then applies. 
-        \end{enumerate}
-        As $b \xrel c$ and $a \rint d$ contains $b \rint c$, Consistency yields $a \xrel d$.
+        \item $a \rint b \betneq c\rint d$. Pick any two rationals $m$ and $n$ such that $b \betneq m \betneq n \betneq c$.  By Consistency, $a \xrel m$, $d \xrel m$, $a \xrel n$, and $d \xrel n$. Then Touching yields $m \xrel m$ and $n \xrel n$. This contradicts Singular. 
+        \item $a\rint (b=c)\rint d$. This is exactly Touching. 
+        \item $a\rint c\betneq b\rint d$. By applying Separation, with $c$ as the Separation point in the interval $a \rint b$, since $c \xrel d$, it must be the case that either $c \xrel c$ or $c \xrel b$.
+    \end{enumerate}
+    Note that in the successful cases, $c \xrel b$. 
+\end{proof}
+
+This has some immediate implications
+
+\begin{corollary}\label{lem:inter}
+    Let $\xrel$ be a rational betweenness relation. Then
+    \begin{enumerate}[label=\alph*., ref=\thelemma(\alph*) ]
+        \item\label{br--cor--rooted} If $q \xrel q$ and $a \xrel b$, then $a \rint q \rint b$.
+        \item\label{br--cor-disj} If $a \xrel b$ and $c \rint d$ is disjoint from $a \rint b$, then \sout{$c \xrel d$}. 
+    \end{enumerate}
+\end{corollary}
+
+\begin{proof}
+    \begin{enumerate}[label=\alph*.]
+        \item They must intersect.
+        \item This is a restatement that $x$-intervals must intersect.
     \end{enumerate}
 \end{proof}
 
 
-\begin{corollary}\label{br--cor-disj}
-    If $a \xrel b$ and $c \rint d$ is disjoint from $a \rint b$, then \sout{$c \xrel d$}. 
-\end{corollary}
+The Inward property is, given the other properties, equivalent to the Closed property.
 
-The following is a useful restatement of the Closed property. 
+\begin{proposition}[Closed]\label{br--closed} 
+    If $a$ is not a root, then $a$ is not contained in some $x$-interval. 
+\end{proposition}
 
-\begin{lemma}\label{br--not-rooted-separated}
-    If \sout{$a \xrel a$}, then there exists an $x$-interval $u\rint v$ that does not contain $a$. 
+This also implies that if $a$ is contained in every $x$-interval then it is a root. 
+
+\begin{proof}
+    By Existence, there exists interval $u \rint v$. If $a \betneq \{u, v\}$, then the conclusion is satisfied. Otherwise, $u \rint a \rint v$ and applying Separation using $a$ leads to either $a \xrel u$ or $a \xrel v$ since $a$ is not a root. Apply Inward to the $x$ interval to get an interval that does not contain $a$. 
+\end{proof}
+
+\begin{lemma}
+    If the first four properties are satisfied, then Closed and Inward are equivalent.
 \end{lemma}
 
 \begin{proof}
-    The set of all $x$-intervals is not empty by the Existence property. If all $x$-intervals contained $a$, then the Closed property would imply that $a \xrel a$. Since  \sout{$a \xrel a$}, there must be some $x$-interval that does not contain $a$. 
+    Inward was already used to prove Closed; this was done without Singular. 
+
+    For the other direction, let $a \xrel b$ and $a$ is not a root. Closed implies there exists $c \xrel d$ such that $a$ is not in $c \rint d$. Intersect it with $a \xrel b$ and, without loss of generality, assume $a \betneq c \rint \{b,d\}$. Then $c \xrel b$ by Intersection. This is what was required to be shown.
 \end{proof}
 
-The next two statements suggest a narrowing away from endpoints that are not roots of $x$. 
 
-\begin{lemma}\label{br--something-inside}
-    If $a \xrel b$, then either $a \xrel a$ or there exists $c$ such that $a \betneq  c \rint  b$ with $c \xrel b$. 
-\end{lemma}
+\begin{proposition}[Bisection]\label{br--prop--bisection}
+    Given rational $\varepsilon >0$ and rational betweenness relation $\xrel$, there exists $a \rint b$ such that $|a-b| < \varepsilon$ and $a \xrel b$. 
+\end{proposition}
+
+This is the bisection algorithm as used, for example, in some proofs of the Intermediate Value Theorem. It applies to any set of intervals that satisfy Existence and Separation. 
 
 \begin{proof}
-    Assume \sout{$a \xrel a$}. By Lemma \ref{br--not-rooted-separated}, there exists an $x$-interval $u\rint v$ which does not contain $a$. By Proposition \ref{br--intersect}, there exists an $x$-interval  $c\rint d$ which is the intersection of $u\rint v$ and $a \rint b$. The intersection interval excludes $a$ as $a$ is not in $u\rint v$. Without loss of generality, it can be assumed that $a\betneq c\rint \{b,d\}$ which then yields $c \xrel b$.
+    Let $a_1\rint b_1$ be an $x$-interval; this exists by the Existence property.
+    
+    Assume $a_i\rint b_i$ is defined. Let $m_i = \frac{a_i + b_i}{2}$. By Separation, using $m_i$ as the Separation point in $a_i \rint b_i$, either 1) $a_i \xrel m_i$, 2) $b_i \xrel m_i$, or 3) $m_i \xrel m_i$. If it is 3), then $m_i\rint m_i$ satisfies the requirements as its length is 0. Otherwise, for 1), let $a_{i+1}= a_i$, $b_{i+1} = m_i$ and for 2) let $a_{i+1} = m_i$, $b_{i+1} = b_i$. Then $|a_{i+1} - b_{i+1}| = 2^{-1} |a_i-b_i|= 2^{-i} |a_1-b_1|$. 
+
+    Since there exists an $N$ such that $2^{-N} |a_1-b_1| < \varepsilon$, this process will finish in at most $N$ steps. 
 \end{proof}
 
-\begin{corollary}\label{br--doublesomething-inside}
-    If $a \xrel b$ and neither $a$ nor $b$ are roots of $x$, then there exists $c \rint d$ such that $a \betneq  c \rint  d \betneq  b$ with $c \xrel d$. 
-\end{corollary}
+Intersection and Bisection establishes that each rational betweenness relation is a fonsi. A \textbf{maximal fonsi} is one in which there is no other fonsi that properly contains it. 
 
-\begin{proof}
-Apply Lemma \ref{br--something-inside} to obtain $c \xrel b$. Then apply the lemma again to endpoint $b$ of $c \xrel b$ to obtain $c \xrel d$ satisfying $a \betneq c \rint d \betneq b$.
-\end{proof}
-
-Disjointness is a useful condition to use in separating $x$-intervals from non-$x$-intervals. 
-
-\begin{lemma}\label{br--something-outside}
+\begin{lemma}\label{br-lem-witness}
     If \sout{$a \xrel b$}, then there exists an $x$-interval disjoint from $a \rint b$.
 \end{lemma}
 
 \begin{proof}
-    Since \sout{$a \xrel b$}, all subintervals, including the singletons $a\rint a$ and $b\rint b$, are not $x$-intervals by Consistency. From Lemma \ref{br--not-rooted-separated}, there exist $x$-intervals $A\rint A'$ and $B\rint B'$ such that $a$ and $b$ are not in those intervals, respectively. Since $x$-intervals intersect in an $x$-interval, there exists an $x$-interval $c\rint d$ which excludes $a$ and $b$. Thus, $c\rint d$ is either disjoint from $a \rint b$ or contained in $a \rint b$. It cannot be contained in $a \rint b$ as Consistency would then imply $a \rint b$ is an $x$-interval. Thus, the $x$-interval $c\rint d$ is disjoint from $a \rint b$.
+    Since \sout{$a \xrel b$}, all subintervals, including the singletons $a\rint a$ and $b\rint b$, are not $x$-intervals by Consistency. Using Closed, there exists an $x$-interval that excludes  $a$ and there also exists an $x$-interval $b$ are not in those intervals, respectively. By Intersection, they intersect in an $x$-interval which therefore excludes $a$ and $b$. By Consistency, it cannot be contained in $a \rint b$. Thus, the intersection $x$-interval is disjoint from $a \rint b$.
+\end{proof}
+
+\begin{proposition}\label{br--something-outside} 
+    Given a relation $\xrel$, an interval is an $x$-interval exactly when it intersects every $x$-interval. 
+\end{proposition}
+
+\begin{proof}
+    Intersection provides one direction; the contrapositive of the lemma establishes the other direction. 
 \end{proof}
 
 
-Two rational betweenness relations $\xrel$ and $\xrel[y]$ are different if there exists at least one interval $a \rint b$ such that either $a \xrel b$ with \sout{$a \xrel[y] b$} or $a \xrel[y] b$ with \sout{$a \xrel b$}. 
-
-\begin{proposition}\label{br--different}
-    If $\xrel$ and $\xrel[y]$ are different, then there exists two disjoint intervals $a \rint b$ and $c\rint d$ such that $a \xrel b$, \sout{$a \xrel[y] b$}, $c \xrel[y] d$, and \sout{$c \xrel d$}.
-\end{proposition}
-
+\begin{lemma}\label{br-lem-same-side}
+    If a fonsi $\mathcal{F}$ contains an interval $a \rint b$ and $a \rint b \betneq c \rint d$, then for every interval $m  \rint n$ of the fonsi that satisfies $|m-n| < |b-c|$, it is the case that $\{a, b, m, n\} \betneq c \rint d$.
+\end{lemma}
 
 \begin{proof}
-    By the definition of difference there exists an interval which is related for the one relation, but not the other; without loss of generality, assume that the interval $a \rint b$ is an $x$-interval but not a $y$-interval. By Lemma \ref{br--something-outside}, there exists a $y$-interval $c\rint d$ disjoint from $a \rint b$. Since it is disjoint from $a \rint b$, Corollary \ref{br--cor-disj} implies $c\rint d$ is not an $x$-interval. This is what was to be shown. 
+ By the Intersection property, $a \rint b$ and $m \rint n$ must intersect. By the size restriction, this implies they are on the same side of $c \rint d$. 
 \end{proof}
 
 
-The final proposition demonstrates that there are arbitrarily small intervals in the relation. 
-
-\begin{proposition}
-    Given rational $\varepsilon >0$ and rational betweenness relation $\xrel$, there exists $a \rint b$ such that $|a-b| < \varepsilon$ and $a \xrel b$. 
-\end{proposition}
-
-This is the bisection algorithm as used, for example, in some proofs of the Intermediate Value Theorem.
+\begin{theorem}
+    For a fonsi $\mathcal{F}$, define $x_{\mathcal{F}}$ to be the set of intervals that intersect every member of $\mathcal{F}$. Then $x_{\mathcal{F}}$ is a rational betweenness relation and is the only one that contains $\mathcal{F}$.
+\end{theorem}
 
 \begin{proof}
-    Let $a_0\rint b_0$ be an $x$-interval; this exists by the Existence property.
+    Since every element of a fonsi intersects every other element, $\mathcal{F}$ is contained in $x_{\mathcal{F}}$. It is immediate that this set satisfies the Closed property. Indeed, if $c$ is contained in every member of $x_{\mathcal{F}}$, then it is contained in every member of $\mathcal{F}$ which means $c \rint c$ intersects every member of the fonsi implying $c\rint c$ is an  $x_{\mathcal{F}}$-interval.
     
-    Assume $a_i\rint b_i$ is defined. Let $m_i = \frac{a_i + b_i}{2}$. By Separation, using $m_i$ as the Separation point in $a_i \rint b_i$, either 1) $a_i \xrel m_i$, 2) $b_i \xrel m_i$, or 3) $m_i \xrel m_i$. If it is 3), then $m_i\rint m_i$ satisfies the requirements as its length is 0. Otherwise, for 1), let $a_{i+1}= a_i$, $b_{i+1} = m_i$ and for 2) let $a_{i+1} = m_i$, $b_{i+1} = b_i$. Then $|a_{i+1} - b_{i+1}| = 2^{-1} |a_i-b_i|= 2^{-i} |a_0-b_0|$. 
+    
+    The properties of a rational betweenness relation hold as follows: 
+    \begin{enumerate}
+        \item Existence. Fonsis are non-empty by definition so that any element of $\mathcal{F}$ may be used. 
+        
+        \item Consistency. If an interval intersects every element of the fonsi then any interval that contains it will also intersect all of them. 
+        
+        \item Singular. Assume $c$ is a root which means it is contained in every element of the fonsi. Let $d$ be any other rational number. Take an element of the fonsi whose size is less than $|c-d|$. It must contain $c$ and therefore it cannot contain $d$. Thus, $d$ is not a root. 
+        
+        \item Separation. Let $a \rint b $ be an  $x_{\mathcal{F}}$-interval and $a \rint c \rint b$. If $c$ is contained in every member of $\mathcal{F}$, then it is a root and Separation is satisfied. If not, then there is an interval of $\mathcal{F}$ that does not contain $c$ and thus there is a gap between them. Any member of $\mathcal{F}$ whose size is smaller than the gap is therefore on the same side of $c$; without loss of generality, let's take that side to be the side of $a$. Since it must also meet $a\rint b$, it must intersect $a \rint c$ and does not intersect $b \rint c$. For any other member of the fonsi, it must intersect $a \rint b$ and the small members implying that it either is wholly intersecting $a \rint c$ or it contains $c$ as it reaches the small members which implies it also intersects $a \rint c$. In any event, $a \rint c$ is an $x_\mathcal{F}$ interval while $b \rint c$ is not since it misses the small elements of the fonsi. 
+        
+        \item Inward. With the other properties established, Inward is equivalent to Closed which was already established. 
+    \end{enumerate}
 
-    Since there exists an $N$ such that $2^{-N} |a_0-b_0| < \varepsilon$, this process will finish in at most $N$ steps. 
+    As for uniqueness, let $y$ be any rational betweenness relation that contains $\mathcal{F}$. Since every interval in $y$ meets every other interval in $y$ such as those in $\mathcal{F}$. Thus, every interval in $y$ is in $x_{\mathcal{F}}$. If there exists an interval $I$ in $x_{\mathcal{F}}$ not contained in $y$, then Lemma~\ref{br-lem-witness} produces an interval $J$ in $y$ disjoint from $I$. But as every interval in $y$ is in $x_{\mathcal{F}}$, it must intersect $I$ per Intersection.
 \end{proof}
 
+This has some useful corollaries: 
+\begin{corollary}
+   \begin{enumerate}[label=\alph*., ref=\thelemma(\alph*) ]
+    \item Rational Betweenness Relations are exactly the maximal fonsis. 
+    \item If every element of fonsi $\mathcal{F}$ intersects every element of fonsi $\mathcal{G}$, then $x_{\mathcal{F}} = x_{\mathcal{G}}$.
+    \item If the fonsi $\mathcal{G}$ is contained in $\mathcal{F}$ and an interval intersects every element of $\mathcal{G}$, then it meets every element in $\mathcal{F}$ and is in the generated relation. 
+    \end{enumerate}
+\end{corollary}
+
+\begin{proof}
+   \begin{enumerate}[label=\alph*.]
+    \item If $\mathcal{M}$ is a maximal fonsi, then $x_{\mathcal{M}}$ contains $\mathcal{M}$. Since $x_{\mathcal{M}}$ is a fonsi, maximality of $\mathcal{M}$ implies $\mathcal{M} = x_{\mathcal{M}}$.
+    \item The union of $\mathcal{F}$ and $\mathcal{G}$ satisfies being a fonsi. Since $x_{\mathcal{F} \cup \mathcal{G}}$ contains both $\mathcal{F}$ and $\mathcal{G}$, their generated relations are identical. 
+    \item If $\mathcal{G} \subset \mathcal{F}$, then their union is $\mathcal{F}$.
+    \end{enumerate}
+\end{proof}
+
+Singular fonsis, namely a fonsi consisting of a single element $q \rint q$ may be used to conveniently handle representing the rationals. The only way to have a finite fonsi is to have a singleton as member. 
+
+Cauchy sequences are easily viewed as fonsis. Let $\mathcal{F}$ be the set of (finite rational) intervals that contain a tail of the Cauchy sequence. As Cauchy sequences are bounded, this is nonempty. They clearly intersect. The Cauchy Criterion implies that there are arbitrarily small intervals that contain tails of the sequence. Being a fonsi, this generates a rational betweenness relation and that is the limit. 
+
+For the earlier example involving monotonic functions, fonsis allow for the removal of the continuity requirement. Indeed, let $f: \mathbb{Q} \to \mathbb{Q}$ be strictly monotonic on $a \rint b$ and that $f(a) \rint u f(b)$ for some rational $u$. Then define the fonsi to be the intervals $c \rint d$ such that $a  \rint c \rint d \rint b$ and $f(c) \rint u \rint f(b)$. The usual Intermediate Value Theorem bisection algorithm leads to this set of intervals having arbitrarily small intervals. Monotonicity gives the intersection by considering $c \rint d \betneq m \rint n$ then $f(c) \rint u \rint f(d) \rint f(m) \rint f(n)$ implies $m \rint n$ is not in the fonsi. Thus, all intervals in the fonsi must intersect.  The generated relation then marks the spot that $u$ fits in the range. At jumps, one relation will mark the spot for multiple values in the range. 
 
 
+
+\section{Forming a Field}
+
+REPLACE ORDER WITH BETWEENNESS. BETWEENNESS THEN LATER DEFINES ORDER BY BETWEENNESS WITH 0 and 1. So do the block stuff first before order and, in fact, can do order last. something like x less than or equal to  y if one of the following holds: x : y: 0 : 1,   x : 0 : {1, y}, or  0: x : y : 1 or 0 : {x, 1} : y  
+
+Two rational betweenness relations $x$ and $y$ are different if there exists at least one interval $a \rint b$ such that either $a \xrel b$ with \sout{$a \xrel[y] b$} or $a \xrel[y] b$ with \sout{$a \xrel b$}. By the fact that an interval is in a relation if and only if it intersects all of the intervals in the relation, for two different relations each relation must contain an interval disjoint from an interval in the other relation. Since disjoint intervals can be ordered by their nearest endpoints, this forms a natural ordering on the rational betweenness relations with equality occurring only when they are truly identical. 
+
+A relation $x$ is less than a relation $y$ exactly when there exist intervals $a \xrel b$ and $c \yrel d$ such that $a \rint b \betneq c \rint d$ and $b < c$. Equality occurs when there are no disjoint intervals which is the same as saying that they are exactly the same relations. Since small enough intervals in a relation must all be on the same side of an interval not in the relation, the ordering of the relations is independent of the representative intervals chosen to exemplify it. It is also the case that if $a \xrel b$, then $\xrel[a] \leq \xrel \leq \xrel[b]$. Inward establishes that with equality happening only if one of the endpoints is a root. 
+
+\begin{lemma}[Transitivity]
+For rational betweenness relations $x$ and $y$, if $x < y$ and $y < x$, then $x < z$.
+\end{lemma}
+
+\begin{proof}
+    By assumption there exist intervals $a \xrel b$, $c \yrel d$, $m \yrel n$, and $u \xrel[z] v$ such that $a \leq b < c \leq d$, $m \leq n < u \leq v$. Since $c\rint d$ and $m \rint n$ are intervals in the same relation, they must intersect in a point $p$. By the known inequalities, $b < p < u$ and thus $a \rint b < u \rint v$ establishing the relation inequality. 
+\end{proof}
+
+In practical work, a real number is often computed using means equivalent to generating fonsis. Two fonsis can be ordered if there are intervals found that are disjoint. Equality, however, cannot generally be established through finite computational means. A proof is often required to establish that the elements of both fonsis always overlap. 
+
+The concept of betweenness also follows, either from the ordering or from the same disjoint interval notions. Either way, $x \rint y \rint z$ is sensible as an assertions that either  $ x \leq y \leq z$  or $x \geq y \geq z$ for relations $x$, $y$, and $z$. For a rational $q$, $\qrel{q}$ will be used to denote the unique rational betweenness relation whose root is $q$. By Inward, if $a \xrel b$, then $\qrel{a} \rint x \rint \qrel{b}$. For a relation $x$, using $\qrel{x}$ may be used for emphasis but is redundant. 
+
+RATIONALS ARE DENSE
+
+
+With betweenness established, showing that the relations are complete in terms of bounded sets can now be explored. Instead of favoring an ordering, such as least upper bound, a more neutral terminology will be used. A set $S$ with a betweenness notion has a block $x$ if $S \rint x$. This is expressing all elements of the set $S$ are on the same side of $x$. Explicitly, this is quantified as for all pairs $y, z \in S$, $\{y, z\} \rint x$. It can be that $S$ is blocked on both sides or just one side. Two blocks $x$, $y$ are on the same side of $S$ if $S \rint \{x, y\}$ and are on opposite sides if $x \rint S \rint y$. A tight block $x$ of a set $S$ is a block such that for any $y$ that is a block on the same side of $S$ as $x$, then $S \rint x \rint y$. 
+
+
+\begin{proposition}[Tight Block]
+    Given a nonempty set $S$ of rational betweenness relations that has a block $y$, then there exists a tight block $x$ on the same side of $S$ as $y$. 
+\end{proposition}
+
+\begin{proof}
+Let $A$ be the set of blocks on the same side as $y$. Then any element of $S$ is a block of $A$ and they are all on the same side. Let $B$ be the set of blocks of $A$ on the same side as $S$. $A$ is then also a set of blocks of $B$. The tight block of $S$ on the same side as $y$ is defined as the relation $x$ such that $a \xrel b$ if $\qrel{a} \in A$ and $\qrel{b} \in B$. 
+
+A rational $q$ is a root of $x$ if and only if $\qrel{q} \in A \cap B$. A rational $q$ forms a tight block of $S$ on the same side of $y$ as $S$  if and only if $q$ is a root of $x$. If $q$ is not a tight block of $S$, but is a block, then there exists $z$ such that $S \rint z \betneq \qrel{q}$. Then $\qrel{q}$ is not in $B$ as it is not a block of $A$ and thus it is not a root. Similarly, if $q$ is not a block of $S$ on the same side as $y$, then there exists $s \in S$ such that $\qrel{q} \rint s \rint y$ and $\qrel{q}$ is not in $A$ as it is not a block of $B$. Thus, $q$ is not a root of $x$ in this instance either. 
+
+The union of $A$ and $B$ is the set of all relations. This follows from the fact that if $z$ is not a block of $S$ on the same side of $y$, then there exists $s \in S$ such that $z \betneq s \rint y$. But this implies all elements of $t \in A$ satisfy $z \betneq s \rint \{t, y\}$ and thus $z$ is a block on $A$ on the same side as $S$ and $z \in B$. 
+
+Given a block $z$ of a set $T$, then for any $t \in T$ such that $t \neq z$, there exists $a \xrel[t] b$ and $c \xrel[z] d$ such that $a \rint b \betneq c \rint d$. Then $\qrel{d}$ is a block of $T$ on the same side as $z$. Indeed, let $t'$ be any element of $T$ and let $a' \xrel[t'] b'$ and $c' \xrel d'$ be such that $a' \rint b' \rint c' \rint d'$ which is allowed by $z$ being a block on $T$. As $z$ is a relation, $c \rint d$ and $c' \rint d'$. This implies $\{c, c'\} \rint d$ as otherwise $c \rint d \betneq c'\rint d'$ and they would not intersect. Therefore, $a' \rint b' \rint c' \rint d$. As $t'$ was arbitrary, it is clear that $\qrel{d}$ is a block on the same side of $T$ as $z$.  
+
+That this is a rational betweenness relation is as follows: 
+\begin{enumerate}
+    \item Existence. Both $A$ and $B$ are nonempty. Taking a relation from each, look at their blocking interval endpoints away from the block side. As above, their relational versions are therefore blocks as well. Thus, they can serve as endpoints for a tight block relation interval. 
+    \item Separation. Let $a \xrel b$ be given with $\qrel{a} \in A$ and $\qrel{b} \in B$. Take $a \rint c \rint b$. If $c$ is a root, then Separation is satisfied. If not, then from above, either $\qrel{c}$ is in $A$ but not in $B$ or it is the reverse. For the first, by definition, $c \xrel b$ and \sout{$a \xrel c$}. For the other, $a \xrel c$ and \sout{$c \xrel b$}. Thus, Separation holds. 
+    \item Consistency. Let $a \xrel b$ with $\qrel{a} \in A$ and $\qrel{b} \in B$. This implies that if $u, v \in B$ then $\qrel{a} \rint \{u, \qrel{b}, v\}$; also $u', v' \in A$ implies $\qrel{b} \rint \{u', v', \qrel{a}\}$. Take $c \rint a \rint b \rint d$. Then $ \qrel{c}\rint \qrel{a} \rint \{u, \qrel{b}, v\}$  implying $\qrel{c}$ is a block of $B$;  $\qrel{d} \rint \qrel{b} \rint \{u', v', \qrel{a}\}$ implying $\qrel{d}$ is a block of $A$. Thus, $c \xrel d$.
+    \item Singular. If $c \xrel c$ and $d \xrel d$, then $\qrel{c}$ and $\qrel{d}$ are both elements of $A$ and $B$. Let $\qrel{a} \in A$ and $\qrel{b} \in B$. Then as $c$ and $d$ are blocks, it is that case that $\{a, \qrel{c}\} \rint \qrel{d}$ and $\{a, \qrel{d}\} \rint \qrel{c}$. This can only happen if $c = d$. 
+    \item Inward.  Let $a \xrel b$ with $\qrel{a} \in A$ and $\qrel{b} \in B$. Assume $a$ is not a root. Then by above, $\qrel{a}$ is not a tight block on $B$ implying there is a block $u$ of $B$ such that $\qrel{a} \betneq u \rint B$. Let $c \xrel[u] d$ be such that $a \betneq c \rint d$. This is what not equal implies. Then since $\qrel{c} \in A$ also from above, $c \xrel b$. A similar flow works for $B$ as well. 
+    
+\end{enumerate}
+
+The only thing left to show is that $x$ is a tight block of $S$. Suppose it is not. Let $z$ be a block of of $S$ such that $S \rint z \betneq x$. Let $a \xrel b$ and $c \xrel[z] d$ such that $c \rint d \betneq a \rint b$. From above, $\qrel{d}$ is a block of $S$ so that $S \rint d \{a, b\}$. But this implies that $\qrel{a}$ and $\qrel{b}$ are both not in $B$. This contradicts the definition of $x$. 
+    
+\end{proof}
+
+The final aspect is to establish the arithmetic and its properties. Fonsis make this easy as the constructivists have done before. Interval arithmetic is well established \cite{moore}. 
+
+
+
+----
+
+Every rational betweenness relation is a tight block for two maximal sets of relations whose overlap is exactly the tight block. When the sets are restricted to rooted relations, these are the Dedekind cut sets with the overlap being there if and only if the tight block is rooted. Mention properties of the sets, show that it is the Dedekind cuts, and that arithmetic and order is exactly what one expects. 
 
 \section{Dedekind cuts}
 
@@ -219,79 +338,30 @@ If $\qeq = \{q\}$, then $\qlt$ is the set of rational numbers less than $q$ and 
 
 If $\qeq$ is empty, then the cut represents an irrational number. In that case, $\qgt$ and $\qlt$ are complements in the set of rational numbers. 
 
-A common definition of Dedekind cuts is to define them solely in terms of the sets $\qlt$. This is what is done in \cite{rudin}, page 17. One can go from either definition to the other as established below. 
-
-
-\section{Useful Statements for Dedekind Cuts}
-
-This is a collection of some useful statements regarding Dedekind cuts. 
-
-\begin{lemma}
-    For a cut $x$, the sets $\qlt$, $\qeq$, $\qgt$ are pairwise disjoint. 
-\end{lemma}
-
-\begin{proof}
-    This follows from the Ordered property. If an element was in two of the sets, then it would be less than itself which cannot be. 
-\end{proof}
-
-The lower set $\qlt$ is unbounded below while the upper set $\qgt$ is unbounded above. 
-
-\begin{lemma}\label{br--cut-unbounded}
-    Let $x$ be a cut, then the following hold true:
-    \begin{enumerate}
-        \item If $a \in \qleq$ and $p < a$, then $p \in \qlt$. 
-        \item If $b \in \qgeq$ and $b < q$, then $q \in \qgt$. 
-        \item If $a \in \qleq$ and $p \leq a$, then $p \in \qleq$. 
-        \item If $b \in \qgeq$ and $b \leq q$, then $q \in \qgeq$. 
-    \end{enumerate}
-\end{lemma}
-
-\begin{proof}
-    For item 1, let $a$ and $p$ be as in the statement. By the Comprehensive property, $p$ is an element of either $\qlt$ or $\qgeq$. If it is in $\qgeq$, then $p \geq a$ by the Ordered property, but it is assumed that $p < a$. Thus, $p \in \qlt$.
-
-    Item 2 follows similarly, using that if $q \in \qleq$, then $q \leq b$ which it is not. 
-
-    For item 3, if $p = a$, then $p \in \qleq$. If $p < a$, then item 1 applies. 
-
-    Similarly, for item 4, if $q = b$, then $q \in \qgeq$. If $b < q$, then item 2 applies. 
-
-\end{proof}
-
-\begin{lemma}\label{br--cut-equal}
-    Two cuts $x$ and $y$ are equal if $\qlt \subseteq \qlt[y]$ and $\qgt \subseteq \qgt[y]$.
-\end{lemma}
-
-
-\begin{proof}
-    By Comprehension and Disjointness, any given $q$ is in exactly one of $\qlt$, $\qeq$, or $\qgt$ and is in exactly one of $\qlt[y]$, $\qeq[y]$, or $\qgt[y]$. Since $q \in \qlt$ implies $q \in \qlt[y]$ and $q \in \qgt$ implies $q \in \qgt[y]$, the only possible case to question is $q \in \qeq$. By Singular, there is at most one $q \in \qeq$. Assume $q \in \qeq$ but that $q \notin \qeq[y]$. Then $q$ is either in $\qlt[y]$ or $\qgt[y]$. If $q \in \qlt[y]$, then, by the Open property, there exists $r > q$ such that $r \in \qlt[y]$. But $r > q$ implies $r \in \qgt $ by the previous result as $q \in \qgeq$. That would, however, imply $r \in \qgt[y]$ which contradicts the Disjointness of $\qlt[y]$ and $\qgt[y]$. Thus, $q \notin \qlt[y]$. Similarly, $q \in \qgt[y]$ would lead to an $r  < q$ such that $r \in \qgt[y]$ and $r \in \qlt$ implying $r \in \qlt[y]$ which would be a contradiction. Thus, $q \in \qeq[y]$ if $q \in \qeq$. As the other rationals were already handled by the hypothesis, it is the case that every rational belongs to the same corresponding component of $\cut$ and $\cut[y]$ which implies the cuts are equal.
-    
-\end{proof}
-
-A set of rationals $A$ is a \textbf{lower cut} if it satisfies the following three properties: 
+A common definition of Dedekind cuts is to define them solely in terms of the sets $\qlt$.  A set of rationals $A$ is a \textbf{lower cut} if it satisfies the following three properties: 
 \begin{enumerate}
     \item Not Trivial. $A \neq \emptyset$ and $A \neq \mathbb{Q}$.
-    \item Unbounded Below. If $p \in A$ and $q < p$, then $q \in A$. 
+    \item Downward Closed. If $p \in A$ and $q < p$, then $q \in A$. 
     \item Open Above. If $p \in A$, then there exists $q \in A$ such that $p < q$.
 \end{enumerate}
-The notation $A^c$ will denote the set complement of $A$. That is, $A$ and $A^c$ are disjoint with $A \cup A^c = \mathbb{Q}$. $A$ not being all of the rationals implies that $A^c$ is not empty. 
+Using lower cuts as the definition of Dedekind cuts is common and is what is done in \cite{rudin}, page 17. There are also Upper Cuts modeled on $\qgt$. Another version of Dedekind cuts is to use lower and upper cuts, but not the singular set. In the idealized world where everything is decidable, all of these different ways are equivalent. The approach here, similar to the Rational Betweenness Relations, brings to the forefront the difficulty with rationals. 
 
-\begin{lemma}
-    If $A$ is a lower cut, then $A^c$ is exactly the set of upper bounds of $A$. 
-\end{lemma}
-
-\begin{proof}
-    Let $q \in A$ and $r \in A^c$. Since the sets are disjoint, $r \neq q$. If $r < q$, then $r \in A$ by the Unbounded Below property. This contradiction leads to the conclusion that $r \nless q$. By the Trichotomy property for rationals, $r > q$. As $q$ and $r$ were arbitrary elements in their sets, all of the elements in $A^c$ are strictly greater than the elements in $A$. 
+The following statements are easy to verify: 
+\begin{lemma}\label{lem:cuts}
+Let $x$ be a cut and $A$ a lower cut.  
+\begin{enumerate}[label=\alph*., ref=\thelemma(\alph*)]
+    \item\label{lem:cuts-disj} The sets $\qlt$, $\qeq$, $\qgt$ are pairwise disjoint.
+    \item If $a \in \qleq$ and $p < a$, then $p \in \qlt$. 
+    \item If $b \in \qgeq$ and $b < q$, then $q \in \qgt$. 
+    \item If $a \in \qleq$ and $p \leq a$, then $p \in \qleq$. 
+    \item If $b \in \qgeq$ and $b \leq q$, then $q \in \qgeq$. 
+    \item A cut $y$ is equal to $x$ if and only if $\qlt \subseteq \qlt[y]$ and $\qgt \subseteq \qgt[y]$.
+    \item $\qlt$ is a lower cut and $\qgt$ is an upper cut. 
+    \item The complement $A^c$ of $A$ is exactly the set of upper bounds of $A$. 
+    \item The set $A^c$ is Upward Closed and not finite. 
     
-    To establish that all upper bounds are in $A^c$, let $s$ be an upper bound which means that for any $t \in A$, $s \geq t$. If $s \in A$, then, by the Open Above property, there would be an $m \in A$ such that $m > s$. But this contradicts $s$ being an upper bound of $A$. Thus, we can conclude that $s \in A^c$. 
-\end{proof}
-
-\begin{corollary}
-    The set $A^c$ is unbounded above and is not finite.     
-\end{corollary}
-
-\begin{proof}
-    Since $A^c$ is nonempty, let $r \in A^c$. Let $s$ be any positive rational implying $r + s > r$. Using the lemma, for any $q \in A$, $r > q$ implying $r+s > q$.  As $q$ was an arbitrary element of $A$, this implies $r+s$ is an upper bound of $A$ and thus, by the lemma, is in $A^c$.
-\end{proof}
+\end{enumerate}
+\end{lemma}
 
 \begin{proposition}\label{br--lowcutdef}
     If a set $A$ is a lower cut, then there is a unique cut $\cut$ such that $A = \qlt$.
@@ -305,11 +375,11 @@ An overline will be used to indicate the completion of the lower cut to a full c
     The claim is that $(A, B, C)$ forms a cut. The properties hold as follows:
 
     \begin{enumerate}
-        \item Nonempty. The lower cut $A$ is nonempty by definition of a lower cut. The set $A^c$ is not finite by the above corollary. Thus, $A^c \setminus \{q\}$ would also not be finite and nonempty. Therefore, $C$ is nonempty. 
-        \item Ordered. Let $a \in A$ and $c \in C$. Then the lemma says that $ a< c$. If $b \in B$, then the lemma also says that $a < b$. As $b$ is the least element of $A^c$ and $b \notin C$, $ b < c$. 
+        \item Nonempty. The Not Trivial property of a lower cut ensures this for both $A$ and its complement. 
+        \item Ordered. The complement being upper bounds covers most of this. If $B$ is not empty, then it is the least element of the $C$ and hence less than them. 
         \item Comprehensive. $A \cup B \cup C = A \cup A^c = \mathbb{Q}$ by definition. 
-        \item Singular. The set $B$ consists of the least elements of $A^c$ and it is the case that this is either an empty set or singular set. Indeed, given any set $D$ of rationals, if $q, s \in D$, $q \leq r$ and $s \leq r$ for all $r \in D$, then $q \leq s$ and $s \leq q$ which implies $q = s$. That is, there is at most one least element for any given set. 
-        \item Open. The Open Above property from $A$ being a lower cut is exactly that $A$ has no greatest element in $A$. If $A^c$ does not have a least element, then $A^c = C$ and $C$ does not have a least element. If $A^c$ does have a least element, say $q$, then the claim is that $C= A^c - {q}$ has no least element. By the lemma, $A^c$ is the set of upper bounds of $A$. In particular, since $q \in A^c$, it is an upper bound. Given any number $r \in C$, $r > q$ as $q$ is the least element of $A^c$. Since $m = \frac{q+r}{2}$ is between $r$ and $q$, it is the case that $r > m > q > t$ for all $t \in A$. Thus, $m$ is an upper bound of $A$ and therefore $m \in A^c$. Since $m$ is not equal to $q$, $m \in C$. As $m$ is less than $r$ and $r$ was an arbitrary element of $C$, there is no least element of $C$. 
+        \item Singular. There is at most one least element of any given set of rationals. 
+        \item Open. The Open Above property for $A$ is half of this. The other half follows from having removed the least element of $A^c$ if it exists. If it does not, then $A^c = C$ is already Open Below. If there is a least element $q$, then given any element $r$ in $C$, $\frac{r+q}{2}$ is less than $r$ and is in $C$. 
     \end{enumerate}
 
     As for uniqueness, any cut such that $A = \qlt$ will have that $A^c = \qgeq$. This set will either have a least element or it will not and that determines whether $\qeq$ is singular or empty, respectively. Either way, $\qeq$ and $\qgt$ are uniquely determined by $\qlt$. 
@@ -321,17 +391,17 @@ An overline will be used to indicate the completion of the lower cut to a full c
 This section will establish a canonical bijection between the rational betweenness relations and Dedekind cuts. The term canonical refers to the fact that the natural bijection described below does not require any arbitrary choices. It maps the representative of rationals to each other, e.g., the zero cut is mapped to the zero relation. 
 
 Given the betweenness relation $\xrel$, the associated Dedekind cut is defined by \begin{enumerate}
-    \item $\qlt = \{ a | \exists\, b, c \, (a < c < b) \wedge (c \xrel b) \} $
-    \item $\qgt = \{ b | \exists\, a, c \, (a < c < b) \wedge (a \xrel c) \} $
+    \item $\qlt = \{ a | \exists\, b, c \, (a < c \leq b) \wedge (c \xrel b) \} $
+    \item $\qgt = \{ b | \exists\, a, c \, (a \leq c < b) \wedge (a \xrel c) \} $
     \item $\qeq = \{ q | q \xrel q \} $
 \end{enumerate}
-Essentially, $\qlt$ is the set of non-root lower endpoints of $x$-intervals, $\mathbb{Q}_{>x}$ is the set of non-root upper endpoints of $x$-intervals, and $\qeq$ is the set of endpoints that form singletons in the $x$-between relation. The use of $c$ is present to ensure that if a singleton is present in the relation, then its endpoint does not appear in either of the inequality sets. The set $\qeq$ consists exactly of the roots of the relation; the Singular property asserts that there is at most one root. 
+In words, $\qlt$ is the set of non-root lower endpoints of $x$-intervals, $\mathbb{Q}_{>x}$ is the set of non-root upper endpoints of $x$-intervals, and $\qeq$ is the set of endpoints that form singletons in the $x$-between relation. The use of $c$ is present to ensure that if a singleton is present in the relation, then its endpoint does not appear in either of the inequality sets. The set $\qeq$ consists exactly of the roots of the relation; the Singular property asserts that there is at most one root. 
 
 Is this a cut? Yes: 
 \begin{enumerate}
     \item Nonempty. Existence yields an $x$-interval $a \rint b$. Without loss of generality, assume $a \leq b$. Then $a-1< a$, $b+1 > b$. By definition of the cut, $a-1 \in \qlt$ and $b+1 \in \qgt$.
-    \item Ordered. Let $a \in \qlt$ and $b \in \qgt$.  Then there exists $c, m$ such that $a < c < m$ and $c \xrel m$. There is also a $d, n$ such that $d < n< b$  and $d \xrel n$. By Proposition \ref{br--intersect}, $c \xrel m$ and $d \xrel n$ intersect. Let $p$ be an element of that intersection. Then $a < c \leq p \leq n < b$ implying $a < b$.  If $\qeq$ is not empty, then let $q$ be the element of $\qeq$. By Lemma \ref{br--rooted}, $c \xrel m$ and $d \xrel n$ implies that both $a\rint c\rint q\rint m$ and $d\rint q\rint n\rint b$ hold true. Thus, $a < q$ and $q < b$.  
-    \item Comprehensive. Given any rational $a$, Lemma \ref{br--existence} yields the existence of $b$ such that $a \xrel b$. Lemma \ref{br--something-inside} establishes the existence of a $c$ such that $a\betneq c\rint b$ with $c \xrel b$ unless $a \xrel a$ in which case $a \in \qeq$. In the other case, $a \in \qlt$ if $a < c$ while $a  \in \qgt$ if $a > c$. 
+    \item Ordered. Let $a \in \qlt$ and $b \in \qgt$.  Then there exists $c, m$ such that $a < c \leq m$ and $c \xrel m$. There is also a $d, n$ such that $d \leq n < b$  and $d \xrel n$. By Proposition \ref{br--intersect}, $c \xrel m$ and $d \xrel n$ intersect. Let $p$ be an element of that intersection. Then $a < c \leq p \leq n < b$ implying $a < b$.  If $\qeq$ is not empty, then let $q$ be the element of $\qeq$. By Corollary \ref{br--cor--rooted}, $c \xrel m$ and $d \xrel n$ implies that both $a\rint c\rint q\rint m$ and $d\rint q\rint n\rint b$ hold true. Thus, $a < q$ and $q < b$.  
+    \item Comprehensive. Let any rational $a$ be given. If $a \xrel a$, then $a \in \qeq$. If not, then Lemma \ref{br--existence} yields the existence of $b$ such that $a \xrel b$. By Inward, there exists a $c$ such that $a\betneq c\rint b$ with $c \xrel b$. Thus, $a \in \qlt$ if $a < c$ while $a  \in \qgt$ if $a > c$. 
     \item Singular. By the Singular property of the relation, there is at most one $q$ such that $q \xrel q$. Thus $\qeq$ is either empty or consists of one element. 
     \item Open. Let $a\in \qlt$ and $b \in \qgt$. The task is to establish that there exists $m \in \qlt, n \in \qgt$ such that $a < m$ and $n < b$. By assumption, there exists an $x$-interval that excludes $a$ from above and an $x$-interval that excludes $b$ from below. By Proposition \ref{br--intersect}, those intervals intersect in an $x$-interval which can be taken to be $c\rint d$ with $c \leq d$. This implies $a\rint c\rint d\rint b$ with $c$ distinct from $a$ and $d$ distinct from $b$. Since $c$ or $d$ could be roots of the relation, it is necessary to look at other elements. Let $m = \frac{a+c}{2}$ and $n = \frac{d+b}{2}$. Then $m \in \qlt$ and $n \in \qgt$ as $c$ and $d$, respectively, still fill the same role as required in the definition. Thus $\qlt$ has no greatest element and $\qgt$ has no least element. 
 \end{enumerate}
@@ -497,3 +567,95 @@ Rational betweenness relations are a new way of perceiving the real numbers. The
 
 \end{document}
 
+
+
+3.4
+\begin{lemma}\label{br--existence}
+    Given any interval $a \rint b$, including singletons, and relation $\xrel$, there exists a rational $v$ such that either $a \xrel v$ and $a \rint b \rint v$ or $b \xrel v$ and $b \rint a \rint v$.
+\end{lemma}
+
+\begin{proof}
+    By Existence, there exists $u \xrel v$. If $a \rint \{u, v\} \rint b$, then Consistency states that $a \xrel b$. If instead ane of the endpoints is outside $a\rint b$ but $u \rint v$ does not contain $a \rint b$, such as, without loss of generality, $a \rint \{u, b\} \rint v$, then $a \rint v$ contains $u\rint v$ and thus Consistency gives $a \xrel v$. The final possibility is that the interval $u\rint v$ contains $a \rint b$. Without loss of generality, one can assume $u \rint a \rint  b \rint v$. Then use Separation with $a$ as the separation point. If $a \xrel a$, then Consistency yields $a \xrel v$. Another alternative is that $a \xrel v$ which is the desired result. The third option is that $u \xrel a$ which would then yield $u \xrel b$ by Consistency and is another desired result. This exhausts the cases. 
+\end{proof}
+
+
+
+\begin{proof}
+    Let $a\rint b$ be any interval. By the above, it can be assumed, without loss of generality, that there is a $v$ such that $a \xrel v$ with $a \rint b \rint v$. Apply Separation with separating point $b$. Then either $ a \xrel b$, $b \xrel b$, or $ b \xrel v$ with \sout{$a \xrel b$} and \sout{$b \xrel b$}. The first two cases lead immediately to $a \xrel b$ using Consistency for the second case. For the third case, apply Inward to generate a $c$ such that $a \rint b \betneq c \rint v$ such that $c \xrel v$. But then $c \rint v$ is an $x$-interval that is disjoint from $a \rint b$. Having exhausted the possibilities, the statement is established.
+\end{proof}
+
+
+\begin{corollary}
+    Every rational betweenness relation is a maximal fonsi.
+\end{corollary}
+
+\begin{proof}
+    Bisection and Intersection establishes that each relation is a fonsi. Since every interval that intersects every $x$-interval is already in the relation, it is not possible to expand it as a fonsi.
+\end{proof}
+
+
+\begin{lemma}\label{br--doublesomething-inside} 
+    If $a \xrel b$ and neither $a$ nor $b$ are roots of $x$, then there exists $c \rint d$ such that $a \betneq  c \rint  d \betneq  b$ with $c \xrel d$. 
+\end{lemma}
+
+\begin{proof}
+Apply Inward to obtain $c \xrel b$. Then apply Inward again to endpoint $b$ of $c \xrel b$ to obtain $c \xrel d$ satisfying $a \betneq c \rint d \betneq b$.
+\end{proof}
+
+Disjointness is a useful condition to use in separating $x$-intervals from non-$x$-intervals. 
+
+
+
+Having established that the rational betweenness relations form a maximal fonsi, the next task is to establish that every fonsi uniquely generates a maximal fonsi that is a rational betweenness relation. 
+
+\begin{lemma}
+    A fonsi is contained in at most one maximal fonsi. 
+\end{lemma}
+
+\begin{proof}
+    Let $\mathcal{F}$ and $\mathcal{G}$ be two maximal fonsis such that $\mathcal{H}$ is a fonsi contained in each of them. Let $a \rint b$ be any interval in $\mathcal{F}$ which implies it intersects every interval in $\mathcal{H}$. Let $c \rint d$ be any interval in $\mathcal{G}$ which implies it intersects every interval in $\mathcal{H}$. If $c \rint d$ is disjoint from $a \rint b$, then without loss of generality, $a \rint b \betneq c \rint d$. Let $\varepsilon = |b-c|/2$. Since $\mathcal{H}$ is a fonsi, there exists an interval $e \rint f$ whose length is less than $\varepsilon$ and is contained in $\mathcal{H}$. It must therefore intersect both $a \rint b$ and $c \rint d$, but the length prevents that. Thus, $a \rint b$ must intersect $c \rint d$. Since both were arbitrary intervals in there fonsis, every interval of $\mathcal{F}$ must intersect every interval of $\mathcal{G}$. Since these are maximal fonsis, they must contain the same intervals and are therefore the same fonsi. 
+\end{proof}
+
+
+
+\begin{proposition}
+    Every fonsi generates a unique maximal fonsi that is a rational betweenness relation.
+\end{proposition}
+
+Conceptually, the relation is the set of all intervals that contain an element of the fonsi in addition to the closure of including any singleton whose single number is contained in all elements of the fonsi. The approach below is a little bit more refined than that, but this is the goal of the construction. 
+
+The closed $\delta$-halo of $a \rint b$ is defined to be the interval $c \rint a \rint b \rint d$ such that $|c-a|=|b-d|=\delta$; it is denoted by $\clhalo{a \rint b}$.
+
+\begin{proof}
+    The above lemma establishes uniqueness and it was already established that every rational betweenness relation is a a maximal fonsi. 
+
+    Let $\mathcal{F}$ be a given fonsi. Define $\xrel$ by $a \xrel b$ if for each $\delta > 0$, the closed $\delta$ halo of $a \rint b$ intersects an element of the fonsi whose size is less than $\delta$. Since every element of the fonsi intersects every other element of the fonsi and there are arbitrarily small elements of the fonsi, every element of the fonsi is an $x$ interval. The properties of the relation are established as follows: 
+
+    \begin{enumerate}
+        \item Existence. By definition, fonsis are not empty and every element of the fonsi is in the relation. 
+
+        
+        \item Separation. Let $a \xrel b$ and $a \rint c \rint b$ be given. If $c \xrel c$, then Separation is satisfied. If not, then there there exists $\delta > 0$ and a fonsi element $m \rint n$ such that $\clhalo{c \rint c}$ does not intersect $m \rint n$. Without loss of generality, assume $m \rint n \rint c$ and $\{a, m, n\} \rint c$. Let $\varepsilon$ be the distance from $n$ to the closest endpoint of $\clhalo{c \rint c}$. The lemma implies that any fonsi element whose size is less than $\varepsilon$ are all on the same side of $\clhalo{c \rint c}$ and does not intersect $\clhalo{c \rint c}$. 
+        Thus, they are also disjoint from all $\clhalo{c \rint b}$ which implies \sout{$c \xrel b$}. 
+        
+        For every $\delta' > 0$, the fact that $a \xrel b$ implies the existence of an element of the fonsi that intersects $\clhalo[\delta']{a \rint b}$. If $\delta' < \varepsilon$, then the intersection must be in $\clhalo[\delta']{a \rint b} \setminus \clhalo[\delta']{c \rint b}$ which is a subset of $\clhalo[\delta']{a \rint c}$. Thus, the same small fonsi elements provide witness for $a \xrel c$. 
+        
+        \item Consistency. If $a \xrel b$ and $c \rint a \rint b \rint d$, then, as $\clhalo{c \rint d}$ contains $\clhalo{a \rint b}$ for all $\delta$, it has the same qualifying intersections to be in the relation.
+        \item Singular. Let $a \xrel a$ and $b \neq a$ be given. Let $\delta=|a-b|/4$. Let $c \rint d$ be an element of the fonsi whose length is than $\delta$ and intersects $\clhalo{a \rint a}$; this exists by definition of $a \xrel a$. Then $c \rint d$ cannot intersect any interval whose length is less than $\delta$ and intersects $\clhalo{b \rint b}$. This implies no element of the fonsi whose length is less than $\delta$ can intersect $\clhalo{b \rint b}$ and thus \sout{$b \xrel b$}.
+        \item Inward. If \sout{$a \xrel a$}, then there exists $\delta' >0$ such that any element of the fonsi whose size is less than $\delta'$ will not intersect $\clhalo[\delta']{a \rint a}$. By the lemma, all elements of the fonsi that are small enough not to intersect that interval will be on the same side of $a$. Define $c$ to be the endpoint of $\clhalo{a \rint a}$ on that side of $a$. 
+        
+        Let $a \xrel b$ which implies for any $\delta > 0$, there exists a fonsi element whose size is less than $\delta$ and intersects $\clhalo{a \rint b}$.  But for $\delta < \delta'$, as no fonsi whose size is less than $\delta'$ will intersect $\clhalo[\delta']{a \rint a}$, it must be the case that $a \betneq c \rint b$ and that those elements are intersecting $\clhalo{c \rint b}$. Thus, $c \xrel b$. 
+    \end{enumerate}
+
+    
+\end{proof}
+
+
+\begin{proposition}\label{br--different}
+    If $\xrel$ and $\xrel[y]$ are different, then there exists two disjoint intervals $a \rint b$ and $c\rint d$ such that $a \xrel b$, \sout{$a \xrel[y] b$}, $c \xrel[y] d$, and \sout{$c \xrel d$}.
+\end{proposition}
+
+
+\begin{proof}
+    By the definition of difference there exists an interval which is related for the one relation, but not the other; without loss of generality, assume that the interval $a \rint b$ is an $x$-interval but not a $y$-interval. By Proposition \ref{br--something-outside}, there exists a $y$-interval $c\rint d$ disjoint from $a \rint b$. Since it is disjoint from $a \rint b$, Corollary \ref{br--cor-disj} implies $c\rint d$ is not an $x$-interval. This is what was to be shown. 
+\end{proof}

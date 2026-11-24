@@ -127,7 +127,7 @@
 \newcommand{\rintlowal}{{\mathalpha{\rotatebox[origin=c]{90}{\ensuremath{\cdot\mkern-5mu\cdot\mkern-5mu\cdot}}}}}
 \newcommand{\vdddots}{\raisebox{1pt}{\ensuremath{\rintlowal}}}
 
-\newcommand{\xrel}[1][x]{\ensuremath{\mathrel{\vdddots\underline{#1}\vdddots}}}
+\newcommand{\xrel}[1][x]{\ensuremath{\mathbin{\vdddots\underline{#1}\vdddots}}}
 \newcommand{\xnan}[1][x]{%
     \ensuremath{\mathrel{\vdddots\vtop{ \offinterlineskip \ialign{
           ##\cr % template
@@ -140,6 +140,9 @@
 \newcommand{\xoradel}[3][x]{\ensuremath{#2_\delta\mathrel{\vdddots\widehat{#1}\vdddots} #3_\delta} }
 \newcommand{\xoraish}[1][x]{\ensuremath{\mathrel{\vdddots\widetilde{#1}\vdddots}}}
 \newcommand{\oracle}[2][x]{\ensuremath{R_{#1}(#2)}}
+
+%for distinguishing rationals from their relational version
+\newcommand{\qrel}[1]{\ensuremath{\underline{#1}}}
 
 \newcommand{\halo}[2][\delta]{(#2)_{#1}}
 \newcommand{\clhalo}[2][\delta]{[#2]_{#1}}
